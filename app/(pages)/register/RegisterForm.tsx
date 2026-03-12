@@ -1,58 +1,15 @@
 "use client";
 
-import { PropsWithChildren, useActionState, useEffect, useRef } from "react";
 import { registerUser, type RegisterState } from "@/actions/auth";
+import FormInput from "@/components/custom/FormInput";
+import FormLabel from "@/components/custom/FormLabel";
 import MainButton from "@/components/custom/MainButton";
+import { Key, LoaderCircle, Mail, User } from "lucide-react";
+import { useActionState, useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { Key, Loader, LoaderCircle, Mail, User } from "lucide-react";
 
 const initialState: RegisterState = {
   ok: false,
-};
-
-const FormLabel = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <label
-      className={
-        className || "mb-2 flex items-center gap-2 text-md w-full text-white/70"
-      }
-    >
-      {children}
-    </label>
-  );
-};
-
-const FormInput = ({
-  type,
-  name,
-  placeholder,
-  required,
-  className,
-}: {
-  type: string;
-  name: string;
-  placeholder: string;
-  required: boolean;
-  className?: string;
-}) => {
-  return (
-    <input
-      type={type}
-      name={name}
-      placeholder={placeholder}
-      required={required}
-      className={
-        className ||
-        "w-full rounded-xl border border-border/60 bg-background/60 px-4 py-3 text-sm text-foreground/90 placeholder:text-xs placeholder:text-muted-foreground/70 outline-none transition-all duration-200 focus:-translate-y-[1px] focus:border-ring focus:bg-background/80 focus:shadow-[0_0_0_1px_rgba(129,140,248,0.45)] focus:placeholder:text-muted-foreground/40"
-      }
-    />
-  );
 };
 
 const RegisterForm = () => {
