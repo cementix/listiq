@@ -14,6 +14,16 @@ export async function requireGuest() {
   }
 }
 
+export async function requireAuth() {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
+  } else {
+    return session;
+  }
+}
+
 const registerSchema = z.object({
   email: z.email().trim().toLowerCase(),
   username: z
