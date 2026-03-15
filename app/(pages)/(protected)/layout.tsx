@@ -8,6 +8,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar username={session.username} />
+      {children}
     </div>
   );
 };
