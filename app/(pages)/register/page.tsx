@@ -1,6 +1,8 @@
+import { requireGuest } from "@/actions/auth";
 import RegisterForm from "./RegisterForm";
 
-const RegisterPage = () => {
+const RegisterPage = async () => {
+  await requireGuest();
   return (
     <main className="flex min-h-screen items-center justify-center bg-black px-4 text-white">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-6">
