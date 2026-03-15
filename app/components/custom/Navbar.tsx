@@ -10,7 +10,7 @@ const Navbar = ({ username }: { username: string }) => {
       <div className="mx-auto flex max-w-full items-center justify-between px-12 py-4">
         <div className="flex items-center gap-6">
           <Link href="/dashboard" className="text-lg font-semibold text-white">
-            Listora
+            listiq
           </Link>
 
           <nav className="flex items-center gap-2">

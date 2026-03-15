@@ -23,7 +23,7 @@ export default function Home() {
           </h1>
 
           <p className="text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base animate-in fade-in slide-in-from-bottom-3 duration-500 delay-100">
-            Listly turns your everyday lists into a calm, animated canvas. No
+            listiq turns your everyday lists into a calm, animated canvas. No
             visual noise, just fluid motion, soft gradients, and the tiniest
             micro‑interactions that make checking things off feel good again.
           </p>
@@ -92,34 +92,36 @@ export default function Home() {
             </div>
 
             <div className="space-y-2.5">
-              {["Ship onboarding flow", "Clean up design tokens", "Write release notes"].map(
-                (label, index) => (
-                  <button
-                    key={label}
-                    className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-background/80 px-3.5 py-2.5 text-left text-xs text-foreground/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-accent/60 hover:bg-gradient-to-r hover:from-background/90 hover:to-accent/8"
-                  >
-                    <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-border/80 bg-card/80">
-                      <span className="absolute inset-[-3px] rounded-full border border-primary/0 opacity-0 transition-all duration-200 group-hover:border-primary/40 group-hover:opacity-100" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-tr from-primary to-accent opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+              {[
+                "Ship onboarding flow",
+                "Clean up design tokens",
+                "Write release notes",
+              ].map((label, index) => (
+                <button
+                  key={label}
+                  className="group flex items-center gap-3 rounded-2xl border border-border/80 bg-background/80 px-3.5 py-2.5 text-left text-xs text-foreground/90 transition-all duration-200 hover:-translate-y-[1px] hover:border-accent/60 hover:bg-gradient-to-r hover:from-background/90 hover:to-accent/8"
+                >
+                  <span className="relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-border/80 bg-card/80">
+                    <span className="absolute inset-[-3px] rounded-full border border-primary/0 opacity-0 transition-all duration-200 group-hover:border-primary/40 group-hover:opacity-100" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-tr from-primary to-accent opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+                  </span>
+                  <span className="flex-1">
+                    <span className="block text-[11px] font-medium">
+                      {label}
                     </span>
-                    <span className="flex-1">
-                      <span className="block text-[11px] font-medium">
-                        {label}
-                      </span>
-                      <span className="mt-0.5 block text-[10px] text-muted-foreground/80">
-                        {index === 0
-                          ? "Tiny micro-delays that feel buttery, not slow."
-                          : index === 1
-                            ? "Minimal UI, but every token is deliberate."
-                            : "Even documentation feels a bit more alive."}
-                      </span>
+                    <span className="mt-0.5 block text-[10px] text-muted-foreground/80">
+                      {index === 0
+                        ? "Tiny micro-delays that feel buttery, not slow."
+                        : index === 1
+                          ? "Minimal UI, but every token is deliberate."
+                          : "Even documentation feels a bit more alive."}
                     </span>
-                    <span className="text-[10px] text-muted-foreground/80 group-hover:text-primary">
-                      {index === 0 ? "Now" : index === 1 ? "Next" : "Later"}
-                    </span>
-                  </button>
-                ),
-              )}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground/80 group-hover:text-primary">
+                    {index === 0 ? "Now" : index === 1 ? "Next" : "Later"}
+                  </span>
+                </button>
+              ))}
             </div>
 
             <div className="mt-4 flex items-center justify-between rounded-2xl border border-dashed border-border/90 bg-gradient-to-r from-background/90 via-background/60 to-accent/10 px-3.5 py-2.5 text-[11px] text-muted-foreground">

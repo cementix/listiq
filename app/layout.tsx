@@ -15,7 +15,7 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Listly — Minimal lists, maximal flow",
+  title: "listiq — Minimal lists, maximal flow",
   description:
     "A minimal, highly polished list experience with smooth micro‑animations.",
 };
