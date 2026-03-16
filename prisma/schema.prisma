@@ -7,11 +7,81 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+  VERIFIED
+}
+
+enum TitleType {
+  MOVIE
+  SERIES
+  ANIME
+  MANGA
+  MANHWA
+  BOOK
+  GAME
+  NOVEL
+  COMIC
+  OTHER
+}
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id String @id @default(cuid())
   email String @unique
   username String @unique
   passwordHash String
+  role UserRole @default(USER)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  titles Title[] @relation("TitleCreator")
+  submissions TitleSubmission[] @relation("SubmissionAuthor")
+  reviewedSubs TitleSubmission[] @relation("SubmissionReviewer")
+}
+
+model Title {
+  id String @id @default(cuid())
+  name String
+  slug String @unique
+  year Int?
+  description String?
+  imageUrl String?
+  type TitleType
+  genre String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById String?
+  createdBy User? @relation("TitleCreator", fields: [createdById], references: [id], onDelete: SetNull)
+}
+
+model TitleSubmission {
+  id String @id @default(cuid())
+  name String
+  year Int?
+  description String?
+  imageUrl String?
+  type TitleType
+  genre String?
+  status SubmissionStatus @default(PENDING)
+  reviewComment String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  submittedById String
+  submittedBy User @relation("SubmissionAuthor", fields: [submittedById], references: [id], onDelete: Cascade)
+
+  reviewedById String?
+  reviewedBy User? @relation("SubmissionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
 }

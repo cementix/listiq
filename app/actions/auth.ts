@@ -1,6 +1,11 @@
 "use server";
 
-import { createSession, deleteSession, getSession } from "@/lib/session";
+import {
+  createSession,
+  deleteSession,
+  getSession,
+  SessionPayload,
+} from "@/lib/session";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { z } from "zod";
@@ -22,6 +27,17 @@ export async function requireAuth() {
   } else {
     return session;
   }
+}
+
+export async function getCurrentUser(session: SessionPayload) {
+  const currentUser = await prisma.user.findUnique({
+    where: { id: session?.userId },
+    select: {
+      role: true,
+    },
+  });
+
+  return currentUser;
 }
 
 const registerSchema = z.object({

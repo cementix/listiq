@@ -11,7 +11,7 @@ if (!secretKey) {
 
 const encodedKey = new TextEncoder().encode(secretKey);
 
-type SessionPayload = {
+export type SessionPayload = {
   userId: string;
   username: string;
   email: string;

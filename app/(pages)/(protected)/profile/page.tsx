@@ -7,13 +7,13 @@ const ProfilePage = async () => {
 
   return (
     <PageSection>
-      <GlassCard className="p-6">
+      <GlassCard>
         <p className="text-sm text-white/50">Profile</p>
         <h1 className="mt-2 text-3xl font-semibold">@{session?.username}</h1>
         <p className="mt-3 text-white/70">{session?.email}</p>
       </GlassCard>
 
-      <GlassCard className="p-6">
+      <GlassCard>
         <h2 className="text-xl font-semibold">About</h2>
         <p className="mt-3 text-white/70">
           Later here we can have avatar, bio, favorite titles, stats and recent
