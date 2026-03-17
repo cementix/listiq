@@ -1,7 +1,7 @@
-import { getCurrentUser } from "@/actions/auth";
-import AddTitleForm from "@/components/custom/AddTitleForm";
-import GlassCard from "@/components/custom/GlassCard";
-import PageSection from "@/components/custom/PageSection";
+import { getCurrentUser } from "../../../actions/auth";
+import AddTitleForm from "./AddTitleForm";
+import GlassCard from "../../../components/custom/GlassCard";
+import PageSection from "../../../components/custom/PageSection";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 

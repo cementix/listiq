@@ -1,5 +1,5 @@
-import { requireAuth } from "@/actions/auth";
-import Navbar from "@/components/custom/Navbar";
+import { requireAuth } from "../../actions/auth";
+import Navbar from "./Navbar";
 import { getSession } from "@/lib/session";
 import React from "react";
 

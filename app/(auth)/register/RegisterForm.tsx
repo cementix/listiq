@@ -1,9 +1,9 @@
 "use client";
 
-import { registerUser, type AuthState } from "@/actions/auth";
-import FormInput from "@/components/custom/FormInput";
-import FormLabel from "@/components/custom/FormLabel";
-import MainButton from "@/components/custom/MainButton";
+import { registerUser, type AuthState } from "../../../actions/auth";
+import FormInput from "../../../components/custom/FormInput";
+import FormLabel from "../../../components/custom/FormLabel";
+import MainButton from "../../../components/custom/MainButton";
 import { Key, LoaderCircle, Mail, User } from "lucide-react";
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";

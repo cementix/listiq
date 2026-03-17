@@ -1,4 +1,4 @@
-import { requireGuest } from "@/actions/auth";
+import { requireGuest } from "../../../actions/auth";
 import RegisterForm from "./RegisterForm";
 
 const RegisterPage = async () => {

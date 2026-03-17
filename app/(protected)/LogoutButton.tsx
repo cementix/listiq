@@ -1,7 +1,7 @@
 "use client";
 
 import { logoutUser } from "@/actions/auth";
-import MainButton from "./MainButton";
+import MainButton from "@/components/custom/MainButton";
 
 const LogoutButton = () => {
   return (

@@ -1,5 +1,5 @@
-import GlassCard from "@/components/custom/GlassCard";
-import PageSection from "@/components/custom/PageSection";
+import GlassCard from "../../../components/custom/GlassCard";
+import PageSection from "../../../components/custom/PageSection";
 import { getSession } from "@/lib/session";
 
 const DashboardPage = async () => {

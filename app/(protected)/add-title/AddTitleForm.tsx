@@ -7,7 +7,7 @@ import {
 } from "@/actions/title";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import FormLabel from "./FormLabel";
+import FormLabel from "@/components/custom/FormLabel";
 import {
   Calendar,
   FileText,
@@ -17,8 +17,8 @@ import {
   Tag,
   Type,
 } from "lucide-react";
-import FormInput from "./FormInput";
-import MainButton from "./MainButton";
+import FormInput from "@/components/custom/FormInput";
+import MainButton from "@/components/custom/MainButton";
 
 const initialState: TitleActionState = {
   ok: false,
