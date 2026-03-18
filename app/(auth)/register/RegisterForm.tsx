@@ -99,7 +99,7 @@ const RegisterForm = () => {
 
       <Link
         href="/login"
-        className="group text-sm text-white/60 transition-colors hover:text-white/80"
+        className="group text-sm text-white/60 transition-colors hover:text-white/80 select-none"
       >
         Already have{" "}
         <span className="font-semibold text-primary/70 transition-colors group-hover:text-primary/90">
