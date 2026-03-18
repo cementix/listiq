@@ -10,6 +10,7 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function requireGuest() {
   const session = await getSession();
@@ -113,6 +114,13 @@ export async function registerUser(
       username: user.username,
       email: user.email,
     });
+
+    const cookieStore = await cookies();
+    cookieStore.set("flash", "registration-success", {
+      path: "/",
+      httpOnly: false,
+      maxAge: 10,
+    });
   } catch (error) {
     console.error("registerUser error:", error);
 
@@ -173,6 +181,13 @@ export async function loginUser(
       userId: user.id,
       username: user.username,
       email: user.email,
+    });
+
+    const cookieStore = await cookies();
+    cookieStore.set("flash", "login-success", {
+      path: "/",
+      httpOnly: false,
+      maxAge: 10,
     });
 
     redirect("/dashboard");

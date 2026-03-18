@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Key, LoaderCircle, Mail, User } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const initialState: AuthState = {
@@ -19,7 +19,9 @@ const RegisterForm = () => {
     initialState,
   );
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (!state.ok && state.error) {
@@ -27,13 +29,14 @@ const RegisterForm = () => {
     }
 
     if (state.ok) {
-      formRef.current?.reset();
+      setEmail("");
+      setUsername("");
+      setPassword("");
     }
   }, [state]);
 
   return (
     <form
-      ref={formRef}
       action={formAction}
       className="animate-in slide-in-from-bottom-2 flex flex-col items-center space-y-4 fade-in duration-300"
     >
@@ -47,6 +50,8 @@ const RegisterForm = () => {
           name="email"
           placeholder="you@example.com"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
@@ -60,6 +65,8 @@ const RegisterForm = () => {
           name="username"
           placeholder="leonKennedyFan"
           required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
       </div>
 
@@ -71,15 +78,17 @@ const RegisterForm = () => {
           id="password"
           type="password"
           name="password"
-          placeholder="********"
+          placeholder="*****************"
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
       <Button
         type="submit"
         disabled={pending}
-        className="w-48 h-10 hover:scale-105 cursor-pointer"
+        className="w-48 h-10 cursor-pointer hover:scale-105"
       >
         {pending ? (
           <LoaderCircle className="size-4 animate-spin" />
