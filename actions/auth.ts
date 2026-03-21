@@ -30,6 +30,22 @@ export async function requireAuth() {
   }
 }
 
+export async function requireUserServer() {
+  const session = await getSession();
+
+  if (!session?.userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const user = await getCurrentUser(session);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return { user, session };
+}
+
 export async function getCurrentUser(session: SessionPayload) {
   const currentUser = await prisma.user.findUnique({
     where: { id: session?.userId },

@@ -34,54 +34,102 @@ enum SubmissionStatus {
 }
 
 model User {
-  id String @id @default(cuid())
-  email String @unique
-  username String @unique
+  id           String   @id @default(cuid())
+  email        String   @unique
+  username     String   @unique
   passwordHash String
-  role UserRole @default(USER)
+  role         UserRole @default(USER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  titles Title[] @relation("TitleCreator")
-  submissions TitleSubmission[] @relation("SubmissionAuthor")
+  createdTitles Title[]     @relation("TitleCreator")
+  library       UserTitle[]
+
+  submissions  TitleSubmission[] @relation("SubmissionAuthor")
   reviewedSubs TitleSubmission[] @relation("SubmissionReviewer")
 }
 
 model Title {
-  id String @id @default(cuid())
-  name String
-  slug String @unique
-  year Int?
-  description String?
-  imageUrl String?
-  type TitleType
-  genres String[]
-  
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  year          Int?
+  description   String?
+  imageUrl      String?
+  imagePublicId String?
+  type          TitleType
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   createdById String?
-  createdBy User? @relation("TitleCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy   User?   @relation("TitleCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  genres Genre[]
+  users  UserTitle[]
+
+  @@index([name])
+  @@index([type])
+  @@index([year])
+}
+
+model Genre {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  titles      Title[]
+  submissions TitleSubmission[]
+}
+
+model UserTitle {
+  id String @id @default(cuid())
+
+  userId  String
+  titleId String
+
+  isChecked Boolean @default(false)
+  rating    Int?
+  note      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, titleId])
+  @@index([userId])
+  @@index([titleId])
 }
 
 model TitleSubmission {
-  id String @id @default(cuid())
-  name String
-  year Int?
-  description String?
-  imageUrl String?
-  type TitleType
-  genre String?
-  status SubmissionStatus @default(PENDING)
+  id            String    @id @default(cuid())
+  name          String
+  year          Int?
+  description   String?
+  imageUrl      String?
+  imagePublicId String?
+  type          TitleType
+
+  status        SubmissionStatus @default(PENDING)
   reviewComment String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   submittedById String
-  submittedBy User @relation("SubmissionAuthor", fields: [submittedById], references: [id], onDelete: Cascade)
+  submittedBy   User   @relation("SubmissionAuthor", fields: [submittedById], references: [id], onDelete: Cascade)
 
   reviewedById String?
-  reviewedBy User? @relation("SubmissionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedBy   User?   @relation("SubmissionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  genres Genre[]
+
+  @@index([status])
+  @@index([name])
 }

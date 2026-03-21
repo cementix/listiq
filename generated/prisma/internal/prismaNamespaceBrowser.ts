@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Title: 'Title',
+  Genre: 'Genre',
+  UserTitle: 'UserTitle',
   TitleSubmission: 'TitleSubmission'
 } as const
 
@@ -92,8 +94,8 @@ export const TitleScalarFieldEnum = {
   year: 'year',
   description: 'description',
   imageUrl: 'imageUrl',
+  imagePublicId: 'imagePublicId',
   type: 'type',
-  genre: 'genre',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   createdById: 'createdById'
@@ -102,14 +104,39 @@ export const TitleScalarFieldEnum = {
 export type TitleScalarFieldEnum = (typeof TitleScalarFieldEnum)[keyof typeof TitleScalarFieldEnum]
 
 
+export const GenreScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type GenreScalarFieldEnum = (typeof GenreScalarFieldEnum)[keyof typeof GenreScalarFieldEnum]
+
+
+export const UserTitleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  titleId: 'titleId',
+  isChecked: 'isChecked',
+  rating: 'rating',
+  note: 'note',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserTitleScalarFieldEnum = (typeof UserTitleScalarFieldEnum)[keyof typeof UserTitleScalarFieldEnum]
+
+
 export const TitleSubmissionScalarFieldEnum = {
   id: 'id',
   name: 'name',
   year: 'year',
   description: 'description',
   imageUrl: 'imageUrl',
+  imagePublicId: 'imagePublicId',
   type: 'type',
-  genre: 'genre',
   status: 'status',
   reviewComment: 'reviewComment',
   createdAt: 'createdAt',

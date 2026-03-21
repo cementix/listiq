@@ -198,7 +198,8 @@ export type UserWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  titles?: Prisma.TitleListRelationFilter
+  createdTitles?: Prisma.TitleListRelationFilter
+  library?: Prisma.UserTitleListRelationFilter
   submissions?: Prisma.TitleSubmissionListRelationFilter
   reviewedSubs?: Prisma.TitleSubmissionListRelationFilter
 }
@@ -211,7 +212,8 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  titles?: Prisma.TitleOrderByRelationAggregateInput
+  createdTitles?: Prisma.TitleOrderByRelationAggregateInput
+  library?: Prisma.UserTitleOrderByRelationAggregateInput
   submissions?: Prisma.TitleSubmissionOrderByRelationAggregateInput
   reviewedSubs?: Prisma.TitleSubmissionOrderByRelationAggregateInput
 }
@@ -227,7 +229,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  titles?: Prisma.TitleListRelationFilter
+  createdTitles?: Prisma.TitleListRelationFilter
+  library?: Prisma.UserTitleListRelationFilter
   submissions?: Prisma.TitleSubmissionListRelationFilter
   reviewedSubs?: Prisma.TitleSubmissionListRelationFilter
 }, "id" | "email" | "username">
@@ -266,7 +269,8 @@ export type UserCreateInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
 }
@@ -279,7 +283,8 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
 }
@@ -292,7 +297,8 @@ export type UserUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
 }
@@ -305,7 +311,8 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
 }
@@ -392,20 +399,34 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type UserCreateNestedOneWithoutTitlesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTitlesInput, Prisma.UserUncheckedCreateWithoutTitlesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTitlesInput
+export type UserCreateNestedOneWithoutCreatedTitlesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTitlesInput, Prisma.UserUncheckedCreateWithoutCreatedTitlesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTitlesInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneWithoutTitlesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutTitlesInput, Prisma.UserUncheckedCreateWithoutTitlesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTitlesInput
-  upsert?: Prisma.UserUpsertWithoutTitlesInput
+export type UserUpdateOneWithoutCreatedTitlesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedTitlesInput, Prisma.UserUncheckedCreateWithoutCreatedTitlesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedTitlesInput
+  upsert?: Prisma.UserUpsertWithoutCreatedTitlesInput
   disconnect?: Prisma.UserWhereInput | boolean
   delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTitlesInput, Prisma.UserUpdateWithoutTitlesInput>, Prisma.UserUncheckedUpdateWithoutTitlesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedTitlesInput, Prisma.UserUpdateWithoutCreatedTitlesInput>, Prisma.UserUncheckedUpdateWithoutCreatedTitlesInput>
+}
+
+export type UserCreateNestedOneWithoutLibraryInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLibraryInput, Prisma.UserUncheckedCreateWithoutLibraryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLibraryInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLibraryNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLibraryInput, Prisma.UserUncheckedCreateWithoutLibraryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLibraryInput
+  upsert?: Prisma.UserUpsertWithoutLibraryInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLibraryInput, Prisma.UserUpdateWithoutLibraryInput>, Prisma.UserUncheckedUpdateWithoutLibraryInput>
 }
 
 export type UserCreateNestedOneWithoutSubmissionsInput = {
@@ -438,7 +459,7 @@ export type UserUpdateOneWithoutReviewedSubsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedSubsInput, Prisma.UserUpdateWithoutReviewedSubsInput>, Prisma.UserUncheckedUpdateWithoutReviewedSubsInput>
 }
 
-export type UserCreateWithoutTitlesInput = {
+export type UserCreateWithoutCreatedTitlesInput = {
   id?: string
   email: string
   username: string
@@ -446,11 +467,12 @@ export type UserCreateWithoutTitlesInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
 }
 
-export type UserUncheckedCreateWithoutTitlesInput = {
+export type UserUncheckedCreateWithoutCreatedTitlesInput = {
   id?: string
   email: string
   username: string
@@ -458,27 +480,28 @@ export type UserUncheckedCreateWithoutTitlesInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
 }
 
-export type UserCreateOrConnectWithoutTitlesInput = {
+export type UserCreateOrConnectWithoutCreatedTitlesInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutTitlesInput, Prisma.UserUncheckedCreateWithoutTitlesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTitlesInput, Prisma.UserUncheckedCreateWithoutCreatedTitlesInput>
 }
 
-export type UserUpsertWithoutTitlesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutTitlesInput, Prisma.UserUncheckedUpdateWithoutTitlesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutTitlesInput, Prisma.UserUncheckedCreateWithoutTitlesInput>
+export type UserUpsertWithoutCreatedTitlesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTitlesInput, Prisma.UserUncheckedUpdateWithoutCreatedTitlesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedTitlesInput, Prisma.UserUncheckedCreateWithoutCreatedTitlesInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutTitlesInput = {
+export type UserUpdateToOneWithWhereWithoutCreatedTitlesInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutTitlesInput, Prisma.UserUncheckedUpdateWithoutTitlesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedTitlesInput, Prisma.UserUncheckedUpdateWithoutCreatedTitlesInput>
 }
 
-export type UserUpdateWithoutTitlesInput = {
+export type UserUpdateWithoutCreatedTitlesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
@@ -486,11 +509,12 @@ export type UserUpdateWithoutTitlesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
 }
 
-export type UserUncheckedUpdateWithoutTitlesInput = {
+export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
@@ -498,6 +522,75 @@ export type UserUncheckedUpdateWithoutTitlesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
+}
+
+export type UserCreateWithoutLibraryInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
+}
+
+export type UserUncheckedCreateWithoutLibraryInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
+}
+
+export type UserCreateOrConnectWithoutLibraryInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLibraryInput, Prisma.UserUncheckedCreateWithoutLibraryInput>
+}
+
+export type UserUpsertWithoutLibraryInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLibraryInput, Prisma.UserUncheckedUpdateWithoutLibraryInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLibraryInput, Prisma.UserUncheckedCreateWithoutLibraryInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLibraryInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLibraryInput, Prisma.UserUncheckedUpdateWithoutLibraryInput>
+}
+
+export type UserUpdateWithoutLibraryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLibraryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
 }
@@ -510,7 +603,8 @@ export type UserCreateWithoutSubmissionsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
 }
 
@@ -522,7 +616,8 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
 }
 
@@ -539,7 +634,8 @@ export type UserCreateWithoutReviewedSubsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
 }
 
@@ -551,7 +647,8 @@ export type UserUncheckedCreateWithoutReviewedSubsInput = {
   role?: $Enums.UserRole
   createdAt?: Date | string
   updatedAt?: Date | string
-  titles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
 }
 
@@ -579,7 +676,8 @@ export type UserUpdateWithoutSubmissionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
 }
 
@@ -591,7 +689,8 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
 }
 
@@ -614,7 +713,8 @@ export type UserUpdateWithoutReviewedSubsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
 }
 
@@ -626,7 +726,8 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  titles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
 }
 
@@ -636,13 +737,15 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
  */
 
 export type UserCountOutputType = {
-  titles: number
+  createdTitles: number
+  library: number
   submissions: number
   reviewedSubs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  titles?: boolean | UserCountOutputTypeCountTitlesArgs
+  createdTitles?: boolean | UserCountOutputTypeCountCreatedTitlesArgs
+  library?: boolean | UserCountOutputTypeCountLibraryArgs
   submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
   reviewedSubs?: boolean | UserCountOutputTypeCountReviewedSubsArgs
 }
@@ -660,8 +763,15 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountTitlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type UserCountOutputTypeCountCreatedTitlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TitleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLibraryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserTitleWhereInput
 }
 
 /**
@@ -687,7 +797,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  titles?: boolean | Prisma.User$titlesArgs<ExtArgs>
+  createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
+  library?: boolean | Prisma.User$libraryArgs<ExtArgs>
   submissions?: boolean | Prisma.User$submissionsArgs<ExtArgs>
   reviewedSubs?: boolean | Prisma.User$reviewedSubsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -725,7 +836,8 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "passwordHash" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  titles?: boolean | Prisma.User$titlesArgs<ExtArgs>
+  createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
+  library?: boolean | Prisma.User$libraryArgs<ExtArgs>
   submissions?: boolean | Prisma.User$submissionsArgs<ExtArgs>
   reviewedSubs?: boolean | Prisma.User$reviewedSubsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -736,7 +848,8 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    titles: Prisma.$TitlePayload<ExtArgs>[]
+    createdTitles: Prisma.$TitlePayload<ExtArgs>[]
+    library: Prisma.$UserTitlePayload<ExtArgs>[]
     submissions: Prisma.$TitleSubmissionPayload<ExtArgs>[]
     reviewedSubs: Prisma.$TitleSubmissionPayload<ExtArgs>[]
   }
@@ -1142,7 +1255,8 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  titles<T extends Prisma.User$titlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$titlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  createdTitles<T extends Prisma.User$createdTitlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTitlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  library<T extends Prisma.User$libraryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$libraryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   submissions<T extends Prisma.User$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewedSubs<T extends Prisma.User$reviewedSubsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedSubsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1574,9 +1688,9 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.titles
+ * User.createdTitles
  */
-export type User$titlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$createdTitlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Title
    */
@@ -1595,6 +1709,30 @@ export type User$titlesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.TitleScalarFieldEnum | Prisma.TitleScalarFieldEnum[]
+}
+
+/**
+ * User.library
+ */
+export type User$libraryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserTitle
+   */
+  select?: Prisma.UserTitleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserTitle
+   */
+  omit?: Prisma.UserTitleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserTitleInclude<ExtArgs> | null
+  where?: Prisma.UserTitleWhereInput
+  orderBy?: Prisma.UserTitleOrderByWithRelationInput | Prisma.UserTitleOrderByWithRelationInput[]
+  cursor?: Prisma.UserTitleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserTitleScalarFieldEnum | Prisma.UserTitleScalarFieldEnum[]
 }
 
 /**

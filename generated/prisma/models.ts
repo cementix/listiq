@@ -10,5 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Title'
+export type * from './models/Genre'
+export type * from './models/UserTitle'
 export type * from './models/TitleSubmission'
 export type * from './commonInputTypes'

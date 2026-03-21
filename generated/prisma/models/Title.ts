@@ -41,8 +41,8 @@ export type TitleMinAggregateOutputType = {
   year: number | null
   description: string | null
   imageUrl: string | null
+  imagePublicId: string | null
   type: $Enums.TitleType | null
-  genre: string | null
   createdAt: Date | null
   updatedAt: Date | null
   createdById: string | null
@@ -55,8 +55,8 @@ export type TitleMaxAggregateOutputType = {
   year: number | null
   description: string | null
   imageUrl: string | null
+  imagePublicId: string | null
   type: $Enums.TitleType | null
-  genre: string | null
   createdAt: Date | null
   updatedAt: Date | null
   createdById: string | null
@@ -69,8 +69,8 @@ export type TitleCountAggregateOutputType = {
   year: number
   description: number
   imageUrl: number
+  imagePublicId: number
   type: number
-  genre: number
   createdAt: number
   updatedAt: number
   createdById: number
@@ -93,8 +93,8 @@ export type TitleMinAggregateInputType = {
   year?: true
   description?: true
   imageUrl?: true
+  imagePublicId?: true
   type?: true
-  genre?: true
   createdAt?: true
   updatedAt?: true
   createdById?: true
@@ -107,8 +107,8 @@ export type TitleMaxAggregateInputType = {
   year?: true
   description?: true
   imageUrl?: true
+  imagePublicId?: true
   type?: true
-  genre?: true
   createdAt?: true
   updatedAt?: true
   createdById?: true
@@ -121,8 +121,8 @@ export type TitleCountAggregateInputType = {
   year?: true
   description?: true
   imageUrl?: true
+  imagePublicId?: true
   type?: true
-  genre?: true
   createdAt?: true
   updatedAt?: true
   createdById?: true
@@ -222,8 +222,8 @@ export type TitleGroupByOutputType = {
   year: number | null
   description: string | null
   imageUrl: string | null
+  imagePublicId: string | null
   type: $Enums.TitleType
-  genre: string | null
   createdAt: Date
   updatedAt: Date
   createdById: string | null
@@ -259,12 +259,14 @@ export type TitleWhereInput = {
   year?: Prisma.IntNullableFilter<"Title"> | number | null
   description?: Prisma.StringNullableFilter<"Title"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  imagePublicId?: Prisma.StringNullableFilter<"Title"> | string | null
   type?: Prisma.EnumTitleTypeFilter<"Title"> | $Enums.TitleType
-  genre?: Prisma.StringNullableFilter<"Title"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  genres?: Prisma.GenreListRelationFilter
+  users?: Prisma.UserTitleListRelationFilter
 }
 
 export type TitleOrderByWithRelationInput = {
@@ -274,12 +276,14 @@ export type TitleOrderByWithRelationInput = {
   year?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  genre?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.UserOrderByWithRelationInput
+  genres?: Prisma.GenreOrderByRelationAggregateInput
+  users?: Prisma.UserTitleOrderByRelationAggregateInput
 }
 
 export type TitleWhereUniqueInput = Prisma.AtLeast<{
@@ -292,12 +296,14 @@ export type TitleWhereUniqueInput = Prisma.AtLeast<{
   year?: Prisma.IntNullableFilter<"Title"> | number | null
   description?: Prisma.StringNullableFilter<"Title"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  imagePublicId?: Prisma.StringNullableFilter<"Title"> | string | null
   type?: Prisma.EnumTitleTypeFilter<"Title"> | $Enums.TitleType
-  genre?: Prisma.StringNullableFilter<"Title"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  genres?: Prisma.GenreListRelationFilter
+  users?: Prisma.UserTitleListRelationFilter
 }, "id" | "slug">
 
 export type TitleOrderByWithAggregationInput = {
@@ -307,8 +313,8 @@ export type TitleOrderByWithAggregationInput = {
   year?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  imagePublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
-  genre?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -329,8 +335,8 @@ export type TitleScalarWhereWithAggregatesInput = {
   year?: Prisma.IntNullableWithAggregatesFilter<"Title"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
+  imagePublicId?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
   type?: Prisma.EnumTitleTypeWithAggregatesFilter<"Title"> | $Enums.TitleType
-  genre?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Title"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Title"> | Date | string
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
@@ -343,11 +349,13 @@ export type TitleCreateInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  createdBy?: Prisma.UserCreateNestedOneWithoutTitlesInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
+  genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateInput = {
@@ -357,11 +365,13 @@ export type TitleUncheckedCreateInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   createdById?: string | null
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUpdateInput = {
@@ -371,11 +381,13 @@ export type TitleUpdateInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBy?: Prisma.UserUpdateOneWithoutTitlesNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateInput = {
@@ -385,11 +397,13 @@ export type TitleUncheckedUpdateInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleCreateManyInput = {
@@ -399,8 +413,8 @@ export type TitleCreateManyInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   createdById?: string | null
@@ -413,8 +427,8 @@ export type TitleUpdateManyMutationInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -426,8 +440,8 @@ export type TitleUncheckedUpdateManyInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -450,8 +464,8 @@ export type TitleCountOrderByAggregateInput = {
   year?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  imagePublicId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  genre?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -468,8 +482,8 @@ export type TitleMaxOrderByAggregateInput = {
   year?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  imagePublicId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  genre?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -482,8 +496,8 @@ export type TitleMinOrderByAggregateInput = {
   year?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  imagePublicId?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  genre?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -491,6 +505,11 @@ export type TitleMinOrderByAggregateInput = {
 
 export type TitleSumOrderByAggregateInput = {
   year?: Prisma.SortOrder
+}
+
+export type TitleScalarRelationFilter = {
+  is?: Prisma.TitleWhereInput
+  isNot?: Prisma.TitleWhereInput
 }
 
 export type TitleCreateNestedManyWithoutCreatedByInput = {
@@ -551,6 +570,58 @@ export type EnumTitleTypeFieldUpdateOperationsInput = {
   set?: $Enums.TitleType
 }
 
+export type TitleCreateNestedManyWithoutGenresInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput> | Prisma.TitleCreateWithoutGenresInput[] | Prisma.TitleUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutGenresInput | Prisma.TitleCreateOrConnectWithoutGenresInput[]
+  connect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+}
+
+export type TitleUncheckedCreateNestedManyWithoutGenresInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput> | Prisma.TitleCreateWithoutGenresInput[] | Prisma.TitleUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutGenresInput | Prisma.TitleCreateOrConnectWithoutGenresInput[]
+  connect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+}
+
+export type TitleUpdateManyWithoutGenresNestedInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput> | Prisma.TitleCreateWithoutGenresInput[] | Prisma.TitleUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutGenresInput | Prisma.TitleCreateOrConnectWithoutGenresInput[]
+  upsert?: Prisma.TitleUpsertWithWhereUniqueWithoutGenresInput | Prisma.TitleUpsertWithWhereUniqueWithoutGenresInput[]
+  set?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  disconnect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  delete?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  connect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  update?: Prisma.TitleUpdateWithWhereUniqueWithoutGenresInput | Prisma.TitleUpdateWithWhereUniqueWithoutGenresInput[]
+  updateMany?: Prisma.TitleUpdateManyWithWhereWithoutGenresInput | Prisma.TitleUpdateManyWithWhereWithoutGenresInput[]
+  deleteMany?: Prisma.TitleScalarWhereInput | Prisma.TitleScalarWhereInput[]
+}
+
+export type TitleUncheckedUpdateManyWithoutGenresNestedInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput> | Prisma.TitleCreateWithoutGenresInput[] | Prisma.TitleUncheckedCreateWithoutGenresInput[]
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutGenresInput | Prisma.TitleCreateOrConnectWithoutGenresInput[]
+  upsert?: Prisma.TitleUpsertWithWhereUniqueWithoutGenresInput | Prisma.TitleUpsertWithWhereUniqueWithoutGenresInput[]
+  set?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  disconnect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  delete?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  connect?: Prisma.TitleWhereUniqueInput | Prisma.TitleWhereUniqueInput[]
+  update?: Prisma.TitleUpdateWithWhereUniqueWithoutGenresInput | Prisma.TitleUpdateWithWhereUniqueWithoutGenresInput[]
+  updateMany?: Prisma.TitleUpdateManyWithWhereWithoutGenresInput | Prisma.TitleUpdateManyWithWhereWithoutGenresInput[]
+  deleteMany?: Prisma.TitleScalarWhereInput | Prisma.TitleScalarWhereInput[]
+}
+
+export type TitleCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutUsersInput, Prisma.TitleUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutUsersInput
+  connect?: Prisma.TitleWhereUniqueInput
+}
+
+export type TitleUpdateOneRequiredWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutUsersInput, Prisma.TitleUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.TitleUpsertWithoutUsersInput
+  connect?: Prisma.TitleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TitleUpdateToOneWithWhereWithoutUsersInput, Prisma.TitleUpdateWithoutUsersInput>, Prisma.TitleUncheckedUpdateWithoutUsersInput>
+}
+
 export type TitleCreateWithoutCreatedByInput = {
   id?: string
   name: string
@@ -558,10 +629,12 @@ export type TitleCreateWithoutCreatedByInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutCreatedByInput = {
@@ -571,10 +644,12 @@ export type TitleUncheckedCreateWithoutCreatedByInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutCreatedByInput = {
@@ -613,11 +688,138 @@ export type TitleScalarWhereInput = {
   year?: Prisma.IntNullableFilter<"Title"> | number | null
   description?: Prisma.StringNullableFilter<"Title"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  imagePublicId?: Prisma.StringNullableFilter<"Title"> | string | null
   type?: Prisma.EnumTitleTypeFilter<"Title"> | $Enums.TitleType
-  genre?: Prisma.StringNullableFilter<"Title"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Title"> | Date | string
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
+}
+
+export type TitleCreateWithoutGenresInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
+  users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
+}
+
+export type TitleUncheckedCreateWithoutGenresInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdById?: string | null
+  users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
+}
+
+export type TitleCreateOrConnectWithoutGenresInput = {
+  where: Prisma.TitleWhereUniqueInput
+  create: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput>
+}
+
+export type TitleUpsertWithWhereUniqueWithoutGenresInput = {
+  where: Prisma.TitleWhereUniqueInput
+  update: Prisma.XOR<Prisma.TitleUpdateWithoutGenresInput, Prisma.TitleUncheckedUpdateWithoutGenresInput>
+  create: Prisma.XOR<Prisma.TitleCreateWithoutGenresInput, Prisma.TitleUncheckedCreateWithoutGenresInput>
+}
+
+export type TitleUpdateWithWhereUniqueWithoutGenresInput = {
+  where: Prisma.TitleWhereUniqueInput
+  data: Prisma.XOR<Prisma.TitleUpdateWithoutGenresInput, Prisma.TitleUncheckedUpdateWithoutGenresInput>
+}
+
+export type TitleUpdateManyWithWhereWithoutGenresInput = {
+  where: Prisma.TitleScalarWhereInput
+  data: Prisma.XOR<Prisma.TitleUpdateManyMutationInput, Prisma.TitleUncheckedUpdateManyWithoutGenresInput>
+}
+
+export type TitleCreateWithoutUsersInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
+  genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
+}
+
+export type TitleUncheckedCreateWithoutUsersInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdById?: string | null
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
+}
+
+export type TitleCreateOrConnectWithoutUsersInput = {
+  where: Prisma.TitleWhereUniqueInput
+  create: Prisma.XOR<Prisma.TitleCreateWithoutUsersInput, Prisma.TitleUncheckedCreateWithoutUsersInput>
+}
+
+export type TitleUpsertWithoutUsersInput = {
+  update: Prisma.XOR<Prisma.TitleUpdateWithoutUsersInput, Prisma.TitleUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.TitleCreateWithoutUsersInput, Prisma.TitleUncheckedCreateWithoutUsersInput>
+  where?: Prisma.TitleWhereInput
+}
+
+export type TitleUpdateToOneWithWhereWithoutUsersInput = {
+  where?: Prisma.TitleWhereInput
+  data: Prisma.XOR<Prisma.TitleUpdateWithoutUsersInput, Prisma.TitleUncheckedUpdateWithoutUsersInput>
+}
+
+export type TitleUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
+}
+
+export type TitleUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
 }
 
 export type TitleCreateManyCreatedByInput = {
@@ -627,8 +829,8 @@ export type TitleCreateManyCreatedByInput = {
   year?: number | null
   description?: string | null
   imageUrl?: string | null
+  imagePublicId?: string | null
   type: $Enums.TitleType
-  genre?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -640,10 +842,12 @@ export type TitleUpdateWithoutCreatedByInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutCreatedByInput = {
@@ -653,10 +857,12 @@ export type TitleUncheckedUpdateWithoutCreatedByInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateManyWithoutCreatedByInput = {
@@ -666,12 +872,94 @@ export type TitleUncheckedUpdateManyWithoutCreatedByInput = {
   year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
-  genre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type TitleUpdateWithoutGenresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
+  users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
+}
+
+export type TitleUncheckedUpdateWithoutGenresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
+}
+
+export type TitleUncheckedUpdateManyWithoutGenresInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type TitleCountOutputType
+ */
+
+export type TitleCountOutputType = {
+  genres: number
+  users: number
+}
+
+export type TitleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  genres?: boolean | TitleCountOutputTypeCountGenresArgs
+  users?: boolean | TitleCountOutputTypeCountUsersArgs
+}
+
+/**
+ * TitleCountOutputType without action
+ */
+export type TitleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TitleCountOutputType
+   */
+  select?: Prisma.TitleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TitleCountOutputType without action
+ */
+export type TitleCountOutputTypeCountGenresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GenreWhereInput
+}
+
+/**
+ * TitleCountOutputType without action
+ */
+export type TitleCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserTitleWhereInput
+}
 
 
 export type TitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -681,12 +969,15 @@ export type TitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   year?: boolean
   description?: boolean
   imageUrl?: boolean
+  imagePublicId?: boolean
   type?: boolean
-  genre?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdById?: boolean
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
+  genres?: boolean | Prisma.Title$genresArgs<ExtArgs>
+  users?: boolean | Prisma.Title$usersArgs<ExtArgs>
+  _count?: boolean | Prisma.TitleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["title"]>
 
 export type TitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -696,8 +987,8 @@ export type TitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   year?: boolean
   description?: boolean
   imageUrl?: boolean
+  imagePublicId?: boolean
   type?: boolean
-  genre?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdById?: boolean
@@ -711,8 +1002,8 @@ export type TitleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   year?: boolean
   description?: boolean
   imageUrl?: boolean
+  imagePublicId?: boolean
   type?: boolean
-  genre?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdById?: boolean
@@ -726,16 +1017,19 @@ export type TitleSelectScalar = {
   year?: boolean
   description?: boolean
   imageUrl?: boolean
+  imagePublicId?: boolean
   type?: boolean
-  genre?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdById?: boolean
 }
 
-export type TitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "year" | "description" | "imageUrl" | "type" | "genre" | "createdAt" | "updatedAt" | "createdById", ExtArgs["result"]["title"]>
+export type TitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "year" | "description" | "imageUrl" | "imagePublicId" | "type" | "createdAt" | "updatedAt" | "createdById", ExtArgs["result"]["title"]>
 export type TitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
+  genres?: boolean | Prisma.Title$genresArgs<ExtArgs>
+  users?: boolean | Prisma.Title$usersArgs<ExtArgs>
+  _count?: boolean | Prisma.TitleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TitleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
@@ -748,6 +1042,8 @@ export type $TitlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "Title"
   objects: {
     createdBy: Prisma.$UserPayload<ExtArgs> | null
+    genres: Prisma.$GenrePayload<ExtArgs>[]
+    users: Prisma.$UserTitlePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -756,8 +1052,8 @@ export type $TitlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     year: number | null
     description: string | null
     imageUrl: string | null
+    imagePublicId: string | null
     type: $Enums.TitleType
-    genre: string | null
     createdAt: Date
     updatedAt: Date
     createdById: string | null
@@ -1156,6 +1452,8 @@ readonly fields: TitleFieldRefs;
 export interface Prisma__TitleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   createdBy<T extends Prisma.Title$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  genres<T extends Prisma.Title$genresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$genresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  users<T extends Prisma.Title$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1191,8 +1489,8 @@ export interface TitleFieldRefs {
   readonly year: Prisma.FieldRef<"Title", 'Int'>
   readonly description: Prisma.FieldRef<"Title", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Title", 'String'>
+  readonly imagePublicId: Prisma.FieldRef<"Title", 'String'>
   readonly type: Prisma.FieldRef<"Title", 'TitleType'>
-  readonly genre: Prisma.FieldRef<"Title", 'String'>
   readonly createdAt: Prisma.FieldRef<"Title", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Title", 'DateTime'>
   readonly createdById: Prisma.FieldRef<"Title", 'String'>
@@ -1613,6 +1911,54 @@ export type Title$createdByArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Title.genres
+ */
+export type Title$genresArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Genre
+   */
+  select?: Prisma.GenreSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Genre
+   */
+  omit?: Prisma.GenreOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GenreInclude<ExtArgs> | null
+  where?: Prisma.GenreWhereInput
+  orderBy?: Prisma.GenreOrderByWithRelationInput | Prisma.GenreOrderByWithRelationInput[]
+  cursor?: Prisma.GenreWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GenreScalarFieldEnum | Prisma.GenreScalarFieldEnum[]
+}
+
+/**
+ * Title.users
+ */
+export type Title$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserTitle
+   */
+  select?: Prisma.UserTitleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserTitle
+   */
+  omit?: Prisma.UserTitleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserTitleInclude<ExtArgs> | null
+  where?: Prisma.UserTitleWhereInput
+  orderBy?: Prisma.UserTitleOrderByWithRelationInput | Prisma.UserTitleOrderByWithRelationInput[]
+  cursor?: Prisma.UserTitleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserTitleScalarFieldEnum | Prisma.UserTitleScalarFieldEnum[]
 }
 
 /**

@@ -28,6 +28,16 @@ export type User = Prisma.UserModel
  */
 export type Title = Prisma.TitleModel
 /**
+ * Model Genre
+ * 
+ */
+export type Genre = Prisma.GenreModel
+/**
+ * Model UserTitle
+ * 
+ */
+export type UserTitle = Prisma.UserTitleModel
+/**
  * Model TitleSubmission
  * 
  */
