@@ -4,9 +4,11 @@ import GlassCard from "../../../components/custom/GlassCard";
 import PageSection from "../../../components/custom/PageSection";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
+import getGenres from "@/actions/title/getGenres";
 
 export default async function AddTitlePage() {
   const session = await getSession();
+  const genres = await getGenres();
 
   const currentUser = await getCurrentUser(session!);
 
@@ -26,7 +28,7 @@ export default async function AddTitlePage() {
       </GlassCard>
 
       <GlassCard className="pb-12">
-        <AddTitleForm canCreateDirectly={canCreateDirectly} />
+        <AddTitleForm canCreateDirectly={canCreateDirectly} genres={genres} />
       </GlassCard>
     </PageSection>
   );
