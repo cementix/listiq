@@ -2,7 +2,6 @@ import { getCurrentUser } from "../../../actions/auth";
 import AddTitleForm from "./AddTitleForm";
 import GlassCard from "../../../components/custom/GlassCard";
 import PageSection from "../../../components/custom/PageSection";
-import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import getGenres from "@/actions/title/getGenres";
 
@@ -18,8 +17,8 @@ export default async function AddTitlePage() {
     currentUser?.role === "VERIFIED";
 
   return (
-    <PageSection className="mx-56">
-      <GlassCard>
+    <PageSection className="mx-auto w-full max-w-6xl px-4">
+      <GlassCard className="p-6">
         <p className="text-sm text-white/50">Add title</p>
         <h1 className="mt-2 text-3xl font-semibold">Add new title</h1>
         <p className="mt-3 max-w-xl text-white/70">
@@ -27,9 +26,9 @@ export default async function AddTitlePage() {
         </p>
       </GlassCard>
 
-      <GlassCard className="pb-12">
+      <div className="mx-auto w-full max-w-5xl">
         <AddTitleForm canCreateDirectly={canCreateDirectly} genres={genres} />
-      </GlassCard>
+      </div>
     </PageSection>
   );
 }
