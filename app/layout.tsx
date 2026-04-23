@@ -15,7 +15,7 @@ const fontMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "listiq — Minimal lists, maximal flow",
+  title: "listiq",
   description:
     "A minimal, highly polished list experience with smooth micro‑animations.",
 };

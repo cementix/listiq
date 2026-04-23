@@ -2,34 +2,40 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
 const navLinkClass =
-  "rounded-md px-3 py-2 text-sm text-white/70 transition hover:bg-white/5 hover:text-white";
+  "rounded-md px-3 py-2 text-sm text-white/70 transition-colors duration-200 hover:bg-white/5 hover:text-white";
 
 const Navbar = ({ username }: { username: string }) => {
   return (
-    <header className="border-b border-white/10 bg-black/70 backdrop-blur">
-      <div className="mx-auto flex max-w-full items-center justify-between px-12 py-4">
+    <header className="border-b border-white/10 bg-black/60 backdrop-blur">
+      <div className="flex w-full items-center justify-between px-12 py-4">
+        {/* left */}
         <div className="flex items-center gap-6">
-          <Link href="/dashboard" className="text-lg font-semibold text-white">
+          <Link
+            href="/dashboard"
+            className="text-lg font-semibold text-white transition-opacity duration-200 hover:opacity-80"
+          >
             listiq
           </Link>
 
           <nav className="flex items-center gap-2">
             <Link href="/dashboard" className={navLinkClass}>
-              Dashboard
+              dashboard
             </Link>
             <Link href="/profile" className={navLinkClass}>
-              Profile
+              profile
             </Link>
           </nav>
         </div>
 
+        {/* right */}
         <div className="flex items-center gap-3">
           <Link
             href="/profile"
-            className="text-sm text-white/60 hover:bg-white/5 hover:text-white"
+            className="rounded-md px-3 py-2 text-sm text-white/60 transition-colors duration-200 hover:bg-white/5 hover:text-white"
           >
             @{username}
           </Link>
+
           <LogoutButton />
         </div>
       </div>
