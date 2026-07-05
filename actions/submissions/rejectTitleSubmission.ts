@@ -2,10 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
-import { canCreateTitle } from "./canCreateTitle";
-import { ActionResult } from "./types";
+import { canReviewSubmissions } from "./canReviewSubmissions";
+import { ActionResult } from "../title/types";
 import { SubmissionStatus } from "@/generated/prisma/enums";
-import { normalizeString } from "./normalizeString";
+import { normalizeString } from "../title/normalizeString";
 import { revalidatePath } from "next/cache";
 
 export async function rejectTitleSubmission(
@@ -15,7 +15,7 @@ export async function rejectTitleSubmission(
   try {
     const { user, session } = await requireUserServer();
 
-    if (!canCreateTitle(user.role)) {
+    if (!canReviewSubmissions(user.role)) {
       return { ok: false, error: "Forbidden" };
     }
 

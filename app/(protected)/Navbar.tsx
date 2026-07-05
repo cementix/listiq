@@ -24,6 +24,12 @@ const Navbar = ({ username }: { username: string }) => {
             <Link href="/profile" className={navLinkClass}>
               profile
             </Link>
+            <Link href="/add-title" className={navLinkClass}>
+              add title
+            </Link>
+            <Link href="/submissions" className={navLinkClass}>
+              submissions
+            </Link>
           </nav>
         </div>
 
