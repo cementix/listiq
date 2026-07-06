@@ -37,6 +37,8 @@ export type TitleType = (typeof TitleType)[keyof typeof TitleType]
 
 export const SubmissionStatus = {
   PENDING: 'PENDING',
+  NEEDS_CHANGES: 'NEEDS_CHANGES',
+  RESUBMITTED: 'RESUBMITTED',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
 } as const

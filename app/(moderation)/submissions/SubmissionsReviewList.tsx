@@ -2,11 +2,13 @@
 
 import { approveTitleSubmission } from "@/actions/submissions/approveTitleSubmission";
 import { rejectTitleSubmission } from "@/actions/submissions/rejectTitleSubmission";
+import { requestChangesTitleSubmission } from "@/actions/submissions/requestChangesTitleSubmission";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Check, LoaderCircle, X } from "lucide-react";
+import { Check, LoaderCircle, RotateCcw, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Submission = {
   id: string;
@@ -33,11 +35,16 @@ export default function SubmissionsReviewList({
   submissions: Submission[];
 }) {
   const [comments, setComments] = useState<Record<string, string>>({});
-  const [pendingId, setPendingId] = useState<string | null>(null);
+  const [pendingAction, setPendingAction] = useState<{
+    id: string;
+    action: "approve" | "reject" | "changes";
+  } | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const review = (id: string, action: "approve" | "reject") => {
-    setPendingId(id);
+  const router = useRouter();
+
+  const review = (id: string, action: "approve" | "reject" | "changes") => {
+    setPendingAction({ id, action });
 
     startTransition(async () => {
       const comment = comments[id] ?? "";
@@ -45,9 +52,11 @@ export default function SubmissionsReviewList({
       const result =
         action === "approve"
           ? await approveTitleSubmission(id, comment)
-          : await rejectTitleSubmission(id, comment);
+          : action === "reject"
+            ? await rejectTitleSubmission(id, comment)
+            : await requestChangesTitleSubmission(id, comment);
 
-      setPendingId(null);
+      setPendingAction(null);
 
       if (!result.ok) {
         toast.error(result.error);
@@ -55,6 +64,7 @@ export default function SubmissionsReviewList({
       }
 
       toast.success(result.message);
+      router.refresh();
     });
   };
 
@@ -72,7 +82,31 @@ export default function SubmissionsReviewList({
   return (
     <div className="space-y-4">
       {submissions.map((submission) => {
-        const isItemPending = isPending && pendingId === submission.id;
+        const statusClass =
+          submission.status === "APPROVED"
+            ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-200"
+            : submission.status === "REJECTED"
+              ? "border-red-400/20 bg-red-400/10 text-red-200"
+              : submission.status === "NEEDS_CHANGES"
+                ? "border-amber-400/20 bg-amber-400/10 text-amber-200"
+                : submission.status === "RESUBMITTED"
+                  ? "border-yellow-400/20 bg-yellow-400/10 text-yellow-200"
+                  : "border-yellow-400/20 bg-yellow-400/10 text-yellow-200";
+
+        const isApprovePending =
+          isPending &&
+          pendingAction?.id === submission.id &&
+          pendingAction.action === "approve";
+
+        const isChangesPending =
+          isPending &&
+          pendingAction?.id === submission.id &&
+          pendingAction.action === "changes";
+
+        const isRejectPending =
+          isPending &&
+          pendingAction?.id === submission.id &&
+          pendingAction.action === "reject";
 
         return (
           <div
@@ -109,7 +143,9 @@ export default function SubmissionsReviewList({
                     </p>
                   </div>
 
-                  <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-3 py-1 text-xs text-yellow-200">
+                  <span
+                    className={`rounded-full border px-3 py-1 text-xs ${statusClass}`}
+                  >
                     {submission.status}
                   </span>
                 </div>
@@ -152,7 +188,7 @@ export default function SubmissionsReviewList({
                     disabled={isPending}
                     className="bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25 cursor-pointer"
                   >
-                    {isItemPending ? (
+                    {isApprovePending ? (
                       <LoaderCircle className="size-4 animate-spin" />
                     ) : (
                       <Check className="size-4" />
@@ -162,11 +198,30 @@ export default function SubmissionsReviewList({
 
                   <Button
                     type="button"
+                    onClick={() => review(submission.id, "changes")}
+                    disabled={isPending}
+                    className="bg-amber-500/15 text-amber-200 hover:bg-amber-500/25 cursor-pointer"
+                  >
+                    {isChangesPending ? (
+                      <LoaderCircle className="size-4 animate-spin" />
+                    ) : (
+                      <RotateCcw className="size-4" />
+                    )}{" "}
+                    Needs changes
+                  </Button>
+
+                  <Button
+                    type="button"
                     onClick={() => review(submission.id, "reject")}
                     disabled={isPending}
-                    className="bg-red-500/15 text-red-200 hover:bg-red-500/25"
+                    className="bg-red-500/15 text-red-200 hover:bg-red-500/25 cursor-pointer"
                   >
-                    <X className="size-4" /> Reject
+                    {isRejectPending ? (
+                      <LoaderCircle className="size-4 animate-spin" />
+                    ) : (
+                      <X className="size-4" />
+                    )}{" "}
+                    Reject
                   </Button>
                 </div>
               </div>

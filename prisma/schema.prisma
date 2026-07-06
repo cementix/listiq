@@ -29,6 +29,8 @@ enum TitleType {
 
 enum SubmissionStatus {
   PENDING
+  NEEDS_CHANGES
+  RESUBMITTED
   APPROVED
   REJECTED
 }
@@ -132,4 +134,5 @@ model TitleSubmission {
 
   @@index([status])
   @@index([name])
+  @@index([submittedById, status])
 }

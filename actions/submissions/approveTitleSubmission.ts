@@ -1,12 +1,16 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
-import { canReviewSubmissions } from "./canReviewSubmissions";
-import { ActionResult } from "../title/types";
-import { SubmissionStatus } from "@/generated/prisma/enums";
-import { generateUniqueSlug } from "../title/generateUniqueSlug";
 import { revalidatePath } from "next/cache";
+
+import { SubmissionStatus } from "@/generated/prisma/enums";
+import { prisma } from "@/lib/prisma";
+
+import { requireUserServer } from "../auth";
+import { generateUniqueSlug } from "../title/generateUniqueSlug";
+import { normalizeString } from "../title/normalizeString";
+import { ActionResult } from "../title/types";
+import { canReviewSubmissions } from "./canReviewSubmissions";
+import { isReviewableSubmissionStatus } from "./submissionStatus";
 
 export async function approveTitleSubmission(
   submissionId: string,
@@ -28,10 +32,12 @@ export async function approveTitleSubmission(
       },
     });
 
-    if (!submission) return { ok: false, error: "Submission not found" };
+    if (!submission) {
+      return { ok: false, error: "Submission not found" };
+    }
 
-    if (submission.status !== SubmissionStatus.PENDING) {
-      return { ok: false, error: "Submission already reviewed" };
+    if (!isReviewableSubmissionStatus(submission.status)) {
+      return { ok: false, error: "Submission is not reviewable" };
     }
 
     const slug = await generateUniqueSlug(submission.name);
@@ -46,7 +52,7 @@ export async function approveTitleSubmission(
           imageUrl: submission.imageUrl,
           imagePublicId: submission.imagePublicId,
           type: submission.type,
-          createdById: session.userId,
+          createdById: submission.submittedById,
           genres: {
             connect: submission.genres.map((genre) => ({ id: genre.id })),
           },
@@ -58,12 +64,13 @@ export async function approveTitleSubmission(
         data: {
           status: SubmissionStatus.APPROVED,
           reviewedById: session.userId,
-          reviewComment,
+          reviewComment: normalizeString(reviewComment),
         },
       });
     });
 
     revalidatePath("/submissions");
+    revalidatePath("/my-submissions");
     revalidatePath("/titles");
 
     return { ok: true, message: "Submission approved" };
