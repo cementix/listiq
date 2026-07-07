@@ -256,7 +256,7 @@ export default function TitleFormFields({
               <button
                 type="button"
                 onClick={() => removeGenre(genre.id)}
-                className="rounded-full p-0.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+                className="rounded-full cursor-pointer p-0.5 text-white/60 transition hover:bg-white/10 hover:text-white"
               >
                 <X className="size-3.5" />
               </button>
