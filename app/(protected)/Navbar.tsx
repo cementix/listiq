@@ -30,6 +30,9 @@ const Navbar = ({ username }: { username: string }) => {
             <Link href="/submissions" className={navLinkClass}>
               submissions
             </Link>
+            <Link href="/my-submissions" className={navLinkClass}>
+              my-submissions
+            </Link>
           </nav>
         </div>
 
