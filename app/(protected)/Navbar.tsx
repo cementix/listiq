@@ -43,7 +43,10 @@ const Navbar = ({
                   {needsChangesCount}
                 </span>
               )}
-          </Link>
+            </Link>
+            <Link href="/titles" className={navLinkClass}>
+              titles
+            </Link>
           </nav>
         </div>
 
