@@ -2,13 +2,14 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
-import { ActionResult, CreateTitleInput } from "../title/types";
+import { CreateTitleInput } from "../title/types";
 import { validateCreateInput } from "../title/validateCreateInput";
 import { validateGenreIds } from "../title/validateGenresId";
 import { canEditSubmissionStatus } from "./submissionStatus";
 import { normalizeString } from "../title/normalizeString";
 import { SubmissionStatus } from "@/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "../types";
 
 export async function resubmitTitleSubmission(
   submissionId: string,

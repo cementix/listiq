@@ -1,9 +1,5 @@
 import { TitleType } from "@/generated/prisma/enums";
 
-export type ActionResult =
-  | { ok: true; message?: string }
-  | { ok: false; error: string };
-
 export type CreateTitleInput = {
   name: string;
   year?: number | null;

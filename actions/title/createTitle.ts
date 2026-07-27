@@ -4,11 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
 import { canCreateTitle } from "./canCreateTitle";
 import { generateUniqueSlug } from "./generateUniqueSlug";
-import { ActionResult, CreateTitleInput } from "./types";
+import { CreateTitleInput } from "./types";
 import { validateCreateInput } from "./validateCreateInput";
 import { validateGenreIds } from "./validateGenresId";
 import { normalizeString } from "./normalizeString";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "../types";
 
 export async function createTitle(
   data: CreateTitleInput,

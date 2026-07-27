@@ -2,8 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
-import { ActionResult } from "./types";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "../types";
 
 export async function toggleLibraryTitle(
   titleId: string,

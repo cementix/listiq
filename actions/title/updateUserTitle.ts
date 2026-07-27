@@ -2,10 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
-import { ActionResult, UpdateUserTitleInput } from "./types";
+import { UpdateUserTitleInput } from "./types";
 import { Prisma } from "@/generated/prisma/client";
 import { normalizeString } from "./normalizeString";
 import { revalidatePath } from "next/cache";
+import { ActionResult } from "../types";
 
 export async function updateUserTitle(
   data: UpdateUserTitleInput,

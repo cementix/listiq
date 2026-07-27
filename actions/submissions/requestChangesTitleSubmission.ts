@@ -7,9 +7,9 @@ import { prisma } from "@/lib/prisma";
 
 import { requireUserServer } from "../auth";
 import { normalizeString } from "../title/normalizeString";
-import { ActionResult } from "../title/types";
 import { canReviewSubmissions } from "./canReviewSubmissions";
 import { isReviewableSubmissionStatus } from "./submissionStatus";
+import { ActionResult } from "../types";
 
 export async function requestChangesTitleSubmission(
     submissionId: string,
