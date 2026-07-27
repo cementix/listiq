@@ -11,6 +11,7 @@ import bcrypt from "bcrypt";
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { UserRole } from "@/generated/prisma/enums";
 
 export async function requireGuest() {
   const session = await getSession();
@@ -30,7 +31,16 @@ export async function requireAuth() {
   }
 }
 
-export async function requireUserServer() {
+type CurrentUser = {
+  role: UserRole;
+};
+
+type AuthenticatedUserContext = {
+  user: CurrentUser;
+  session: SessionPayload;
+};
+
+export async function requireUserServer(): Promise<AuthenticatedUserContext> {
   const session = await getSession();
 
   if (!session?.userId) {
@@ -46,7 +56,9 @@ export async function requireUserServer() {
   return { user, session };
 }
 
-export async function getCurrentUser(session: SessionPayload) {
+export async function getCurrentUser(
+  session: SessionPayload,
+): Promise<CurrentUser | null> {
   const currentUser = await prisma.user.findUnique({
     where: { id: session?.userId },
     select: {
