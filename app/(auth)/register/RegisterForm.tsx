@@ -27,12 +27,6 @@ const RegisterForm = () => {
     if (!state.ok && state.error) {
       toast.error(state.error);
     }
-
-    if (state.ok) {
-      setEmail("");
-      setUsername("");
-      setPassword("");
-    }
   }, [state]);
 
   return (

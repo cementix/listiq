@@ -63,10 +63,10 @@ export async function uploadImage(formData: FormData): Promise<UploadResult> {
       imageUrl: result.secure_url,
       imagePublicId: result.public_id,
     };
-  } catch (e: any) {
+  } catch (error) {
     return {
       ok: false,
-      error: e?.message || "upload failed",
+      error: error instanceof Error ? error.message : "upload failed",
     };
   }
 }

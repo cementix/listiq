@@ -219,8 +219,11 @@ export async function loginUser(
     });
 
     redirect("/dashboard");
-  } catch (error: any) {
-    console.error("loginUser error: ", error.message);
+  } catch (error) {
+    console.error(
+      "loginUser error: ",
+      error instanceof Error ? error.message : error,
+    );
 
     return {
       ok: false,

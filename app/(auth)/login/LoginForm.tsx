@@ -23,11 +23,6 @@ const LoginForm = () => {
     if (!state.ok && state.error) {
       toast.error(state.error);
     }
-
-    if (state.ok) {
-      setEmail("");
-      setPassword("");
-    }
   }, [state]);
 
   return (
