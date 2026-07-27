@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 
 type GlassCardProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 
