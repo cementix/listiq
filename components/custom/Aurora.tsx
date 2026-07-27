@@ -173,7 +173,7 @@ export default function Aurora(props: AuroraProps) {
       renderer.setSize(width, height);
       program.uniforms.uResolution.value = [width, height];
     }
-    
+
     window.addEventListener("resize", resize);
 
     const mesh = new Mesh(gl, { geometry, program });
@@ -205,7 +205,7 @@ export default function Aurora(props: AuroraProps) {
       }
       gl.getExtension("WEBGL_lose_context")?.loseContext();
     };
-  }, [amplitude]);
+  }, [amplitude, blend, colorStops]);
 
   return <div ref={ctnDom} className="absolute inset-0 h-full w-full" />;
 }

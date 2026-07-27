@@ -1,7 +1,6 @@
 import { getNeedsChangesSubmissionsCount } from "@/actions/submissions/getNeedsChangesSubmissionsCount";
 import { requireAuth } from "../../actions/auth";
 import Navbar from "./Navbar";
-import { getSession } from "@/lib/session";
 import React from "react";
 
 const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {

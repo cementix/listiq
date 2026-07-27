@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { Check, LoaderCircle, Plus, Search } from "lucide-react";
 import { toast } from "sonner";
 
@@ -60,19 +60,22 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
-  const applyFilters = (nextQuery = search, nextType = selectedType) => {
-    const params = new URLSearchParams();
+  const applyFilters = useCallback(
+    (nextQuery = search, nextType = selectedType) => {
+      const params = new URLSearchParams();
 
-    if (nextQuery.trim()) {
-      params.set("q", nextQuery.trim());
-    }
+      if (nextQuery.trim()) {
+        params.set("q", nextQuery.trim());
+      }
 
-    if (nextType !== "ALL") {
-      params.set("type", nextType);
-    }
+      if (nextType !== "ALL") {
+        params.set("type", nextType);
+      }
 
-    router.push(`/titles${params.toString() ? `?${params.toString()}` : ""}`);
-  };
+      router.push(`/titles${params.toString() ? `?${params.toString()}` : ""}`);
+    },
+    [router, search, selectedType],
+  );
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -80,7 +83,7 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
     }, 50);
 
     return () => window.clearTimeout(timeout);
-  }, [search, selectedType]);
+  }, [search, selectedType, applyFilters]);
 
   const toggleLibrary = (titleId: string) => {
     setPendingId(titleId);
@@ -149,7 +152,7 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
 
             return (
               <GlassCard key={title.id} className="overflow-hidden p-0">
-                <div className="relative aspect-[4/3] border-b border-white/10 bg-black/30">
+                <div className="relative aspect-4/3 border-b border-white/10 bg-black/30">
                   {title.imageUrl ? (
                     <Image
                       src={title.imageUrl}

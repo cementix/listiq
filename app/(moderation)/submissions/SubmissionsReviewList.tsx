@@ -9,6 +9,7 @@ import { Check, LoaderCircle, RotateCcw, X } from "lucide-react";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type Submission = {
   id: string;
@@ -116,10 +117,12 @@ export default function SubmissionsReviewList({
             <div className="flex gap-4">
               <div className="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
                 {submission.imageUrl ? (
-                  <img
+                  <Image
                     src={submission.imageUrl}
                     alt={submission.name}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
+                    width={112}
+                    height={112}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-ts text-white/40">

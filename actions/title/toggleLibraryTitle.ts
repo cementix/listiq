@@ -9,7 +9,7 @@ export async function toggleLibraryTitle(
   titleId: string,
 ): Promise<ActionResult> {
   try {
-    const { user, session } = await requireUserServer();
+    const { session } = await requireUserServer();
 
     const title = await prisma.title.findUnique({
       where: { id: titleId },

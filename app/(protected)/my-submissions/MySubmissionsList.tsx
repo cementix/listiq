@@ -13,6 +13,7 @@ import TitleFormFields from "@/components/custom/TitleFormFields";
 import { Button } from "@/components/ui/button";
 
 import CoverImageField from "@/components/custom/CoverImageField";
+import Image from "next/image";
 
 type Genre = {
   id: string;
@@ -136,10 +137,12 @@ export default function MySubmissionsList({
             <div className="flex gap-4">
               <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
                 {submission.imageUrl ? (
-                  <img
+                  <Image
                     src={submission.imageUrl}
                     alt={submission.name}
                     className="h-full w-full object-cover"
+                    width={96}
+                    height={96}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-xs text-white/40">

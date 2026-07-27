@@ -12,7 +12,7 @@ export async function updateUserTitle(
   data: UpdateUserTitleInput,
 ): Promise<ActionResult> {
   try {
-    const { user, session } = await requireUserServer();
+    const { session } = await requireUserServer();
 
     const existing = await prisma.userTitle.findUnique({
       where: {
