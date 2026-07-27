@@ -1,4 +1,5 @@
 import { getCurrentUser } from "@/actions/auth";
+import { getNeedsChangesSubmissionsCount } from "@/actions/submissions/getNeedsChangesSubmissionsCount";
 import Navbar from "@/app/(protected)/Navbar";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -22,9 +23,14 @@ export default async function ModerationLayout({
     redirect("/dashboard");
   }
 
+  const needsChangesCount = await getNeedsChangesSubmissionsCount();
+
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar username={session.username} />
+      <Navbar
+        username={session.username}
+        needsChangesCount={needsChangesCount}
+      />
       {children}
     </div>
   );
