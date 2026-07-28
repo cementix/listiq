@@ -32,12 +32,12 @@ export async function updateUserTitle(
       return { ok: false, error: "Add title to library first" };
     }
 
-    if (
-      data.rating !== undefined &&
-      data.rating !== null &&
-      (data.rating < 1 || data.rating > 10)
-    ) {
-      return { ok: false, error: "Rating must be from 1 to 10" };
+    if (data.rating !== undefined && data.rating !== null) {
+      const isValidHalfStep = data.rating * 2 === Math.round(data.rating * 2);
+
+      if (data.rating < 1 || data.rating > 10 || !isValidHalfStep) {
+        return { ok: false, error: "Rating must be from 1 to 10 in 0.5 steps" };
+      }
     }
 
     const updateData: Prisma.UserTitleUpdateInput = {};

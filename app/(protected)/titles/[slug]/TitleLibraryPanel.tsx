@@ -9,6 +9,7 @@ import { toggleLibraryTitle } from "@/actions/title/toggleLibraryTitle";
 import { updateUserTitle } from "@/actions/title/updateUserTitle";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import ConfirmDialog from "@/components/custom/ConfirmDialog";
 
 type UserTitle = {
   id: string;
@@ -30,16 +31,11 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
   );
   const [note, setNote] = useState(currentUserTitle?.note ?? "");
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   const isInLibrary = Boolean(currentUserTitle);
 
   const toggleLibrary = () => {
-    if (
-      isInLibrary &&
-      !window.confirm("Remove this title from your library?")
-    ) {
-      return;
-    }
-
     startTransition(async () => {
       const result = await toggleLibraryTitle(titleId);
 
@@ -49,6 +45,7 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
       }
 
       toast.success(isInLibrary ? "Removed from library" : "Added to library");
+      setConfirmOpen(false);
       router.refresh();
     });
   };
@@ -56,11 +53,14 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
   const save = () => {
     const parsedRating = rating.trim() ? Number(rating) : null;
 
-    if (
-      parsedRating !== null &&
-      (!Number.isInteger(parsedRating) || parsedRating < 1 || parsedRating > 10)
-    ) {
-      toast.error("Rating must be from 1 to 10");
+    const isValidHalfStep =
+      parsedRating === null ||
+      (parsedRating >= 1 &&
+        parsedRating <= 10 &&
+        parsedRating * 2 === Math.round(parsedRating * 2));
+
+    if (!isValidHalfStep) {
+      toast.error("Rating must be from 1 to 10 in 0.5 steps");
       return;
     }
 
@@ -93,7 +93,14 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
 
         <Button
           type="button"
-          onClick={toggleLibrary}
+          onClick={() => {
+            if (isInLibrary) {
+              setConfirmOpen(true);
+              return;
+            }
+
+            toggleLibrary();
+          }}
           disabled={isPending}
           className={
             isInLibrary
@@ -120,22 +127,38 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
             <div className="mt-2 flex gap-1">
               {Array.from({ length: 10 }, (_, index) => {
                 const value = index + 1;
-                const active = Number(rating) >= value;
+                const ratingNumber = Number(rating);
+                const fillPercent =
+                  ratingNumber >= value
+                    ? 100
+                    : ratingNumber >= value - 0.5
+                      ? 50
+                      : 0;
 
                 return (
                   <button
                     key={value}
                     type="button"
-                    onClick={() => setRating(String(value))}
+                    onClick={(event) => {
+                      const rect = event.currentTarget.getBoundingClientRect();
+                      const isLeftHalf =
+                        event.clientX - rect.left < rect.width / 2;
+                      setRating(
+                        String(isLeftHalf ? Math.max(1, value - 0.5) : value),
+                      );
+                    }}
                     className="rounded-md p-1 text-primary transition hover:bg-primary/10"
                   >
-                    <Star
-                      className={
-                        active
-                          ? "size-6 fill-primary text-primary drop-shadow-[0_0_10px_rgba(167,139,250,0.35)]"
-                          : "size-6 text-white/25"
-                      }
-                    />
+                    <span className="relative block size-6">
+                      <Star className="absolute inset-0 size-6 text-white/25" />
+
+                      <span
+                        className="absolute inset-0 overflow-hidden"
+                        style={{ width: `${fillPercent}%` }}
+                      >
+                        <Star className="size-6 fill-primary text-primary drop-shadow-[0_0_10px_rgba(167,139,250,0.35)]" />
+                      </span>
+                    </span>
                   </button>
                 );
               })}
@@ -172,6 +195,17 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
           </Button>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Remove from library?"
+        description="Your rating and comment for this title will be deleted."
+        confirmText="Remove"
+        cancelText="Cancel"
+        isPending={isPending}
+        onConfirm={toggleLibrary}
+      />
     </div>
   );
 };

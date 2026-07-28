@@ -95,7 +95,7 @@ model UserTitle {
   titleId String
 
   isChecked Boolean @default(false)
-  rating    Int?
+  rating    Float?
   note      String?
 
   createdAt DateTime @default(now())

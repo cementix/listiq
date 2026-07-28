@@ -13,6 +13,7 @@ import GlassCard from "@/components/custom/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import ConfirmDialog from "@/components/custom/ConfirmDialog";
 
 const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "ALL", label: "All" },
@@ -60,6 +61,7 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
   const [selectedType, setSelectedType] = useState<TitleType | "ALL">(type);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [titleToRemove, setTitleToRemove] = useState<string | null>(null);
 
   const applyFilters = useCallback(
     (nextQuery = search, nextType = selectedType) => {
@@ -87,26 +89,19 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
   }, [search, selectedType, applyFilters]);
 
   const toggleLibrary = (titleId: string, isInLibrary: boolean) => {
-    if (
-      isInLibrary &&
-      !window.confirm("Remove this title from your library?")
-    ) {
-      return;
-    }
-
     setPendingId(titleId);
 
     startTransition(async () => {
       const result = await toggleLibraryTitle(titleId);
 
       setPendingId(null);
-
       if (!result.ok) {
         toast.error(result.error);
         return;
       }
 
-      toast.success("Library updated");
+      toast.success(isInLibrary ? "Removed from library" : "Added to library");
+      setTitleToRemove(null);
       router.refresh();
     });
   };
@@ -199,7 +194,14 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
                     <Button
                       type="button"
                       size="sm"
-                      onClick={() => toggleLibrary(title.id, isInLibrary)}
+                      onClick={() => {
+                        if (isInLibrary) {
+                          setTitleToRemove(title.id);
+                          return;
+                        }
+
+                        toggleLibrary(title.id, false);
+                      }}
                       disabled={isPending}
                       className={
                         isInLibrary
@@ -241,6 +243,22 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
           })}
         </div>
       )}
+
+      <ConfirmDialog
+        open={Boolean(titleToRemove)}
+        onOpenChange={(open) => {
+          if (!open) setTitleToRemove(null);
+        }}
+        title="Remove from library?"
+        description="Your rating and comment for this title will be deleted."
+        confirmText="Remove"
+        cancelText="Cancel"
+        isPending={isPending}
+        onConfirm={() => {
+          if (!titleToRemove) return;
+          toggleLibrary(titleToRemove, true);
+        }}
+      />
     </div>
   );
 }

@@ -141,7 +141,9 @@ export default async function TitleDetailsPage({
                       @{entry.user.username}
                     </p>
                     {entry.rating && (
-                      <p className="text-sm text-primary">{entry.rating}/10</p>
+                      <p className="text-sm text-primary">
+                        {entry.rating.toFixed(1)}/10
+                      </p>
                     )}
                   </div>
 

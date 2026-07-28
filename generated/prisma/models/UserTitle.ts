@@ -236,7 +236,7 @@ export type UserTitleWhereInput = {
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
   isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
-  rating?: Prisma.IntNullableFilter<"UserTitle"> | number | null
+  rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -266,7 +266,7 @@ export type UserTitleWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
   isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
-  rating?: Prisma.IntNullableFilter<"UserTitle"> | number | null
+  rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -298,7 +298,7 @@ export type UserTitleScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"UserTitle"> | string
   titleId?: Prisma.StringWithAggregatesFilter<"UserTitle"> | string
   isChecked?: Prisma.BoolWithAggregatesFilter<"UserTitle"> | boolean
-  rating?: Prisma.IntNullableWithAggregatesFilter<"UserTitle"> | number | null
+  rating?: Prisma.FloatNullableWithAggregatesFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableWithAggregatesFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserTitle"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"UserTitle"> | Date | string
@@ -329,7 +329,7 @@ export type UserTitleUncheckedCreateInput = {
 export type UserTitleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -342,7 +342,7 @@ export type UserTitleUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,7 +362,7 @@ export type UserTitleCreateManyInput = {
 export type UserTitleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -373,7 +373,7 @@ export type UserTitleUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -523,6 +523,14 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type UserTitleCreateWithoutUserInput = {
   id?: string
   isChecked?: boolean
@@ -577,7 +585,7 @@ export type UserTitleScalarWhereInput = {
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
   isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
-  rating?: Prisma.IntNullableFilter<"UserTitle"> | number | null
+  rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -642,7 +650,7 @@ export type UserTitleCreateManyUserInput = {
 export type UserTitleUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -653,7 +661,7 @@ export type UserTitleUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -663,7 +671,7 @@ export type UserTitleUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -682,7 +690,7 @@ export type UserTitleCreateManyTitleInput = {
 export type UserTitleUpdateWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -693,7 +701,7 @@ export type UserTitleUncheckedUpdateWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,7 +711,7 @@ export type UserTitleUncheckedUpdateManyWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1219,7 +1227,7 @@ export interface UserTitleFieldRefs {
   readonly userId: Prisma.FieldRef<"UserTitle", 'String'>
   readonly titleId: Prisma.FieldRef<"UserTitle", 'String'>
   readonly isChecked: Prisma.FieldRef<"UserTitle", 'Boolean'>
-  readonly rating: Prisma.FieldRef<"UserTitle", 'Int'>
+  readonly rating: Prisma.FieldRef<"UserTitle", 'Float'>
   readonly note: Prisma.FieldRef<"UserTitle", 'String'>
   readonly createdAt: Prisma.FieldRef<"UserTitle", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"UserTitle", 'DateTime'>
