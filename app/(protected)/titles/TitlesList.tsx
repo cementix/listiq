@@ -12,6 +12,7 @@ import { TitleType } from "@/generated/prisma/enums";
 import GlassCard from "@/components/custom/GlassCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "ALL", label: "All" },
@@ -85,7 +86,14 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
     return () => window.clearTimeout(timeout);
   }, [search, selectedType, applyFilters]);
 
-  const toggleLibrary = (titleId: string) => {
+  const toggleLibrary = (titleId: string, isInLibrary: boolean) => {
+    if (
+      isInLibrary &&
+      !window.confirm("Remove this title from your library?")
+    ) {
+      return;
+    }
+
     setPendingId(titleId);
 
     startTransition(async () => {
@@ -152,7 +160,10 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
 
             return (
               <GlassCard key={title.id} className="overflow-hidden p-0">
-                <div className="relative aspect-4/3 border-b border-white/10 bg-black/30">
+                <Link
+                  href={`/titles/${title.slug}`}
+                  className="relative block aspect-4/3 border-b border-white/10 bg-black/30"
+                >
                   {title.imageUrl ? (
                     <Image
                       src={title.imageUrl}
@@ -166,14 +177,19 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
                       no image
                     </div>
                   )}
-                </div>
+                </Link>
 
                 <div className="space-y-3 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <h2 className="truncate text-lg font-semibold text-white">
-                        {title.name}
-                      </h2>
+                      <Link
+                        href={`/titles/${title.slug}`}
+                        className="block min-w-0"
+                      >
+                        <h2 className="truncate text-lg font-semibold text-white hover:text-white/80">
+                          {title.name}
+                        </h2>
+                      </Link>
                       <p className="mt-1 text-sm text-white/50">
                         {title.type}
                         {title.year ? ` . ${title.year}` : ""}
@@ -183,11 +199,11 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
                     <Button
                       type="button"
                       size="sm"
-                      onClick={() => toggleLibrary(title.id)}
+                      onClick={() => toggleLibrary(title.id, isInLibrary)}
                       disabled={isPending}
                       className={
                         isInLibrary
-                          ? "h-9 bg-emerald-500/15 text-emerald-200 hover:bg-emerald-500/25"
+                          ? "h-9 bg-primary/15 text-primary hover:bg-primary/25"
                           : "h-9 bg-white text-black hover:bg-white/90"
                       }
                     >

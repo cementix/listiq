@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -35,11 +35,9 @@ export default function RootLayout({
             <div className="hero-orbit hero-orbit--primary" />
             <div className="hero-orbit hero-orbit--secondary" />
           </div>
-          <div className="backdrop-blur-xl">
-            {children}
-            <Toaster richColors position="top-right" />
-          </div>
+          <div className="backdrop-blur-xl">{children}</div>
         </div>
+        <Toaster position="top-right" />
       </body>
     </html>
   );

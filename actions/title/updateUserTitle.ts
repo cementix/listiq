@@ -32,22 +32,23 @@ export async function updateUserTitle(
       return { ok: false, error: "Add title to library first" };
     }
 
-    if (data.rating && (data.rating < 1 || data.rating > 10)) {
+    if (
+      data.rating !== undefined &&
+      data.rating !== null &&
+      (data.rating < 1 || data.rating > 10)
+    ) {
       return { ok: false, error: "Rating must be from 1 to 10" };
     }
 
     const updateData: Prisma.UserTitleUpdateInput = {};
 
-    if (typeof data.isChecked === "boolean") {
-      updateData.isChecked = data.isChecked;
-    }
-
-    if (data.rating) {
+    if (data.rating !== undefined) {
       updateData.rating = data.rating;
     }
 
-    if (data.note) {
-      updateData.note = normalizeString(data.note);
+    if (data.note !== undefined) {
+      const note = data.note ? normalizeString(data.note) : null;
+      updateData.note = note;
     }
 
     await prisma.userTitle.update({

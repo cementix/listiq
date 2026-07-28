@@ -12,7 +12,6 @@ export type CreateTitleInput = {
 
 export type UpdateUserTitleInput = {
   titleId: string;
-  isChecked?: boolean;
   rating?: number | null;
   note?: string | null;
 };

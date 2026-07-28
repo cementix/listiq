@@ -1,16 +1,11 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import {
-  Star,
-  Users,
-  MessageSquare,
-  CheckCircle2,
-  Library,
-} from "lucide-react";
+import { Star, Users, MessageSquare, Library } from "lucide-react";
 
 import { getTitleBySlug } from "@/actions/title/getTitleBySlug";
 import GlassCard from "@/components/custom/GlassCard";
 import PageSection from "@/components/custom/PageSection";
+import TitleLibraryPanel from "./TitleLibraryPanel";
 
 type TitleDetailsPageProps = {
   params: Promise<{
@@ -85,6 +80,11 @@ export default async function TitleDetailsPage({
             )}
           </GlassCard>
 
+          <TitleLibraryPanel
+            titleId={title.id}
+            currentUserTitle={title.currentUserTitle}
+          />
+
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <GlassCard className="p-4">
               <Users className="size-5 text-white/45" />
@@ -95,7 +95,7 @@ export default async function TitleDetailsPage({
             </GlassCard>
 
             <GlassCard className="p-4">
-              <Star className="size-5 text-yellow-200/70" />
+              <Star className="size-5 text-primary/80" />
               <p className="mt-3 text-2xl font-semibold">{averageRating}</p>
               <p className="text-sm text-white/50">
                 {title.stats.ratingCount} ratings
@@ -111,7 +111,7 @@ export default async function TitleDetailsPage({
             </GlassCard>
 
             <GlassCard className="p-4">
-              <Library className="size-5 text-emerald-200/70" />
+              <Library className="size-5 text-primary/80" />
               <p className="mt-3 text-2xl font-semibold">
                 {isInLibrary ? "Added" : "Not added"}
               </p>
@@ -141,9 +141,7 @@ export default async function TitleDetailsPage({
                       @{entry.user.username}
                     </p>
                     {entry.rating && (
-                      <p className="text-sm text-yellow-100">
-                        {entry.rating}/10
-                      </p>
+                      <p className="text-sm text-primary">{entry.rating}/10</p>
                     )}
                   </div>
 
