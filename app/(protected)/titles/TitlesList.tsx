@@ -45,17 +45,40 @@ type Title = {
   type: TitleType;
   genres: Genre[];
   users: {
+    id: string;
     userId: string;
+    rating: number | null;
+    note: string | null;
+    createdAt: Date;
   }[];
+  currentUserTitle: {
+    id: string;
+    userId: string;
+    rating: number | null;
+    note: string | null;
+    createdAt: Date;
+  } | null;
+  stats: {
+    libraryCount: number;
+    ratingCount: number;
+    averageRating: number | null;
+    reviewCount: number;
+  };
 };
 
 type TitlesListProps = {
   titles: Title[];
   query: string;
   type: TitleType | "ALL";
+  sort: "popular" | "newest";
 };
 
-export default function TitlesList({ titles, query, type }: TitlesListProps) {
+export default function TitlesList({
+  titles,
+  query,
+  type,
+  sort,
+}: TitlesListProps) {
   const router = useRouter();
   const [search, setSearch] = useState(query);
   const [selectedType, setSelectedType] = useState<TitleType | "ALL">(type);
@@ -64,7 +87,7 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
   const [titleToRemove, setTitleToRemove] = useState<string | null>(null);
 
   const applyFilters = useCallback(
-    (nextQuery = search, nextType = selectedType) => {
+    (nextQuery = search, nextType = selectedType, nextSort = sort) => {
       const params = new URLSearchParams();
 
       if (nextQuery.trim()) {
@@ -75,9 +98,13 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
         params.set("type", nextType);
       }
 
+      if (nextSort !== "newest") {
+        params.set("sort", nextSort);
+      }
+
       router.push(`/titles${params.toString() ? `?${params.toString()}` : ""}`);
     },
-    [router, search, selectedType],
+    [router, search, selectedType, sort],
   );
 
   useEffect(() => {
@@ -142,6 +169,36 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
               );
             })}
           </div>
+
+          <div className="flex justify-center gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => applyFilters(search, selectedType, "newest")}
+              className={
+                sort === "newest"
+                  ? "h-8 rounded-full border-white bg-white px-3 text-xs text-black hover:bg-white/90"
+                  : "h-8 rounded-full border-white/10 bg-white/5 px-3 text-xs text-white hover:bg-white/10"
+              }
+            >
+              Newest
+            </Button>
+
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => applyFilters(search, selectedType, "popular")}
+              className={
+                sort === "popular"
+                  ? "h-8 rounded-full border-white bg-white px-3 text-xs text-black hover:bg-white/90"
+                  : "h-8 rounded-full border-white/10 bg-white/5 px-3 text-xs text-white hover:bg-white/10"
+              }
+            >
+              Popular
+            </Button>
+          </div>
         </div>
       </GlassCard>
 
@@ -150,7 +207,7 @@ export default function TitlesList({ titles, query, type }: TitlesListProps) {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {titles.map((title) => {
-            const isInLibrary = title.users.length > 0;
+            const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
 
             return (
