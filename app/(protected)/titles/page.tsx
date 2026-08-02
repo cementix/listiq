@@ -12,16 +12,28 @@ type TitlesPageProps = {
   }>;
 };
 
+const allowedSorts = [
+  "newest",
+  "popular",
+  "highest-rated",
+  "most-reviewed",
+  "recently-added",
+] as const;
+
 export default async function TitlesPage({ searchParams }: TitlesPageProps) {
   const params = await searchParams;
   const query = params.q ?? "";
   const type = params.type ?? "ALL";
-  const sort = params.sort === "popular" ? "popular" : "newest";
+  const sort = allowedSorts.includes(
+    params.sort as (typeof allowedSorts)[number],
+  )
+    ? (params.sort as (typeof allowedSorts)[number])
+    : "newest";
 
   const titles = await getTitles({ query, type, sort });
 
   return (
-    <PageSection className="mx-auto w-full max-w-6xl px-4">
+    <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
       <GlassCard className="p-6">
         <p className="text-sm text-white/50">Catalog</p>
         <h1 className="mt-2 text-3xl font-semibold">Titles</h1>

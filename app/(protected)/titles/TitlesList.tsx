@@ -3,7 +3,15 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useTransition } from "react";
-import { Check, LoaderCircle, Plus, Search } from "lucide-react";
+import {
+  Check,
+  LoaderCircle,
+  MessageSquare,
+  Plus,
+  Search,
+  Star,
+  Users,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { toggleLibraryTitle } from "@/actions/title/toggleLibraryTitle";
@@ -28,6 +36,14 @@ const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "COMIC", label: "Comic" },
   { value: "OTHER", label: "Other" },
 ];
+
+const TITLE_SORT_OPTIONS = [
+  { value: "newest", label: "Newest" },
+  { value: "popular", label: "Popular" },
+  { value: "highest-rated", label: "Highest rated" },
+  { value: "most-reviewed", label: "Most reviewed" },
+  { value: "recently-added", label: "Recently added" },
+] as const;
 
 type Genre = {
   id: string;
@@ -70,7 +86,12 @@ type TitlesListProps = {
   titles: Title[];
   query: string;
   type: TitleType | "ALL";
-  sort: "popular" | "newest";
+  sort:
+    | "newest"
+    | "popular"
+    | "highest-rated"
+    | "most-reviewed"
+    | "recently-added";
 };
 
 export default function TitlesList({
@@ -170,34 +191,29 @@ export default function TitlesList({
             })}
           </div>
 
-          <div className="flex justify-center gap-2">
-            <Button
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => applyFilters(search, selectedType, "newest")}
-              className={
-                sort === "newest"
-                  ? "h-8 rounded-full border-white bg-white px-3 text-xs text-black hover:bg-white/90"
-                  : "h-8 rounded-full border-white/10 bg-white/5 px-3 text-xs text-white hover:bg-white/10"
-              }
-            >
-              Newest
-            </Button>
+          <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto pb-1">
+            {TITLE_SORT_OPTIONS.map((option) => {
+              const active = sort === option.value;
 
-            <Button
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => applyFilters(search, selectedType, "popular")}
-              className={
-                sort === "popular"
-                  ? "h-8 rounded-full border-white bg-white px-3 text-xs text-black hover:bg-white/90"
-                  : "h-8 rounded-full border-white/10 bg-white/5 px-3 text-xs text-white hover:bg-white/10"
-              }
-            >
-              Popular
-            </Button>
+              return (
+                <Button
+                  key={option.value}
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    applyFilters(search, selectedType, option.value)
+                  }
+                  className={
+                    active
+                      ? "h-8 shrink-0 rounded-full border-white bg-white px-3 text-xs text-black hover:bg-white/90"
+                      : "h-8 shrink-0 rounded-full border-white/10 bg-white/5 px-3 text-xs text-white hover:bg-white/10"
+                  }
+                >
+                  {option.label}
+                </Button>
+              );
+            })}
           </div>
         </div>
       </GlassCard>
@@ -205,10 +221,11 @@ export default function TitlesList({
       {titles.length === 0 ? (
         <GlassCard className="p-6 text-white/60">No titles found.</GlassCard>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {titles.map((title) => {
             const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
+            const averageRating = title.stats.averageRating?.toFixed(1) ?? "-";
 
             return (
               <GlassCard key={title.id} className="overflow-hidden p-0">
@@ -231,7 +248,7 @@ export default function TitlesList({
                   )}
                 </Link>
 
-                <div className="space-y-3 p-4">
+                <div className="flex flex-1 flex-col gap-3 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
                       <Link
@@ -276,24 +293,41 @@ export default function TitlesList({
                     </Button>
                   </div>
 
-                  {title.description && (
-                    <p className="line-clamp-3 text-sm leading-relaxed text-white/60">
-                      {title.description}
-                    </p>
-                  )}
-
-                  {title.genres.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {title.genres.map((genre) => (
-                        <span
-                          key={genre.id}
-                          className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/70"
-                        >
-                          {genre.name}
-                        </span>
-                      ))}
+                  <div className="grid h-10 grid-cols-3 items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 text-xs text-white/60">
+                    <div className="flex items-center gap-1.5">
+                      <Users className="size-3.5 text-white/40" />
+                      <span>{title.stats.libraryCount}</span>
                     </div>
-                  )}
+
+                    <div className="flex items-center gap-1.5">
+                      <Star className="size-3.5 text-primary/80" />
+                      <span>
+                        {title.stats.ratingCount > 0
+                          ? `${averageRating} (${title.stats.ratingCount})`
+                          : "-"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <MessageSquare className="size-3.5 text-white/40" />
+                      <span>{title.stats.reviewCount}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-auto">
+                    {title.genres.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {title.genres.map((genre) => (
+                          <span
+                            key={genre.id}
+                            className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-xs text-white/70"
+                          >
+                            {genre.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </GlassCard>
             );

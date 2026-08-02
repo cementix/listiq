@@ -4,7 +4,12 @@ import { TitleType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
 
-type TitleSort = "newest" | "popular";
+type TitleSort =
+  | "newest"
+  | "popular"
+  | "highest-rated"
+  | "most-reviewed"
+  | "recently-added";
 
 type GetTitlesInput = {
   query?: string;
@@ -20,17 +25,6 @@ export async function getTitles({
   const { session } = await requireUserServer();
   const normalizedQuery = query.trim();
 
-  const orderBy =
-    sort === "popular"
-      ? {
-          users: {
-            _count: "desc" as const,
-          },
-        }
-      : {
-          createdAt: "desc" as const,
-        };
-
   const titles = await prisma.title.findMany({
     where: {
       ...(normalizedQuery
@@ -43,7 +37,9 @@ export async function getTitles({
         : {}),
       ...(type !== "ALL" ? { type } : {}),
     },
-    orderBy,
+    orderBy: {
+      createdAt: "desc",
+    },
     include: {
       genres: {
         select: {
@@ -59,6 +55,9 @@ export async function getTitles({
           rating: true,
           note: true,
           createdAt: true,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       },
     },
@@ -87,5 +86,40 @@ export async function getTitles({
     };
   });
 
-  return titlesWithStats;
+  const sortedTitles = [...titlesWithStats].sort((a, b) => {
+    if (sort === "popular") {
+      return (
+        b.stats.libraryCount - a.stats.libraryCount ||
+        b.createdAt.getTime() - a.createdAt.getTime()
+      );
+    }
+
+    if (sort === "highest-rated") {
+      return (
+        (b.stats.averageRating ?? 0) - (a.stats.averageRating ?? 0) ||
+        b.stats.ratingCount - a.stats.ratingCount ||
+        b.createdAt.getTime() - a.createdAt.getTime()
+      );
+    }
+
+    if (sort === "most-reviewed") {
+      return (
+        b.stats.reviewCount - a.stats.reviewCount ||
+        b.createdAt.getTime() - a.createdAt.getTime()
+      );
+    }
+
+    if (sort === "recently-added") {
+      const aLastAdded =
+        a.users[0]?.createdAt.getTime() ?? a.createdAt.getTime();
+      const bLastAdded =
+        b.users[0]?.createdAt.getTime() ?? b.createdAt.getTime();
+
+      return bLastAdded - aLastAdded;
+    }
+
+    return b.createdAt.getTime() - a.createdAt.getTime();
+  });
+
+  return sortedTitles;
 }
