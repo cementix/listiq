@@ -94,7 +94,6 @@ model UserTitle {
   userId  String
   titleId String
 
-  isChecked Boolean @default(false)
   rating    Float?
   note      String?
 

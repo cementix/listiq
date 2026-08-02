@@ -38,7 +38,6 @@ export type UserTitleMinAggregateOutputType = {
   id: string | null
   userId: string | null
   titleId: string | null
-  isChecked: boolean | null
   rating: number | null
   note: string | null
   createdAt: Date | null
@@ -49,7 +48,6 @@ export type UserTitleMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   titleId: string | null
-  isChecked: boolean | null
   rating: number | null
   note: string | null
   createdAt: Date | null
@@ -60,7 +58,6 @@ export type UserTitleCountAggregateOutputType = {
   id: number
   userId: number
   titleId: number
-  isChecked: number
   rating: number
   note: number
   createdAt: number
@@ -81,7 +78,6 @@ export type UserTitleMinAggregateInputType = {
   id?: true
   userId?: true
   titleId?: true
-  isChecked?: true
   rating?: true
   note?: true
   createdAt?: true
@@ -92,7 +88,6 @@ export type UserTitleMaxAggregateInputType = {
   id?: true
   userId?: true
   titleId?: true
-  isChecked?: true
   rating?: true
   note?: true
   createdAt?: true
@@ -103,7 +98,6 @@ export type UserTitleCountAggregateInputType = {
   id?: true
   userId?: true
   titleId?: true
-  isChecked?: true
   rating?: true
   note?: true
   createdAt?: true
@@ -201,7 +195,6 @@ export type UserTitleGroupByOutputType = {
   id: string
   userId: string
   titleId: string
-  isChecked: boolean
   rating: number | null
   note: string | null
   createdAt: Date
@@ -235,7 +228,6 @@ export type UserTitleWhereInput = {
   id?: Prisma.StringFilter<"UserTitle"> | string
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
-  isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
   rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -248,7 +240,6 @@ export type UserTitleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   titleId?: Prisma.SortOrder
-  isChecked?: Prisma.SortOrder
   rating?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -265,7 +256,6 @@ export type UserTitleWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserTitleWhereInput | Prisma.UserTitleWhereInput[]
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
-  isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
   rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -278,7 +268,6 @@ export type UserTitleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   titleId?: Prisma.SortOrder
-  isChecked?: Prisma.SortOrder
   rating?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -297,7 +286,6 @@ export type UserTitleScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"UserTitle"> | string
   userId?: Prisma.StringWithAggregatesFilter<"UserTitle"> | string
   titleId?: Prisma.StringWithAggregatesFilter<"UserTitle"> | string
-  isChecked?: Prisma.BoolWithAggregatesFilter<"UserTitle"> | boolean
   rating?: Prisma.FloatNullableWithAggregatesFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableWithAggregatesFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"UserTitle"> | Date | string
@@ -306,7 +294,6 @@ export type UserTitleScalarWhereWithAggregatesInput = {
 
 export type UserTitleCreateInput = {
   id?: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -319,7 +306,6 @@ export type UserTitleUncheckedCreateInput = {
   id?: string
   userId: string
   titleId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -328,7 +314,6 @@ export type UserTitleUncheckedCreateInput = {
 
 export type UserTitleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -341,7 +326,6 @@ export type UserTitleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -352,7 +336,6 @@ export type UserTitleCreateManyInput = {
   id?: string
   userId: string
   titleId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -361,7 +344,6 @@ export type UserTitleCreateManyInput = {
 
 export type UserTitleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -372,7 +354,6 @@ export type UserTitleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -398,7 +379,6 @@ export type UserTitleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   titleId?: Prisma.SortOrder
-  isChecked?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -413,7 +393,6 @@ export type UserTitleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   titleId?: Prisma.SortOrder
-  isChecked?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -424,7 +403,6 @@ export type UserTitleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   titleId?: Prisma.SortOrder
-  isChecked?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   note?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -519,10 +497,6 @@ export type UserTitleUncheckedUpdateManyWithoutTitleNestedInput = {
   deleteMany?: Prisma.UserTitleScalarWhereInput | Prisma.UserTitleScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -533,7 +507,6 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type UserTitleCreateWithoutUserInput = {
   id?: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -544,7 +517,6 @@ export type UserTitleCreateWithoutUserInput = {
 export type UserTitleUncheckedCreateWithoutUserInput = {
   id?: string
   titleId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -584,7 +556,6 @@ export type UserTitleScalarWhereInput = {
   id?: Prisma.StringFilter<"UserTitle"> | string
   userId?: Prisma.StringFilter<"UserTitle"> | string
   titleId?: Prisma.StringFilter<"UserTitle"> | string
-  isChecked?: Prisma.BoolFilter<"UserTitle"> | boolean
   rating?: Prisma.FloatNullableFilter<"UserTitle"> | number | null
   note?: Prisma.StringNullableFilter<"UserTitle"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
@@ -593,7 +564,6 @@ export type UserTitleScalarWhereInput = {
 
 export type UserTitleCreateWithoutTitleInput = {
   id?: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -604,7 +574,6 @@ export type UserTitleCreateWithoutTitleInput = {
 export type UserTitleUncheckedCreateWithoutTitleInput = {
   id?: string
   userId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -640,7 +609,6 @@ export type UserTitleUpdateManyWithWhereWithoutTitleInput = {
 export type UserTitleCreateManyUserInput = {
   id?: string
   titleId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -649,7 +617,6 @@ export type UserTitleCreateManyUserInput = {
 
 export type UserTitleUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -660,7 +627,6 @@ export type UserTitleUpdateWithoutUserInput = {
 export type UserTitleUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -670,7 +636,6 @@ export type UserTitleUncheckedUpdateWithoutUserInput = {
 export type UserTitleUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   titleId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -680,7 +645,6 @@ export type UserTitleUncheckedUpdateManyWithoutUserInput = {
 export type UserTitleCreateManyTitleInput = {
   id?: string
   userId: string
-  isChecked?: boolean
   rating?: number | null
   note?: string | null
   createdAt?: Date | string
@@ -689,7 +653,6 @@ export type UserTitleCreateManyTitleInput = {
 
 export type UserTitleUpdateWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -700,7 +663,6 @@ export type UserTitleUpdateWithoutTitleInput = {
 export type UserTitleUncheckedUpdateWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -710,7 +672,6 @@ export type UserTitleUncheckedUpdateWithoutTitleInput = {
 export type UserTitleUncheckedUpdateManyWithoutTitleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  isChecked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -723,7 +684,6 @@ export type UserTitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   userId?: boolean
   titleId?: boolean
-  isChecked?: boolean
   rating?: boolean
   note?: boolean
   createdAt?: boolean
@@ -736,7 +696,6 @@ export type UserTitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   userId?: boolean
   titleId?: boolean
-  isChecked?: boolean
   rating?: boolean
   note?: boolean
   createdAt?: boolean
@@ -749,7 +708,6 @@ export type UserTitleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   userId?: boolean
   titleId?: boolean
-  isChecked?: boolean
   rating?: boolean
   note?: boolean
   createdAt?: boolean
@@ -762,14 +720,13 @@ export type UserTitleSelectScalar = {
   id?: boolean
   userId?: boolean
   titleId?: boolean
-  isChecked?: boolean
   rating?: boolean
   note?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserTitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "titleId" | "isChecked" | "rating" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["userTitle"]>
+export type UserTitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "titleId" | "rating" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["userTitle"]>
 export type UserTitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   title?: boolean | Prisma.TitleDefaultArgs<ExtArgs>
@@ -793,7 +750,6 @@ export type $UserTitlePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     userId: string
     titleId: string
-    isChecked: boolean
     rating: number | null
     note: string | null
     createdAt: Date
@@ -1226,7 +1182,6 @@ export interface UserTitleFieldRefs {
   readonly id: Prisma.FieldRef<"UserTitle", 'String'>
   readonly userId: Prisma.FieldRef<"UserTitle", 'String'>
   readonly titleId: Prisma.FieldRef<"UserTitle", 'String'>
-  readonly isChecked: Prisma.FieldRef<"UserTitle", 'Boolean'>
   readonly rating: Prisma.FieldRef<"UserTitle", 'Float'>
   readonly note: Prisma.FieldRef<"UserTitle", 'String'>
   readonly createdAt: Prisma.FieldRef<"UserTitle", 'DateTime'>

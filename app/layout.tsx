@@ -37,7 +37,7 @@ export default function RootLayout({
           </div>
           <div className="backdrop-blur-xl">{children}</div>
         </div>
-        <Toaster position="top-right" />
+        <Toaster position="top-right" closeButton duration={2500} />
       </body>
     </html>
   );

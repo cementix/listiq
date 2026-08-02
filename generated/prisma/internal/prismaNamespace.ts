@@ -862,7 +862,6 @@ export const UserTitleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   titleId: 'titleId',
-  isChecked: 'isChecked',
   rating: 'rating',
   note: 'note',
   createdAt: 'createdAt',
@@ -988,13 +987,6 @@ export type EnumTitleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
  * Reference to a field of type 'TitleType[]'
  */
 export type ListEnumTitleTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleType[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

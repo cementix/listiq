@@ -35,7 +35,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "cn-toast border-primary/20 bg-popover text-popover-foreground",
+            "cn-toast cursor-pointer border-primary/20 bg-popover text-popover-foreground",
           success: "border-primary/30 bg-primary/10 text-primary",
           icon: "text-primary",
         },

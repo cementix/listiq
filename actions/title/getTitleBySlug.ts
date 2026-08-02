@@ -23,7 +23,6 @@ export async function getTitleBySlug(slug: string) {
           select: {
             id: true,
             userId: true,
-            isChecked: true,
             rating: true,
             note: true,
             createdAt: true,

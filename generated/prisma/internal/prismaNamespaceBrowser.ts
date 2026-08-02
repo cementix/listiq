@@ -119,7 +119,6 @@ export const UserTitleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   titleId: 'titleId',
-  isChecked: 'isChecked',
   rating: 'rating',
   note: 'note',
   createdAt: 'createdAt',

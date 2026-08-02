@@ -336,3 +336,11 @@
 .confirm-dialog-shell.is-closing .confirm-dialog-panel {
   animation: confirmPanelOut 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+[data-sonner-toast] {
+  cursor: pointer;
+}
+
+[data-sonner-toast]:active {
+  transform: scale(0.98);
+}
