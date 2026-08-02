@@ -25,7 +25,7 @@ export async function createTitleSubmission(
       return { ok: false, error: "Invalid genres" };
     }
 
-    await prisma.titleSubmission.create({
+    const submission = await prisma.titleSubmission.create({
       data: {
         name: data.name.trim(),
         year: data.year ?? null,
@@ -37,6 +37,14 @@ export async function createTitleSubmission(
         genres: {
           connect: data.genresIds.map((id) => ({ id })),
         },
+      },
+    });
+
+    await prisma.activityEvent.create({
+      data: {
+        userId: session.userId,
+        submissionId: submission.id,
+        type: "TITLE_SUBMITTED",
       },
     });
 

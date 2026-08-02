@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, MessageSquare, Star, Trophy, UserRound } from "lucide-react";
+import { BookOpen, MessageSquare, Star, UserRound } from "lucide-react";
 
 import { getProfileOverview } from "@/actions/profile/getProfileOverview";
 import GlassCard from "@/components/custom/GlassCard";

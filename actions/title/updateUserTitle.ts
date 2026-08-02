@@ -61,6 +61,32 @@ export async function updateUserTitle(
       data: updateData,
     });
 
+    if (data.rating !== undefined && data.rating !== existing.rating) {
+      await prisma.activityEvent.create({
+        data: {
+          userId: session.userId,
+          titleId: data.titleId,
+          type: "TITLE_RATED",
+          rating: data.rating,
+        },
+      });
+    }
+
+    if (data.note !== undefined) {
+      const nextNote = data.note ? normalizeString(data.note) : null;
+
+      if (nextNote !== existing.note) {
+        await prisma.activityEvent.create({
+          data: {
+            userId: session.userId,
+            titleId: data.titleId,
+            type: "TITLE_REVIEWED",
+            note: nextNote,
+          },
+        });
+      }
+    }
+
     revalidatePath(`/titles/${existing.title.slug}`);
     revalidatePath("/library");
 

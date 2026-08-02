@@ -55,7 +55,8 @@ export const ModelName = {
   Title: 'Title',
   Genre: 'Genre',
   UserTitle: 'UserTitle',
-  TitleSubmission: 'TitleSubmission'
+  TitleSubmission: 'TitleSubmission',
+  ActivityEvent: 'ActivityEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -145,6 +146,20 @@ export const TitleSubmissionScalarFieldEnum = {
 } as const
 
 export type TitleSubmissionScalarFieldEnum = (typeof TitleSubmissionScalarFieldEnum)[keyof typeof TitleSubmissionScalarFieldEnum]
+
+
+export const ActivityEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  titleId: 'titleId',
+  submissionId: 'submissionId',
+  type: 'type',
+  rating: 'rating',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type ActivityEventScalarFieldEnum = (typeof ActivityEventScalarFieldEnum)[keyof typeof ActivityEventScalarFieldEnum]
 
 
 export const SortOrder = {

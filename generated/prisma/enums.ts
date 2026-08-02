@@ -44,3 +44,14 @@ export const SubmissionStatus = {
 } as const
 
 export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus]
+
+
+export const ActivityEventType = {
+  TITLE_ADDED: 'TITLE_ADDED',
+  TITLE_REMOVED: 'TITLE_REMOVED',
+  TITLE_RATED: 'TITLE_RATED',
+  TITLE_REVIEWED: 'TITLE_REVIEWED',
+  TITLE_SUBMITTED: 'TITLE_SUBMITTED'
+} as const
+
+export type ActivityEventType = (typeof ActivityEventType)[keyof typeof ActivityEventType]

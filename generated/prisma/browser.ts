@@ -42,3 +42,8 @@ export type UserTitle = Prisma.UserTitleModel
  * 
  */
 export type TitleSubmission = Prisma.TitleSubmissionModel
+/**
+ * Model ActivityEvent
+ * 
+ */
+export type ActivityEvent = Prisma.ActivityEventModel

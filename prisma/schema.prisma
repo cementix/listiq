@@ -35,6 +35,14 @@ enum SubmissionStatus {
   REJECTED
 }
 
+enum ActivityEventType {
+  TITLE_ADDED
+  TITLE_REMOVED
+  TITLE_RATED
+  TITLE_REVIEWED
+  TITLE_SUBMITTED
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -47,6 +55,8 @@ model User {
 
   createdTitles Title[]     @relation("TitleCreator")
   library       UserTitle[]
+
+  activityEvents ActivityEvent[]
 
   submissions  TitleSubmission[] @relation("SubmissionAuthor")
   reviewedSubs TitleSubmission[] @relation("SubmissionReviewer")
@@ -68,8 +78,9 @@ model Title {
   createdById String?
   createdBy   User?   @relation("TitleCreator", fields: [createdById], references: [id], onDelete: SetNull)
 
-  genres Genre[]
-  users  UserTitle[]
+  genres         Genre[]
+  users          UserTitle[]
+  activityEvents ActivityEvent[]
 
   @@index([name])
   @@index([type])
@@ -94,8 +105,8 @@ model UserTitle {
   userId  String
   titleId String
 
-  rating    Float?
-  note      String?
+  rating Float?
+  note   String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -117,6 +128,8 @@ model TitleSubmission {
   imagePublicId String?
   type          TitleType
 
+  activityEvents ActivityEvent[]
+
   status        SubmissionStatus @default(PENDING)
   reviewComment String?
 
@@ -134,4 +147,26 @@ model TitleSubmission {
   @@index([status])
   @@index([name])
   @@index([submittedById, status])
+}
+
+model ActivityEvent {
+  id String @id @default(cuid())
+
+  userId       String
+  titleId      String?
+  submissionId String?
+
+  type   ActivityEventType
+  rating Float?
+  note   String?
+
+  createdAt DateTime @default(now())
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      Title?           @relation(fields: [titleId], references: [id], onDelete: SetNull)
+  submission TitleSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([titleId])
+  @@index([submissionId])
 }

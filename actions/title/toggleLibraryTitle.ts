@@ -37,11 +37,25 @@ export async function toggleLibraryTitle(
           },
         },
       });
+      await prisma.activityEvent.create({
+        data: {
+          userId: session.userId,
+          titleId,
+          type: "TITLE_REMOVED",
+        },
+      });
     } else {
       await prisma.userTitle.create({
         data: {
           userId: session.userId,
           titleId,
+        },
+      });
+      await prisma.activityEvent.create({
+        data: {
+          userId: session.userId,
+          titleId,
+          type: "TITLE_ADDED",
         },
       });
     }

@@ -280,6 +280,7 @@ export type TitleSubmissionWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"TitleSubmission"> | Date | string
   submittedById?: Prisma.StringFilter<"TitleSubmission"> | string
   reviewedById?: Prisma.StringNullableFilter<"TitleSubmission"> | string | null
+  activityEvents?: Prisma.ActivityEventListRelationFilter
   submittedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   genres?: Prisma.GenreListRelationFilter
@@ -299,6 +300,7 @@ export type TitleSubmissionOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   submittedById?: Prisma.SortOrder
   reviewedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  activityEvents?: Prisma.ActivityEventOrderByRelationAggregateInput
   submittedBy?: Prisma.UserOrderByWithRelationInput
   reviewedBy?: Prisma.UserOrderByWithRelationInput
   genres?: Prisma.GenreOrderByRelationAggregateInput
@@ -321,6 +323,7 @@ export type TitleSubmissionWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"TitleSubmission"> | Date | string
   submittedById?: Prisma.StringFilter<"TitleSubmission"> | string
   reviewedById?: Prisma.StringNullableFilter<"TitleSubmission"> | string | null
+  activityEvents?: Prisma.ActivityEventListRelationFilter
   submittedBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   reviewedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   genres?: Prisma.GenreListRelationFilter
@@ -378,6 +381,7 @@ export type TitleSubmissionCreateInput = {
   reviewComment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutSubmissionInput
   submittedBy: Prisma.UserCreateNestedOneWithoutSubmissionsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedSubsInput
   genres?: Prisma.GenreCreateNestedManyWithoutSubmissionsInput
@@ -397,6 +401,7 @@ export type TitleSubmissionUncheckedCreateInput = {
   updatedAt?: Date | string
   submittedById: string
   reviewedById?: string | null
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutSubmissionInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutSubmissionsInput
 }
 
@@ -412,6 +417,7 @@ export type TitleSubmissionUpdateInput = {
   reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutSubmissionNestedInput
   submittedBy?: Prisma.UserUpdateOneRequiredWithoutSubmissionsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedSubsNestedInput
   genres?: Prisma.GenreUpdateManyWithoutSubmissionsNestedInput
@@ -431,6 +437,7 @@ export type TitleSubmissionUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submittedById?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutSubmissionNestedInput
   genres?: Prisma.GenreUncheckedUpdateManyWithoutSubmissionsNestedInput
 }
 
@@ -544,6 +551,11 @@ export type TitleSubmissionMinOrderByAggregateInput = {
 
 export type TitleSubmissionSumOrderByAggregateInput = {
   year?: Prisma.SortOrder
+}
+
+export type TitleSubmissionNullableScalarRelationFilter = {
+  is?: Prisma.TitleSubmissionWhereInput | null
+  isNot?: Prisma.TitleSubmissionWhereInput | null
 }
 
 export type TitleSubmissionCreateNestedManyWithoutSubmittedByInput = {
@@ -672,6 +684,22 @@ export type EnumSubmissionStatusFieldUpdateOperationsInput = {
   set?: $Enums.SubmissionStatus
 }
 
+export type TitleSubmissionCreateNestedOneWithoutActivityEventsInput = {
+  create?: Prisma.XOR<Prisma.TitleSubmissionCreateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedCreateWithoutActivityEventsInput>
+  connectOrCreate?: Prisma.TitleSubmissionCreateOrConnectWithoutActivityEventsInput
+  connect?: Prisma.TitleSubmissionWhereUniqueInput
+}
+
+export type TitleSubmissionUpdateOneWithoutActivityEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.TitleSubmissionCreateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedCreateWithoutActivityEventsInput>
+  connectOrCreate?: Prisma.TitleSubmissionCreateOrConnectWithoutActivityEventsInput
+  upsert?: Prisma.TitleSubmissionUpsertWithoutActivityEventsInput
+  disconnect?: Prisma.TitleSubmissionWhereInput | boolean
+  delete?: Prisma.TitleSubmissionWhereInput | boolean
+  connect?: Prisma.TitleSubmissionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TitleSubmissionUpdateToOneWithWhereWithoutActivityEventsInput, Prisma.TitleSubmissionUpdateWithoutActivityEventsInput>, Prisma.TitleSubmissionUncheckedUpdateWithoutActivityEventsInput>
+}
+
 export type TitleSubmissionCreateWithoutSubmittedByInput = {
   id?: string
   name: string
@@ -684,6 +712,7 @@ export type TitleSubmissionCreateWithoutSubmittedByInput = {
   reviewComment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutSubmissionInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedSubsInput
   genres?: Prisma.GenreCreateNestedManyWithoutSubmissionsInput
 }
@@ -701,6 +730,7 @@ export type TitleSubmissionUncheckedCreateWithoutSubmittedByInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reviewedById?: string | null
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutSubmissionInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutSubmissionsInput
 }
 
@@ -726,6 +756,7 @@ export type TitleSubmissionCreateWithoutReviewedByInput = {
   reviewComment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutSubmissionInput
   submittedBy: Prisma.UserCreateNestedOneWithoutSubmissionsInput
   genres?: Prisma.GenreCreateNestedManyWithoutSubmissionsInput
 }
@@ -743,6 +774,7 @@ export type TitleSubmissionUncheckedCreateWithoutReviewedByInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   submittedById: string
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutSubmissionInput
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutSubmissionsInput
 }
 
@@ -819,6 +851,7 @@ export type TitleSubmissionCreateWithoutGenresInput = {
   reviewComment?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutSubmissionInput
   submittedBy: Prisma.UserCreateNestedOneWithoutSubmissionsInput
   reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedSubsInput
 }
@@ -837,6 +870,7 @@ export type TitleSubmissionUncheckedCreateWithoutGenresInput = {
   updatedAt?: Date | string
   submittedById: string
   reviewedById?: string | null
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutSubmissionInput
 }
 
 export type TitleSubmissionCreateOrConnectWithoutGenresInput = {
@@ -858,6 +892,90 @@ export type TitleSubmissionUpdateWithWhereUniqueWithoutGenresInput = {
 export type TitleSubmissionUpdateManyWithWhereWithoutGenresInput = {
   where: Prisma.TitleSubmissionScalarWhereInput
   data: Prisma.XOR<Prisma.TitleSubmissionUpdateManyMutationInput, Prisma.TitleSubmissionUncheckedUpdateManyWithoutGenresInput>
+}
+
+export type TitleSubmissionCreateWithoutActivityEventsInput = {
+  id?: string
+  name: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  status?: $Enums.SubmissionStatus
+  reviewComment?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedBy: Prisma.UserCreateNestedOneWithoutSubmissionsInput
+  reviewedBy?: Prisma.UserCreateNestedOneWithoutReviewedSubsInput
+  genres?: Prisma.GenreCreateNestedManyWithoutSubmissionsInput
+}
+
+export type TitleSubmissionUncheckedCreateWithoutActivityEventsInput = {
+  id?: string
+  name: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  status?: $Enums.SubmissionStatus
+  reviewComment?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedById: string
+  reviewedById?: string | null
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutSubmissionsInput
+}
+
+export type TitleSubmissionCreateOrConnectWithoutActivityEventsInput = {
+  where: Prisma.TitleSubmissionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TitleSubmissionCreateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedCreateWithoutActivityEventsInput>
+}
+
+export type TitleSubmissionUpsertWithoutActivityEventsInput = {
+  update: Prisma.XOR<Prisma.TitleSubmissionUpdateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedUpdateWithoutActivityEventsInput>
+  create: Prisma.XOR<Prisma.TitleSubmissionCreateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedCreateWithoutActivityEventsInput>
+  where?: Prisma.TitleSubmissionWhereInput
+}
+
+export type TitleSubmissionUpdateToOneWithWhereWithoutActivityEventsInput = {
+  where?: Prisma.TitleSubmissionWhereInput
+  data: Prisma.XOR<Prisma.TitleSubmissionUpdateWithoutActivityEventsInput, Prisma.TitleSubmissionUncheckedUpdateWithoutActivityEventsInput>
+}
+
+export type TitleSubmissionUpdateWithoutActivityEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+  reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedBy?: Prisma.UserUpdateOneRequiredWithoutSubmissionsNestedInput
+  reviewedBy?: Prisma.UserUpdateOneWithoutReviewedSubsNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutSubmissionsNestedInput
+}
+
+export type TitleSubmissionUncheckedUpdateWithoutActivityEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  status?: Prisma.EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+  reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedById?: Prisma.StringFieldUpdateOperationsInput | string
+  reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutSubmissionsNestedInput
 }
 
 export type TitleSubmissionCreateManySubmittedByInput = {
@@ -902,6 +1020,7 @@ export type TitleSubmissionUpdateWithoutSubmittedByInput = {
   reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutSubmissionNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedSubsNestedInput
   genres?: Prisma.GenreUpdateManyWithoutSubmissionsNestedInput
 }
@@ -919,6 +1038,7 @@ export type TitleSubmissionUncheckedUpdateWithoutSubmittedByInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutSubmissionNestedInput
   genres?: Prisma.GenreUncheckedUpdateManyWithoutSubmissionsNestedInput
 }
 
@@ -949,6 +1069,7 @@ export type TitleSubmissionUpdateWithoutReviewedByInput = {
   reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutSubmissionNestedInput
   submittedBy?: Prisma.UserUpdateOneRequiredWithoutSubmissionsNestedInput
   genres?: Prisma.GenreUpdateManyWithoutSubmissionsNestedInput
 }
@@ -966,6 +1087,7 @@ export type TitleSubmissionUncheckedUpdateWithoutReviewedByInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submittedById?: Prisma.StringFieldUpdateOperationsInput | string
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutSubmissionNestedInput
   genres?: Prisma.GenreUncheckedUpdateManyWithoutSubmissionsNestedInput
 }
 
@@ -996,6 +1118,7 @@ export type TitleSubmissionUpdateWithoutGenresInput = {
   reviewComment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutSubmissionNestedInput
   submittedBy?: Prisma.UserUpdateOneRequiredWithoutSubmissionsNestedInput
   reviewedBy?: Prisma.UserUpdateOneWithoutReviewedSubsNestedInput
 }
@@ -1014,6 +1137,7 @@ export type TitleSubmissionUncheckedUpdateWithoutGenresInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   submittedById?: Prisma.StringFieldUpdateOperationsInput | string
   reviewedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutSubmissionNestedInput
 }
 
 export type TitleSubmissionUncheckedUpdateManyWithoutGenresInput = {
@@ -1038,10 +1162,12 @@ export type TitleSubmissionUncheckedUpdateManyWithoutGenresInput = {
  */
 
 export type TitleSubmissionCountOutputType = {
+  activityEvents: number
   genres: number
 }
 
 export type TitleSubmissionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  activityEvents?: boolean | TitleSubmissionCountOutputTypeCountActivityEventsArgs
   genres?: boolean | TitleSubmissionCountOutputTypeCountGenresArgs
 }
 
@@ -1053,6 +1179,13 @@ export type TitleSubmissionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Ty
    * Select specific fields to fetch from the TitleSubmissionCountOutputType
    */
   select?: Prisma.TitleSubmissionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TitleSubmissionCountOutputType without action
+ */
+export type TitleSubmissionCountOutputTypeCountActivityEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ActivityEventWhereInput
 }
 
 /**
@@ -1077,6 +1210,7 @@ export type TitleSubmissionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   updatedAt?: boolean
   submittedById?: boolean
   reviewedById?: boolean
+  activityEvents?: boolean | Prisma.TitleSubmission$activityEventsArgs<ExtArgs>
   submittedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.TitleSubmission$reviewedByArgs<ExtArgs>
   genres?: boolean | Prisma.TitleSubmission$genresArgs<ExtArgs>
@@ -1137,6 +1271,7 @@ export type TitleSubmissionSelectScalar = {
 
 export type TitleSubmissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "year" | "description" | "imageUrl" | "imagePublicId" | "type" | "status" | "reviewComment" | "createdAt" | "updatedAt" | "submittedById" | "reviewedById", ExtArgs["result"]["titleSubmission"]>
 export type TitleSubmissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  activityEvents?: boolean | Prisma.TitleSubmission$activityEventsArgs<ExtArgs>
   submittedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   reviewedBy?: boolean | Prisma.TitleSubmission$reviewedByArgs<ExtArgs>
   genres?: boolean | Prisma.TitleSubmission$genresArgs<ExtArgs>
@@ -1154,6 +1289,7 @@ export type TitleSubmissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Ty
 export type $TitleSubmissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TitleSubmission"
   objects: {
+    activityEvents: Prisma.$ActivityEventPayload<ExtArgs>[]
     submittedBy: Prisma.$UserPayload<ExtArgs>
     reviewedBy: Prisma.$UserPayload<ExtArgs> | null
     genres: Prisma.$GenrePayload<ExtArgs>[]
@@ -1566,6 +1702,7 @@ readonly fields: TitleSubmissionFieldRefs;
  */
 export interface Prisma__TitleSubmissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  activityEvents<T extends Prisma.TitleSubmission$activityEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TitleSubmission$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   submittedBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   reviewedBy<T extends Prisma.TitleSubmission$reviewedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TitleSubmission$reviewedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   genres<T extends Prisma.TitleSubmission$genresArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TitleSubmission$genresArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GenrePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2009,6 +2146,30 @@ export type TitleSubmissionDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many TitleSubmissions to delete.
    */
   limit?: number
+}
+
+/**
+ * TitleSubmission.activityEvents
+ */
+export type TitleSubmission$activityEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ActivityEvent
+   */
+  select?: Prisma.ActivityEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ActivityEvent
+   */
+  omit?: Prisma.ActivityEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ActivityEventInclude<ExtArgs> | null
+  where?: Prisma.ActivityEventWhereInput
+  orderBy?: Prisma.ActivityEventOrderByWithRelationInput | Prisma.ActivityEventOrderByWithRelationInput[]
+  cursor?: Prisma.ActivityEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ActivityEventScalarFieldEnum | Prisma.ActivityEventScalarFieldEnum[]
 }
 
 /**
