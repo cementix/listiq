@@ -6,7 +6,7 @@ import { requireUserServer } from "../auth";
 export async function getProfileOverview() {
   const { session } = await requireUserServer();
 
-  const [user, library, submissions] = await Promise.all([
+  const [user, library, submissions, activityEvents] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.userId },
       select: {
@@ -49,6 +49,32 @@ export async function getProfileOverview() {
         createdAt: true,
       },
     }),
+    prisma.activityEvent.findMany({
+      where: { userId: session.userId },
+      orderBy: { createdAt: "desc" },
+      take: 12,
+      select: {
+        id: true,
+        type: true,
+        rating: true,
+        note: true,
+        createdAt: true,
+        title: {
+          select: {
+            name: true,
+            slug: true,
+            type: true,
+            year: true,
+          },
+        },
+        submission: {
+          select: {
+            name: true,
+            status: true,
+          },
+        },
+      },
+    }),
   ]);
 
   if (!user) {
@@ -74,7 +100,8 @@ export async function getProfileOverview() {
       submissionsCount: submissions.length,
     },
     recentLibrary: library.slice(0, 8),
-    latestReviews: reviews.slice(0, 5),
+    latestReviews: reviews.slice(0, 12),
     recentSubmissions: submissions.slice(0, 5),
+    recentActivity: activityEvents,
   };
 }
