@@ -574,10 +574,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type EnumTitleTypeFieldUpdateOperationsInput = {
   set?: $Enums.TitleType
 }

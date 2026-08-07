@@ -37,6 +37,16 @@
 - Later, add AI-powered recommendations based on genres, title types, ratings, descriptions, similar users, and activity history.
 - Save liked swipe results into a dedicated list or suggest adding them to the library.
 
+## Demo Monetization
+
+- Add a fake subscription system for demo purposes, without real payments.
+- Use it to show recruiters that Listiq can be designed as a full product with monetization logic.
+- Keep the free plan useful but limited.
+- Example: Tinder for Titles gives 5 recommendations per day for free.
+- Add a $1 demo plan with 50 recommendations per day.
+- Add a $2.99 demo plan with unlimited recommendations.
+- Make it clear in the UI that this is a test/demo subscription and no real money is charged.
+
 ## Product Direction
 
 - Listiq should grow beyond a catalog into a social network for titles, ratings, personal lists, recommendations, and user progression.
