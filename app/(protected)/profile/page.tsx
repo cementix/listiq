@@ -42,6 +42,18 @@ const ProfilePage = async () => {
     return CheckCircle2;
   };
 
+  const getActivityIconClass = (
+    type: (typeof profile.recentActivity)[number]["type"],
+  ) => {
+    if (type === "TITLE_ADDED") return "text-sky-300";
+    if (type === "TITLE_REMOVED") return "text-indigo-300";
+    if (type === "TITLE_RATED") return "text-violet-300";
+    if (type === "TITLE_REVIEWED") return "text-blue-300";
+    if (type === "TITLE_SUBMITTED") return "text-cyan-300";
+
+    return "text-primary/80";
+  };
+
   return (
     <PageSection className="mx-auto w-full max-w-375 px-4 lg:px-6">
       <GlassCard className="overflow-hidden p-0">
@@ -107,94 +119,200 @@ const ProfilePage = async () => {
           <h2 className="text-xl font-semibold text-white">Recent activity</h2>
 
           <div className="mt-4 space-y-3">
-            {profile.recentActivity.length === 0 ? (
+            {profile.recentActivityGroups.length === 0 ? (
               <p className="text-sm text-white/50">No activity yet.</p>
             ) : (
-              profile.recentActivity.slice(0, 5).map((event) => {
-                const ActivityIcon = getActivityIcon(event.type);
-                const href = event.title
-                  ? `/titles/${event.title.slug}`
-                  : "/my-submissions";
-                const title =
-                  event.title?.name ??
-                  event.submission?.name ??
-                  "Unknown title";
+              <>
+                {profile.recentActivityGroups.slice(0, 6).map((group) => {
+                  const firstEvent = group.events[0];
+                  if (!firstEvent) return null;
 
-                return (
-                  <Link
-                    key={event.id}
-                    href={href}
-                    className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/20 p-3 transition hover:bg-white/10"
-                  >
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                        <ActivityIcon className="size-4 text-primary/80" />
-                      </div>
+                  const ActivityIcon = getActivityIcon(firstEvent.type);
+                  const actionCount = group.events.length;
+                  const actionLabel =
+                    actionCount === 1
+                      ? getActivityCopy(firstEvent)
+                      : `${actionCount} actions`;
 
-                      <div className="min-w-0">
-                        <p className="truncate font-medium text-white">
-                          {title}
-                        </p>
-                        <p className="mt-1 text-sm text-white/45">
-                          {getActivityCopy(event)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="shrink-0 text-right text-sm text-white/45">
-                      {event.createdAt.toLocaleDateString("en-US")}
-                    </p>
-                  </Link>
-                );
-              })
-            )}
-            {profile.recentActivity.length > 5 && (
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/55 transition hover:bg-white/10 hover:text-white">
-                  Show older activity
-                  <ChevronDown className="size-4 transition group-open:rotate-180" />
-                </summary>
-
-                <div className="mt-3 space-y-3">
-                  {profile.recentActivity.slice(5).map((event) => {
-                    const ActivityIcon = getActivityIcon(event.type);
-                    const href = event.title
-                      ? `/titles/${event.title.slug}`
-                      : "/my-submissions";
-                    const title =
-                      event.title?.name ??
-                      event.submission?.name ??
-                      "Unknown title";
-
+                  if (actionCount === 1) {
                     return (
                       <Link
-                        key={event.id}
-                        href={href}
+                        key={group.key}
+                        href={group.href}
                         className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-black/20 p-3 transition hover:bg-white/10"
                       >
                         <div className="flex min-w-0 items-center gap-3">
-                          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5">
-                            <ActivityIcon className="size-4 text-primary/80" />
+                          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                            <ActivityIcon
+                              className={`size-4 ${getActivityIconClass(firstEvent.type)}`}
+                            />
                           </div>
 
                           <div className="min-w-0">
-                            <p className="truncate text-sm font-medium text-white">
-                              {title}
+                            <p className="truncate font-medium text-white">
+                              {group.title}
                             </p>
-                            <p className="mt-1 text-xs text-white/45">
-                              {getActivityCopy(event)}
+                            <p className="mt-1 text-sm text-white/45">
+                              {actionLabel}
                             </p>
                           </div>
                         </div>
 
-                        <p className="shrink-0 text-right text-xs text-white/45">
-                          {event.createdAt.toLocaleDateString("en-US")}
+                        <p className="shrink-0 text-right text-sm text-white/45">
+                          {group.createdAt.toLocaleDateString("en-US")}
                         </p>
                       </Link>
                     );
-                  })}
-                </div>
-              </details>
+                  }
+
+                  return (
+                    <details
+                      key={group.key}
+                      className="group rounded-xl border border-white/10 bg-black/20 transition hover:bg-white/10"
+                    >
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-3">
+                        <div className="flex min-w-0 items-center gap-3">
+                          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                            <ActivityIcon className="size-4 text-primary/80" />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p className="truncate font-medium text-white">
+                              {group.title}
+                            </p>
+                            <p className="mt-1 text-sm text-white/45">
+                              {actionLabel}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex shrink-0 items-center gap-2 text-sm text-white/45">
+                          <span>
+                            {group.createdAt.toLocaleDateString("en-US")}
+                          </span>
+                          <ChevronDown className="size-4 transition group-open:rotate-180" />
+                        </div>
+                      </summary>
+
+                      <div className="border-t border-white/10 px-3 pb-3 pt-1">
+                        <div className="space-y-2">
+                          {group.events.map((event) => {
+                            const EventIcon = getActivityIcon(event.type);
+
+                            return (
+                              <Link
+                                key={event.id}
+                                href={group.href}
+                                className="flex items-center justify-between gap-3 rounded-lg px-2 py-2 transition hover:bg-white/5"
+                              >
+                                <div className="flex min-w-0 items-center gap-2">
+                                  <EventIcon
+                                    className={`size-4 shrink-0 ${getActivityIconClass(event.type)}`}
+                                  />
+                                  <p className="truncate text-sm text-white/65">
+                                    {getActivityCopy(event)}
+                                  </p>
+                                </div>
+
+                                <p className="shrink-0 text-xs text-white/35">
+                                  {event.createdAt.toLocaleDateString("en-US")}
+                                </p>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </details>
+                  );
+                })}
+
+                {profile.recentActivityGroups.length > 6 && (
+                  <details className="group">
+                    <summary className="flex cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/55 transition hover:bg-white/10 hover:text-white">
+                      Show older activity
+                      <ChevronDown className="size-4 transition group-open:rotate-180" />
+                    </summary>
+
+                    <div className="mt-3 space-y-3">
+                      {profile.recentActivityGroups.slice(6).map((group) => {
+                        const firstEvent = group.events[0];
+                        if (!firstEvent) return null;
+
+                        const ActivityIcon = getActivityIcon(firstEvent.type);
+                        const actionCount = group.events.length;
+                        const actionLabel =
+                          actionCount === 1
+                            ? getActivityCopy(firstEvent)
+                            : `${actionCount} actions`;
+
+                        return (
+                          <details
+                            key={group.key}
+                            className="group rounded-xl border border-white/10 bg-black/20 transition hover:bg-white/10"
+                          >
+                            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-3">
+                              <div className="flex min-w-0 items-center gap-3">
+                                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5">
+                                  <ActivityIcon
+                                    className={`size-4 ${getActivityIconClass(firstEvent.type)}`}
+                                  />
+                                </div>
+
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm font-medium text-white">
+                                    {group.title}
+                                  </p>
+                                  <p className="mt-1 text-xs text-white/45">
+                                    {actionLabel}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="flex shrink-0 items-center gap-2 text-xs text-white/45">
+                                <span>
+                                  {group.createdAt.toLocaleDateString("en-US")}
+                                </span>
+                                <ChevronDown className="size-4 transition group-open:rotate-180" />
+                              </div>
+                            </summary>
+
+                            <div className="border-t border-white/10 px-3 pb-3 pt-1">
+                              <div className="space-y-2">
+                                {group.events.map((event) => {
+                                  const EventIcon = getActivityIcon(event.type);
+
+                                  return (
+                                    <Link
+                                      key={event.id}
+                                      href={group.href}
+                                      className="flex items-center justify-between gap-3 rounded-lg px-2 py-2 transition hover:bg-white/5"
+                                    >
+                                      <div className="flex min-w-0 items-center gap-2">
+                                        <EventIcon
+                                          className={`size-4 shrink-0 ${getActivityIconClass(event.type)}`}
+                                        />
+                                        <p className="truncate text-xs text-white/65">
+                                          {getActivityCopy(event)}
+                                        </p>
+                                      </div>
+
+                                      <p className="shrink-0 text-xs text-white/35">
+                                        {event.createdAt.toLocaleDateString(
+                                          "en-US",
+                                        )}
+                                      </p>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </details>
+                        );
+                      })}
+                    </div>
+                  </details>
+                )}
+              </>
             )}
           </div>
         </GlassCard>
@@ -206,26 +324,63 @@ const ProfilePage = async () => {
             {profile.latestReviews.length === 0 ? (
               <p className="text-sm text-white/50">No reviews yet.</p>
             ) : (
-              profile.latestReviews.map((entry) => (
-                <Link
-                  key={entry.id}
-                  href={`/titles/${entry.title.slug}`}
-                  className="block rounded-2xl border border-white/10 bg-black/20 p-4 transition hover:bg-white/10"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-medium text-white">{entry.title.name}</p>
-                    {entry.rating && (
-                      <p className="text-sm text-primary">
-                        {entry.rating.toFixed(1)}/10
+              <>
+                {profile.latestReviews.slice(0, 5).map((entry) => (
+                  <Link
+                    key={entry.id}
+                    href={`/titles/${entry.title.slug}`}
+                    className="block rounded-2xl border border-white/10 bg-black/20 p-[14.5] transition hover:bg-white/10"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-medium text-white">
+                        {entry.title.name}
                       </p>
-                    )}
-                  </div>
+                      {entry.rating && (
+                        <p className="text-sm text-primary">
+                          {entry.rating.toFixed(1)}/10
+                        </p>
+                      )}
+                    </div>
 
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/60">
-                    {entry.note}
-                  </p>
-                </Link>
-              ))
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/60">
+                      {entry.note}
+                    </p>
+                  </Link>
+                ))}
+                {profile.latestReviews.length > 5 && (
+                  <details className="group">
+                    <summary className="flex cursor-pointer list-none items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/55 transition hover:bg-white/10 hover:text-white">
+                      Show older reviews
+                      <ChevronDown className="size-4 transition group-open:rotate-180" />
+                    </summary>
+
+                    <div className="mt-3 space-y-3">
+                      {profile.latestReviews.slice(5).map((entry) => (
+                        <Link
+                          key={entry.id}
+                          href={`/titles/${entry.title.slug}`}
+                          className="block rounded-xl border border-white/10 bg-black/20 p-3 transition hover:bg-white/10"
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="truncate text-sm font-medium text-white">
+                              {entry.title.name}
+                            </p>
+                            {entry.rating && (
+                              <p className="shrink-0 text-xs text-primary">
+                                {entry.rating.toFixed(1)}/10
+                              </p>
+                            )}
+                          </div>
+
+                          <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/60">
+                            {entry.note}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </>
             )}
           </div>
         </GlassCard>

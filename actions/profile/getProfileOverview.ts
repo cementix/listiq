@@ -87,6 +87,39 @@ export async function getProfileOverview() {
 
   const reviews = library.filter((entry) => entry.note);
 
+  const recentActivityGroups = activityEvents.reduce<
+    {
+      key: string;
+      title: string;
+      href: string;
+      createdAt: Date;
+      events: typeof activityEvents;
+    }[]
+  >((groups, event) => {
+    const key = event.title
+      ? `title:${event.title.slug}`
+      : event.submission
+        ? `submission:${event.submission.name}`
+        : `event:${event.id}`;
+
+    const lastGroup = groups.at(-1);
+
+    if (lastGroup?.key === key) {
+      lastGroup.events.push(event);
+      return groups;
+    }
+
+    groups.push({
+      key,
+      title: event.title?.name ?? event.submission?.name ?? "Unknown title",
+      href: event.title ? `/titles/${event.title.slug}` : "/my-submissions",
+      createdAt: event.createdAt,
+      events: [event],
+    });
+
+    return groups;
+  }, []);
+
   return {
     user,
     stats: {
@@ -101,7 +134,8 @@ export async function getProfileOverview() {
     },
     recentLibrary: library.slice(0, 8),
     latestReviews: reviews.slice(0, 12),
-    recentSubmissions: submissions.slice(0, 5),
+    recentSubmissions: submissions.slice(0, 6),
     recentActivity: activityEvents,
+    recentActivityGroups,
   };
 }
