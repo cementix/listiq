@@ -8,7 +8,6 @@ import { toast } from "sonner";
 
 import { uploadImage } from "@/actions/upload/uploadImage";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 
 type CoverImageFieldProps = {
   imageUrl: string;
@@ -16,6 +15,14 @@ type CoverImageFieldProps = {
   onImageUrlChange: (value: string) => void;
   onImagePublicIdChange: (value: string) => void;
   compact?: boolean;
+  aspect?: number;
+  cropShape?: "rect" | "round";
+  fileName?: string;
+  emptyHint?: string;
+  onImageUploadComplete?: (image: {
+    imageUrl: string;
+    imagePublicId: string;
+  }) => void;
 };
 
 function createImage(url: string) {
@@ -77,6 +84,11 @@ export default function CoverImageField({
   onImageUrlChange,
   onImagePublicIdChange,
   compact = false,
+  aspect = 1,
+  cropShape = "rect",
+  fileName = "cover.jpg",
+  emptyHint = "square crop 1:1",
+  onImageUploadComplete,
 }: CoverImageFieldProps) {
   const [localPreview, setLocalPreview] = useState("");
   const [cropSource, setCropSource] = useState("");
@@ -123,8 +135,11 @@ export default function CoverImageField({
     setIsUploadingImage(true);
 
     try {
-      const croppedFile = await getCroppedFile(cropSource, croppedAreaPixels);
-      const nextPreviewUrl = URL.createObjectURL(croppedFile);
+      const croppedFile = await getCroppedFile(
+        cropSource,
+        croppedAreaPixels,
+        fileName,
+      );
 
       const formData = new FormData();
       formData.append("file", croppedFile);
@@ -142,7 +157,11 @@ export default function CoverImageField({
 
       onImageUrlChange(result.imageUrl);
       onImagePublicIdChange(result.imagePublicId);
-      setLocalPreview(nextPreviewUrl);
+      setLocalPreview(result.imageUrl);
+      onImageUploadComplete?.({
+        imageUrl: result.imageUrl,
+        imagePublicId: result.imagePublicId,
+      });
       resetCrop();
 
       toast.success("image uploaded");
@@ -169,13 +188,20 @@ export default function CoverImageField({
     resetCrop();
   };
 
-  const coverHeight = compact ? "h-10" : "h-[248px]";
+  const coverHeight = compact
+    ? "h-10"
+    : aspect === 1
+      ? "aspect-square max-w-70"
+      : "aspect-[16/5]";
   const cropHeight = compact ? "h-48" : "h-[248px]";
 
-  return (
-    <div className="space-y-2">
-      <Label>Cover image</Label>
+  const isSquare = aspect === 1;
+  const previewClassName = isSquare
+    ? "relative mx-auto aspect-square w-full max-w-70 overflow-hidden rounded-2xl border border-white/10 bg-black/20"
+    : "relative aspect-[16/5] w-full overflow-hidden rounded-2xl border border-white/10 bg-black/20";
 
+  return (
+    <div className="space-y-4">
       <input
         ref={fileInputRef}
         type="file"
@@ -199,7 +225,7 @@ export default function CoverImageField({
           <ImagePlus className={compact ? "size-4" : "size-5 text-white/75"} />
           <span className="font-medium">Select cover</span>
           {!compact && (
-            <span className="mt-1 text-xs text-white/45">square crop 1:1</span>
+            <span className="mt-1 text-xs text-white/45">{emptyHint}</span>
           )}
         </button>
       )}
@@ -213,8 +239,8 @@ export default function CoverImageField({
               image={cropSource}
               crop={crop}
               zoom={zoom}
-              aspect={1}
-              cropShape="rect"
+              aspect={aspect}
+              cropShape={cropShape}
               showGrid={false}
               onCropChange={setCrop}
               onZoomChange={setZoom}
@@ -268,7 +294,7 @@ export default function CoverImageField({
           className={
             compact
               ? "flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-2"
-              : "relative h-[248px] overflow-hidden rounded-2xl border border-white/10 bg-black/20"
+              : previewClassName
           }
         >
           <div

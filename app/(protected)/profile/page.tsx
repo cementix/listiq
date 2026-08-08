@@ -14,6 +14,8 @@ import {
 import { getProfileOverview } from "@/actions/profile/getProfileOverview";
 import GlassCard from "@/components/custom/GlassCard";
 import PageSection from "@/components/custom/PageSection";
+import ProfileImagesForm from "./ProfileImagesForm";
+import ProfileImageEditor from "./ProfileImageEditor";
 
 const ProfilePage = async () => {
   const profile = await getProfileOverview();
@@ -54,29 +56,76 @@ const ProfilePage = async () => {
     return "text-primary/80";
   };
 
+  const formatRelativeDate = (date: Date) => {
+    const diffMs = date.getTime() - Date.now();
+    const absMs = Math.abs(diffMs);
+
+    const units = [
+      { unit: "year", ms: 1000 * 60 * 60 * 24 * 365 },
+      { unit: "month", ms: 1000 * 60 * 60 * 24 * 30 },
+      { unit: "week", ms: 1000 * 60 * 60 * 24 * 7 },
+      { unit: "day", ms: 1000 * 60 * 60 * 24 },
+    ] as const;
+
+    const match = units.find((item) => absMs >= item.ms);
+
+    if (!match) return "today";
+
+    const value = Math.round(diffMs / match.ms);
+
+    return new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
+      value,
+      match.unit,
+    );
+  };
+
+  const getRoleLabel = (role: typeof profile.user.role) => {
+    if (role === "ADMIN") return "Administrator";
+    if (role === "MODERATOR") return "Moderator";
+    if (role === "VERIFIED") return "Verified";
+
+    return "Member";
+  };
+
+  const getRoleClassName = (role: typeof profile.user.role) => {
+    if (role === "ADMIN") return "text-yellow-300";
+    if (role === "MODERATOR") return "text-cyan-300";
+    if (role === "VERIFIED") return "text-emerald-300";
+
+    return "text-sky-300";
+  };
+
   return (
     <PageSection className="mx-auto w-full max-w-375 px-4 lg:px-6">
       <GlassCard className="overflow-hidden p-0">
-        <div className="h-36 bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.35),transparent_35%),linear-gradient(135deg,rgba(15,23,42,1),rgba(0,0,0,1))]" />
+        <div className="mb-6">
+          <ProfileImageEditor
+            type="banner"
+            imageUrl={profile.user.bannerUrl}
+            imagePublicId={profile.user.bannerPublicId}
+          />
+        </div>
 
         <div className="flex flex-wrap items-end justify-between gap-4 p-6 pt-0">
           <div className="-mt-12 flex items-end gap-4">
-            <div className="flex size-24 items-center justify-center rounded-2xl border border-white/10 bg-black text-white shadow-2xl">
-              <UserRound className="size-10 text-white/60" />
-            </div>
-
+            <ProfileImageEditor
+              type="avatar"
+              imageUrl={profile.user.avatarUrl}
+              imagePublicId={profile.user.avatarPublicId}
+            />
             <div className="pb-1">
-              <p className="text-sm text-white/45">{profile.user.role}</p>
               <h1 className="text-3xl font-semibold text-white">
-                @{profile.user.username}
+                @{profile.user.username}{" "}
               </h1>
-              <p className="mt-1 text-sm text-white/50">{profile.user.email}</p>
+              <p className="mt-1 text-sm text-white/50">
+                <span className={getRoleClassName(profile.user.role)}>
+                  {getRoleLabel(profile.user.role)}
+                </span>
+                {", "}
+                joined {formatRelativeDate(profile.user.createdAt)}
+              </p>
             </div>
           </div>
-
-          <p className="text-sm text-white/45">
-            Joined {profile.user.createdAt.toLocaleDateString("en-US")}
-          </p>
         </div>
       </GlassCard>
 
