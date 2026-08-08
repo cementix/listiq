@@ -2,16 +2,28 @@ import { getNeedsChangesSubmissionsCount } from "@/actions/submissions/getNeedsC
 import { requireAuth } from "../../actions/auth";
 import Navbar from "./Navbar";
 import React from "react";
+import { prisma } from "@/lib/prisma";
+import NavbarShell from "./NavbarShell";
 
 const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   const session = await requireAuth();
   const needsChangesCount = await getNeedsChangesSubmissionsCount();
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: {
+      avatarUrl: true,
+    },
+  });
   return (
-    <div className="min-h-screen bg-black text-white">
-      <Navbar
-        username={session.username}
-        needsChangesCount={needsChangesCount}
-      />
+    <div className="min-h-screen bg-black pt-[73px] text-white">
+      <NavbarShell>
+        <Navbar
+          username={session.username}
+          needsChangesCount={needsChangesCount}
+          avatarUrl={user?.avatarUrl ?? null}
+        />
+      </NavbarShell>
       {children}
     </div>
   );

@@ -30,12 +30,13 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} antialiased bg-background text-foreground`}
       >
-        <div className="relative min-h-screen overflow-hidden">
-          <div className="pointer-events-none fixed inset-0 z-[-1]">
+        <div className="relative min-h-screen">
+          <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden">
             <div className="hero-orbit hero-orbit--primary" />
             <div className="hero-orbit hero-orbit--secondary" />
           </div>
-          <div className="backdrop-blur-xl">{children}</div>
+
+          {children}
         </div>
         <Toaster position="top-right" closeButton duration={2500} />
       </body>

@@ -44,32 +44,6 @@ export default function ProfileImageEditor({
     }
   };
 
-  const handleSave = () => {
-    startTransition(async () => {
-      const result = await updateProfileImages(
-        isAvatar
-          ? {
-              avatarUrl: draftUrl,
-              avatarPublicId: draftPublicId,
-            }
-          : {
-              bannerUrl: draftUrl,
-              bannerPublicId: draftPublicId,
-            },
-      );
-
-      if (!result.ok) {
-        toast.error(result.error);
-        return;
-      }
-
-      setCurrentUrl(draftUrl);
-      setCurrentPublicId(draftPublicId);
-      setOpen(false);
-      toast.success(result.message ?? "Profile image updated");
-    });
-  };
-
   const handleUploadComplete = (image: {
     imageUrl: string;
     imagePublicId: string;
@@ -134,7 +108,7 @@ export default function ProfileImageEditor({
               src={currentUrl}
               alt="profile banner"
               fill
-              className="object-cover"
+              className="object-cover rounded-md"
               unoptimized
             />
           ) : (
