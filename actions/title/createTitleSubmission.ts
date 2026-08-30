@@ -50,7 +50,7 @@ export async function createTitleSubmission(
 
     revalidatePath("/submissions");
     revalidatePath("/my-submissions");
-    revalidatePath("/profile");
+    revalidatePath(`/users/${session.username}`);
     return { ok: true, message: "submission created" };
   } catch (error) {
     console.error("createTitleSubmission error: ", error);

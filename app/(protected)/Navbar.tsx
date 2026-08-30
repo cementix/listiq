@@ -89,7 +89,7 @@ const Navbar = ({
         {/* right */}
         <div className="flex items-center gap-3">
           <Link
-            href="/profile"
+            href={`/users/${username}`}
             className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 text-sm text-white/75 transition hover:bg-white/10 hover:text-white"
           >
             <span>@{username}</span>

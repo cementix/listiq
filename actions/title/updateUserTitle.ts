@@ -89,7 +89,7 @@ export async function updateUserTitle(
 
     revalidatePath(`/titles/${existing.title.slug}`);
     revalidatePath("/library");
-    revalidatePath("/profile");
+    revalidatePath(`/users/${session.username}`);
 
     return { ok: true, message: "Updated" };
   } catch (error) {

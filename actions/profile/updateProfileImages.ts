@@ -51,7 +51,7 @@ export async function updateProfileImages(
       data: updateData,
     });
 
-    revalidatePath("/profile");
+    revalidatePath(`/users/${session.username}`);
 
     return { ok: true, message: "Profile images updated" };
   } catch (error) {
