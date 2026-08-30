@@ -43,6 +43,16 @@ enum ActivityEventType {
   TITLE_SUBMITTED
 }
 
+enum ProfilePostMediaType {
+  IMAGE
+  VIDEO
+}
+
+enum NotificationType {
+  PROFILE_POST_COMMENT
+  PROFILE_POST_REPLY
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -65,6 +75,13 @@ model User {
 
   submissions  TitleSubmission[] @relation("SubmissionAuthor")
   reviewedSubs TitleSubmission[] @relation("SubmissionReviewer")
+
+  profilePosts        ProfilePost[]
+  profilePostLikes    ProfilePostLike[]
+  profilePostComments ProfilePostComment[]
+
+  notificationsReceived Notification[] @relation("NotificationRecipient")
+  notificationsSent     Notification[] @relation("NotificationActor")
 }
 
 model Title {
@@ -116,8 +133,9 @@ model UserTitle {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+  user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title                Title         @relation(fields: [titleId], references: [id], onDelete: Cascade)
+  attachedProfilePosts ProfilePost[]
 
   @@unique([userId, titleId])
   @@index([userId])
@@ -174,4 +192,108 @@ model ActivityEvent {
   @@index([userId, createdAt])
   @@index([titleId])
   @@index([submissionId])
+}
+
+model ProfilePost {
+  id String @id @default(cuid())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  content String?
+
+  attachedUserTitleId String?
+  attachedUserTitle   UserTitle? @relation(fields: [attachedUserTitleId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  media         ProfilePostMedia[]
+  likes         ProfilePostLike[]
+  comments      ProfilePostComment[]
+  notifications Notification[]
+
+  @@index([authorId, createdAt])
+  @@index([attachedUserTitleId])
+}
+
+model ProfilePostMedia {
+  id String @id @default(cuid())
+
+  postId String
+  post   ProfilePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  type     ProfilePostMediaType
+  url      String
+  publicId String?
+
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+}
+
+model ProfilePostLike {
+  id String @id @default(cuid())
+
+  postId String
+  post   ProfilePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model ProfilePostComment {
+  id String @id @default(cuid())
+
+  postId String
+  post   ProfilePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  parentId String?
+  parent   ProfilePostComment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  ProfilePostComment[] @relation("CommentReplies")
+
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notifications Notification[]
+
+  @@index([postId, createdAt])
+  @@index([authorId])
+  @@index([parentId])
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  recipientId String
+  recipient   User   @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  actorId String
+  actor   User   @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade)
+
+  type   NotificationType
+  readAt DateTime?
+
+  postId String?
+  post   ProfilePost? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  commentId String?
+  comment   ProfilePostComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([recipientId, readAt, createdAt])
+  @@index([actorId])
+  @@index([postId])
+  @@index([commentId])
 }

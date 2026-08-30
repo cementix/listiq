@@ -50,3 +50,11 @@
 ## Product Direction
 
 - Listiq should grow beyond a catalog into a social network for titles, ratings, personal lists, recommendations, and user progression.
+
+## Privacy Settings
+
+- Allow users to make profiles public, private, or visible only to mutual friends.
+- Add privacy controls for reviews.
+- Let users make all reviews private.
+- Let users make only written review notes private while keeping ratings public.
+- Later, add per-post and per-list visibility settings.

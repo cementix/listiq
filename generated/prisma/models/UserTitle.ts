@@ -234,6 +234,7 @@ export type UserTitleWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   title?: Prisma.XOR<Prisma.TitleScalarRelationFilter, Prisma.TitleWhereInput>
+  attachedProfilePosts?: Prisma.ProfilePostListRelationFilter
 }
 
 export type UserTitleOrderByWithRelationInput = {
@@ -246,6 +247,7 @@ export type UserTitleOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   title?: Prisma.TitleOrderByWithRelationInput
+  attachedProfilePosts?: Prisma.ProfilePostOrderByRelationAggregateInput
 }
 
 export type UserTitleWhereUniqueInput = Prisma.AtLeast<{
@@ -262,6 +264,7 @@ export type UserTitleWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"UserTitle"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   title?: Prisma.XOR<Prisma.TitleScalarRelationFilter, Prisma.TitleWhereInput>
+  attachedProfilePosts?: Prisma.ProfilePostListRelationFilter
 }, "id" | "userId_titleId">
 
 export type UserTitleOrderByWithAggregationInput = {
@@ -300,6 +303,7 @@ export type UserTitleCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLibraryInput
   title: Prisma.TitleCreateNestedOneWithoutUsersInput
+  attachedProfilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleUncheckedCreateInput = {
@@ -310,6 +314,7 @@ export type UserTitleUncheckedCreateInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleUpdateInput = {
@@ -320,6 +325,7 @@ export type UserTitleUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
   title?: Prisma.TitleUpdateOneRequiredWithoutUsersNestedInput
+  attachedProfilePosts?: Prisma.ProfilePostUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleUncheckedUpdateInput = {
@@ -330,6 +336,7 @@ export type UserTitleUncheckedUpdateInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleCreateManyInput = {
@@ -411,6 +418,11 @@ export type UserTitleMinOrderByAggregateInput = {
 
 export type UserTitleSumOrderByAggregateInput = {
   rating?: Prisma.SortOrder
+}
+
+export type UserTitleNullableScalarRelationFilter = {
+  is?: Prisma.UserTitleWhereInput | null
+  isNot?: Prisma.UserTitleWhereInput | null
 }
 
 export type UserTitleCreateNestedManyWithoutUserInput = {
@@ -505,6 +517,22 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type UserTitleCreateNestedOneWithoutAttachedProfilePostsInput = {
+  create?: Prisma.XOR<Prisma.UserTitleCreateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedCreateWithoutAttachedProfilePostsInput>
+  connectOrCreate?: Prisma.UserTitleCreateOrConnectWithoutAttachedProfilePostsInput
+  connect?: Prisma.UserTitleWhereUniqueInput
+}
+
+export type UserTitleUpdateOneWithoutAttachedProfilePostsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserTitleCreateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedCreateWithoutAttachedProfilePostsInput>
+  connectOrCreate?: Prisma.UserTitleCreateOrConnectWithoutAttachedProfilePostsInput
+  upsert?: Prisma.UserTitleUpsertWithoutAttachedProfilePostsInput
+  disconnect?: Prisma.UserTitleWhereInput | boolean
+  delete?: Prisma.UserTitleWhereInput | boolean
+  connect?: Prisma.UserTitleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserTitleUpdateToOneWithWhereWithoutAttachedProfilePostsInput, Prisma.UserTitleUpdateWithoutAttachedProfilePostsInput>, Prisma.UserTitleUncheckedUpdateWithoutAttachedProfilePostsInput>
+}
+
 export type UserTitleCreateWithoutUserInput = {
   id?: string
   rating?: number | null
@@ -512,6 +540,7 @@ export type UserTitleCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   title: Prisma.TitleCreateNestedOneWithoutUsersInput
+  attachedProfilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleUncheckedCreateWithoutUserInput = {
@@ -521,6 +550,7 @@ export type UserTitleUncheckedCreateWithoutUserInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleCreateOrConnectWithoutUserInput = {
@@ -569,6 +599,7 @@ export type UserTitleCreateWithoutTitleInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutLibraryInput
+  attachedProfilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleUncheckedCreateWithoutTitleInput = {
@@ -578,6 +609,7 @@ export type UserTitleUncheckedCreateWithoutTitleInput = {
   note?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAttachedUserTitleInput
 }
 
 export type UserTitleCreateOrConnectWithoutTitleInput = {
@@ -606,6 +638,62 @@ export type UserTitleUpdateManyWithWhereWithoutTitleInput = {
   data: Prisma.XOR<Prisma.UserTitleUpdateManyMutationInput, Prisma.UserTitleUncheckedUpdateManyWithoutTitleInput>
 }
 
+export type UserTitleCreateWithoutAttachedProfilePostsInput = {
+  id?: string
+  rating?: number | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutLibraryInput
+  title: Prisma.TitleCreateNestedOneWithoutUsersInput
+}
+
+export type UserTitleUncheckedCreateWithoutAttachedProfilePostsInput = {
+  id?: string
+  userId: string
+  titleId: string
+  rating?: number | null
+  note?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserTitleCreateOrConnectWithoutAttachedProfilePostsInput = {
+  where: Prisma.UserTitleWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserTitleCreateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedCreateWithoutAttachedProfilePostsInput>
+}
+
+export type UserTitleUpsertWithoutAttachedProfilePostsInput = {
+  update: Prisma.XOR<Prisma.UserTitleUpdateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedUpdateWithoutAttachedProfilePostsInput>
+  create: Prisma.XOR<Prisma.UserTitleCreateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedCreateWithoutAttachedProfilePostsInput>
+  where?: Prisma.UserTitleWhereInput
+}
+
+export type UserTitleUpdateToOneWithWhereWithoutAttachedProfilePostsInput = {
+  where?: Prisma.UserTitleWhereInput
+  data: Prisma.XOR<Prisma.UserTitleUpdateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedUpdateWithoutAttachedProfilePostsInput>
+}
+
+export type UserTitleUpdateWithoutAttachedProfilePostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
+  title?: Prisma.TitleUpdateOneRequiredWithoutUsersNestedInput
+}
+
+export type UserTitleUncheckedUpdateWithoutAttachedProfilePostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  titleId?: Prisma.StringFieldUpdateOperationsInput | string
+  rating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type UserTitleCreateManyUserInput = {
   id?: string
   titleId: string
@@ -622,6 +710,7 @@ export type UserTitleUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   title?: Prisma.TitleUpdateOneRequiredWithoutUsersNestedInput
+  attachedProfilePosts?: Prisma.ProfilePostUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleUncheckedUpdateWithoutUserInput = {
@@ -631,6 +720,7 @@ export type UserTitleUncheckedUpdateWithoutUserInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleUncheckedUpdateManyWithoutUserInput = {
@@ -658,6 +748,7 @@ export type UserTitleUpdateWithoutTitleInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutLibraryNestedInput
+  attachedProfilePosts?: Prisma.ProfilePostUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleUncheckedUpdateWithoutTitleInput = {
@@ -667,6 +758,7 @@ export type UserTitleUncheckedUpdateWithoutTitleInput = {
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  attachedProfilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAttachedUserTitleNestedInput
 }
 
 export type UserTitleUncheckedUpdateManyWithoutTitleInput = {
@@ -679,6 +771,35 @@ export type UserTitleUncheckedUpdateManyWithoutTitleInput = {
 }
 
 
+/**
+ * Count Type UserTitleCountOutputType
+ */
+
+export type UserTitleCountOutputType = {
+  attachedProfilePosts: number
+}
+
+export type UserTitleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  attachedProfilePosts?: boolean | UserTitleCountOutputTypeCountAttachedProfilePostsArgs
+}
+
+/**
+ * UserTitleCountOutputType without action
+ */
+export type UserTitleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserTitleCountOutputType
+   */
+  select?: Prisma.UserTitleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserTitleCountOutputType without action
+ */
+export type UserTitleCountOutputTypeCountAttachedProfilePostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProfilePostWhereInput
+}
+
 
 export type UserTitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -690,6 +811,8 @@ export type UserTitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   title?: boolean | Prisma.TitleDefaultArgs<ExtArgs>
+  attachedProfilePosts?: boolean | Prisma.UserTitle$attachedProfilePostsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserTitleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userTitle"]>
 
 export type UserTitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,6 +853,8 @@ export type UserTitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type UserTitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   title?: boolean | Prisma.TitleDefaultArgs<ExtArgs>
+  attachedProfilePosts?: boolean | Prisma.UserTitle$attachedProfilePostsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserTitleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserTitleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -745,6 +870,7 @@ export type $UserTitlePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     title: Prisma.$TitlePayload<ExtArgs>
+    attachedProfilePosts: Prisma.$ProfilePostPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1150,6 +1276,7 @@ export interface Prisma__UserTitleClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   title<T extends Prisma.TitleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TitleDefaultArgs<ExtArgs>>): Prisma.Prisma__TitleClient<runtime.Types.Result.GetResult<Prisma.$TitlePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  attachedProfilePosts<T extends Prisma.UserTitle$attachedProfilePostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserTitle$attachedProfilePostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1584,6 +1711,30 @@ export type UserTitleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many UserTitles to delete.
    */
   limit?: number
+}
+
+/**
+ * UserTitle.attachedProfilePosts
+ */
+export type UserTitle$attachedProfilePostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProfilePost
+   */
+  select?: Prisma.ProfilePostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProfilePost
+   */
+  omit?: Prisma.ProfilePostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfilePostInclude<ExtArgs> | null
+  where?: Prisma.ProfilePostWhereInput
+  orderBy?: Prisma.ProfilePostOrderByWithRelationInput | Prisma.ProfilePostOrderByWithRelationInput[]
+  cursor?: Prisma.ProfilePostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProfilePostScalarFieldEnum | Prisma.ProfilePostScalarFieldEnum[]
 }
 
 /**

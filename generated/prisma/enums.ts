@@ -55,3 +55,19 @@ export const ActivityEventType = {
 } as const
 
 export type ActivityEventType = (typeof ActivityEventType)[keyof typeof ActivityEventType]
+
+
+export const ProfilePostMediaType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
+
+export type ProfilePostMediaType = (typeof ProfilePostMediaType)[keyof typeof ProfilePostMediaType]
+
+
+export const NotificationType = {
+  PROFILE_POST_COMMENT: 'PROFILE_POST_COMMENT',
+  PROFILE_POST_REPLY: 'PROFILE_POST_REPLY'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

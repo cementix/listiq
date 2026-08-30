@@ -71,3 +71,28 @@ export type TitleSubmission = Prisma.TitleSubmissionModel
  * 
  */
 export type ActivityEvent = Prisma.ActivityEventModel
+/**
+ * Model ProfilePost
+ * 
+ */
+export type ProfilePost = Prisma.ProfilePostModel
+/**
+ * Model ProfilePostMedia
+ * 
+ */
+export type ProfilePostMedia = Prisma.ProfilePostMediaModel
+/**
+ * Model ProfilePostLike
+ * 
+ */
+export type ProfilePostLike = Prisma.ProfilePostLikeModel
+/**
+ * Model ProfilePostComment
+ * 
+ */
+export type ProfilePostComment = Prisma.ProfilePostCommentModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

@@ -6,6 +6,7 @@ import { getTitleBySlug } from "@/actions/title/getTitleBySlug";
 import GlassCard from "@/components/custom/GlassCard";
 import PageSection from "@/components/custom/PageSection";
 import TitleLibraryPanel from "./TitleLibraryPanel";
+import Link from "next/link";
 
 type TitleDetailsPageProps = {
   params: Promise<{
@@ -60,7 +61,13 @@ export default async function TitleDetailsPage({
                 </h1>
                 {title.createdBy && (
                   <p className="mt-2 text-sm text-white/45">
-                    Added by @{title.createdBy.username}
+                    Added by{" "}
+                    <Link
+                      href={`/users/${title.createdBy.username}`}
+                      className="text-white/70 transition hover:text-white"
+                    >
+                      @{title.createdBy.username}
+                    </Link>
                   </p>
                 )}
               </div>
@@ -138,7 +145,12 @@ export default async function TitleDetailsPage({
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="font-medium text-white">
-                      @{entry.user.username}
+                      <Link
+                        href={`/users/${entry.user.username}`}
+                        className="font-medium text-white transition hover:text-primary"
+                      >
+                        @{entry.user.username}
+                      </Link>
                     </p>
                     {entry.rating && (
                       <p className="text-sm text-primary">
