@@ -21,7 +21,7 @@ export async function getPublicProfileOverview(username: string) {
     return null;
   }
 
-  const [library, submissions, activityEvents] = await Promise.all([
+  const [library, submissions, activityEvents, posts] = await Promise.all([
     prisma.userTitle.findMany({
       where: { userId: user.id },
       orderBy: { updatedAt: "desc" },
@@ -77,6 +77,57 @@ export async function getPublicProfileOverview(username: string) {
           select: {
             name: true,
             status: true,
+          },
+        },
+      },
+    }),
+
+    prisma.profilePost.findMany({
+      where: { authorId: user.id },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      select: {
+        id: true,
+        content: true,
+        createdAt: true,
+        updatedAt: true,
+        author: {
+          select: {
+            username: true,
+            avatarUrl: true,
+          },
+        },
+        media: {
+          select: {
+            id: true,
+            type: true,
+            url: true,
+          },
+        },
+        attachedUserTitle: {
+          select: {
+            id: true,
+            rating: true,
+            note: true,
+            title: {
+              select: {
+                name: true,
+                slug: true,
+                imageUrl: true,
+                type: true,
+                year: true,
+              },
+            },
+          },
+        },
+        likes: {
+          select: {
+            id: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
           },
         },
       },
@@ -137,6 +188,7 @@ export async function getPublicProfileOverview(username: string) {
       submissionsCount: submissions.length,
     },
     latestReviews: reviews.slice(0, 12),
+    posts,
     recentActivityGroups,
   };
 }

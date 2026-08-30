@@ -7,6 +7,7 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileStatsGrid from "./ProfileStatsGrid";
 import ProfileReviews from "./ProfileReviews";
 import ProfileActivity from "./ProfileActivity";
+import ProfileWall from "./ProfilePosts/ProfileWall";
 
 type PublicProfilePageProps = {
   params: Promise<{
@@ -32,6 +33,8 @@ export default async function PublicProfilePage({
       <ProfileHeader user={profile.user} isOwnProfile={isOwnProfile} />
 
       <ProfileStatsGrid stats={profile.stats} />
+
+      <ProfileWall posts={profile.posts} isOwnProfile={isOwnProfile} />
 
       <div className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
         <ProfileActivity groups={profile.recentActivityGroups} />
