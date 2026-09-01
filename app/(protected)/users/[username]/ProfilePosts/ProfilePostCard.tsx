@@ -1,5 +1,6 @@
-import { Heart, MessageCircle, UserRound } from "lucide-react";
+import { MessageCircle, UserRound } from "lucide-react";
 import Image from "next/image";
+import ProfilePostLikeButton from "./ProfilePostLikeButton";
 
 type ProfilePostCardProps = {
   post: {
@@ -10,12 +11,18 @@ type ProfilePostCardProps = {
       username: string;
       avatarUrl: string | null;
     };
-    likes: { id: string }[];
+    likes: { id: string; userId: string }[];
     comments: { id: string }[];
   };
+  currentUserId: string;
 };
 
-export default function ProfilePostCard({ post }: ProfilePostCardProps) {
+export default function ProfilePostCard({
+  post,
+  currentUserId,
+}: ProfilePostCardProps) {
+  const isLiked = post.likes.some((like) => like.userId === currentUserId);
+
   return (
     <article className="rounded-2xl border border-white/10 bg-black/20 p-4">
       <div className="flex items-center gap-3">
@@ -48,10 +55,11 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
       )}
 
       <div className="mt-4 flex items-center gap-4 border-t border-white/10 pt-3 text-sm text-white/45">
-        <span className="flex items-center gap-1.5">
-          <Heart className="size-4" />
-          {post.likes.length}
-        </span>
+        <ProfilePostLikeButton
+          postId={post.id}
+          likesCount={post.likes.length}
+          isLiked={isLiked}
+        />
 
         <span className="flex items-center gap-1.5">
           <MessageCircle className="size-4" />

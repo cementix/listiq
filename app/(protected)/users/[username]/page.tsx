@@ -34,7 +34,11 @@ export default async function PublicProfilePage({
 
       <ProfileStatsGrid stats={profile.stats} />
 
-      <ProfileWall posts={profile.posts} isOwnProfile={isOwnProfile} />
+      <ProfileWall
+        posts={profile.posts}
+        isOwnProfile={isOwnProfile}
+        currentUserId={session.userId}
+      />
 
       <div className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
         <ProfileActivity groups={profile.recentActivityGroups} />

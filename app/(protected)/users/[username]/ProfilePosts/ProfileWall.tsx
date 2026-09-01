@@ -10,16 +10,21 @@ type ProfilePost = {
     username: string;
     avatarUrl: string | null;
   };
-  likes: { id: string }[];
+  likes: { id: string; userId: string }[];
   comments: { id: string }[];
 };
 
 type ProfileWallProps = {
   posts: ProfilePost[];
   isOwnProfile: boolean;
+  currentUserId: string;
 };
 
-export default function ProfileWall({ posts, isOwnProfile }: ProfileWallProps) {
+export default function ProfileWall({
+  posts,
+  isOwnProfile,
+  currentUserId,
+}: ProfileWallProps) {
   return (
     <GlassCard className="p-5">
       <h2 className="text-xl font-semibold text-white">Wall</h2>
@@ -30,7 +35,13 @@ export default function ProfileWall({ posts, isOwnProfile }: ProfileWallProps) {
         {posts.length === 0 ? (
           <p className="text-sm text-white/50">No posts yet</p>
         ) : (
-          posts.map((post) => <ProfilePostCard key={post.id} post={post} />)
+          posts.map((post) => (
+            <ProfilePostCard
+              key={post.id}
+              post={post}
+              currentUserId={currentUserId}
+            />
+          ))
         )}
       </div>
     </GlassCard>

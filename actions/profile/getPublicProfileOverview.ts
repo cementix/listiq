@@ -123,6 +123,7 @@ export async function getPublicProfileOverview(username: string) {
         likes: {
           select: {
             id: true,
+            userId: true,
           },
         },
         comments: {
