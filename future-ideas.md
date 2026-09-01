@@ -58,3 +58,11 @@
 - Let users make all reviews private.
 - Let users make only written review notes private while keeping ratings public.
 - Later, add per-post and per-list visibility settings.
+
+## Profile Code Cleanup
+
+- Reduce prop drilling in profile post components.
+- Avoid passing current user data through `page -> ProfileWall -> ProfilePostCard -> ProfilePostComments`.
+- Consider a small `CurrentUserContext` for profile social UI.
+- Consider extracting shared profile post types into a dedicated file.
+- Keep post cards server-rendered where possible, but isolate interactive client controls cleanly.

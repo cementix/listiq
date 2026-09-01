@@ -76,7 +76,7 @@ export default function ProfileActivityGroup({
         </div>
 
         <p className="shrink-0 text-right text-sm text-white/45">
-          {group.createdAt.toLocaleDateString("en-US")}
+          {group.createdAt.toLocaleDateString("uk-UA")}
         </p>
       </Link>
     );
@@ -117,7 +117,7 @@ export default function ProfileActivityGroup({
             compact ? "text-xs" : "text-sm"
           }`}
         >
-          <span>{group.createdAt.toLocaleDateString("en-US")}</span>
+          <span>{group.createdAt.toLocaleDateString("uk-UA")}</span>
           <ChevronDown className="size-4 transition group-open:rotate-180" />
         </div>
       </summary>
@@ -149,7 +149,7 @@ export default function ProfileActivityGroup({
                 </div>
 
                 <p className="shrink-0 text-xs text-white/35">
-                  {event.createdAt.toLocaleDateString("en-US")}
+                  {event.createdAt.toLocaleDateString("uk-UA")}
                 </p>
               </Link>
             );

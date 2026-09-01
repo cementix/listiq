@@ -1,6 +1,7 @@
 import { MessageCircle, UserRound } from "lucide-react";
 import Image from "next/image";
 import ProfilePostLikeButton from "./ProfilePostLikeButton";
+import ProfilePostComments from "./ProfilePostComments";
 
 type ProfilePostCardProps = {
   post: {
@@ -12,14 +13,27 @@ type ProfilePostCardProps = {
       avatarUrl: string | null;
     };
     likes: { id: string; userId: string }[];
-    comments: { id: string }[];
+    comments: {
+      id: string;
+      content: string;
+      createdAt: Date;
+      author: {
+        username: string;
+        avatarUrl: string | null;
+      };
+    }[];
   };
   currentUserId: string;
+  currentUser: {
+    username: string;
+    avatarUrl: string | null;
+  };
 };
 
 export default function ProfilePostCard({
   post,
   currentUserId,
+  currentUser,
 }: ProfilePostCardProps) {
   const isLiked = post.likes.some((like) => like.userId === currentUserId);
 
@@ -43,7 +57,7 @@ export default function ProfilePostCard({
         <div>
           <p className="font-medium text-white">@{post.author.username}</p>
           <p className="text-xs text-white/35">
-            {post.createdAt.toLocaleDateString("en-US")}
+            {post.createdAt.toLocaleDateString("uk-UA")}
           </p>
         </div>
       </div>
@@ -54,7 +68,7 @@ export default function ProfilePostCard({
         </p>
       )}
 
-      <div className="mt-4 flex items-center gap-4 border-t border-white/10 pt-3 text-sm text-white/45">
+      <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/45">
         <ProfilePostLikeButton
           postId={post.id}
           likesCount={post.likes.length}
@@ -66,6 +80,12 @@ export default function ProfilePostCard({
           {post.comments.length}
         </span>
       </div>
+
+      <ProfilePostComments
+        postId={post.id}
+        comments={post.comments}
+        currentUser={currentUser}
+      />
     </article>
   );
 }

@@ -11,19 +11,32 @@ type ProfilePost = {
     avatarUrl: string | null;
   };
   likes: { id: string; userId: string }[];
-  comments: { id: string }[];
+  comments: {
+    id: string;
+    content: string;
+    createdAt: Date;
+    author: {
+      username: string;
+      avatarUrl: string | null;
+    };
+  }[];
 };
 
 type ProfileWallProps = {
   posts: ProfilePost[];
   isOwnProfile: boolean;
   currentUserId: string;
+  currentUser: {
+    username: string;
+    avatarUrl: string | null;
+  };
 };
 
 export default function ProfileWall({
   posts,
   isOwnProfile,
   currentUserId,
+  currentUser,
 }: ProfileWallProps) {
   return (
     <GlassCard className="p-5">
@@ -40,6 +53,7 @@ export default function ProfileWall({
               key={post.id}
               post={post}
               currentUserId={currentUserId}
+              currentUser={currentUser}
             />
           ))
         )}
