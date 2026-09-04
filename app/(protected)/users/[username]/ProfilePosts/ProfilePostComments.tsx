@@ -2,6 +2,7 @@
 
 import { createProfilePostComment } from "@/actions/profile/createProfilePostComment";
 import { Button } from "@/components/ui/button";
+import { useAppSelector } from "@/lib/store/hooks";
 import { AtSign, ChevronDown, Send, Smile, UserRound } from "lucide-react";
 import Image from "next/image";
 import { type KeyboardEvent, useRef, useState, useTransition } from "react";
@@ -20,10 +21,6 @@ type ProfilePostComment = {
 type ProfilePostCommentsProps = {
   postId: string;
   comments: ProfilePostComment[];
-  currentUser: {
-    username: string;
-    avatarUrl: string | null;
-  };
 };
 
 const TAB_SPACES = "    ";
@@ -31,8 +28,9 @@ const TAB_SPACES = "    ";
 export default function ProfilePostComments({
   postId,
   comments,
-  currentUser,
 }: ProfilePostCommentsProps) {
+  const currentUser = useAppSelector((state) => state.profilePosts.currentUser);
+
   const [content, setContent] = useState("");
   const [visibleCount, setVisibleCount] = useState(3);
   const [isPending, startTransition] = useTransition();
@@ -161,6 +159,10 @@ export default function ProfilePostComments({
 
     replaceTextareaSelection(textarea, `\n${indentation}`);
   };
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <div className="mt-3 space-y-3">

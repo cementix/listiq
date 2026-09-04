@@ -9,6 +9,7 @@ import ProfileStatsGrid from "./ProfileStatsGrid";
 import ProfileReviews from "./ProfileReviews";
 import ProfileActivity from "./ProfileActivity";
 import ProfileWall from "./ProfilePosts/ProfileWall";
+import ProfilePostsStateInitializer from "./ProfilePosts/ProfilePostStateInitializer";
 
 type PublicProfilePageProps = {
   params: Promise<{
@@ -44,15 +45,15 @@ export default async function PublicProfilePage({
 
       <div className="grid w-full items-start gap-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)]">
         <div className="min-w-0 space-y-4">
-          <ProfileWall
-            posts={profile.posts}
-            isOwnProfile={isOwnProfile}
-            currentUserId={session.userId}
+          <ProfilePostsStateInitializer
             currentUser={{
+              id: session.userId,
               username: currentUser?.username ?? session.username,
               avatarUrl: currentUser?.avatarUrl ?? null,
             }}
+            reviewOptions={profile.latestReviews}
           />
+          <ProfileWall posts={profile.posts} isOwnProfile={isOwnProfile} />
 
           <ProfileReviews reviews={profile.latestReviews} />
         </div>

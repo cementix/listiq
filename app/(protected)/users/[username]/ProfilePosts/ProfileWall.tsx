@@ -25,19 +25,9 @@ type ProfilePost = {
 type ProfileWallProps = {
   posts: ProfilePost[];
   isOwnProfile: boolean;
-  currentUserId: string;
-  currentUser: {
-    username: string;
-    avatarUrl: string | null;
-  };
 };
 
-export default function ProfileWall({
-  posts,
-  isOwnProfile,
-  currentUserId,
-  currentUser,
-}: ProfileWallProps) {
+export default function ProfileWall({ posts, isOwnProfile }: ProfileWallProps) {
   return (
     <GlassCard className="p-5">
       <h2 className="text-xl font-semibold text-white">Wall</h2>
@@ -48,14 +38,7 @@ export default function ProfileWall({
         {posts.length === 0 ? (
           <p className="text-sm text-white/50">No posts yet</p>
         ) : (
-          posts.map((post) => (
-            <ProfilePostCard
-              key={post.id}
-              post={post}
-              currentUserId={currentUserId}
-              currentUser={currentUser}
-            />
-          ))
+          posts.map((post) => <ProfilePostCard key={post.id} post={post} />)
         )}
       </div>
     </GlassCard>

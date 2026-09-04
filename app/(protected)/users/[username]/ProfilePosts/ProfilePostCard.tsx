@@ -1,7 +1,10 @@
+"use client";
+
 import { MessageCircle, UserRound } from "lucide-react";
 import Image from "next/image";
 import ProfilePostLikeButton from "./ProfilePostLikeButton";
 import ProfilePostComments from "./ProfilePostComments";
+import { useAppSelector } from "@/lib/store/hooks";
 
 type ProfilePostCardProps = {
   post: {
@@ -23,19 +26,14 @@ type ProfilePostCardProps = {
       };
     }[];
   };
-  currentUserId: string;
-  currentUser: {
-    username: string;
-    avatarUrl: string | null;
-  };
 };
 
-export default function ProfilePostCard({
-  post,
-  currentUserId,
-  currentUser,
-}: ProfilePostCardProps) {
-  const isLiked = post.likes.some((like) => like.userId === currentUserId);
+export default function ProfilePostCard({ post }: ProfilePostCardProps) {
+  const currentUser = useAppSelector((state) => state.profilePosts.currentUser);
+
+  const isLiked = currentUser
+    ? post.likes.some((like) => like.userId === currentUser.id)
+    : false;
 
   return (
     <article className="rounded-2xl border border-white/10 bg-black/20 p-4">
@@ -81,11 +79,7 @@ export default function ProfilePostCard({
         </span>
       </div>
 
-      <ProfilePostComments
-        postId={post.id}
-        comments={post.comments}
-        currentUser={currentUser}
-      />
+      <ProfilePostComments postId={post.id} comments={post.comments} />
     </article>
   );
 }
