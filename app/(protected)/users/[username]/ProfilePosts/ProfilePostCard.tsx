@@ -38,6 +38,13 @@ type ProfilePostCardProps = {
         year: number | null;
       };
     } | null;
+    media: {
+      id: string;
+      type: "IMAGE" | "VIDEO";
+      url: string;
+      width: number | null;
+      height: number | null;
+    }[];
   };
 };
 
@@ -116,6 +123,34 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
             </div>
           </div>
         </Link>
+      )}
+
+      {post.media.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {post.media.map((item) => (
+            <div
+              key={item.id}
+              className="overflow-hidden rounded-xl bg-white/10"
+            >
+              {item.type === "IMAGE" ? (
+                <Image
+                  src={item.url}
+                  alt=""
+                  width={item.width ?? 800}
+                  height={item.height ?? 600}
+                  className="max-h-96 w-auto max-w-full object-contain"
+                  unoptimized
+                />
+              ) : (
+                <video
+                  src={item.url}
+                  className="max-h-96 max-w-full object-contain"
+                  controls
+                />
+              )}
+            </div>
+          ))}
+        </div>
       )}
 
       <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/45">

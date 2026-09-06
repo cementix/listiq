@@ -1,12 +1,13 @@
 "use client";
 
 import { createProfilePost } from "@/actions/profile/createProfilePost";
+import { uploadProfilePostMedia } from "@/actions/profile/uploadProfilePostMedia";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/lib/store/hooks";
-import { LoaderCircle, Send, Star, X } from "lucide-react";
+import { ImagePlus, LoaderCircle, Send, Star, X } from "lucide-react";
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 export default function ProfilePostForm() {
@@ -14,7 +15,19 @@ export default function ProfilePostForm() {
   const [attachedUserTitleId, setAttachedUserTitleId] = useState<string | null>(
     null,
   );
+  const [media, setMedia] = useState<
+    {
+      type: "IMAGE" | "VIDEO";
+      url: string;
+      publicId: string;
+      width: number;
+      height: number;
+    }[]
+  >([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
   const [isPending, startTransition] = useTransition();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const reviewOptions = useAppSelector(
     (state) => state.profilePosts.reviewOptions,
@@ -24,9 +37,54 @@ export default function ProfilePostForm() {
     (review) => review.id === attachedUserTitleId,
   );
 
+  const handleMediaSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = Array.from(event.target.files ?? []).slice(
+      0,
+      4 - media.length,
+    );
+
+    if (files.length === 0) {
+      return;
+    }
+
+    setIsUploadingMedia(true);
+
+    try {
+      const uploaded = await Promise.all(
+        files.map(async (file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          return uploadProfilePostMedia(formData);
+        }),
+      );
+
+      const failed = uploaded.find((result) => !result.ok);
+
+      if (failed && !failed.ok) {
+        toast.error(failed.error);
+        return;
+      }
+
+      setMedia((current) => [
+        ...current,
+        ...uploaded.flatMap((result) => (result.ok ? [result.media] : [])),
+      ]);
+    } finally {
+      setIsUploadingMedia(false);
+      event.target.value = "";
+    }
+  };
+
   const handleSubmit = () => {
     startTransition(async () => {
-      const result = await createProfilePost({ content, attachedUserTitleId });
+      const result = await createProfilePost({
+        content,
+        attachedUserTitleId,
+        media,
+      });
 
       if (!result.ok) {
         toast.error(result.error);
@@ -35,6 +93,7 @@ export default function ProfilePostForm() {
 
       setContent("");
       setAttachedUserTitleId(null);
+      setMedia([]);
       toast.success(result.message ?? "Post published");
     });
   };
@@ -93,8 +152,71 @@ export default function ProfilePostForm() {
         </div>
       )}
 
+      {media.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {media.map((item) => (
+            <div
+              key={item.publicId}
+              className="group relative max-w-full overflow-hidden rounded-xl bg-white/10"
+              style={{
+                width: Math.min(item.width, 520),
+              }}
+            >
+              {item.type === "IMAGE" ? (
+                <Image
+                  src={item.url}
+                  alt=""
+                  width={item.width}
+                  height={item.height}
+                  className="max-h-80 w-auto max-w-full object-contain"
+                  unoptimized
+                />
+              ) : (
+                <video
+                  src={item.url}
+                  className="max-h-80 max-w-full object-contain"
+                  muted
+                />
+              )}
+
+              <button
+                type="button"
+                onClick={() =>
+                  setMedia((current) =>
+                    current.filter(
+                      (mediaItem) => mediaItem.publicId !== item.publicId,
+                    ),
+                  )
+                }
+                className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full bg-black/60 text-white/70 opacity-0 transition hover:text-white group-hover:opacity-100"
+              >
+                <X className="size-3.5" />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,video/*"
+            multiple
+            className="hidden"
+            onChange={handleMediaSelect}
+          />
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploadingMedia || media.length >= 4}
+            className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white disabled:opacity-40"
+          >
+            <ImagePlus className="size-3.5" />
+            Add image/video
+          </button>
           {reviewOptions.slice(0, 5).map((review) => (
             <button
               key={review.id}
@@ -113,7 +235,11 @@ export default function ProfilePostForm() {
           <Button
             type="button"
             onClick={handleSubmit}
-            disabled={isPending || (!content.trim() && !attachedUserTitleId)}
+            disabled={
+              isPending ||
+              isUploadingMedia ||
+              (!content.trim() && !attachedUserTitleId && media.length === 0)
+            }
             className="bg-white text-black hover:bg-white/90"
           >
             {isPending ? (

@@ -102,6 +102,8 @@ export async function getPublicProfileOverview(username: string) {
             id: true,
             type: true,
             url: true,
+            width: true,
+            height: true,
           },
         },
         attachedUserTitle: {

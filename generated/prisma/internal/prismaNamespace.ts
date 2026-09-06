@@ -1376,6 +1376,8 @@ export const ProfilePostMediaScalarFieldEnum = {
   type: 'type',
   url: 'url',
   publicId: 'publicId',
+  width: 'width',
+  height: 'height',
   createdAt: 'createdAt'
 } as const
 

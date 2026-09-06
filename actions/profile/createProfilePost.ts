@@ -6,9 +6,18 @@ import { normalizeString } from "../title/normalizeString";
 import { ActionResult } from "../types";
 import { revalidatePath } from "next/cache";
 
+type ProfilePostMediaInput = {
+  type: "IMAGE" | "VIDEO";
+  url: string;
+  publicId?: string | null;
+  width: number;
+  height: number;
+};
+
 type CreateProfilePostInput = {
   content: string;
   attachedUserTitleId?: string | null;
+  media?: ProfilePostMediaInput[];
 };
 
 export async function createProfilePost(
@@ -19,6 +28,16 @@ export async function createProfilePost(
     const content = normalizeString(data.content);
 
     const attachedUserTitleId = normalizeString(data.attachedUserTitleId);
+
+    const media = data.media ?? [];
+
+    if (!content && !attachedUserTitleId && media.length === 0) {
+      return { ok: false, error: "Post cannot be empty" };
+    }
+
+    if (media.length > 4) {
+      return { ok: false, error: "You can attach up to 4 media files" };
+    }
 
     if (!content && !attachedUserTitleId) {
       return { ok: false, error: "Post cannot be empty" };
@@ -47,6 +66,15 @@ export async function createProfilePost(
         authorId: session.userId,
         content,
         attachedUserTitleId,
+        media: {
+          create: media.map((item) => ({
+            type: item.type,
+            url: item.url,
+            publicId: item.publicId,
+            width: item.width,
+            height: item.height,
+          })),
+        },
       },
     });
 

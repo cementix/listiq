@@ -20,8 +20,20 @@ export type ProfilePostMediaModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateProfilePostMedia = {
   _count: ProfilePostMediaCountAggregateOutputType | null
+  _avg: ProfilePostMediaAvgAggregateOutputType | null
+  _sum: ProfilePostMediaSumAggregateOutputType | null
   _min: ProfilePostMediaMinAggregateOutputType | null
   _max: ProfilePostMediaMaxAggregateOutputType | null
+}
+
+export type ProfilePostMediaAvgAggregateOutputType = {
+  width: number | null
+  height: number | null
+}
+
+export type ProfilePostMediaSumAggregateOutputType = {
+  width: number | null
+  height: number | null
 }
 
 export type ProfilePostMediaMinAggregateOutputType = {
@@ -30,6 +42,8 @@ export type ProfilePostMediaMinAggregateOutputType = {
   type: $Enums.ProfilePostMediaType | null
   url: string | null
   publicId: string | null
+  width: number | null
+  height: number | null
   createdAt: Date | null
 }
 
@@ -39,6 +53,8 @@ export type ProfilePostMediaMaxAggregateOutputType = {
   type: $Enums.ProfilePostMediaType | null
   url: string | null
   publicId: string | null
+  width: number | null
+  height: number | null
   createdAt: Date | null
 }
 
@@ -48,10 +64,22 @@ export type ProfilePostMediaCountAggregateOutputType = {
   type: number
   url: number
   publicId: number
+  width: number
+  height: number
   createdAt: number
   _all: number
 }
 
+
+export type ProfilePostMediaAvgAggregateInputType = {
+  width?: true
+  height?: true
+}
+
+export type ProfilePostMediaSumAggregateInputType = {
+  width?: true
+  height?: true
+}
 
 export type ProfilePostMediaMinAggregateInputType = {
   id?: true
@@ -59,6 +87,8 @@ export type ProfilePostMediaMinAggregateInputType = {
   type?: true
   url?: true
   publicId?: true
+  width?: true
+  height?: true
   createdAt?: true
 }
 
@@ -68,6 +98,8 @@ export type ProfilePostMediaMaxAggregateInputType = {
   type?: true
   url?: true
   publicId?: true
+  width?: true
+  height?: true
   createdAt?: true
 }
 
@@ -77,6 +109,8 @@ export type ProfilePostMediaCountAggregateInputType = {
   type?: true
   url?: true
   publicId?: true
+  width?: true
+  height?: true
   createdAt?: true
   _all?: true
 }
@@ -119,6 +153,18 @@ export type ProfilePostMediaAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProfilePostMediaAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProfilePostMediaSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProfilePostMediaMinAggregateInputType
@@ -149,6 +195,8 @@ export type ProfilePostMediaGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: ProfilePostMediaCountAggregateInputType | true
+  _avg?: ProfilePostMediaAvgAggregateInputType
+  _sum?: ProfilePostMediaSumAggregateInputType
   _min?: ProfilePostMediaMinAggregateInputType
   _max?: ProfilePostMediaMaxAggregateInputType
 }
@@ -159,8 +207,12 @@ export type ProfilePostMediaGroupByOutputType = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId: string | null
+  width: number | null
+  height: number | null
   createdAt: Date
   _count: ProfilePostMediaCountAggregateOutputType | null
+  _avg: ProfilePostMediaAvgAggregateOutputType | null
+  _sum: ProfilePostMediaSumAggregateOutputType | null
   _min: ProfilePostMediaMinAggregateOutputType | null
   _max: ProfilePostMediaMaxAggregateOutputType | null
 }
@@ -189,6 +241,8 @@ export type ProfilePostMediaWhereInput = {
   type?: Prisma.EnumProfilePostMediaTypeFilter<"ProfilePostMedia"> | $Enums.ProfilePostMediaType
   url?: Prisma.StringFilter<"ProfilePostMedia"> | string
   publicId?: Prisma.StringNullableFilter<"ProfilePostMedia"> | string | null
+  width?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
+  height?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ProfilePostMedia"> | Date | string
   post?: Prisma.XOR<Prisma.ProfilePostScalarRelationFilter, Prisma.ProfilePostWhereInput>
 }
@@ -199,6 +253,8 @@ export type ProfilePostMediaOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  width?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   post?: Prisma.ProfilePostOrderByWithRelationInput
 }
@@ -212,6 +268,8 @@ export type ProfilePostMediaWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumProfilePostMediaTypeFilter<"ProfilePostMedia"> | $Enums.ProfilePostMediaType
   url?: Prisma.StringFilter<"ProfilePostMedia"> | string
   publicId?: Prisma.StringNullableFilter<"ProfilePostMedia"> | string | null
+  width?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
+  height?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ProfilePostMedia"> | Date | string
   post?: Prisma.XOR<Prisma.ProfilePostScalarRelationFilter, Prisma.ProfilePostWhereInput>
 }, "id">
@@ -222,10 +280,14 @@ export type ProfilePostMediaOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  width?: Prisma.SortOrderInput | Prisma.SortOrder
+  height?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ProfilePostMediaCountOrderByAggregateInput
+  _avg?: Prisma.ProfilePostMediaAvgOrderByAggregateInput
   _max?: Prisma.ProfilePostMediaMaxOrderByAggregateInput
   _min?: Prisma.ProfilePostMediaMinOrderByAggregateInput
+  _sum?: Prisma.ProfilePostMediaSumOrderByAggregateInput
 }
 
 export type ProfilePostMediaScalarWhereWithAggregatesInput = {
@@ -237,6 +299,8 @@ export type ProfilePostMediaScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumProfilePostMediaTypeWithAggregatesFilter<"ProfilePostMedia"> | $Enums.ProfilePostMediaType
   url?: Prisma.StringWithAggregatesFilter<"ProfilePostMedia"> | string
   publicId?: Prisma.StringNullableWithAggregatesFilter<"ProfilePostMedia"> | string | null
+  width?: Prisma.IntNullableWithAggregatesFilter<"ProfilePostMedia"> | number | null
+  height?: Prisma.IntNullableWithAggregatesFilter<"ProfilePostMedia"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProfilePostMedia"> | Date | string
 }
 
@@ -245,6 +309,8 @@ export type ProfilePostMediaCreateInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
   post: Prisma.ProfilePostCreateNestedOneWithoutMediaInput
 }
@@ -255,6 +321,8 @@ export type ProfilePostMediaUncheckedCreateInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
 }
 
@@ -263,6 +331,8 @@ export type ProfilePostMediaUpdateInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   post?: Prisma.ProfilePostUpdateOneRequiredWithoutMediaNestedInput
 }
@@ -273,6 +343,8 @@ export type ProfilePostMediaUncheckedUpdateInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -282,6 +354,8 @@ export type ProfilePostMediaCreateManyInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
 }
 
@@ -290,6 +364,8 @@ export type ProfilePostMediaUpdateManyMutationInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -299,6 +375,8 @@ export type ProfilePostMediaUncheckedUpdateManyInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -318,7 +396,14 @@ export type ProfilePostMediaCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ProfilePostMediaAvgOrderByAggregateInput = {
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
 }
 
 export type ProfilePostMediaMaxOrderByAggregateInput = {
@@ -327,6 +412,8 @@ export type ProfilePostMediaMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -336,7 +423,14 @@ export type ProfilePostMediaMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ProfilePostMediaSumOrderByAggregateInput = {
+  width?: Prisma.SortOrder
+  height?: Prisma.SortOrder
 }
 
 export type ProfilePostMediaCreateNestedManyWithoutPostInput = {
@@ -390,6 +484,8 @@ export type ProfilePostMediaCreateWithoutPostInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
 }
 
@@ -398,6 +494,8 @@ export type ProfilePostMediaUncheckedCreateWithoutPostInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
 }
 
@@ -436,6 +534,8 @@ export type ProfilePostMediaScalarWhereInput = {
   type?: Prisma.EnumProfilePostMediaTypeFilter<"ProfilePostMedia"> | $Enums.ProfilePostMediaType
   url?: Prisma.StringFilter<"ProfilePostMedia"> | string
   publicId?: Prisma.StringNullableFilter<"ProfilePostMedia"> | string | null
+  width?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
+  height?: Prisma.IntNullableFilter<"ProfilePostMedia"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ProfilePostMedia"> | Date | string
 }
 
@@ -444,6 +544,8 @@ export type ProfilePostMediaCreateManyPostInput = {
   type: $Enums.ProfilePostMediaType
   url: string
   publicId?: string | null
+  width?: number | null
+  height?: number | null
   createdAt?: Date | string
 }
 
@@ -452,6 +554,8 @@ export type ProfilePostMediaUpdateWithoutPostInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -460,6 +564,8 @@ export type ProfilePostMediaUncheckedUpdateWithoutPostInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -468,6 +574,8 @@ export type ProfilePostMediaUncheckedUpdateManyWithoutPostInput = {
   type?: Prisma.EnumProfilePostMediaTypeFieldUpdateOperationsInput | $Enums.ProfilePostMediaType
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -479,6 +587,8 @@ export type ProfilePostMediaSelect<ExtArgs extends runtime.Types.Extensions.Inte
   type?: boolean
   url?: boolean
   publicId?: boolean
+  width?: boolean
+  height?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ProfilePostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profilePostMedia"]>
@@ -489,6 +599,8 @@ export type ProfilePostMediaSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   type?: boolean
   url?: boolean
   publicId?: boolean
+  width?: boolean
+  height?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ProfilePostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profilePostMedia"]>
@@ -499,6 +611,8 @@ export type ProfilePostMediaSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   type?: boolean
   url?: boolean
   publicId?: boolean
+  width?: boolean
+  height?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.ProfilePostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profilePostMedia"]>
@@ -509,10 +623,12 @@ export type ProfilePostMediaSelectScalar = {
   type?: boolean
   url?: boolean
   publicId?: boolean
+  width?: boolean
+  height?: boolean
   createdAt?: boolean
 }
 
-export type ProfilePostMediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "type" | "url" | "publicId" | "createdAt", ExtArgs["result"]["profilePostMedia"]>
+export type ProfilePostMediaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "type" | "url" | "publicId" | "width" | "height" | "createdAt", ExtArgs["result"]["profilePostMedia"]>
 export type ProfilePostMediaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.ProfilePostDefaultArgs<ExtArgs>
 }
@@ -534,6 +650,8 @@ export type $ProfilePostMediaPayload<ExtArgs extends runtime.Types.Extensions.In
     type: $Enums.ProfilePostMediaType
     url: string
     publicId: string | null
+    width: number | null
+    height: number | null
     createdAt: Date
   }, ExtArgs["result"]["profilePostMedia"]>
   composites: {}
@@ -964,6 +1082,8 @@ export interface ProfilePostMediaFieldRefs {
   readonly type: Prisma.FieldRef<"ProfilePostMedia", 'ProfilePostMediaType'>
   readonly url: Prisma.FieldRef<"ProfilePostMedia", 'String'>
   readonly publicId: Prisma.FieldRef<"ProfilePostMedia", 'String'>
+  readonly width: Prisma.FieldRef<"ProfilePostMedia", 'Int'>
+  readonly height: Prisma.FieldRef<"ProfilePostMedia", 'Int'>
   readonly createdAt: Prisma.FieldRef<"ProfilePostMedia", 'DateTime'>
 }
     
