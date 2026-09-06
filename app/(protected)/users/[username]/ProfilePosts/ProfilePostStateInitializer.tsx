@@ -17,6 +17,7 @@ type ProfilePostsStateInitializerProps = {
     title: {
       name: string;
       slug: string;
+      imageUrl: string | null;
     };
   }[];
 };

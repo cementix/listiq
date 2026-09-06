@@ -13,6 +13,7 @@ type ReviewOption = {
   title: {
     name: string;
     slug: string;
+    imageUrl: string | null;
   };
 };
 

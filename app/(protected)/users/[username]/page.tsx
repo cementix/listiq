@@ -51,7 +51,16 @@ export default async function PublicProfilePage({
               username: currentUser?.username ?? session.username,
               avatarUrl: currentUser?.avatarUrl ?? null,
             }}
-            reviewOptions={profile.latestReviews}
+            reviewOptions={profile.latestReviews.map((review) => ({
+              id: review.id,
+              rating: review.rating,
+              note: review.note,
+              title: {
+                name: review.title.name,
+                slug: review.title.slug,
+                imageUrl: review.title.imageUrl,
+              },
+            }))}
           />
           <ProfileWall posts={profile.posts} isOwnProfile={isOwnProfile} />
 
