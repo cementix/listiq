@@ -51,6 +51,7 @@ enum ProfilePostMediaType {
 enum NotificationType {
   PROFILE_POST_COMMENT
   PROFILE_POST_REPLY
+  PROFILE_POST_COMMENT_LIKE
 }
 
 model User {
@@ -76,9 +77,10 @@ model User {
   submissions  TitleSubmission[] @relation("SubmissionAuthor")
   reviewedSubs TitleSubmission[] @relation("SubmissionReviewer")
 
-  profilePosts        ProfilePost[]
-  profilePostLikes    ProfilePostLike[]
-  profilePostComments ProfilePostComment[]
+  profilePosts            ProfilePost[]
+  profilePostLikes        ProfilePostLike[]
+  profilePostComments     ProfilePostComment[]
+  profielPostCommentLikes ProfilePostCommentLike[]
 
   notificationsReceived Notification[] @relation("NotificationRecipient")
   notificationsSent     Notification[] @relation("NotificationActor")
@@ -268,11 +270,27 @@ model ProfilePostComment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notifications Notification[]
+  notifications           Notification[]
+  profilePostCommentLikes ProfilePostCommentLike[]
 
   @@index([postId, createdAt])
   @@index([authorId])
   @@index([parentId])
+}
+
+model ProfilePostCommentLike {
+  id String @id @default(cuid())
+
+  commentId String
+  comment   ProfilePostComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, userId])
+  @@index([userId])
 }
 
 model Notification {

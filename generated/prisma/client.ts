@@ -92,6 +92,11 @@ export type ProfilePostLike = Prisma.ProfilePostLikeModel
  */
 export type ProfilePostComment = Prisma.ProfilePostCommentModel
 /**
+ * Model ProfilePostCommentLike
+ * 
+ */
+export type ProfilePostCommentLike = Prisma.ProfilePostCommentLikeModel
+/**
  * Model Notification
  * 
  */

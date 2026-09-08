@@ -67,7 +67,8 @@ export type ProfilePostMediaType = (typeof ProfilePostMediaType)[keyof typeof Pr
 
 export const NotificationType = {
   PROFILE_POST_COMMENT: 'PROFILE_POST_COMMENT',
-  PROFILE_POST_REPLY: 'PROFILE_POST_REPLY'
+  PROFILE_POST_REPLY: 'PROFILE_POST_REPLY',
+  PROFILE_POST_COMMENT_LIKE: 'PROFILE_POST_COMMENT_LIKE'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
