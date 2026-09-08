@@ -7,6 +7,7 @@ import { AtSign, ChevronDown, Send, Smile, UserRound } from "lucide-react";
 import Image from "next/image";
 import { type KeyboardEvent, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
+import ProfilePostCommentLikeButton from "./ProfilePostCommentLikeButton";
 
 type ProfilePostComment = {
   id: string;
@@ -16,6 +17,7 @@ type ProfilePostComment = {
     username: string;
     avatarUrl: string | null;
   };
+  likes: { id: string; userId: string }[];
 };
 
 type ProfilePostCommentsProps = {
@@ -197,6 +199,16 @@ export default function ProfilePostComments({
                 <p className="mt-1 whitespace-pre-wrap break-words text-xs leading-5 text-white/60">
                   {comment.content}
                 </p>
+
+                <div className="mt-1.5">
+                  <ProfilePostCommentLikeButton
+                    commentId={comment.id}
+                    likesCount={comment.likes.length}
+                    isLiked={comment.likes.some(
+                      (like) => like.userId === currentUser.id,
+                    )}
+                  />
+                </div>
               </div>
             </div>
           ))}

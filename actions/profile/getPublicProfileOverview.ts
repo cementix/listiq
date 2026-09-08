@@ -141,6 +141,12 @@ export async function getPublicProfileOverview(username: string) {
                 avatarUrl: true,
               },
             },
+            likes: {
+              select: {
+                id: true,
+                userId: true,
+              },
+            },
           },
         },
       },

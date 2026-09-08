@@ -223,8 +223,8 @@ export type ProfilePostCommentLikeScalarWhereWithAggregatesInput = {
 export type ProfilePostCommentLikeCreateInput = {
   id?: string
   createdAt?: Date | string
-  comment: Prisma.ProfilePostCommentCreateNestedOneWithoutProfilePostCommentLikesInput
-  user: Prisma.UserCreateNestedOneWithoutProfielPostCommentLikesInput
+  comment: Prisma.ProfilePostCommentCreateNestedOneWithoutLikesInput
+  user: Prisma.UserCreateNestedOneWithoutProfilePostCommentLikesInput
 }
 
 export type ProfilePostCommentLikeUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type ProfilePostCommentLikeUncheckedCreateInput = {
 export type ProfilePostCommentLikeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  comment?: Prisma.ProfilePostCommentUpdateOneRequiredWithoutProfilePostCommentLikesNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutProfielPostCommentLikesNestedInput
+  comment?: Prisma.ProfilePostCommentUpdateOneRequiredWithoutLikesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentLikesNestedInput
 }
 
 export type ProfilePostCommentLikeUncheckedUpdateInput = {
@@ -390,7 +390,7 @@ export type ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput =
 export type ProfilePostCommentLikeCreateWithoutUserInput = {
   id?: string
   createdAt?: Date | string
-  comment: Prisma.ProfilePostCommentCreateNestedOneWithoutProfilePostCommentLikesInput
+  comment: Prisma.ProfilePostCommentCreateNestedOneWithoutLikesInput
 }
 
 export type ProfilePostCommentLikeUncheckedCreateWithoutUserInput = {
@@ -438,7 +438,7 @@ export type ProfilePostCommentLikeScalarWhereInput = {
 export type ProfilePostCommentLikeCreateWithoutCommentInput = {
   id?: string
   createdAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutProfielPostCommentLikesInput
+  user: Prisma.UserCreateNestedOneWithoutProfilePostCommentLikesInput
 }
 
 export type ProfilePostCommentLikeUncheckedCreateWithoutCommentInput = {
@@ -482,7 +482,7 @@ export type ProfilePostCommentLikeCreateManyUserInput = {
 export type ProfilePostCommentLikeUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  comment?: Prisma.ProfilePostCommentUpdateOneRequiredWithoutProfilePostCommentLikesNestedInput
+  comment?: Prisma.ProfilePostCommentUpdateOneRequiredWithoutLikesNestedInput
 }
 
 export type ProfilePostCommentLikeUncheckedUpdateWithoutUserInput = {
@@ -506,7 +506,7 @@ export type ProfilePostCommentLikeCreateManyCommentInput = {
 export type ProfilePostCommentLikeUpdateWithoutCommentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutProfielPostCommentLikesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentLikesNestedInput
 }
 
 export type ProfilePostCommentLikeUncheckedUpdateWithoutCommentInput = {
