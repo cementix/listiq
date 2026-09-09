@@ -9,7 +9,7 @@ import { type KeyboardEvent, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import ProfilePostCommentLikeButton from "./ProfilePostCommentLikeButton";
 
-type ProfilePostComment = {
+type ProfilePostCommentReply = {
   id: string;
   content: string;
   createdAt: Date;
@@ -18,6 +18,10 @@ type ProfilePostComment = {
     avatarUrl: string | null;
   };
   likes: { id: string; userId: string }[];
+};
+
+type ProfilePostComment = ProfilePostCommentReply & {
+  replies: ProfilePostCommentReply[];
 };
 
 type ProfilePostCommentsProps = {
@@ -34,11 +38,21 @@ export default function ProfilePostComments({
   const currentUser = useAppSelector((state) => state.profilePosts.currentUser);
 
   const [content, setContent] = useState("");
+  const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(
+    null,
+  );
   const [visibleCount, setVisibleCount] = useState(3);
+  const [visibleReplyCounts, setVisibleReplyCounts] = useState<
+    Record<string, number>
+  >({});
   const [isPending, startTransition] = useTransition();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const visibleComments = comments.slice(0, visibleCount);
   const hasMoreComments = visibleCount < comments.length;
+
+  const replyingToComment = comments.find(
+    (comment) => comment.id === replyingToCommentId,
+  );
 
   const resizeTextarea = () => {
     const textarea = textareaRef.current;
@@ -57,7 +71,11 @@ export default function ProfilePostComments({
     }
 
     startTransition(async () => {
-      const result = await createProfilePostComment({ postId, content });
+      const result = await createProfilePostComment({
+        postId,
+        content,
+        parentId: replyingToCommentId,
+      });
 
       if (!result.ok) {
         toast.error(result.error);
@@ -66,6 +84,7 @@ export default function ProfilePostComments({
 
       setContent("");
       requestAnimationFrame(resizeTextarea);
+      setReplyingToCommentId(null);
       toast.success(result.message ?? "Comment posted");
     });
   };
@@ -200,7 +219,7 @@ export default function ProfilePostComments({
                   {comment.content}
                 </p>
 
-                <div className="mt-1.5">
+                <div className="mt-1.5 flex items-center gap-3">
                   <ProfilePostCommentLikeButton
                     commentId={comment.id}
                     likesCount={comment.likes.length}
@@ -208,7 +227,82 @@ export default function ProfilePostComments({
                       (like) => like.userId === currentUser.id,
                     )}
                   />
+
+                  <button
+                    type="button"
+                    onClick={() => setReplyingToCommentId(comment.id)}
+                    className="text-[11px] text-white/30 transition hover:text-white/55"
+                  >
+                    Reply
+                  </button>
                 </div>
+
+                {comment.replies.length > 0 && (
+                  <div className="mt-2 space-y-2 border-l border-white/10 pl-3">
+                    {comment.replies
+                      .slice(0, visibleReplyCounts[comment.id] ?? 3)
+                      .map((reply) => (
+                        <div key={reply.id} className="flex items-start gap-2">
+                          <div className="relative flex size-5 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/10">
+                            {reply.author.avatarUrl ? (
+                              <Image
+                                src={reply.author.avatarUrl}
+                                alt={`${reply.author.username} avatar`}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                              />
+                            ) : (
+                              <UserRound className="size-3 text-white/35" />
+                            )}
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <p className="truncate text-[11px] font-medium leading-4 text-white/65">
+                                @{reply.author.username}
+                              </p>
+                              <p className="shrink-0 text-[11px] leading-4 text-white/22">
+                                {reply.createdAt.toLocaleDateString("uk-UA")}
+                              </p>
+                            </div>
+
+                            <p className="mt-0.5 whitespace-pre-wrap break-words text-[11px] leading-4 text-white/50">
+                              {reply.content}
+                            </p>
+
+                            <div className="mt-1">
+                              <ProfilePostCommentLikeButton
+                                commentId={reply.id}
+                                likesCount={reply.likes.length}
+                                isLiked={reply.likes.some(
+                                  (like) => like.userId === currentUser.id,
+                                )}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    {(visibleReplyCounts[comment.id] ?? 3) <
+                      comment.replies.length && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          setVisibleReplyCounts((current) => ({
+                            ...current,
+                            [comment.id]: (current[comment.id] ?? 3) + 3,
+                          }))
+                        }
+                        className="h-6 px-2 text-[11px] text-white/30 hover:bg-white/[0.04] hover:text-white/55"
+                      >
+                        <ChevronDown className="size-3" />
+                        Show more replies
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -224,6 +318,20 @@ export default function ProfilePostComments({
               Load more comments
             </Button>
           )}
+        </div>
+      )}
+
+      {replyingToComment && (
+        <div className="flex items-center justify-between gap-3 rounded-lg bg-white/[0.04] px-3 py-2 text-xs text-white/45">
+          <span>Replying to @{replyingToComment.author.username}</span>
+
+          <button
+            type="button"
+            onClick={() => setReplyingToCommentId(null)}
+            className="text-white/35 transition hover:text-white"
+          >
+            Cancel
+          </button>
         </div>
       )}
 
@@ -251,7 +359,11 @@ export default function ProfilePostComments({
               requestAnimationFrame(resizeTextarea);
             }}
             onKeyDown={handleTextareaKeyDown}
-            placeholder="Add comment..."
+            placeholder={
+              replyingToComment
+                ? `Reply to @${replyingToComment.author.username}...`
+                : "Add comment..."
+            }
             maxLength={500}
             rows={1}
             className="max-h-24 min-h-5 min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-sm leading-5 text-white outline-none placeholder:text-white/32"

@@ -6,6 +6,7 @@ import ProfilePostLikeButton from "./ProfilePostLikeButton";
 import ProfilePostComments from "./ProfilePostComments";
 import { useAppSelector } from "@/lib/store/hooks";
 import Link from "next/link";
+import ProfilePostMediaViewer from "./ProfilePostMediaViewer";
 
 type ProfilePostCardProps = {
   post: {
@@ -125,33 +126,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
         </Link>
       )}
 
-      {post.media.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {post.media.map((item) => (
-            <div
-              key={item.id}
-              className="overflow-hidden rounded-xl bg-white/10"
-            >
-              {item.type === "IMAGE" ? (
-                <Image
-                  src={item.url}
-                  alt=""
-                  width={item.width ?? 800}
-                  height={item.height ?? 600}
-                  className="max-h-96 w-auto max-w-full object-contain"
-                  unoptimized
-                />
-              ) : (
-                <video
-                  src={item.url}
-                  className="max-h-96 max-w-full object-contain"
-                  controls
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      <ProfilePostMediaViewer media={post.media} />
 
       <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/45">
         <ProfilePostLikeButton

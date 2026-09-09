@@ -129,7 +129,10 @@ export async function getPublicProfileOverview(username: string) {
           },
         },
         comments: {
-          orderBy: { createdAt: "asc" },
+          where: {
+            parentId: null,
+          },
+          orderBy: [{ likes: { _count: "desc" } }, { createdAt: "asc" }],
           take: 20,
           select: {
             id: true,
@@ -145,6 +148,27 @@ export async function getPublicProfileOverview(username: string) {
               select: {
                 id: true,
                 userId: true,
+              },
+            },
+            replies: {
+              orderBy: [{ likes: { _count: "desc" } }, { createdAt: "asc" }],
+              take: 20,
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+                author: {
+                  select: {
+                    username: true,
+                    avatarUrl: true,
+                  },
+                },
+                likes: {
+                  select: {
+                    id: true,
+                    userId: true,
+                  },
+                },
               },
             },
           },

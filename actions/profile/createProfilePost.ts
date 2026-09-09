@@ -35,11 +35,11 @@ export async function createProfilePost(
       return { ok: false, error: "Post cannot be empty" };
     }
 
-    if (media.length > 4) {
-      return { ok: false, error: "You can attach up to 4 media files" };
+    if (media.length > 10) {
+      return { ok: false, error: "You can attach up to 10 media files" };
     }
 
-    if (!content && !attachedUserTitleId) {
+    if (!content && !attachedUserTitleId && media.length === 0) {
       return { ok: false, error: "Post cannot be empty" };
     }
 

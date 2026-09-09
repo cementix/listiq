@@ -10,6 +10,8 @@ import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
+const MAX_PROFILE_POST_MEDIA = 10;
+
 export default function ProfilePostForm() {
   const [content, setContent] = useState("");
   const [attachedUserTitleId, setAttachedUserTitleId] = useState<string | null>(
@@ -40,38 +42,43 @@ export default function ProfilePostForm() {
   const handleMediaSelect = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const files = Array.from(event.target.files ?? []).slice(
-      0,
-      4 - media.length,
-    );
+    const selectedFiles = Array.from(event.target.files ?? []);
+    const slotsLeft = MAX_PROFILE_POST_MEDIA - media.length;
+    const files = selectedFiles.slice(0, slotsLeft);
+
+    if (selectedFiles.length > slotsLeft) {
+      toast.error(`You can attach up to ${MAX_PROFILE_POST_MEDIA} media files`);
+    }
 
     if (files.length === 0) {
+      event.target.value = "";
       return;
     }
 
     setIsUploadingMedia(true);
 
     try {
-      const uploaded = await Promise.all(
-        files.map(async (file) => {
-          const formData = new FormData();
-          formData.append("file", file);
+      const uploadedMedia: typeof media = [];
 
-          return uploadProfilePostMedia(formData);
-        }),
-      );
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      const failed = uploaded.find((result) => !result.ok);
+        const result = await uploadProfilePostMedia(formData);
 
-      if (failed && !failed.ok) {
-        toast.error(failed.error);
-        return;
+        if (!result.ok) {
+          toast.error(result.error);
+          continue;
+        }
+
+        uploadedMedia.push(result.media);
       }
 
-      setMedia((current) => [
-        ...current,
-        ...uploaded.flatMap((result) => (result.ok ? [result.media] : [])),
-      ]);
+      if (uploadedMedia.length > 0) {
+        setMedia((current) =>
+          [...current, ...uploadedMedia].slice(0, MAX_PROFILE_POST_MEDIA),
+        );
+      }
     } finally {
       setIsUploadingMedia(false);
       event.target.value = "";
@@ -211,7 +218,9 @@ export default function ProfilePostForm() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            disabled={isUploadingMedia || media.length >= 4}
+            disabled={
+              isUploadingMedia || media.length >= MAX_PROFILE_POST_MEDIA
+            }
             className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white disabled:opacity-40"
           >
             <ImagePlus className="size-3.5" />
