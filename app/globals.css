@@ -5,10 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Keep the page scrollbar visible while Radix handles modal scroll events. */
-body[data-scroll-locked]:has([data-slot="dialog-overlay"]) {
-  overflow-y: auto !important;
+html {
+  overflow-y: scroll;
+}
+
+body[data-scroll-locked] {
+  overflow-y: scroll !important;
   margin-right: 0 !important;
-  --removed-body-scroll-bar-size: 0px;
+  padding-right: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
 }
 
 @theme inline {

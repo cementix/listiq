@@ -31,7 +31,7 @@ export default function ProfileImageEditor({
   const [currentPublicId, setCurrentPublicId] = useState(imagePublicId ?? "");
   const [draftUrl, setDraftUrl] = useState(imageUrl ?? "");
   const [draftPublicId, setDraftPublicId] = useState(imagePublicId ?? "");
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const isAvatar = type === "avatar";
 

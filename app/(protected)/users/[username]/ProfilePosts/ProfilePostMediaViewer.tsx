@@ -17,7 +17,14 @@ import {
   X,
 } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useRef, useState, type PointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent,
+} from "react";
+import { createPortal } from "react-dom";
 
 type ProfilePostMedia = {
   id: string;
@@ -50,9 +57,10 @@ export default function ProfilePostMediaViewer({
   const previewMedia = media[previewIndex];
   const isImage = activeMedia?.type === "IMAGE";
   const hasMultiple = media.length > 1;
-  const previewRatio = Math.min(16 / 9, Math.max(0.6,
-    (media[0]?.width || 4) / (media[0]?.height || 3),
-  ));
+  const previewRatio = Math.min(
+    16 / 9,
+    Math.max(0.6, (media[0]?.width || 4) / (media[0]?.height || 3)),
+  );
 
   const resetView = () => {
     setView({ zoom: 1, x: 0, y: 0 });
@@ -79,8 +87,12 @@ export default function ProfilePostMediaViewer({
         event.stopPropagation();
         if (!isImage || event.deltaY === 0) return;
 
-        const unit = event.deltaMode === 1 ? 16
-          : event.deltaMode === 2 ? node.clientHeight : 1;
+        const unit =
+          event.deltaMode === 1
+            ? 16
+            : event.deltaMode === 2
+              ? node.clientHeight
+              : 1;
         const delta = event.deltaY * unit;
         changeZoom(-Math.sign(delta) * Math.min(Math.abs(delta) * 0.003, 0.25));
       };
@@ -90,6 +102,62 @@ export default function ProfilePostMediaViewer({
     },
     [isImage, changeZoom],
   );
+
+  useEffect(() => {
+    if (!open) return;
+
+    const preventScroll = (event: WheelEvent | TouchEvent) => {
+      event.preventDefault();
+    };
+
+    const preventScrollKeys = (event: KeyboardEvent) => {
+      const target = event.target;
+      const isEditable =
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT");
+
+      if (isEditable) {
+        return;
+      }
+
+      if (
+        [
+          " ",
+          "ArrowDown",
+          "ArrowUp",
+          "PageDown",
+          "PageUp",
+          "Home",
+          "End",
+        ].includes(event.key)
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", preventScroll, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("touchmove", preventScroll, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("keydown", preventScrollKeys, { capture: true });
+
+    return () => {
+      window.removeEventListener("wheel", preventScroll, { capture: true });
+      window.removeEventListener("touchmove", preventScroll, {
+        capture: true,
+      });
+      window.removeEventListener("keydown", preventScrollKeys, {
+        capture: true,
+      });
+    };
+  }, [open]);
 
   const openMedia = (index: number) => {
     setActiveIndex(index);
@@ -200,7 +268,11 @@ export default function ProfilePostMediaViewer({
             <button
               type="button"
               aria-label="Previous attachment"
-              onClick={() => setPreviewIndex((current) => (current - 1 + media.length) % media.length)}
+              onClick={() =>
+                setPreviewIndex(
+                  (current) => (current - 1 + media.length) % media.length,
+                )
+              }
               className="absolute left-2 top-1/2 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75"
             >
               <ChevronLeft className="size-5" />
@@ -208,7 +280,9 @@ export default function ProfilePostMediaViewer({
             <button
               type="button"
               aria-label="Next attachment"
-              onClick={() => setPreviewIndex((current) => (current + 1) % media.length)}
+              onClick={() =>
+                setPreviewIndex((current) => (current + 1) % media.length)
+              }
               className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/55 text-white hover:bg-black/75"
             >
               <ChevronRight className="size-5" />
@@ -223,7 +297,9 @@ export default function ProfilePostMediaViewer({
                   onClick={() => setPreviewIndex(index)}
                   className="flex size-6 cursor-pointer items-center justify-center"
                 >
-                  <span className={`size-1.5 rounded-full ${index === previewIndex ? "bg-white" : "bg-white/40"}`} />
+                  <span
+                    className={`size-1.5 rounded-full ${index === previewIndex ? "bg-white" : "bg-white/40"}`}
+                  />
                 </button>
               ))}
             </div>
@@ -231,12 +307,36 @@ export default function ProfilePostMediaViewer({
         )}
       </div>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      {open &&
+        createPortal(
+          <div
+            aria-hidden="true"
+            className="fixed inset-0 z-[55] cursor-default bg-black/50 backdrop-blur-[3px]"
+            onPointerDown={(event) => {
+              event.stopPropagation();
+            }}
+            onClick={() => setOpen(false)}
+            onWheel={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+            onTouchMove={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+            }}
+          />,
+          document.body,
+        )}
+
+      <Dialog open={open} onOpenChange={setOpen} modal={false}>
         <DialogContent
           showCloseButton={false}
           aria-describedby={undefined}
+          overlayClassName="hidden"
           onWheel={(event) => event.stopPropagation()}
-          className="max-h-[84vh] w-[min(92vw,920px)] max-w-[920px] gap-0 overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:max-w-[920px]"
+          onPointerDownOutside={(event) => event.preventDefault()}
+          onInteractOutside={(event) => event.preventDefault()}
+          className="z-[60] max-h-[84vh] w-[min(92vw,920px)] max-w-[920px] gap-0 overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:max-w-[920px]"
         >
           <DialogTitle className="sr-only">Post media viewer</DialogTitle>
 
@@ -331,7 +431,9 @@ export default function ProfilePostMediaViewer({
               onPointerCancel={stopDragging}
               onLostPointerCapture={stopDragging}
               className="relative z-0 flex h-[min(72vh,680px)] min-h-0 cursor-default items-center justify-center overflow-hidden overscroll-none p-4"
-              style={{ touchAction: activeMedia.type === "IMAGE" ? "none" : "auto" }}
+              style={{
+                touchAction: activeMedia.type === "IMAGE" ? "none" : "auto",
+              }}
             >
               {activeMedia.type === "IMAGE" ? (
                 <Image

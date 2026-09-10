@@ -1,29 +1,9 @@
 import GlassCard from "@/components/custom/GlassCard";
 import ProfilePostForm from "./ProfilePostForm";
-import ProfilePostCard from "./ProfilePostCard";
-
-type ProfilePost = {
-  id: string;
-  content: string | null;
-  createdAt: Date;
-  author: {
-    username: string;
-    avatarUrl: string | null;
-  };
-  likes: { id: string; userId: string }[];
-  comments: {
-    id: string;
-    content: string;
-    createdAt: Date;
-    author: {
-      username: string;
-      avatarUrl: string | null;
-    };
-  }[];
-};
+import ProfilePostCard, { type ProfilePostCardPost } from "./ProfilePostCard";
 
 type ProfileWallProps = {
-  posts: ProfilePost[];
+  posts: ProfilePostCardPost[];
   isOwnProfile: boolean;
 };
 

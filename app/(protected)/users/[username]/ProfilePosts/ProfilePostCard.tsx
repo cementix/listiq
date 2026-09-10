@@ -8,17 +8,25 @@ import { useAppSelector } from "@/lib/store/hooks";
 import Link from "next/link";
 import ProfilePostMediaViewer from "./ProfilePostMediaViewer";
 
-type ProfilePostCardProps = {
-  post: {
+export type ProfilePostCardPost = {
+  id: string;
+  content: string | null;
+  createdAt: Date;
+  author: {
+    username: string;
+    avatarUrl: string | null;
+  };
+  likes: { id: string; userId: string }[];
+  comments: {
     id: string;
-    content: string | null;
+    content: string;
     createdAt: Date;
     author: {
       username: string;
       avatarUrl: string | null;
     };
     likes: { id: string; userId: string }[];
-    comments: {
+    replies: {
       id: string;
       content: string;
       createdAt: Date;
@@ -26,27 +34,32 @@ type ProfilePostCardProps = {
         username: string;
         avatarUrl: string | null;
       };
+      likes: { id: string; userId: string }[];
     }[];
-    attachedUserTitle: {
-      id: string;
-      rating: number | null;
-      note: string | null;
-      title: {
-        name: string;
-        slug: string;
-        imageUrl: string | null;
-        type: string;
-        year: number | null;
-      };
-    } | null;
-    media: {
-      id: string;
-      type: "IMAGE" | "VIDEO";
-      url: string;
-      width: number | null;
-      height: number | null;
-    }[];
-  };
+  }[];
+  attachedUserTitle: {
+    id: string;
+    rating: number | null;
+    note: string | null;
+    title: {
+      name: string;
+      slug: string;
+      imageUrl: string | null;
+      type: string;
+      year: number | null;
+    };
+  } | null;
+  media: {
+    id: string;
+    type: "IMAGE" | "VIDEO";
+    url: string;
+    width: number | null;
+    height: number | null;
+  }[];
+};
+
+type ProfilePostCardProps = {
+  post: ProfilePostCardPost;
 };
 
 export default function ProfilePostCard({ post }: ProfilePostCardProps) {
