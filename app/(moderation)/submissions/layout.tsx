@@ -30,6 +30,7 @@ export default async function ModerationLayout({
       <Navbar
         username={session.username}
         needsChangesCount={needsChangesCount}
+        avatarUrl={null}
       />
       {children}
     </div>

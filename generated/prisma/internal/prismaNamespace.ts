@@ -394,6 +394,7 @@ export const ModelName = {
   ProfilePostMedia: 'ProfilePostMedia',
   ProfilePostLike: 'ProfilePostLike',
   ProfilePostComment: 'ProfilePostComment',
+  ProfilePostCommentLike: 'ProfilePostCommentLike',
   Notification: 'Notification'
 } as const
 
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "notification"
+    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1154,6 +1155,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProfilePostCommentLike: {
+      payload: Prisma.$ProfilePostCommentLikePayload<ExtArgs>
+      fields: Prisma.ProfilePostCommentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProfilePostCommentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProfilePostCommentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.ProfilePostCommentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProfilePostCommentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        findMany: {
+          args: Prisma.ProfilePostCommentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>[]
+        }
+        create: {
+          args: Prisma.ProfilePostCommentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        createMany: {
+          args: Prisma.ProfilePostCommentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProfilePostCommentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.ProfilePostCommentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        update: {
+          args: Prisma.ProfilePostCommentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProfilePostCommentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProfilePostCommentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProfilePostCommentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProfilePostCommentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfilePostCommentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.ProfilePostCommentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProfilePostCommentLike>
+        }
+        groupBy: {
+          args: Prisma.ProfilePostCommentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfilePostCommentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProfilePostCommentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfilePostCommentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
     Notification: {
       payload: Prisma.$NotificationPayload<ExtArgs>
       fields: Prisma.NotificationFieldRefs
@@ -1376,6 +1451,8 @@ export const ProfilePostMediaScalarFieldEnum = {
   type: 'type',
   url: 'url',
   publicId: 'publicId',
+  width: 'width',
+  height: 'height',
   createdAt: 'createdAt'
 } as const
 
@@ -1403,6 +1480,16 @@ export const ProfilePostCommentScalarFieldEnum = {
 } as const
 
 export type ProfilePostCommentScalarFieldEnum = (typeof ProfilePostCommentScalarFieldEnum)[keyof typeof ProfilePostCommentScalarFieldEnum]
+
+
+export const ProfilePostCommentLikeScalarFieldEnum = {
+  id: 'id',
+  commentId: 'commentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type ProfilePostCommentLikeScalarFieldEnum = (typeof ProfilePostCommentLikeScalarFieldEnum)[keyof typeof ProfilePostCommentLikeScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -1693,6 +1780,7 @@ export type GlobalOmitConfig = {
   profilePostMedia?: Prisma.ProfilePostMediaOmit
   profilePostLike?: Prisma.ProfilePostLikeOmit
   profilePostComment?: Prisma.ProfilePostCommentOmit
+  profilePostCommentLike?: Prisma.ProfilePostCommentLikeOmit
   notification?: Prisma.NotificationOmit
 }
 

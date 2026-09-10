@@ -6,11 +6,32 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+import { registerOpenDialog } from "@/lib/dialog-state";
 
 function Dialog({
+  open,
+  defaultOpen = false,
+  onOpenChange,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
+  const [localOpen, setLocalOpen] = React.useState(defaultOpen);
+  const isOpen = open ?? localOpen;
+
+  React.useLayoutEffect(() => {
+    if (isOpen) return registerOpenDialog();
+  }, [isOpen]);
+
+  return (
+    <DialogPrimitive.Root
+      data-slot="dialog"
+      {...props}
+      open={isOpen}
+      onOpenChange={(nextOpen) => {
+        setLocalOpen(nextOpen);
+        onOpenChange?.(nextOpen);
+      }}
+    />
+  );
 }
 
 function DialogTrigger({
@@ -49,17 +70,19 @@ function DialogOverlay({
 
 function DialogContent({
   className,
+  overlayClassName,
   children,
   showCloseButton = true,
   disableDefaultAnimation = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  overlayClassName?: string;
   showCloseButton?: boolean;
   disableDefaultAnimation?: boolean;
 }) {
   return (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay className={overlayClassName} />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(

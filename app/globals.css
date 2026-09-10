@@ -4,6 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Keep the page scrollbar visible while Radix handles modal scroll events. */
+html {
+  overflow-y: scroll;
+}
+
+body[data-scroll-locked] {
+  overflow-y: scroll !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -7,12 +7,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "lint:profile-posts": "eslint \"actions/profile\" \"app/(protected)/users/[username]/ProfilePosts\"",
+    "lint:profile": "eslint \"actions/profile\" \"app/(protected)/users/[username]\"",
+    "lint:profile-posts:fix": "eslint \"actions/profile\" \"app/(protected)/users/[username]/ProfilePosts\" --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",
+    "@reduxjs/toolkit": "^2.12.0",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.9.0",
@@ -30,6 +34,7 @@
     "react-dom": "19.2.3",
     "react-easy-crop": "^5.5.7",
     "react-hook-form": "^7.71.2",
+    "react-redux": "^9.3.0",
     "shadcn": "^4.0.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",

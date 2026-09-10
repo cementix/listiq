@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   CheckCircle2,
   ChevronDown,
+  type LucideIcon,
   MessageSquare,
   MinusCircle,
   PlusCircle,
@@ -31,14 +32,12 @@ type ProfileActivityGroupProps = {
   compact?: boolean;
 };
 
-const getActivityIcon = (type: string) => {
-  if (type === "TITLE_ADDED") return PlusCircle;
-  if (type === "TITLE_REMOVED") return MinusCircle;
-  if (type === "TITLE_RATED") return Star;
-  if (type === "TITLE_REVIEWED") return MessageSquare;
-  if (type === "TITLE_SUBMITTED") return Send;
-
-  return CheckCircle2;
+const activityIcons: Record<string, LucideIcon> = {
+  TITLE_ADDED: PlusCircle,
+  TITLE_REMOVED: MinusCircle,
+  TITLE_RATED: Star,
+  TITLE_REVIEWED: MessageSquare,
+  TITLE_SUBMITTED: Send,
 };
 
 export default function ProfileActivityGroup({
@@ -51,7 +50,7 @@ export default function ProfileActivityGroup({
     return null;
   }
 
-  const ActivityIcon = getActivityIcon(firstEvent.type);
+  const ActivityIcon = activityIcons[firstEvent.type] ?? CheckCircle2;
   const actionCount = group.events.length;
   const actionLabel =
     actionCount === 1 ? getActivityCopy(firstEvent) : `${actionCount} actions`;
@@ -76,7 +75,7 @@ export default function ProfileActivityGroup({
         </div>
 
         <p className="shrink-0 text-right text-sm text-white/45">
-          {group.createdAt.toLocaleDateString("en-US")}
+          {group.createdAt.toLocaleDateString("uk-UA")}
         </p>
       </Link>
     );
@@ -117,7 +116,7 @@ export default function ProfileActivityGroup({
             compact ? "text-xs" : "text-sm"
           }`}
         >
-          <span>{group.createdAt.toLocaleDateString("en-US")}</span>
+          <span>{group.createdAt.toLocaleDateString("uk-UA")}</span>
           <ChevronDown className="size-4 transition group-open:rotate-180" />
         </div>
       </summary>
@@ -125,7 +124,7 @@ export default function ProfileActivityGroup({
       <div className="border-t border-white/10 px-3 pb-3 pt-1">
         <div className="space-y-2">
           {group.events.map((event) => {
-            const EventIcon = getActivityIcon(event.type);
+            const EventIcon = activityIcons[event.type] ?? CheckCircle2;
 
             return (
               <Link
@@ -149,7 +148,7 @@ export default function ProfileActivityGroup({
                 </div>
 
                 <p className="shrink-0 text-xs text-white/35">
-                  {event.createdAt.toLocaleDateString("en-US")}
+                  {event.createdAt.toLocaleDateString("uk-UA")}
                 </p>
               </Link>
             );

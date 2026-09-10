@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { hasOpenDialog } from "@/lib/dialog-state";
 
 type NavbarShellProps = {
   children: React.ReactNode;
@@ -11,6 +12,10 @@ export default function NavbarShell({ children }: NavbarShellProps) {
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
+      if (event.defaultPrevented || hasOpenDialog()) {
+        return;
+      }
+
       if (event.deltaY < 0) {
         setIsVisible(true);
         return;
@@ -22,6 +27,8 @@ export default function NavbarShell({ children }: NavbarShellProps) {
     };
 
     const handleScroll = () => {
+      if (hasOpenDialog()) return;
+
       if (window.scrollY < 24) {
         setIsVisible(true);
       }

@@ -203,6 +203,7 @@ export type ProfilePostCommentWhereInput = {
   parent?: Prisma.XOR<Prisma.ProfilePostCommentNullableScalarRelationFilter, Prisma.ProfilePostCommentWhereInput> | null
   replies?: Prisma.ProfilePostCommentListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  likes?: Prisma.ProfilePostCommentLikeListRelationFilter
 }
 
 export type ProfilePostCommentOrderByWithRelationInput = {
@@ -218,6 +219,7 @@ export type ProfilePostCommentOrderByWithRelationInput = {
   parent?: Prisma.ProfilePostCommentOrderByWithRelationInput
   replies?: Prisma.ProfilePostCommentOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  likes?: Prisma.ProfilePostCommentLikeOrderByRelationAggregateInput
 }
 
 export type ProfilePostCommentWhereUniqueInput = Prisma.AtLeast<{
@@ -236,6 +238,7 @@ export type ProfilePostCommentWhereUniqueInput = Prisma.AtLeast<{
   parent?: Prisma.XOR<Prisma.ProfilePostCommentNullableScalarRelationFilter, Prisma.ProfilePostCommentWhereInput> | null
   replies?: Prisma.ProfilePostCommentListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
+  likes?: Prisma.ProfilePostCommentLikeListRelationFilter
 }, "id">
 
 export type ProfilePostCommentOrderByWithAggregationInput = {
@@ -274,6 +277,7 @@ export type ProfilePostCommentCreateInput = {
   parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
   replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateInput = {
@@ -286,6 +290,7 @@ export type ProfilePostCommentUncheckedCreateInput = {
   updatedAt?: Date | string
   replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUpdateInput = {
@@ -298,6 +303,7 @@ export type ProfilePostCommentUpdateInput = {
   parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateInput = {
@@ -310,6 +316,7 @@ export type ProfilePostCommentUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentCreateManyInput = {
@@ -382,6 +389,11 @@ export type ProfilePostCommentMinOrderByAggregateInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ProfilePostCommentScalarRelationFilter = {
+  is?: Prisma.ProfilePostCommentWhereInput
+  isNot?: Prisma.ProfilePostCommentWhereInput
 }
 
 export type ProfilePostCommentCreateNestedManyWithoutAuthorInput = {
@@ -526,6 +538,20 @@ export type ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.ProfilePostCommentScalarWhereInput | Prisma.ProfilePostCommentScalarWhereInput[]
 }
 
+export type ProfilePostCommentCreateNestedOneWithoutLikesInput = {
+  create?: Prisma.XOR<Prisma.ProfilePostCommentCreateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ProfilePostCommentCreateOrConnectWithoutLikesInput
+  connect?: Prisma.ProfilePostCommentWhereUniqueInput
+}
+
+export type ProfilePostCommentUpdateOneRequiredWithoutLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProfilePostCommentCreateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedCreateWithoutLikesInput>
+  connectOrCreate?: Prisma.ProfilePostCommentCreateOrConnectWithoutLikesInput
+  upsert?: Prisma.ProfilePostCommentUpsertWithoutLikesInput
+  connect?: Prisma.ProfilePostCommentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProfilePostCommentUpdateToOneWithWhereWithoutLikesInput, Prisma.ProfilePostCommentUpdateWithoutLikesInput>, Prisma.ProfilePostCommentUncheckedUpdateWithoutLikesInput>
+}
+
 export type ProfilePostCommentCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.ProfilePostCommentCreateWithoutNotificationsInput, Prisma.ProfilePostCommentUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.ProfilePostCommentCreateOrConnectWithoutNotificationsInput
@@ -551,6 +577,7 @@ export type ProfilePostCommentCreateWithoutAuthorInput = {
   parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
   replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateWithoutAuthorInput = {
@@ -562,6 +589,7 @@ export type ProfilePostCommentUncheckedCreateWithoutAuthorInput = {
   updatedAt?: Date | string
   replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentCreateOrConnectWithoutAuthorInput = {
@@ -612,6 +640,7 @@ export type ProfilePostCommentCreateWithoutPostInput = {
   parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
   replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateWithoutPostInput = {
@@ -623,6 +652,7 @@ export type ProfilePostCommentUncheckedCreateWithoutPostInput = {
   updatedAt?: Date | string
   replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentCreateOrConnectWithoutPostInput = {
@@ -660,6 +690,7 @@ export type ProfilePostCommentCreateWithoutRepliesInput = {
   author: Prisma.UserCreateNestedOneWithoutProfilePostCommentsInput
   parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateWithoutRepliesInput = {
@@ -671,6 +702,7 @@ export type ProfilePostCommentUncheckedCreateWithoutRepliesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentCreateOrConnectWithoutRepliesInput = {
@@ -687,6 +719,7 @@ export type ProfilePostCommentCreateWithoutParentInput = {
   author: Prisma.UserCreateNestedOneWithoutProfilePostCommentsInput
   replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateWithoutParentInput = {
@@ -698,6 +731,7 @@ export type ProfilePostCommentUncheckedCreateWithoutParentInput = {
   updatedAt?: Date | string
   replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentCreateOrConnectWithoutParentInput = {
@@ -730,6 +764,7 @@ export type ProfilePostCommentUpdateWithoutRepliesInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentsNestedInput
   parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateWithoutRepliesInput = {
@@ -741,6 +776,7 @@ export type ProfilePostCommentUncheckedUpdateWithoutRepliesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUpsertWithWhereUniqueWithoutParentInput = {
@@ -759,6 +795,70 @@ export type ProfilePostCommentUpdateManyWithWhereWithoutParentInput = {
   data: Prisma.XOR<Prisma.ProfilePostCommentUpdateManyMutationInput, Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentInput>
 }
 
+export type ProfilePostCommentCreateWithoutLikesInput = {
+  id?: string
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  post: Prisma.ProfilePostCreateNestedOneWithoutCommentsInput
+  author: Prisma.UserCreateNestedOneWithoutProfilePostCommentsInput
+  parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
+  replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutCommentInput
+}
+
+export type ProfilePostCommentUncheckedCreateWithoutLikesInput = {
+  id?: string
+  postId: string
+  authorId: string
+  parentId?: string | null
+  content: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutCommentInput
+}
+
+export type ProfilePostCommentCreateOrConnectWithoutLikesInput = {
+  where: Prisma.ProfilePostCommentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProfilePostCommentCreateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedCreateWithoutLikesInput>
+}
+
+export type ProfilePostCommentUpsertWithoutLikesInput = {
+  update: Prisma.XOR<Prisma.ProfilePostCommentUpdateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedUpdateWithoutLikesInput>
+  create: Prisma.XOR<Prisma.ProfilePostCommentCreateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedCreateWithoutLikesInput>
+  where?: Prisma.ProfilePostCommentWhereInput
+}
+
+export type ProfilePostCommentUpdateToOneWithWhereWithoutLikesInput = {
+  where?: Prisma.ProfilePostCommentWhereInput
+  data: Prisma.XOR<Prisma.ProfilePostCommentUpdateWithoutLikesInput, Prisma.ProfilePostCommentUncheckedUpdateWithoutLikesInput>
+}
+
+export type ProfilePostCommentUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  post?: Prisma.ProfilePostUpdateOneRequiredWithoutCommentsNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentsNestedInput
+  parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
+  replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+}
+
+export type ProfilePostCommentUncheckedUpdateWithoutLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  postId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+}
+
 export type ProfilePostCommentCreateWithoutNotificationsInput = {
   id?: string
   content: string
@@ -768,6 +868,7 @@ export type ProfilePostCommentCreateWithoutNotificationsInput = {
   author: Prisma.UserCreateNestedOneWithoutProfilePostCommentsInput
   parent?: Prisma.ProfilePostCommentCreateNestedOneWithoutRepliesInput
   replies?: Prisma.ProfilePostCommentCreateNestedManyWithoutParentInput
+  likes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentUncheckedCreateWithoutNotificationsInput = {
@@ -779,6 +880,7 @@ export type ProfilePostCommentUncheckedCreateWithoutNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   replies?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutParentInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutCommentInput
 }
 
 export type ProfilePostCommentCreateOrConnectWithoutNotificationsInput = {
@@ -806,6 +908,7 @@ export type ProfilePostCommentUpdateWithoutNotificationsInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentsNestedInput
   parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateWithoutNotificationsInput = {
@@ -817,6 +920,7 @@ export type ProfilePostCommentUncheckedUpdateWithoutNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentCreateManyAuthorInput = {
@@ -837,6 +941,7 @@ export type ProfilePostCommentUpdateWithoutAuthorInput = {
   parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateWithoutAuthorInput = {
@@ -848,6 +953,7 @@ export type ProfilePostCommentUncheckedUpdateWithoutAuthorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateManyWithoutAuthorInput = {
@@ -877,6 +983,7 @@ export type ProfilePostCommentUpdateWithoutPostInput = {
   parent?: Prisma.ProfilePostCommentUpdateOneWithoutRepliesNestedInput
   replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateWithoutPostInput = {
@@ -888,6 +995,7 @@ export type ProfilePostCommentUncheckedUpdateWithoutPostInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateManyWithoutPostInput = {
@@ -917,6 +1025,7 @@ export type ProfilePostCommentUpdateWithoutParentInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutProfilePostCommentsNestedInput
   replies?: Prisma.ProfilePostCommentUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateWithoutParentInput = {
@@ -928,6 +1037,7 @@ export type ProfilePostCommentUncheckedUpdateWithoutParentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   replies?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutParentNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutCommentNestedInput
+  likes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutCommentNestedInput
 }
 
 export type ProfilePostCommentUncheckedUpdateManyWithoutParentInput = {
@@ -947,11 +1057,13 @@ export type ProfilePostCommentUncheckedUpdateManyWithoutParentInput = {
 export type ProfilePostCommentCountOutputType = {
   replies: number
   notifications: number
+  likes: number
 }
 
 export type ProfilePostCommentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   replies?: boolean | ProfilePostCommentCountOutputTypeCountRepliesArgs
   notifications?: boolean | ProfilePostCommentCountOutputTypeCountNotificationsArgs
+  likes?: boolean | ProfilePostCommentCountOutputTypeCountLikesArgs
 }
 
 /**
@@ -978,6 +1090,13 @@ export type ProfilePostCommentCountOutputTypeCountNotificationsArgs<ExtArgs exte
   where?: Prisma.NotificationWhereInput
 }
 
+/**
+ * ProfilePostCommentCountOutputType without action
+ */
+export type ProfilePostCommentCountOutputTypeCountLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProfilePostCommentLikeWhereInput
+}
+
 
 export type ProfilePostCommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -992,6 +1111,7 @@ export type ProfilePostCommentSelect<ExtArgs extends runtime.Types.Extensions.In
   parent?: boolean | Prisma.ProfilePostComment$parentArgs<ExtArgs>
   replies?: boolean | Prisma.ProfilePostComment$repliesArgs<ExtArgs>
   notifications?: boolean | Prisma.ProfilePostComment$notificationsArgs<ExtArgs>
+  likes?: boolean | Prisma.ProfilePostComment$likesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfilePostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["profilePostComment"]>
 
@@ -1038,6 +1158,7 @@ export type ProfilePostCommentInclude<ExtArgs extends runtime.Types.Extensions.I
   parent?: boolean | Prisma.ProfilePostComment$parentArgs<ExtArgs>
   replies?: boolean | Prisma.ProfilePostComment$repliesArgs<ExtArgs>
   notifications?: boolean | Prisma.ProfilePostComment$notificationsArgs<ExtArgs>
+  likes?: boolean | Prisma.ProfilePostComment$likesArgs<ExtArgs>
   _count?: boolean | Prisma.ProfilePostCommentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProfilePostCommentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1059,6 +1180,7 @@ export type $ProfilePostCommentPayload<ExtArgs extends runtime.Types.Extensions.
     parent: Prisma.$ProfilePostCommentPayload<ExtArgs> | null
     replies: Prisma.$ProfilePostCommentPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    likes: Prisma.$ProfilePostCommentLikePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1467,6 +1589,7 @@ export interface Prisma__ProfilePostCommentClient<T, Null = never, ExtArgs exten
   parent<T extends Prisma.ProfilePostComment$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfilePostComment$parentArgs<ExtArgs>>): Prisma.Prisma__ProfilePostCommentClient<runtime.Types.Result.GetResult<Prisma.$ProfilePostCommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   replies<T extends Prisma.ProfilePostComment$repliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfilePostComment$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePostCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.ProfilePostComment$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfilePostComment$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  likes<T extends Prisma.ProfilePostComment$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProfilePostComment$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfilePostCommentLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1968,6 +2091,30 @@ export type ProfilePostComment$notificationsArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * ProfilePostComment.likes
+ */
+export type ProfilePostComment$likesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProfilePostCommentLike
+   */
+  select?: Prisma.ProfilePostCommentLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProfilePostCommentLike
+   */
+  omit?: Prisma.ProfilePostCommentLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProfilePostCommentLikeInclude<ExtArgs> | null
+  where?: Prisma.ProfilePostCommentLikeWhereInput
+  orderBy?: Prisma.ProfilePostCommentLikeOrderByWithRelationInput | Prisma.ProfilePostCommentLikeOrderByWithRelationInput[]
+  cursor?: Prisma.ProfilePostCommentLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProfilePostCommentLikeScalarFieldEnum | Prisma.ProfilePostCommentLikeScalarFieldEnum[]
 }
 
 /**
