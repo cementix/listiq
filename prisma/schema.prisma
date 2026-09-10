@@ -54,6 +54,13 @@ enum NotificationType {
   PROFILE_POST_COMMENT_LIKE
 }
 
+enum ExternalTitleProvider {
+  RAWG
+  TMDB_MOVIE
+  TMDB_TV
+  ANILIST
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -102,9 +109,13 @@ model Title {
   createdById String?
   createdBy   User?   @relation("TitleCreator", fields: [createdById], references: [id], onDelete: SetNull)
 
+  releaseDate DateTime?
+  backdropUrl String?
+
   genres         Genre[]
   users          UserTitle[]
   activityEvents ActivityEvent[]
+  externalTitles ExternalTitle[]
 
   @@index([name])
   @@index([type])
@@ -317,4 +328,24 @@ model Notification {
   @@index([actorId])
   @@index([postId])
   @@index([commentId])
+}
+
+model ExternalTitle {
+  id String @id @default(cuid())
+
+  titleId String
+  title   Title  @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  provider    ExternalTitleProvider
+  externalId  String
+  externalUrl String?
+
+  rawData      Json?
+  lastSyncedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, externalId])
+  @@index([titleId])
 }

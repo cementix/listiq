@@ -72,3 +72,13 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const ExternalTitleProvider = {
+  RAWG: 'RAWG',
+  TMDB_MOVIE: 'TMDB_MOVIE',
+  TMDB_TV: 'TMDB_TV',
+  ANILIST: 'ANILIST'
+} as const
+
+export type ExternalTitleProvider = (typeof ExternalTitleProvider)[keyof typeof ExternalTitleProvider]

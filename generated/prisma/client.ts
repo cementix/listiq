@@ -101,3 +101,8 @@ export type ProfilePostCommentLike = Prisma.ProfilePostCommentLikeModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model ExternalTitle
+ * 
+ */
+export type ExternalTitle = Prisma.ExternalTitleModel

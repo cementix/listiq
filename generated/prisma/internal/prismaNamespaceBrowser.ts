@@ -62,7 +62,8 @@ export const ModelName = {
   ProfilePostLike: 'ProfilePostLike',
   ProfilePostComment: 'ProfilePostComment',
   ProfilePostCommentLike: 'ProfilePostCommentLike',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  ExternalTitle: 'ExternalTitle'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,7 +110,9 @@ export const TitleScalarFieldEnum = {
   type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  createdById: 'createdById'
+  createdById: 'createdById',
+  releaseDate: 'releaseDate',
+  backdropUrl: 'backdropUrl'
 } as const
 
 export type TitleScalarFieldEnum = (typeof TitleScalarFieldEnum)[keyof typeof TitleScalarFieldEnum]
@@ -245,12 +248,35 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const ExternalTitleScalarFieldEnum = {
+  id: 'id',
+  titleId: 'titleId',
+  provider: 'provider',
+  externalId: 'externalId',
+  externalUrl: 'externalUrl',
+  rawData: 'rawData',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExternalTitleScalarFieldEnum = (typeof ExternalTitleScalarFieldEnum)[keyof typeof ExternalTitleScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -267,4 +293,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
