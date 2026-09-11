@@ -82,3 +82,8 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type ExternalTitle = Prisma.ExternalTitleModel
+/**
+ * Model SyncRun
+ * 
+ */
+export type SyncRun = Prisma.SyncRunModel

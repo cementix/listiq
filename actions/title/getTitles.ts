@@ -15,15 +15,23 @@ type GetTitlesInput = {
   query?: string;
   type?: TitleType | "ALL";
   sort?: TitleSort;
+  page?: number;
+  limit?: number;
 };
 
 export async function getTitles({
   query = "",
   type = "ALL",
   sort = "newest",
+  page = 1,
+  limit = 24,
 }: GetTitlesInput) {
   const { session } = await requireUserServer();
   const normalizedQuery = query.trim();
+
+  const safePage = Math.max(1, page);
+  const safeLimit = Math.min(Math.max(1, limit), 48);
+  const skip = (safePage - 1) * safeLimit;
 
   const titles = await prisma.title.findMany({
     where: {
@@ -61,9 +69,14 @@ export async function getTitles({
         },
       },
     },
+    skip,
+    take: safeLimit + 1,
   });
 
-  const titlesWithStats = titles.map((title) => {
+  const hasMore = titles.length > safeLimit;
+  const visibleTitles = titles.slice(0, safeLimit);
+
+  const titlesWithStats = visibleTitles.map((title) => {
     const ratings = title.users
       .map((entry) => entry.rating)
       .filter((rating): rating is number => rating !== null);
@@ -121,5 +134,9 @@ export async function getTitles({
     return b.createdAt.getTime() - a.createdAt.getTime();
   });
 
-  return sortedTitles;
+  return {
+    titles: sortedTitles,
+    hasMore,
+    nextPage: hasMore ? safePage + 1 : null,
+  };
 }

@@ -63,7 +63,8 @@ export const ModelName = {
   ProfilePostComment: 'ProfilePostComment',
   ProfilePostCommentLike: 'ProfilePostCommentLike',
   Notification: 'Notification',
-  ExternalTitle: 'ExternalTitle'
+  ExternalTitle: 'ExternalTitle',
+  SyncRun: 'SyncRun'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -261,6 +262,20 @@ export const ExternalTitleScalarFieldEnum = {
 } as const
 
 export type ExternalTitleScalarFieldEnum = (typeof ExternalTitleScalarFieldEnum)[keyof typeof ExternalTitleScalarFieldEnum]
+
+
+export const SyncRunScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  status: 'status',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  titlesCreated: 'titlesCreated',
+  titlesUpdated: 'titlesUpdated',
+  errorMessage: 'errorMessage'
+} as const
+
+export type SyncRunScalarFieldEnum = (typeof SyncRunScalarFieldEnum)[keyof typeof SyncRunScalarFieldEnum]
 
 
 export const SortOrder = {

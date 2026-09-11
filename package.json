@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "sync:titles": "tsx scripts/syncTitles.ts",
     "lint:profile-posts": "eslint \"actions/profile\" \"app/(protected)/users/[username]/ProfilePosts\"",
     "lint:profile": "eslint \"actions/profile\" \"app/(protected)/users/[username]\"",
     "lint:profile-posts:fix": "eslint \"actions/profile\" \"app/(protected)/users/[username]/ProfilePosts\" --fix"

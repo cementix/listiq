@@ -396,7 +396,8 @@ export const ModelName = {
   ProfilePostComment: 'ProfilePostComment',
   ProfilePostCommentLike: 'ProfilePostCommentLike',
   Notification: 'Notification',
-  ExternalTitle: 'ExternalTitle'
+  ExternalTitle: 'ExternalTitle',
+  SyncRun: 'SyncRun'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle"
+    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1378,6 +1379,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SyncRun: {
+      payload: Prisma.$SyncRunPayload<ExtArgs>
+      fields: Prisma.SyncRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SyncRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SyncRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        findFirst: {
+          args: Prisma.SyncRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SyncRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        findMany: {
+          args: Prisma.SyncRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>[]
+        }
+        create: {
+          args: Prisma.SyncRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        createMany: {
+          args: Prisma.SyncRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SyncRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>[]
+        }
+        delete: {
+          args: Prisma.SyncRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        update: {
+          args: Prisma.SyncRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.SyncRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SyncRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SyncRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.SyncRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncRunPayload>
+        }
+        aggregate: {
+          args: Prisma.SyncRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSyncRun>
+        }
+        groupBy: {
+          args: Prisma.SyncRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SyncRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SyncRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SyncRunCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1598,6 +1673,20 @@ export const ExternalTitleScalarFieldEnum = {
 export type ExternalTitleScalarFieldEnum = (typeof ExternalTitleScalarFieldEnum)[keyof typeof ExternalTitleScalarFieldEnum]
 
 
+export const SyncRunScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  status: 'status',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  titlesCreated: 'titlesCreated',
+  titlesUpdated: 'titlesUpdated',
+  errorMessage: 'errorMessage'
+} as const
+
+export type SyncRunScalarFieldEnum = (typeof SyncRunScalarFieldEnum)[keyof typeof SyncRunScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1812,6 +1901,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
+
+/**
+ * Reference to a field of type 'SyncRunStatus'
+ */
+export type EnumSyncRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SyncRunStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SyncRunStatus[]'
+ */
+export type ListEnumSyncRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SyncRunStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1920,6 +2023,7 @@ export type GlobalOmitConfig = {
   profilePostCommentLike?: Prisma.ProfilePostCommentLikeOmit
   notification?: Prisma.NotificationOmit
   externalTitle?: Prisma.ExternalTitleOmit
+  syncRun?: Prisma.SyncRunOmit
 }
 
 /* Types for Logging */

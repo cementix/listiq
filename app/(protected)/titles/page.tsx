@@ -30,7 +30,13 @@ export default async function TitlesPage({ searchParams }: TitlesPageProps) {
     ? (params.sort as (typeof allowedSorts)[number])
     : "newest";
 
-  const titles = await getTitles({ query, type, sort });
+  const titlesResult = await getTitles({
+    query,
+    type,
+    sort,
+    page: 1,
+    limit: 24,
+  });
 
   return (
     <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
@@ -42,7 +48,14 @@ export default async function TitlesPage({ searchParams }: TitlesPageProps) {
         </p>
       </GlassCard>
 
-      <TitlesList titles={titles} query={query} type={type} sort={sort} />
+      <TitlesList
+        initialTitles={titlesResult.titles}
+        initialHasMore={titlesResult.hasMore}
+        initialNextPage={titlesResult.nextPage}
+        query={query}
+        type={type}
+        sort={sort}
+      />
     </PageSection>
   );
 }

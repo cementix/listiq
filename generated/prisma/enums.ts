@@ -82,3 +82,12 @@ export const ExternalTitleProvider = {
 } as const
 
 export type ExternalTitleProvider = (typeof ExternalTitleProvider)[keyof typeof ExternalTitleProvider]
+
+
+export const SyncRunStatus = {
+  RUNNING: 'RUNNING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+} as const
+
+export type SyncRunStatus = (typeof SyncRunStatus)[keyof typeof SyncRunStatus]
