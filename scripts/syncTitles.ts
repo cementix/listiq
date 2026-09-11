@@ -1,9 +1,9 @@
 import "dotenv/config";
 import { prisma } from "@/lib/prisma";
-import { syncTmdbTrending } from "@/lib/sync/providers/tmdb";
+import { syncTmdbDailyCatalog } from "@/lib/sync/providers/tmdb";
 
 async function main() {
-  const result = await syncTmdbTrending({ pages: 50 });
+  const result = await syncTmdbDailyCatalog();
 
   console.log(result);
 }

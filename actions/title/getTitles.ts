@@ -33,6 +33,24 @@ export async function getTitles({
   const safeLimit = Math.min(Math.max(1, limit), 48);
   const skip = (safePage - 1) * safeLimit;
 
+  const orderBy =
+    sort === "popular"
+      ? [
+          {
+            users: {
+              _count: "desc" as const,
+            },
+          },
+          {
+            createdAt: "desc" as const,
+          },
+        ]
+      : [
+          {
+            createdAt: "desc" as const,
+          },
+        ];
+
   const titles = await prisma.title.findMany({
     where: {
       ...(normalizedQuery
@@ -45,9 +63,7 @@ export async function getTitles({
         : {}),
       ...(type !== "ALL" ? { type } : {}),
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy,
     include: {
       genres: {
         select: {
@@ -135,7 +151,7 @@ export async function getTitles({
   });
 
   return {
-    titles: sortedTitles,
+    titles: titlesWithStats,
     hasMore,
     nextPage: hasMore ? safePage + 1 : null,
   };

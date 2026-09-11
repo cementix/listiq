@@ -146,7 +146,7 @@ export default function TitlesList({
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       applyFilters(search, selectedType);
-    }, 50);
+    }, 150);
 
     return () => window.clearTimeout(timeout);
   }, [search, selectedType, applyFilters]);

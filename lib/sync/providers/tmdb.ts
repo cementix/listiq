@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
 import { slugify } from "@/actions/title/slugify";
+import { Prisma } from "@/generated/prisma/client";
 
 const TMDB_API_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
@@ -58,6 +59,33 @@ type TmdbGenreMap = Map<
   }
 >;
 
+type MappedTmdbTitle = {
+  externalId: string;
+  name: string;
+  description: string | null;
+  releaseDate: Date | null;
+  year: number | null;
+  imageUrl: string | null;
+  backdropUrl: string | null;
+  voteCount: number;
+  isAdult: boolean;
+  rawData: Prisma.InputJsonValue;
+  genres: {
+    name: string;
+    slug: string;
+  }[];
+};
+
+type SyncTmdbOptions = {
+  pages?: number;
+  minVoteCount?: number;
+};
+
+type SyncResult = {
+  titlesCreated: number;
+  titlesUpdated: number;
+};
+
 function getTmdbAccessToken() {
   const token = process.env.TMDB_ACCESS_TOKEN;
 
@@ -91,12 +119,15 @@ function getTmdbImageUrl(path: string | null | undefined, size = "w500") {
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`;
 }
 
-export async function fetchTrendingTmdbMovies(
+export async function fetchTmdbMoviesFromPath(
+  path: string,
   page = 1,
   genresByTmdbId?: TmdbGenreMap,
 ) {
+  const separator = path.includes("?") ? "&" : "?";
+
   const data = await fetchTmdb<TmdbTrendingResponse<TmdbTrendingMovie>>(
-    `/trending/movie/week?language=en-US&page=${page}`,
+    `${path}${separator}language=en-US&page=${page}`,
   );
 
   const genres = genresByTmdbId ?? (await fetchTmdbMovieGenres());
@@ -124,7 +155,125 @@ export async function fetchTrendingTmdbMovies(
   }));
 }
 
-export async function syncTrendingTmdbMovies(options?: { pages?: number }) {
+async function upsertTmdbTitle({
+  title,
+  provider,
+  type,
+  externalUrl,
+}: {
+  title: MappedTmdbTitle;
+  provider: "TMDB_MOVIE" | "TMDB_TV";
+  type: "MOVIE" | "SERIES";
+  externalUrl: string;
+}) {
+  if (
+    title.isAdult ||
+    !title.imageUrl ||
+    !title.backdropUrl ||
+    !slugify(title.name)
+  ) {
+    return "skipped" as const;
+  }
+
+  for (const genre of title.genres) {
+    await prisma.genre.upsert({
+      where: {
+        slug: genre.slug,
+      },
+      update: {
+        name: genre.name,
+      },
+      create: {
+        name: genre.name,
+        slug: genre.slug,
+      },
+    });
+  }
+
+  const existingExternalTitle = await prisma.externalTitle.findUnique({
+    where: {
+      provider_externalId: {
+        provider,
+        externalId: title.externalId,
+      },
+    },
+    select: {
+      titleId: true,
+    },
+  });
+
+  if (existingExternalTitle) {
+    await prisma.title.update({
+      where: {
+        id: existingExternalTitle.titleId,
+      },
+      data: {
+        name: title.name,
+        year: title.year,
+        description: title.description,
+        imageUrl: title.imageUrl,
+        backdropUrl: title.backdropUrl,
+        releaseDate: title.releaseDate,
+        genres: {
+          set: title.genres.map((genre) => ({
+            slug: genre.slug,
+          })),
+        },
+      },
+    });
+
+    await prisma.externalTitle.update({
+      where: {
+        provider_externalId: {
+          provider,
+          externalId: title.externalId,
+        },
+      },
+      data: {
+        externalUrl,
+        rawData: title.rawData,
+        lastSyncedAt: new Date(),
+      },
+    });
+
+    return "updated" as const;
+  }
+
+  const slug = await generateUniqueSlug(title.name);
+
+  await prisma.title.create({
+    data: {
+      name: title.name,
+      slug,
+      type,
+      year: title.year,
+      description: title.description,
+      imageUrl: title.imageUrl,
+      backdropUrl: title.backdropUrl,
+      releaseDate: title.releaseDate,
+      externalTitles: {
+        create: {
+          provider,
+          externalId: title.externalId,
+          externalUrl,
+          rawData: title.rawData,
+          lastSyncedAt: new Date(),
+        },
+      },
+      genres: {
+        connect: title.genres.map((genre) => ({
+          slug: genre.slug,
+        })),
+      },
+    },
+  });
+
+  return "created" as const;
+}
+
+export async function syncTrendingTmdbMovies(
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
   const pages = options?.pages ?? 25;
   const genresByTmdbId = await fetchTmdbMovieGenres();
 
@@ -132,116 +281,23 @@ export async function syncTrendingTmdbMovies(options?: { pages?: number }) {
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
-    const movies = await fetchTrendingTmdbMovies(page, genresByTmdbId);
+    const movies = await fetchTmdbMoviesFromPath(
+      "/trending/movie/week",
+      page,
+      genresByTmdbId,
+    );
 
-    for (const movie of movies) {
-      if (movie.isAdult || !movie.imageUrl || !movie.backdropUrl) {
-        continue;
-      }
+    const result = await syncMappedTmdbTitles({
+      titles: movies,
+      minVoteCount: options?.minVoteCount,
+      provider: "TMDB_MOVIE",
+      type: "MOVIE",
+      buildExternalUrl: (externalId) =>
+        `https://www.themoviedb.org/movie/${externalId}`,
+    });
 
-      for (const genre of movie.genres) {
-        await prisma.genre.upsert({
-          where: {
-            slug: genre.slug,
-          },
-          update: {
-            name: genre.name,
-          },
-          create: {
-            name: genre.name,
-            slug: genre.slug,
-          },
-        });
-      }
-
-      const existingExternalTitle = await prisma.externalTitle.findUnique({
-        where: {
-          provider_externalId: {
-            provider: "TMDB_MOVIE",
-            externalId: movie.externalId,
-          },
-        },
-        select: {
-          titleId: true,
-        },
-      });
-
-      if (existingExternalTitle) {
-        await prisma.title.update({
-          where: {
-            id: existingExternalTitle.titleId,
-          },
-          data: {
-            name: movie.name,
-            year: movie.year,
-            description: movie.description,
-            imageUrl: movie.imageUrl,
-            backdropUrl: movie.backdropUrl,
-            releaseDate: movie.releaseDate,
-            genres: {
-              set: movie.genres.map((genre) => ({
-                slug: genre.slug,
-              })),
-            },
-          },
-        });
-
-        await prisma.externalTitle.update({
-          where: {
-            provider_externalId: {
-              provider: "TMDB_MOVIE",
-              externalId: movie.externalId,
-            },
-          },
-          data: {
-            rawData: movie.rawData,
-            lastSyncedAt: new Date(),
-          },
-        });
-
-        titlesUpdated += 1;
-        continue;
-      }
-
-      const baseSlug = slugify(movie.name);
-
-      if (!baseSlug) {
-        continue;
-      }
-
-      const slug = await generateUniqueSlug(movie.name);
-
-      const title = await prisma.title.create({
-        data: {
-          name: movie.name,
-          slug,
-          type: "MOVIE",
-          year: movie.year,
-          description: movie.description,
-          imageUrl: movie.imageUrl,
-          backdropUrl: movie.backdropUrl,
-          releaseDate: movie.releaseDate,
-          externalTitles: {
-            create: {
-              provider: "TMDB_MOVIE",
-              externalId: movie.externalId,
-              externalUrl: `https://www.themoviedb.org/movie/${movie.externalId}`,
-              rawData: movie.rawData,
-              lastSyncedAt: new Date(),
-            },
-          },
-          genres: {
-            connect: movie.genres.map((genre) => ({
-              slug: genre.slug,
-            })),
-          },
-        },
-      });
-
-      if (title) {
-        titlesCreated += 1;
-      }
-    }
+    titlesCreated += result.titlesCreated;
+    titlesUpdated += result.titlesUpdated;
   }
 
   return {
@@ -298,12 +354,15 @@ async function fetchTmdbTvGenres() {
   );
 }
 
-export async function fetchTrendingTmdbTv(
+export async function fetchTmdbTvFromPath(
+  path: string,
   page = 1,
   genresByTmdbId?: TmdbGenreMap,
 ) {
+  const separator = path.includes("?") ? "&" : "?";
+
   const data = await fetchTmdb<TmdbTrendingResponse<TmdbTrendingTv>>(
-    `/trending/tv/week?language=en-US&page=${page}`,
+    `${path}${separator}language=en-US&page=${page}`,
   );
 
   const genres = genresByTmdbId ?? (await fetchTmdbTvGenres());
@@ -331,7 +390,9 @@ export async function fetchTrendingTmdbTv(
   }));
 }
 
-export async function syncTrendingTmdbTv(options?: { pages?: number }) {
+export async function syncTrendingTmdbTv(
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
   const pages = options?.pages ?? 25;
   const genresByTmdbId = await fetchTmdbTvGenres();
 
@@ -339,115 +400,129 @@ export async function syncTrendingTmdbTv(options?: { pages?: number }) {
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
-    const shows = await fetchTrendingTmdbTv(page, genresByTmdbId);
+    const shows = await fetchTmdbTvFromPath(
+      "/trending/tv/week",
+      page,
+      genresByTmdbId,
+    );
 
-    for (const show of shows) {
-      if (show.isAdult || !show.imageUrl || !show.backdropUrl) {
-        continue;
-      }
+    const result = await syncMappedTmdbTitles({
+      titles: shows,
+      minVoteCount: options?.minVoteCount,
+      provider: "TMDB_TV",
+      type: "SERIES",
+      buildExternalUrl: (externalId) =>
+        `https://www.themoviedb.org/tv/${externalId}`,
+    });
 
-      for (const genre of show.genres) {
-        await prisma.genre.upsert({
-          where: {
-            slug: genre.slug,
-          },
-          update: {
-            name: genre.name,
-          },
-          create: {
-            name: genre.name,
-            slug: genre.slug,
-          },
-        });
-      }
+    titlesCreated += result.titlesCreated;
+    titlesUpdated += result.titlesUpdated;
+  }
 
-      const existingExternalTitle = await prisma.externalTitle.findUnique({
-        where: {
-          provider_externalId: {
-            provider: "TMDB_TV",
-            externalId: show.externalId,
-          },
-        },
-        select: {
-          titleId: true,
-        },
-      });
+  return {
+    titlesCreated,
+    titlesUpdated,
+  };
+}
 
-      if (existingExternalTitle) {
-        await prisma.title.update({
-          where: {
-            id: existingExternalTitle.titleId,
-          },
-          data: {
-            name: show.name,
-            year: show.year,
-            description: show.description,
-            imageUrl: show.imageUrl,
-            backdropUrl: show.backdropUrl,
-            releaseDate: show.releaseDate,
-            genres: {
-              set: show.genres.map((genre) => ({
-                slug: genre.slug,
-              })),
-            },
-          },
-        });
+async function syncTmdbMoviesFromPath(
+  path: string,
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
+  const pages = options?.pages ?? 25;
+  const genresByTmdbId = await fetchTmdbMovieGenres();
 
-        await prisma.externalTitle.update({
-          where: {
-            provider_externalId: {
-              provider: "TMDB_TV",
-              externalId: show.externalId,
-            },
-          },
-          data: {
-            rawData: show.rawData,
-            lastSyncedAt: new Date(),
-          },
-        });
+  let titlesCreated = 0;
+  let titlesUpdated = 0;
 
-        titlesUpdated += 1;
-        continue;
-      }
+  for (let page = 1; page <= pages; page++) {
+    const movies = await fetchTmdbMoviesFromPath(path, page, genresByTmdbId);
 
-      const baseSlug = slugify(show.name);
+    const result = await syncMappedTmdbTitles({
+      titles: movies,
+      minVoteCount: options?.minVoteCount,
+      provider: "TMDB_MOVIE",
+      type: "MOVIE",
+      buildExternalUrl: (externalId) =>
+        `https://www.themoviedb.org/movie/${externalId}`,
+    });
 
-      if (!baseSlug) {
-        continue;
-      }
+    titlesCreated += result.titlesCreated;
+    titlesUpdated += result.titlesUpdated;
+  }
 
-      const slug = await generateUniqueSlug(show.name);
+  return {
+    titlesCreated,
+    titlesUpdated,
+  };
+}
 
-      const title = await prisma.title.create({
-        data: {
-          name: show.name,
-          slug,
-          type: "SERIES",
-          year: show.year,
-          description: show.description,
-          imageUrl: show.imageUrl,
-          backdropUrl: show.backdropUrl,
-          releaseDate: show.releaseDate,
-          externalTitles: {
-            create: {
-              provider: "TMDB_TV",
-              externalId: show.externalId,
-              externalUrl: `https://www.themoviedb.org/tv/${show.externalId}`,
-              rawData: show.rawData,
-              lastSyncedAt: new Date(),
-            },
-          },
-          genres: {
-            connect: show.genres.map((genre) => ({
-              slug: genre.slug,
-            })),
-          },
-        },
-      });
+async function syncTmdbTvFromPath(
+  path: string,
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
+  const pages = options?.pages ?? 25;
+  const genresByTmdbId = await fetchTmdbTvGenres();
 
-      if (title) {
-        titlesCreated += 1;
-      }
+  let titlesCreated = 0;
+  let titlesUpdated = 0;
+
+  for (let page = 1; page <= pages; page++) {
+    const shows = await fetchTmdbTvFromPath(path, page, genresByTmdbId);
+
+    const result = await syncMappedTmdbTitles({
+      titles: shows,
+      minVoteCount: options?.minVoteCount,
+      provider: "TMDB_TV",
+      type: "SERIES",
+      buildExternalUrl: (externalId) =>
+        `https://www.themoviedb.org/tv/${externalId}`,
+    });
+
+    titlesCreated += result.titlesCreated;
+    titlesUpdated += result.titlesUpdated;
+  }
+
+  return {
+    titlesCreated,
+    titlesUpdated,
+  };
+}
+
+async function syncMappedTmdbTitles({
+  titles,
+  minVoteCount = 0,
+  provider,
+  type,
+  buildExternalUrl,
+}: {
+  titles: MappedTmdbTitle[];
+  minVoteCount?: number;
+  provider: "TMDB_MOVIE" | "TMDB_TV";
+  type: "MOVIE" | "SERIES";
+  buildExternalUrl: (externalId: string) => string;
+}): Promise<SyncResult> {
+  let titlesCreated = 0;
+  let titlesUpdated = 0;
+
+  for (const title of titles) {
+    if (title.voteCount < minVoteCount) {
+      continue;
+    }
+
+    const result = await upsertTmdbTitle({
+      title,
+      provider,
+      type,
+      externalUrl: buildExternalUrl(title.externalId),
+    });
+
+    if (result === "created") {
+      titlesCreated += 1;
+    }
+
+    if (result === "updated") {
+      titlesUpdated += 1;
     }
   }
 
@@ -457,12 +532,62 @@ export async function syncTrendingTmdbTv(options?: { pages?: number }) {
   };
 }
 
-export async function syncTmdbTrending(options?: { pages?: number }) {
+export async function syncTmdbTrending(
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
   const movies = await syncTrendingTmdbMovies(options);
   const tv = await syncTrendingTmdbTv(options);
 
   return {
     titlesCreated: movies.titlesCreated + tv.titlesCreated,
     titlesUpdated: movies.titlesUpdated + tv.titlesUpdated,
+  };
+}
+
+export async function syncTmdbPopular(
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
+  const movies = await syncTmdbMoviesFromPath("/movie/popular", options);
+  const tv = await syncTmdbTvFromPath("/tv/popular", options);
+
+  return {
+    titlesCreated: movies.titlesCreated + tv.titlesCreated,
+    titlesUpdated: movies.titlesUpdated + tv.titlesUpdated,
+  };
+}
+
+export async function syncTmdbTopRated(
+  options?: SyncTmdbOptions,
+): Promise<SyncResult> {
+  const movies = await syncTmdbMoviesFromPath("/movie/top_rated", options);
+  const tv = await syncTmdbTvFromPath("/tv/top_rated", options);
+
+  return {
+    titlesCreated: movies.titlesCreated + tv.titlesCreated,
+    titlesUpdated: movies.titlesUpdated + tv.titlesUpdated,
+  };
+}
+
+export async function syncTmdbDailyCatalog(): Promise<SyncResult> {
+  const trending = await syncTmdbTrending({
+    pages: 70,
+    minVoteCount: 20,
+  });
+
+  const popular = await syncTmdbPopular({
+    pages: 200,
+    minVoteCount: 50,
+  });
+
+  const topRated = await syncTmdbTopRated({
+    pages: 150,
+    minVoteCount: 500,
+  });
+
+  return {
+    titlesCreated:
+      trending.titlesCreated + popular.titlesCreated + topRated.titlesCreated,
+    titlesUpdated:
+      trending.titlesUpdated + popular.titlesUpdated + topRated.titlesUpdated,
   };
 }
