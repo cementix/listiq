@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
 import { slugify } from "@/actions/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
+import { setSyncProgress } from "@/lib/sync/syncUtils";
 
 const TMDB_API_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
@@ -96,13 +97,33 @@ function getTmdbAccessToken() {
   return token;
 }
 
-async function fetchTmdb<T>(path: string) {
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getRetryDelayMs(response: Response, attempt: number) {
+  const retryAfter = Number(response.headers.get("retry-after"));
+
+  if (Number.isFinite(retryAfter) && retryAfter > 0) {
+    return retryAfter * 1000;
+  }
+
+  return Math.min(1000 * 2 ** attempt, 30_000);
+}
+
+async function fetchTmdb<T>(path: string, attempt = 0): Promise<T> {
   const response = await fetch(`${TMDB_API_BASE_URL}${path}`, {
     headers: {
       Authorization: `Bearer ${getTmdbAccessToken()}`,
       Accept: "application/json",
     },
   });
+
+  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
+    await sleep(getRetryDelayMs(response, attempt));
+
+    return fetchTmdb<T>(path, attempt + 1);
+  }
 
   if (!response.ok) {
     throw new Error(`TMDB request failed ${response.status}`);
@@ -281,6 +302,11 @@ export async function syncTrendingTmdbMovies(
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
+    setSyncProgress("tmdb", `trending movies page ${page}/${pages}`, {
+      titlesCreated,
+      titlesUpdated,
+    });
+
     const movies = await fetchTmdbMoviesFromPath(
       "/trending/movie/week",
       page,
@@ -400,6 +426,11 @@ export async function syncTrendingTmdbTv(
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
+    setSyncProgress("tmdb", `trending tv page ${page}/${pages}`, {
+      titlesCreated,
+      titlesUpdated,
+    });
+
     const shows = await fetchTmdbTvFromPath(
       "/trending/tv/week",
       page,
@@ -436,6 +467,11 @@ async function syncTmdbMoviesFromPath(
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
+    setSyncProgress("tmdb", `${path} movie page ${page}/${pages}`, {
+      titlesCreated,
+      titlesUpdated,
+    });
+
     const movies = await fetchTmdbMoviesFromPath(path, page, genresByTmdbId);
 
     const result = await syncMappedTmdbTitles({
@@ -468,6 +504,11 @@ async function syncTmdbTvFromPath(
   let titlesUpdated = 0;
 
   for (let page = 1; page <= pages; page++) {
+    setSyncProgress("tmdb", `${path} tv page ${page}/${pages}`, {
+      titlesCreated,
+      titlesUpdated,
+    });
+
     const shows = await fetchTmdbTvFromPath(path, page, genresByTmdbId);
 
     const result = await syncMappedTmdbTitles({
@@ -570,18 +611,42 @@ export async function syncTmdbTopRated(
 
 export async function syncTmdbDailyCatalog(): Promise<SyncResult> {
   const trending = await syncTmdbTrending({
+    pages: 5,
+    minVoteCount: 20,
+  });
+
+  const popular = await syncTmdbPopular({
+    pages: 10,
+    minVoteCount: 50,
+  });
+
+  const topRated = await syncTmdbTopRated({
+    pages: 10,
+    minVoteCount: 500,
+  });
+
+  return {
+    titlesCreated:
+      trending.titlesCreated + popular.titlesCreated + topRated.titlesCreated,
+    titlesUpdated:
+      trending.titlesUpdated + popular.titlesUpdated + topRated.titlesUpdated,
+  };
+}
+
+export async function syncTmdbDeepCatalog(): Promise<SyncResult> {
+  const trending = await syncTmdbTrending({
     pages: 70,
     minVoteCount: 20,
   });
 
   const popular = await syncTmdbPopular({
-    pages: 200,
-    minVoteCount: 50,
+    pages: 300,
+    minVoteCount: 20,
   });
 
   const topRated = await syncTmdbTopRated({
-    pages: 150,
-    minVoteCount: 500,
+    pages: 250,
+    minVoteCount: 200,
   });
 
   return {

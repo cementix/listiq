@@ -111,3 +111,8 @@ export type ExternalTitle = Prisma.ExternalTitleModel
  * 
  */
 export type SyncRun = Prisma.SyncRunModel
+/**
+ * Model TitleAlias
+ * 
+ */
+export type TitleAlias = Prisma.TitleAliasModel

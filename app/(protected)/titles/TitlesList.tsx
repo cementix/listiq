@@ -271,7 +271,7 @@ export default function TitlesList({
       {titles.length === 0 ? (
         <GlassCard className="p-6 text-white/60">No titles found.</GlassCard>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {titles.map((title) => {
             const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
@@ -281,7 +281,7 @@ export default function TitlesList({
               <GlassCard key={title.id} className="overflow-hidden p-0">
                 <Link
                   href={`/titles/${title.slug}`}
-                  className="relative block aspect-4/3 border-b border-white/10 bg-black/30"
+                  className="relative block aspect-[460/649] border-b border-white/10 bg-black/30"
                 >
                   {title.imageUrl ? (
                     <Image

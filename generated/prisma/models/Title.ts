@@ -285,6 +285,7 @@ export type TitleWhereInput = {
   users?: Prisma.UserTitleListRelationFilter
   activityEvents?: Prisma.ActivityEventListRelationFilter
   externalTitles?: Prisma.ExternalTitleListRelationFilter
+  aliases?: Prisma.TitleAliasListRelationFilter
 }
 
 export type TitleOrderByWithRelationInput = {
@@ -306,6 +307,7 @@ export type TitleOrderByWithRelationInput = {
   users?: Prisma.UserTitleOrderByRelationAggregateInput
   activityEvents?: Prisma.ActivityEventOrderByRelationAggregateInput
   externalTitles?: Prisma.ExternalTitleOrderByRelationAggregateInput
+  aliases?: Prisma.TitleAliasOrderByRelationAggregateInput
 }
 
 export type TitleWhereUniqueInput = Prisma.AtLeast<{
@@ -330,6 +332,7 @@ export type TitleWhereUniqueInput = Prisma.AtLeast<{
   users?: Prisma.UserTitleListRelationFilter
   activityEvents?: Prisma.ActivityEventListRelationFilter
   externalTitles?: Prisma.ExternalTitleListRelationFilter
+  aliases?: Prisma.TitleAliasListRelationFilter
 }, "id" | "slug">
 
 export type TitleOrderByWithAggregationInput = {
@@ -390,6 +393,7 @@ export type TitleCreateInput = {
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateInput = {
@@ -410,6 +414,7 @@ export type TitleUncheckedCreateInput = {
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUpdateInput = {
@@ -430,6 +435,7 @@ export type TitleUpdateInput = {
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateInput = {
@@ -450,6 +456,7 @@ export type TitleUncheckedUpdateInput = {
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleCreateManyInput = {
@@ -715,6 +722,20 @@ export type TitleUpdateOneRequiredWithoutExternalTitlesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TitleUpdateToOneWithWhereWithoutExternalTitlesInput, Prisma.TitleUpdateWithoutExternalTitlesInput>, Prisma.TitleUncheckedUpdateWithoutExternalTitlesInput>
 }
 
+export type TitleCreateNestedOneWithoutAliasesInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutAliasesInput, Prisma.TitleUncheckedCreateWithoutAliasesInput>
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutAliasesInput
+  connect?: Prisma.TitleWhereUniqueInput
+}
+
+export type TitleUpdateOneRequiredWithoutAliasesNestedInput = {
+  create?: Prisma.XOR<Prisma.TitleCreateWithoutAliasesInput, Prisma.TitleUncheckedCreateWithoutAliasesInput>
+  connectOrCreate?: Prisma.TitleCreateOrConnectWithoutAliasesInput
+  upsert?: Prisma.TitleUpsertWithoutAliasesInput
+  connect?: Prisma.TitleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TitleUpdateToOneWithWhereWithoutAliasesInput, Prisma.TitleUpdateWithoutAliasesInput>, Prisma.TitleUncheckedUpdateWithoutAliasesInput>
+}
+
 export type TitleCreateWithoutCreatedByInput = {
   id?: string
   name: string
@@ -732,6 +753,7 @@ export type TitleCreateWithoutCreatedByInput = {
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutCreatedByInput = {
@@ -751,6 +773,7 @@ export type TitleUncheckedCreateWithoutCreatedByInput = {
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutCreatedByInput = {
@@ -815,6 +838,7 @@ export type TitleCreateWithoutGenresInput = {
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutGenresInput = {
@@ -834,6 +858,7 @@ export type TitleUncheckedCreateWithoutGenresInput = {
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutGenresInput = {
@@ -874,6 +899,7 @@ export type TitleCreateWithoutUsersInput = {
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutUsersInput = {
@@ -893,6 +919,7 @@ export type TitleUncheckedCreateWithoutUsersInput = {
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutUsersInput = {
@@ -928,6 +955,7 @@ export type TitleUpdateWithoutUsersInput = {
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutUsersInput = {
@@ -947,6 +975,7 @@ export type TitleUncheckedUpdateWithoutUsersInput = {
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleCreateWithoutActivityEventsInput = {
@@ -966,6 +995,7 @@ export type TitleCreateWithoutActivityEventsInput = {
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutActivityEventsInput = {
@@ -985,6 +1015,7 @@ export type TitleUncheckedCreateWithoutActivityEventsInput = {
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutActivityEventsInput = {
@@ -1020,6 +1051,7 @@ export type TitleUpdateWithoutActivityEventsInput = {
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutActivityEventsInput = {
@@ -1039,6 +1071,7 @@ export type TitleUncheckedUpdateWithoutActivityEventsInput = {
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleCreateWithoutExternalTitlesInput = {
@@ -1058,6 +1091,7 @@ export type TitleCreateWithoutExternalTitlesInput = {
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasCreateNestedManyWithoutTitleInput
 }
 
 export type TitleUncheckedCreateWithoutExternalTitlesInput = {
@@ -1077,6 +1111,7 @@ export type TitleUncheckedCreateWithoutExternalTitlesInput = {
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
+  aliases?: Prisma.TitleAliasUncheckedCreateNestedManyWithoutTitleInput
 }
 
 export type TitleCreateOrConnectWithoutExternalTitlesInput = {
@@ -1112,6 +1147,7 @@ export type TitleUpdateWithoutExternalTitlesInput = {
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutExternalTitlesInput = {
@@ -1131,6 +1167,103 @@ export type TitleUncheckedUpdateWithoutExternalTitlesInput = {
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
+}
+
+export type TitleCreateWithoutAliasesInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  releaseDate?: Date | string | null
+  backdropUrl?: string | null
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
+  genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutTitleInput
+  externalTitles?: Prisma.ExternalTitleCreateNestedManyWithoutTitleInput
+}
+
+export type TitleUncheckedCreateWithoutAliasesInput = {
+  id?: string
+  name: string
+  slug: string
+  year?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  imagePublicId?: string | null
+  type: $Enums.TitleType
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdById?: string | null
+  releaseDate?: Date | string | null
+  backdropUrl?: string | null
+  genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
+  users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
+  externalTitles?: Prisma.ExternalTitleUncheckedCreateNestedManyWithoutTitleInput
+}
+
+export type TitleCreateOrConnectWithoutAliasesInput = {
+  where: Prisma.TitleWhereUniqueInput
+  create: Prisma.XOR<Prisma.TitleCreateWithoutAliasesInput, Prisma.TitleUncheckedCreateWithoutAliasesInput>
+}
+
+export type TitleUpsertWithoutAliasesInput = {
+  update: Prisma.XOR<Prisma.TitleUpdateWithoutAliasesInput, Prisma.TitleUncheckedUpdateWithoutAliasesInput>
+  create: Prisma.XOR<Prisma.TitleCreateWithoutAliasesInput, Prisma.TitleUncheckedCreateWithoutAliasesInput>
+  where?: Prisma.TitleWhereInput
+}
+
+export type TitleUpdateToOneWithWhereWithoutAliasesInput = {
+  where?: Prisma.TitleWhereInput
+  data: Prisma.XOR<Prisma.TitleUpdateWithoutAliasesInput, Prisma.TitleUncheckedUpdateWithoutAliasesInput>
+}
+
+export type TitleUpdateWithoutAliasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
+  genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
+  externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+}
+
+export type TitleUncheckedUpdateWithoutAliasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imagePublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTitleTypeFieldUpdateOperationsInput | $Enums.TitleType
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
+  users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
+  externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleCreateManyCreatedByInput = {
@@ -1165,6 +1298,7 @@ export type TitleUpdateWithoutCreatedByInput = {
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutCreatedByInput = {
@@ -1184,6 +1318,7 @@ export type TitleUncheckedUpdateWithoutCreatedByInput = {
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1218,6 +1353,7 @@ export type TitleUpdateWithoutGenresInput = {
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateWithoutGenresInput = {
@@ -1237,6 +1373,7 @@ export type TitleUncheckedUpdateWithoutGenresInput = {
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
   externalTitles?: Prisma.ExternalTitleUncheckedUpdateManyWithoutTitleNestedInput
+  aliases?: Prisma.TitleAliasUncheckedUpdateManyWithoutTitleNestedInput
 }
 
 export type TitleUncheckedUpdateManyWithoutGenresInput = {
@@ -1265,6 +1402,7 @@ export type TitleCountOutputType = {
   users: number
   activityEvents: number
   externalTitles: number
+  aliases: number
 }
 
 export type TitleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1272,6 +1410,7 @@ export type TitleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.
   users?: boolean | TitleCountOutputTypeCountUsersArgs
   activityEvents?: boolean | TitleCountOutputTypeCountActivityEventsArgs
   externalTitles?: boolean | TitleCountOutputTypeCountExternalTitlesArgs
+  aliases?: boolean | TitleCountOutputTypeCountAliasesArgs
 }
 
 /**
@@ -1312,6 +1451,13 @@ export type TitleCountOutputTypeCountExternalTitlesArgs<ExtArgs extends runtime.
   where?: Prisma.ExternalTitleWhereInput
 }
 
+/**
+ * TitleCountOutputType without action
+ */
+export type TitleCountOutputTypeCountAliasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TitleAliasWhereInput
+}
+
 
 export type TitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1332,6 +1478,7 @@ export type TitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   users?: boolean | Prisma.Title$usersArgs<ExtArgs>
   activityEvents?: boolean | Prisma.Title$activityEventsArgs<ExtArgs>
   externalTitles?: boolean | Prisma.Title$externalTitlesArgs<ExtArgs>
+  aliases?: boolean | Prisma.Title$aliasesArgs<ExtArgs>
   _count?: boolean | Prisma.TitleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["title"]>
 
@@ -1392,6 +1539,7 @@ export type TitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   users?: boolean | Prisma.Title$usersArgs<ExtArgs>
   activityEvents?: boolean | Prisma.Title$activityEventsArgs<ExtArgs>
   externalTitles?: boolean | Prisma.Title$externalTitlesArgs<ExtArgs>
+  aliases?: boolean | Prisma.Title$aliasesArgs<ExtArgs>
   _count?: boolean | Prisma.TitleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TitleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1409,6 +1557,7 @@ export type $TitlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     users: Prisma.$UserTitlePayload<ExtArgs>[]
     activityEvents: Prisma.$ActivityEventPayload<ExtArgs>[]
     externalTitles: Prisma.$ExternalTitlePayload<ExtArgs>[]
+    aliases: Prisma.$TitleAliasPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1823,6 +1972,7 @@ export interface Prisma__TitleClient<T, Null = never, ExtArgs extends runtime.Ty
   users<T extends Prisma.Title$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activityEvents<T extends Prisma.Title$activityEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   externalTitles<T extends Prisma.Title$externalTitlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$externalTitlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExternalTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aliases<T extends Prisma.Title$aliasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Title$aliasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleAliasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2378,6 +2528,30 @@ export type Title$externalTitlesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ExternalTitleScalarFieldEnum | Prisma.ExternalTitleScalarFieldEnum[]
+}
+
+/**
+ * Title.aliases
+ */
+export type Title$aliasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TitleAlias
+   */
+  select?: Prisma.TitleAliasSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TitleAlias
+   */
+  omit?: Prisma.TitleAliasOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TitleAliasInclude<ExtArgs> | null
+  where?: Prisma.TitleAliasWhereInput
+  orderBy?: Prisma.TitleAliasOrderByWithRelationInput | Prisma.TitleAliasOrderByWithRelationInput[]
+  cursor?: Prisma.TitleAliasWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TitleAliasScalarFieldEnum | Prisma.TitleAliasScalarFieldEnum[]
 }
 
 /**

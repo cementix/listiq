@@ -397,7 +397,8 @@ export const ModelName = {
   ProfilePostCommentLike: 'ProfilePostCommentLike',
   Notification: 'Notification',
   ExternalTitle: 'ExternalTitle',
-  SyncRun: 'SyncRun'
+  SyncRun: 'SyncRun',
+  TitleAlias: 'TitleAlias'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun"
+    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1453,6 +1454,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TitleAlias: {
+      payload: Prisma.$TitleAliasPayload<ExtArgs>
+      fields: Prisma.TitleAliasFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TitleAliasFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TitleAliasFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        findFirst: {
+          args: Prisma.TitleAliasFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TitleAliasFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        findMany: {
+          args: Prisma.TitleAliasFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>[]
+        }
+        create: {
+          args: Prisma.TitleAliasCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        createMany: {
+          args: Prisma.TitleAliasCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TitleAliasCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>[]
+        }
+        delete: {
+          args: Prisma.TitleAliasDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        update: {
+          args: Prisma.TitleAliasUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        deleteMany: {
+          args: Prisma.TitleAliasDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TitleAliasUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TitleAliasUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>[]
+        }
+        upsert: {
+          args: Prisma.TitleAliasUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleAliasPayload>
+        }
+        aggregate: {
+          args: Prisma.TitleAliasAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTitleAlias>
+        }
+        groupBy: {
+          args: Prisma.TitleAliasGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleAliasGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TitleAliasCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleAliasCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1687,6 +1762,19 @@ export const SyncRunScalarFieldEnum = {
 export type SyncRunScalarFieldEnum = (typeof SyncRunScalarFieldEnum)[keyof typeof SyncRunScalarFieldEnum]
 
 
+export const TitleAliasScalarFieldEnum = {
+  id: 'id',
+  titleId: 'titleId',
+  value: 'value',
+  normalizedValue: 'normalizedValue',
+  kind: 'kind',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type TitleAliasScalarFieldEnum = (typeof TitleAliasScalarFieldEnum)[keyof typeof TitleAliasScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1915,6 +2003,20 @@ export type EnumSyncRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 export type ListEnumSyncRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SyncRunStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'TitleAliasKind'
+ */
+export type EnumTitleAliasKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleAliasKind'>
+    
+
+
+/**
+ * Reference to a field of type 'TitleAliasKind[]'
+ */
+export type ListEnumTitleAliasKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleAliasKind[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -2024,6 +2126,7 @@ export type GlobalOmitConfig = {
   notification?: Prisma.NotificationOmit
   externalTitle?: Prisma.ExternalTitleOmit
   syncRun?: Prisma.SyncRunOmit
+  titleAlias?: Prisma.TitleAliasOmit
 }
 
 /* Types for Logging */

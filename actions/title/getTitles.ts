@@ -3,6 +3,7 @@
 import { TitleType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
+import { normalizeTitleAlias } from "@/lib/sync/titleAliases";
 
 type TitleSort =
   | "newest"
@@ -28,6 +29,7 @@ export async function getTitles({
 }: GetTitlesInput) {
   const { session } = await requireUserServer();
   const normalizedQuery = query.trim();
+  const normalizedAliasQuery = normalizeTitleAlias(normalizedQuery);
 
   const safePage = Math.max(1, page);
   const safeLimit = Math.min(Math.max(1, limit), 48);
@@ -55,10 +57,24 @@ export async function getTitles({
     where: {
       ...(normalizedQuery
         ? {
-            name: {
-              contains: normalizedQuery,
-              mode: "insensitive",
-            },
+            OR: [
+              {
+                name: {
+                  contains: normalizedQuery,
+                  mode: "insensitive",
+                },
+              },
+              {
+                aliases: {
+                  some: {
+                    normalizedValue: {
+                      contains: normalizedAliasQuery,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            ],
           }
         : {}),
       ...(type !== "ALL" ? { type } : {}),
@@ -151,7 +167,7 @@ export async function getTitles({
   });
 
   return {
-    titles: titlesWithStats,
+    titles: sortedTitles,
     hasMore,
     nextPage: hasMore ? safePage + 1 : null,
   };

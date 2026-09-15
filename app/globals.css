@@ -356,3 +356,11 @@ body[data-scroll-locked] {
 [data-sonner-toast]:active {
   transform: scale(0.98);
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

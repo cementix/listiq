@@ -59,12 +59,25 @@ enum ExternalTitleProvider {
   TMDB_MOVIE
   TMDB_TV
   ANILIST
+  GOOGLE_BOOKS
+  OPEN_LIBRARY
+  COMIC_VINE
 }
 
 enum SyncRunStatus {
   RUNNING
   SUCCESS
   FAILED
+}
+
+enum TitleAliasKind {
+  PRIMARY
+  ENGLISH
+  ORIGINAL
+  NATIVE
+  ROMAJI
+  SYNONYM
+  SLUG
 }
 
 model User {
@@ -122,6 +135,7 @@ model Title {
   users          UserTitle[]
   activityEvents ActivityEvent[]
   externalTitles ExternalTitle[]
+  aliases        TitleAlias[]
 
   @@index([name])
   @@index([type])
@@ -372,4 +386,21 @@ model SyncRun {
 
   @@index([provider, startedAt])
   @@index([status, startedAt])
+}
+
+model TitleAlias {
+  id      String @id @default(cuid())
+  titleId String
+  title   Title  @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  value           String
+  normalizedValue String
+  kind            TitleAliasKind
+  source          ExternalTitleProvider?
+
+  createdAt DateTime @default(now())
+
+  @@unique([titleId, normalizedValue, kind])
+  @@index([normalizedValue])
+  @@index([titleId])
 }
