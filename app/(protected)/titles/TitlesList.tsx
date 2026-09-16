@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import ConfirmDialog from "@/components/custom/ConfirmDialog";
+import { getTitles } from "@/actions/title/getTitles";
 
 const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "ALL", label: "All" },
@@ -83,7 +84,9 @@ type Title = {
 };
 
 type TitlesListProps = {
-  titles: Title[];
+  initialTitles: Title[];
+  initialHasMore: boolean;
+  initialNextPage: number | null;
   query: string;
   type: TitleType | "ALL";
   sort:
@@ -95,7 +98,9 @@ type TitlesListProps = {
 };
 
 export default function TitlesList({
-  titles,
+  initialTitles,
+  initialHasMore,
+  initialNextPage,
   query,
   type,
   sort,
@@ -106,6 +111,16 @@ export default function TitlesList({
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [titleToRemove, setTitleToRemove] = useState<string | null>(null);
+  const [titles, setTitles] = useState(initialTitles);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [nextPage, setNextPage] = useState(initialNextPage);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  useEffect(() => {
+    setTitles(initialTitles);
+    setHasMore(initialHasMore);
+    setNextPage(initialNextPage);
+  }, [initialTitles, initialHasMore, initialNextPage]);
 
   const applyFilters = useCallback(
     (nextQuery = search, nextType = selectedType, nextSort = sort) => {
@@ -131,7 +146,7 @@ export default function TitlesList({
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       applyFilters(search, selectedType);
-    }, 50);
+    }, 150);
 
     return () => window.clearTimeout(timeout);
   }, [search, selectedType, applyFilters]);
@@ -152,6 +167,41 @@ export default function TitlesList({
       setTitleToRemove(null);
       router.refresh();
     });
+  };
+
+  const loadMoreTitles = async () => {
+    if (!nextPage || isLoadingMore) {
+      return;
+    }
+
+    const pageToLoad = nextPage;
+
+    setNextPage(null);
+    setIsLoadingMore(true);
+
+    try {
+      const result = await getTitles({
+        query: search,
+        type: selectedType,
+        sort,
+        page: pageToLoad,
+        limit: 24,
+      });
+
+      setTitles((currentTitles) => {
+        const existingIds = new Set(currentTitles.map((title) => title.id));
+
+        return [
+          ...currentTitles,
+          ...result.titles.filter((title) => !existingIds.has(title.id)),
+        ];
+      });
+
+      setHasMore(result.hasMore);
+      setNextPage(result.nextPage);
+    } finally {
+      setIsLoadingMore(false);
+    }
   };
 
   return (
@@ -221,7 +271,7 @@ export default function TitlesList({
       {titles.length === 0 ? (
         <GlassCard className="p-6 text-white/60">No titles found.</GlassCard>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {titles.map((title) => {
             const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
@@ -231,7 +281,7 @@ export default function TitlesList({
               <GlassCard key={title.id} className="overflow-hidden p-0">
                 <Link
                   href={`/titles/${title.slug}`}
-                  className="relative block aspect-4/3 border-b border-white/10 bg-black/30"
+                  className="relative block aspect-[460/649] border-b border-white/10 bg-black/30"
                 >
                   {title.imageUrl ? (
                     <Image
@@ -332,6 +382,18 @@ export default function TitlesList({
               </GlassCard>
             );
           })}
+        </div>
+      )}
+
+      {hasMore && (
+        <div className="flex justify-center pt-4">
+          <Button
+            type="button"
+            disabled={isLoadingMore || !nextPage}
+            onClick={loadMoreTitles}
+          >
+            {isLoadingMore ? "Loading..." : "Load more"}
+          </Button>
         </div>
       )}
 

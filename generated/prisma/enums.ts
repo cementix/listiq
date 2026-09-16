@@ -72,3 +72,38 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const ExternalTitleProvider = {
+  RAWG: 'RAWG',
+  TMDB_MOVIE: 'TMDB_MOVIE',
+  TMDB_TV: 'TMDB_TV',
+  ANILIST: 'ANILIST',
+  GOOGLE_BOOKS: 'GOOGLE_BOOKS',
+  OPEN_LIBRARY: 'OPEN_LIBRARY',
+  COMIC_VINE: 'COMIC_VINE'
+} as const
+
+export type ExternalTitleProvider = (typeof ExternalTitleProvider)[keyof typeof ExternalTitleProvider]
+
+
+export const SyncRunStatus = {
+  RUNNING: 'RUNNING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+} as const
+
+export type SyncRunStatus = (typeof SyncRunStatus)[keyof typeof SyncRunStatus]
+
+
+export const TitleAliasKind = {
+  PRIMARY: 'PRIMARY',
+  ENGLISH: 'ENGLISH',
+  ORIGINAL: 'ORIGINAL',
+  NATIVE: 'NATIVE',
+  ROMAJI: 'ROMAJI',
+  SYNONYM: 'SYNONYM',
+  SLUG: 'SLUG'
+} as const
+
+export type TitleAliasKind = (typeof TitleAliasKind)[keyof typeof TitleAliasKind]
