@@ -364,3 +364,109 @@ body[data-scroll-locked] {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes dashboardTextIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+.dashboard-text-in {
+  opacity: 0;
+  animation: dashboardTextIn 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes dashboardPanelIn {
+  from {
+    opacity: 0;
+    transform: translate3d(28px, 0, 0);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes dashboardPickIn {
+  from {
+    opacity: 0;
+    transform: translate3d(18px, 0, 0) scale(0.98);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.dashboard-panel-in {
+  opacity: 0;
+  animation: dashboardPanelIn 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+.dashboard-pick-in {
+  opacity: 0;
+  animation: dashboardPickIn 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes dashboardRailIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes dashboardCardPopIn {
+  0% {
+    opacity: 0;
+    transform: translate3d(-18px, 12px, 0) scale(0.94);
+    filter: blur(6px);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.025);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.dashboard-rail-in {
+  opacity: 0;
+  animation: dashboardRailIn 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+}
+
+.dashboard-card-pop-in {
+  opacity: 0;
+  animation: dashboardCardPopIn 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, transform, filter;
+}

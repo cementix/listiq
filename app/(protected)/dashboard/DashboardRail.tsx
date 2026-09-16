@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -10,13 +8,15 @@ import {
   Flame,
   Star,
 } from "lucide-react";
-
-type RailIcon = "flame" | "calendar" | "dice" | "star";
+import type { RailIcon } from "./dashboardTypes";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 type DashboardRailProps = {
   title: string;
   href: string;
   icon: RailIcon;
+  index?: number;
   children: React.ReactNode;
 };
 
@@ -31,16 +31,22 @@ export default function DashboardRail({
   title,
   href,
   icon,
+  index = 0,
   children,
 }: DashboardRailProps) {
+  const sectionRef = useRef<HTMLElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const Icon = icons[icon];
 
   const updateScrollState = useCallback(() => {
     const element = scrollRef.current;
-    if (!element) return;
+
+    if (!element) {
+      return;
+    }
 
     setCanScrollLeft(element.scrollLeft > 8);
     setCanScrollRight(
@@ -49,10 +55,38 @@ export default function DashboardRail({
   }, []);
 
   useEffect(() => {
+    const element = sectionRef.current;
+
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "0px 0px -12% 0px",
+        threshold: 0.12,
+      },
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     updateScrollState();
 
     const element = scrollRef.current;
-    if (!element) return;
+
+    if (!element) {
+      return;
+    }
 
     element.addEventListener("scroll", updateScrollState);
     window.addEventListener("resize", updateScrollState);
@@ -65,7 +99,10 @@ export default function DashboardRail({
 
   const scroll = (direction: "left" | "right") => {
     const element = scrollRef.current;
-    if (!element) return;
+
+    if (!element) {
+      return;
+    }
 
     element.scrollBy({
       left:
@@ -77,7 +114,19 @@ export default function DashboardRail({
   };
 
   return (
-    <section className="group/rail relative">
+    <section
+      ref={sectionRef}
+      style={
+        isVisible
+          ? ({ animationDelay: index === 0 ? "1100ms" : "0ms" } as React.CSSProperties)
+          : undefined
+      }
+      className={
+        isVisible
+          ? "dashboard-rail-in group/rail relative"
+          : "group/rail relative opacity-0"
+      }
+    >
       <div className="mb-3 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Icon className="size-4 text-primary" />
