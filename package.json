@@ -21,6 +21,7 @@
     "lint:profile-posts:fix": "eslint \"actions/profile\" \"app/(protected)/users/[username]/ProfilePosts\" --fix"
   },
   "dependencies": {
+    "@dnd-kit/react": "^0.5.0",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.5.0",
     "@prisma/client": "^7.5.0",

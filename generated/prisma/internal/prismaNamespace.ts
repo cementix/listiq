@@ -398,7 +398,10 @@ export const ModelName = {
   Notification: 'Notification',
   ExternalTitle: 'ExternalTitle',
   SyncRun: 'SyncRun',
-  TitleAlias: 'TitleAlias'
+  TitleAlias: 'TitleAlias',
+  TitleList: 'TitleList',
+  TitleListItem: 'TitleListItem',
+  SavedTitleList: 'SavedTitleList'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias"
+    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias" | "titleList" | "titleListItem" | "savedTitleList"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1531,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TitleList: {
+      payload: Prisma.$TitleListPayload<ExtArgs>
+      fields: Prisma.TitleListFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TitleListFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TitleListFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        findFirst: {
+          args: Prisma.TitleListFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TitleListFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        findMany: {
+          args: Prisma.TitleListFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>[]
+        }
+        create: {
+          args: Prisma.TitleListCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        createMany: {
+          args: Prisma.TitleListCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TitleListCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>[]
+        }
+        delete: {
+          args: Prisma.TitleListDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        update: {
+          args: Prisma.TitleListUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        deleteMany: {
+          args: Prisma.TitleListDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TitleListUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TitleListUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>[]
+        }
+        upsert: {
+          args: Prisma.TitleListUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListPayload>
+        }
+        aggregate: {
+          args: Prisma.TitleListAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTitleList>
+        }
+        groupBy: {
+          args: Prisma.TitleListGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleListGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TitleListCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleListCountAggregateOutputType> | number
+        }
+      }
+    }
+    TitleListItem: {
+      payload: Prisma.$TitleListItemPayload<ExtArgs>
+      fields: Prisma.TitleListItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TitleListItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TitleListItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        findFirst: {
+          args: Prisma.TitleListItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TitleListItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        findMany: {
+          args: Prisma.TitleListItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>[]
+        }
+        create: {
+          args: Prisma.TitleListItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        createMany: {
+          args: Prisma.TitleListItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TitleListItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>[]
+        }
+        delete: {
+          args: Prisma.TitleListItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        update: {
+          args: Prisma.TitleListItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.TitleListItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TitleListItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TitleListItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.TitleListItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TitleListItemPayload>
+        }
+        aggregate: {
+          args: Prisma.TitleListItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTitleListItem>
+        }
+        groupBy: {
+          args: Prisma.TitleListItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleListItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TitleListItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TitleListItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    SavedTitleList: {
+      payload: Prisma.$SavedTitleListPayload<ExtArgs>
+      fields: Prisma.SavedTitleListFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SavedTitleListFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SavedTitleListFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        findFirst: {
+          args: Prisma.SavedTitleListFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SavedTitleListFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        findMany: {
+          args: Prisma.SavedTitleListFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>[]
+        }
+        create: {
+          args: Prisma.SavedTitleListCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        createMany: {
+          args: Prisma.SavedTitleListCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SavedTitleListCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>[]
+        }
+        delete: {
+          args: Prisma.SavedTitleListDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        update: {
+          args: Prisma.SavedTitleListUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        deleteMany: {
+          args: Prisma.SavedTitleListDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SavedTitleListUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SavedTitleListUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>[]
+        }
+        upsert: {
+          args: Prisma.SavedTitleListUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SavedTitleListPayload>
+        }
+        aggregate: {
+          args: Prisma.SavedTitleListAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSavedTitleList>
+        }
+        groupBy: {
+          args: Prisma.SavedTitleListGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedTitleListGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SavedTitleListCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SavedTitleListCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1775,6 +2000,42 @@ export const TitleAliasScalarFieldEnum = {
 export type TitleAliasScalarFieldEnum = (typeof TitleAliasScalarFieldEnum)[keyof typeof TitleAliasScalarFieldEnum]
 
 
+export const TitleListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  visibility: 'visibility',
+  systemType: 'systemType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TitleListScalarFieldEnum = (typeof TitleListScalarFieldEnum)[keyof typeof TitleListScalarFieldEnum]
+
+
+export const TitleListItemScalarFieldEnum = {
+  id: 'id',
+  listId: 'listId',
+  titleId: 'titleId',
+  position: 'position',
+  createdAt: 'createdAt'
+} as const
+
+export type TitleListItemScalarFieldEnum = (typeof TitleListItemScalarFieldEnum)[keyof typeof TitleListItemScalarFieldEnum]
+
+
+export const SavedTitleListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  listId: 'listId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedTitleListScalarFieldEnum = (typeof SavedTitleListScalarFieldEnum)[keyof typeof SavedTitleListScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2017,6 +2278,34 @@ export type EnumTitleAliasKindFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 export type ListEnumTitleAliasKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleAliasKind[]'>
     
 
+
+/**
+ * Reference to a field of type 'TitleListVisibility'
+ */
+export type EnumTitleListVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleListVisibility'>
+    
+
+
+/**
+ * Reference to a field of type 'TitleListVisibility[]'
+ */
+export type ListEnumTitleListVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleListVisibility[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TitleListSystemType'
+ */
+export type EnumTitleListSystemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleListSystemType'>
+    
+
+
+/**
+ * Reference to a field of type 'TitleListSystemType[]'
+ */
+export type ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TitleListSystemType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -2127,6 +2416,9 @@ export type GlobalOmitConfig = {
   externalTitle?: Prisma.ExternalTitleOmit
   syncRun?: Prisma.SyncRunOmit
   titleAlias?: Prisma.TitleAliasOmit
+  titleList?: Prisma.TitleListOmit
+  titleListItem?: Prisma.TitleListItemOmit
+  savedTitleList?: Prisma.SavedTitleListOmit
 }
 
 /* Types for Logging */

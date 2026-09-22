@@ -232,6 +232,8 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdTitles?: Prisma.TitleListRelationFilter
   library?: Prisma.UserTitleListRelationFilter
+  titleLists?: Prisma.TitleListListRelationFilter
+  savedTitleLists?: Prisma.SavedTitleListListRelationFilter
   activityEvents?: Prisma.ActivityEventListRelationFilter
   submissions?: Prisma.TitleSubmissionListRelationFilter
   reviewedSubs?: Prisma.TitleSubmissionListRelationFilter
@@ -257,6 +259,8 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   createdTitles?: Prisma.TitleOrderByRelationAggregateInput
   library?: Prisma.UserTitleOrderByRelationAggregateInput
+  titleLists?: Prisma.TitleListOrderByRelationAggregateInput
+  savedTitleLists?: Prisma.SavedTitleListOrderByRelationAggregateInput
   activityEvents?: Prisma.ActivityEventOrderByRelationAggregateInput
   submissions?: Prisma.TitleSubmissionOrderByRelationAggregateInput
   reviewedSubs?: Prisma.TitleSubmissionOrderByRelationAggregateInput
@@ -285,6 +289,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdTitles?: Prisma.TitleListRelationFilter
   library?: Prisma.UserTitleListRelationFilter
+  titleLists?: Prisma.TitleListListRelationFilter
+  savedTitleLists?: Prisma.SavedTitleListListRelationFilter
   activityEvents?: Prisma.ActivityEventListRelationFilter
   submissions?: Prisma.TitleSubmissionListRelationFilter
   reviewedSubs?: Prisma.TitleSubmissionListRelationFilter
@@ -344,6 +350,8 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -369,6 +377,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -394,6 +404,8 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -419,6 +431,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -698,6 +712,34 @@ export type UserUpdateOneRequiredWithoutNotificationsSentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsSentInput, Prisma.UserUpdateWithoutNotificationsSentInput>, Prisma.UserUncheckedUpdateWithoutNotificationsSentInput>
 }
 
+export type UserCreateNestedOneWithoutTitleListsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTitleListsInput, Prisma.UserUncheckedCreateWithoutTitleListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTitleListsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTitleListsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTitleListsInput, Prisma.UserUncheckedCreateWithoutTitleListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTitleListsInput
+  upsert?: Prisma.UserUpsertWithoutTitleListsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTitleListsInput, Prisma.UserUpdateWithoutTitleListsInput>, Prisma.UserUncheckedUpdateWithoutTitleListsInput>
+}
+
+export type UserCreateNestedOneWithoutSavedTitleListsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedTitleListsInput, Prisma.UserUncheckedCreateWithoutSavedTitleListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedTitleListsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedTitleListsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedTitleListsInput, Prisma.UserUncheckedCreateWithoutSavedTitleListsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedTitleListsInput
+  upsert?: Prisma.UserUpsertWithoutSavedTitleListsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedTitleListsInput, Prisma.UserUpdateWithoutSavedTitleListsInput>, Prisma.UserUncheckedUpdateWithoutSavedTitleListsInput>
+}
+
 export type UserCreateWithoutCreatedTitlesInput = {
   id?: string
   email: string
@@ -711,6 +753,8 @@ export type UserCreateWithoutCreatedTitlesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -735,6 +779,8 @@ export type UserUncheckedCreateWithoutCreatedTitlesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -775,6 +821,8 @@ export type UserUpdateWithoutCreatedTitlesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -799,6 +847,8 @@ export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -823,6 +873,8 @@ export type UserCreateWithoutLibraryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -847,6 +899,8 @@ export type UserUncheckedCreateWithoutLibraryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -887,6 +941,8 @@ export type UserUpdateWithoutLibraryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -911,6 +967,8 @@ export type UserUncheckedUpdateWithoutLibraryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -936,6 +994,8 @@ export type UserCreateWithoutSubmissionsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
   profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
@@ -960,6 +1020,8 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
   profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
@@ -989,6 +1051,8 @@ export type UserCreateWithoutReviewedSubsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
@@ -1013,6 +1077,8 @@ export type UserUncheckedCreateWithoutReviewedSubsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1053,6 +1119,8 @@ export type UserUpdateWithoutSubmissionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
   profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
@@ -1077,6 +1145,8 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
   profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1112,6 +1182,8 @@ export type UserUpdateWithoutReviewedSubsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
@@ -1136,6 +1208,8 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1160,6 +1234,8 @@ export type UserCreateWithoutActivityEventsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
   profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
@@ -1184,6 +1260,8 @@ export type UserUncheckedCreateWithoutActivityEventsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
   profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
@@ -1224,6 +1302,8 @@ export type UserUpdateWithoutActivityEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
   profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
@@ -1248,6 +1328,8 @@ export type UserUncheckedUpdateWithoutActivityEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
   profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1272,6 +1354,8 @@ export type UserCreateWithoutProfilePostsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1296,6 +1380,8 @@ export type UserUncheckedCreateWithoutProfilePostsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1336,6 +1422,8 @@ export type UserUpdateWithoutProfilePostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1360,6 +1448,8 @@ export type UserUncheckedUpdateWithoutProfilePostsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1384,6 +1474,8 @@ export type UserCreateWithoutProfilePostLikesInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1408,6 +1500,8 @@ export type UserUncheckedCreateWithoutProfilePostLikesInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1448,6 +1542,8 @@ export type UserUpdateWithoutProfilePostLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1472,6 +1568,8 @@ export type UserUncheckedUpdateWithoutProfilePostLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1496,6 +1594,8 @@ export type UserCreateWithoutProfilePostCommentsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1520,6 +1620,8 @@ export type UserUncheckedCreateWithoutProfilePostCommentsInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1560,6 +1662,8 @@ export type UserUpdateWithoutProfilePostCommentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1584,6 +1688,8 @@ export type UserUncheckedUpdateWithoutProfilePostCommentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1608,6 +1714,8 @@ export type UserCreateWithoutProfilePostCommentLikesInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1632,6 +1740,8 @@ export type UserUncheckedCreateWithoutProfilePostCommentLikesInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1672,6 +1782,8 @@ export type UserUpdateWithoutProfilePostCommentLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1696,6 +1808,8 @@ export type UserUncheckedUpdateWithoutProfilePostCommentLikesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1720,6 +1834,8 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1744,6 +1860,8 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1773,6 +1891,8 @@ export type UserCreateWithoutNotificationsSentInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
@@ -1797,6 +1917,8 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
   submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
@@ -1837,6 +1959,8 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1861,6 +1985,8 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1896,6 +2022,8 @@ export type UserUpdateWithoutNotificationsSentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
@@ -1920,6 +2048,8 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
   submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
   reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
@@ -1930,6 +2060,246 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
 }
 
+export type UserCreateWithoutTitleListsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutTitleListsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutTitleListsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTitleListsInput, Prisma.UserUncheckedCreateWithoutTitleListsInput>
+}
+
+export type UserUpsertWithoutTitleListsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTitleListsInput, Prisma.UserUncheckedUpdateWithoutTitleListsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTitleListsInput, Prisma.UserUncheckedCreateWithoutTitleListsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTitleListsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTitleListsInput, Prisma.UserUncheckedUpdateWithoutTitleListsInput>
+}
+
+export type UserUpdateWithoutTitleListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTitleListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutSavedTitleListsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutSavedTitleListsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutSavedTitleListsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedTitleListsInput, Prisma.UserUncheckedCreateWithoutSavedTitleListsInput>
+}
+
+export type UserUpsertWithoutSavedTitleListsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedTitleListsInput, Prisma.UserUncheckedUpdateWithoutSavedTitleListsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedTitleListsInput, Prisma.UserUncheckedCreateWithoutSavedTitleListsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedTitleListsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedTitleListsInput, Prisma.UserUncheckedUpdateWithoutSavedTitleListsInput>
+}
+
+export type UserUpdateWithoutSavedTitleListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedTitleListsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
+}
+
 
 /**
  * Count Type UserCountOutputType
@@ -1938,6 +2308,8 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
 export type UserCountOutputType = {
   createdTitles: number
   library: number
+  titleLists: number
+  savedTitleLists: number
   activityEvents: number
   submissions: number
   reviewedSubs: number
@@ -1952,6 +2324,8 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdTitles?: boolean | UserCountOutputTypeCountCreatedTitlesArgs
   library?: boolean | UserCountOutputTypeCountLibraryArgs
+  titleLists?: boolean | UserCountOutputTypeCountTitleListsArgs
+  savedTitleLists?: boolean | UserCountOutputTypeCountSavedTitleListsArgs
   activityEvents?: boolean | UserCountOutputTypeCountActivityEventsArgs
   submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
   reviewedSubs?: boolean | UserCountOutputTypeCountReviewedSubsArgs
@@ -1985,6 +2359,20 @@ export type UserCountOutputTypeCountCreatedTitlesArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountLibraryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserTitleWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTitleListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TitleListWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedTitleListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavedTitleListWhereInput
 }
 
 /**
@@ -2065,6 +2453,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
   library?: boolean | Prisma.User$libraryArgs<ExtArgs>
+  titleLists?: boolean | Prisma.User$titleListsArgs<ExtArgs>
+  savedTitleLists?: boolean | Prisma.User$savedTitleListsArgs<ExtArgs>
   activityEvents?: boolean | Prisma.User$activityEventsArgs<ExtArgs>
   submissions?: boolean | Prisma.User$submissionsArgs<ExtArgs>
   reviewedSubs?: boolean | Prisma.User$reviewedSubsArgs<ExtArgs>
@@ -2123,6 +2513,8 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
   library?: boolean | Prisma.User$libraryArgs<ExtArgs>
+  titleLists?: boolean | Prisma.User$titleListsArgs<ExtArgs>
+  savedTitleLists?: boolean | Prisma.User$savedTitleListsArgs<ExtArgs>
   activityEvents?: boolean | Prisma.User$activityEventsArgs<ExtArgs>
   submissions?: boolean | Prisma.User$submissionsArgs<ExtArgs>
   reviewedSubs?: boolean | Prisma.User$reviewedSubsArgs<ExtArgs>
@@ -2142,6 +2534,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     createdTitles: Prisma.$TitlePayload<ExtArgs>[]
     library: Prisma.$UserTitlePayload<ExtArgs>[]
+    titleLists: Prisma.$TitleListPayload<ExtArgs>[]
+    savedTitleLists: Prisma.$SavedTitleListPayload<ExtArgs>[]
     activityEvents: Prisma.$ActivityEventPayload<ExtArgs>[]
     submissions: Prisma.$TitleSubmissionPayload<ExtArgs>[]
     reviewedSubs: Prisma.$TitleSubmissionPayload<ExtArgs>[]
@@ -2560,6 +2954,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   createdTitles<T extends Prisma.User$createdTitlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdTitlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   library<T extends Prisma.User$libraryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$libraryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTitlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  titleLists<T extends Prisma.User$titleListsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$titleListsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savedTitleLists<T extends Prisma.User$savedTitleListsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedTitleListsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedTitleListPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activityEvents<T extends Prisma.User$activityEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activityEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   submissions<T extends Prisma.User$submissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviewedSubs<T extends Prisma.User$reviewedSubsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedSubsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TitleSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3047,6 +3443,54 @@ export type User$libraryArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.UserTitleScalarFieldEnum | Prisma.UserTitleScalarFieldEnum[]
+}
+
+/**
+ * User.titleLists
+ */
+export type User$titleListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TitleList
+   */
+  select?: Prisma.TitleListSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TitleList
+   */
+  omit?: Prisma.TitleListOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TitleListInclude<ExtArgs> | null
+  where?: Prisma.TitleListWhereInput
+  orderBy?: Prisma.TitleListOrderByWithRelationInput | Prisma.TitleListOrderByWithRelationInput[]
+  cursor?: Prisma.TitleListWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TitleListScalarFieldEnum | Prisma.TitleListScalarFieldEnum[]
+}
+
+/**
+ * User.savedTitleLists
+ */
+export type User$savedTitleListsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedTitleList
+   */
+  select?: Prisma.SavedTitleListSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedTitleList
+   */
+  omit?: Prisma.SavedTitleListOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedTitleListInclude<ExtArgs> | null
+  where?: Prisma.SavedTitleListWhereInput
+  orderBy?: Prisma.SavedTitleListOrderByWithRelationInput | Prisma.SavedTitleListOrderByWithRelationInput[]
+  cursor?: Prisma.SavedTitleListWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavedTitleListScalarFieldEnum | Prisma.SavedTitleListScalarFieldEnum[]
 }
 
 /**

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
-import { ActionResult } from "../types";
+import type { ActionResult } from "../types";
 
 type UpdateProfileImagesInput = {
   avatarUrl?: string | null;

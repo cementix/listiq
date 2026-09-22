@@ -470,3 +470,32 @@ body[data-scroll-locked] {
   animation: dashboardCardPopIn 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
   will-change: opacity, transform, filter;
 }
+
+.list-dialog-scroll {
+  scrollbar-gutter: stable;
+}
+
+.list-dialog-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list-dialog-scroll::-webkit-scrollbar-track {
+  background: #0c0c0c;
+}
+
+.list-dialog-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid #0c0c0c;
+  border-radius: 999px;
+  background: #606976;
+}
+
+.list-dialog-scroll::-webkit-scrollbar-thumb:hover {
+  background: #8b95a3;
+}
+
+@supports (-moz-appearance: none) {
+  .list-dialog-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #606976 #0c0c0c;
+  }
+}

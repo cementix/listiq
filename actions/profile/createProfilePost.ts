@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
 import { normalizeString } from "../title/normalizeString";
-import { ActionResult } from "../types";
+import type { ActionResult } from "../types";
 import { revalidatePath } from "next/cache";
 
 type ProfilePostMediaInput = {

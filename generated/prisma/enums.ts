@@ -107,3 +107,18 @@ export const TitleAliasKind = {
 } as const
 
 export type TitleAliasKind = (typeof TitleAliasKind)[keyof typeof TitleAliasKind]
+
+
+export const TitleListVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+} as const
+
+export type TitleListVisibility = (typeof TitleListVisibility)[keyof typeof TitleListVisibility]
+
+
+export const TitleListSystemType = {
+  SAVE_FOR_LATER: 'SAVE_FOR_LATER'
+} as const
+
+export type TitleListSystemType = (typeof TitleListSystemType)[keyof typeof TitleListSystemType]

@@ -71,6 +71,14 @@
 
 ## Next Things To Do
 
+- Replace the `Browse titles` infinite `Load more` flow with URL-based pagination.
+  - Store the current page in the `page` search parameter alongside `q`, `type`, and `sort`.
+  - Load one stable page at a time instead of accumulating title batches in client state.
+  - Preserve filters when navigating between pages and support browser back/forward navigation.
+- Audit the existing `actions/` directory and separate real Server Actions from internal server code.
+  - Keep functions called directly from client components or forms in `actions/` and mark them with `"use server"`.
+  - Move database helpers, queries, slug generators, and other internal server functions to the appropriate `lib/` domain folder and guard database-backed modules with `import "server-only"`.
+  - Update imports after moving files and verify that no client component imports an internal server module.
 - Build public profiles for other users.
 - Add a route like `/users/[username]` or `/profile/[username]`.
 - Public profiles should reuse the current profile layout but remove editing controls.
@@ -99,12 +107,22 @@
 - Decide later whether old Cloudinary images should be deleted when a user replaces or removes avatar/banner images.
 - Run lint once the current UI batch is stable.
 
+## Lists MVP Follow-ups
+
+- Add owner controls to edit/delete a list and remove titles directly on its page.
+- Add a popular/new lists rail to the dashboard and lists to public profiles.
+- Decide whether public lists should be readable without signing in; the current route is protected.
+- Keep list completion and rating stats fresh after library/rating changes, and optimize aggregation for larger lists.
+- Add a save control on the canonical list page; currently it is available from browse cards.
+- Revisit dependency audit findings (`next`, unused `next-auth`) before production deployment.
+- Add automated tests and Docker setup after the MVP merge.
+
 ## Future Product Direction
 
 - Build public social-style profiles.
 - Add a profile wall with posts.
 - Allow users to attach images and videos to posts.
-- Add custom title lists like `Summer 2026`, `favorites`, and `games to finish`.
+- Polish custom title lists and surface them across the product.
 - Add friends and friend activity.
 - Add profile XP, levels, and achievements.
 - Build Tinder for Titles with AI-assisted recommendations.

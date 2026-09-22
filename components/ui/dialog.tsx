@@ -2,35 +2,113 @@
 
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { registerOpenDialog } from "@/lib/dialog-state";
+import { cn } from "@/lib/utils";
+
+const StableScrollContext = React.createContext<{
+  enabled: boolean;
+  close: () => void;
+  contentRef: React.RefObject<HTMLDivElement | null>;
+} | null>(null);
 
 function Dialog({
   open,
   defaultOpen = false,
   onOpenChange,
+  stableScroll = false,
+  modal,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+}: React.ComponentProps<typeof DialogPrimitive.Root> & {
+  stableScroll?: boolean;
+}) {
   const [localOpen, setLocalOpen] = React.useState(defaultOpen);
   const isOpen = open ?? localOpen;
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  const changeOpen = (nextOpen: boolean) => {
+    setLocalOpen(nextOpen);
+    onOpenChange?.(nextOpen);
+  };
 
   React.useLayoutEffect(() => {
     if (isOpen) return registerOpenDialog();
   }, [isOpen]);
 
+  React.useEffect(() => {
+    if (!isOpen || !stableScroll) return;
+
+    const preventBackgroundScroll = (event: WheelEvent | TouchEvent) => {
+      if (!contentRef.current?.contains(event.target as Node)) {
+        event.preventDefault();
+      }
+    };
+    const keepFocusInside = (event: FocusEvent) => {
+      if (!contentRef.current?.contains(event.target as Node)) {
+        contentRef.current?.focus();
+      }
+    };
+    const preventBackgroundKeys = (event: KeyboardEvent) => {
+      const scrollKeys = [
+        " ",
+        "ArrowDown",
+        "ArrowUp",
+        "PageDown",
+        "PageUp",
+        "Home",
+        "End",
+      ];
+      if (
+        scrollKeys.includes(event.key) &&
+        !contentRef.current?.contains(event.target as Node)
+      ) {
+        event.preventDefault();
+      }
+    };
+
+    window.addEventListener("wheel", preventBackgroundScroll, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("touchmove", preventBackgroundScroll, {
+      passive: false,
+      capture: true,
+    });
+    window.addEventListener("keydown", preventBackgroundKeys, { capture: true });
+    document.addEventListener("focusin", keepFocusInside);
+
+    return () => {
+      window.removeEventListener("wheel", preventBackgroundScroll, {
+        capture: true,
+      });
+      window.removeEventListener("touchmove", preventBackgroundScroll, {
+        capture: true,
+      });
+      window.removeEventListener("keydown", preventBackgroundKeys, {
+        capture: true,
+      });
+      document.removeEventListener("focusin", keepFocusInside);
+    };
+  }, [isOpen, stableScroll]);
+
   return (
-    <DialogPrimitive.Root
-      data-slot="dialog"
-      {...props}
-      open={isOpen}
-      onOpenChange={(nextOpen) => {
-        setLocalOpen(nextOpen);
-        onOpenChange?.(nextOpen);
+    <StableScrollContext.Provider
+      value={{
+        enabled: stableScroll,
+        close: () => changeOpen(false),
+        contentRef,
       }}
-    />
+    >
+      <DialogPrimitive.Root
+        data-slot="dialog"
+        {...props}
+        modal={stableScroll ? false : modal}
+        open={isOpen}
+        onOpenChange={changeOpen}
+      />
+    </StableScrollContext.Provider>
   );
 }
 
@@ -74,17 +152,47 @@ function DialogContent({
   children,
   showCloseButton = true,
   disableDefaultAnimation = false,
+  ref,
+  onPointerDownOutside,
+  onInteractOutside,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   overlayClassName?: string;
   showCloseButton?: boolean;
   disableDefaultAnimation?: boolean;
 }) {
+  const stableScroll = React.useContext(StableScrollContext);
+
   return (
     <DialogPortal>
-      <DialogOverlay className={overlayClassName} />
+      {stableScroll?.enabled ? (
+        <div
+          aria-hidden="true"
+          data-slot="dialog-overlay"
+          className={cn(
+            "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+            overlayClassName,
+          )}
+          onClick={stableScroll.close}
+        />
+      ) : (
+        <DialogOverlay className={overlayClassName} />
+      )}
       <DialogPrimitive.Content
         data-slot="dialog-content"
+        onPointerDownOutside={(event) => {
+          onPointerDownOutside?.(event);
+          if (stableScroll?.enabled) event.preventDefault();
+        }}
+        onInteractOutside={(event) => {
+          onInteractOutside?.(event);
+          if (stableScroll?.enabled) event.preventDefault();
+        }}
+        ref={(node) => {
+          if (stableScroll) stableScroll.contentRef.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref) ref.current = node;
+        }}
         className={cn(
           "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-background p-4 text-sm ring-1 ring-foreground/10 outline-none sm:max-w-sm",
           !disableDefaultAnimation &&

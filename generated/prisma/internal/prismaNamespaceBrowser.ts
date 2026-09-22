@@ -65,7 +65,10 @@ export const ModelName = {
   Notification: 'Notification',
   ExternalTitle: 'ExternalTitle',
   SyncRun: 'SyncRun',
-  TitleAlias: 'TitleAlias'
+  TitleAlias: 'TitleAlias',
+  TitleList: 'TitleList',
+  TitleListItem: 'TitleListItem',
+  SavedTitleList: 'SavedTitleList'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -290,6 +293,42 @@ export const TitleAliasScalarFieldEnum = {
 } as const
 
 export type TitleAliasScalarFieldEnum = (typeof TitleAliasScalarFieldEnum)[keyof typeof TitleAliasScalarFieldEnum]
+
+
+export const TitleListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  visibility: 'visibility',
+  systemType: 'systemType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TitleListScalarFieldEnum = (typeof TitleListScalarFieldEnum)[keyof typeof TitleListScalarFieldEnum]
+
+
+export const TitleListItemScalarFieldEnum = {
+  id: 'id',
+  listId: 'listId',
+  titleId: 'titleId',
+  position: 'position',
+  createdAt: 'createdAt'
+} as const
+
+export type TitleListItemScalarFieldEnum = (typeof TitleListItemScalarFieldEnum)[keyof typeof TitleListItemScalarFieldEnum]
+
+
+export const SavedTitleListScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  listId: 'listId',
+  createdAt: 'createdAt'
+} as const
+
+export type SavedTitleListScalarFieldEnum = (typeof SavedTitleListScalarFieldEnum)[keyof typeof SavedTitleListScalarFieldEnum]
 
 
 export const SortOrder = {
