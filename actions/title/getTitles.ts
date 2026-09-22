@@ -4,6 +4,7 @@ import { TitleType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
 import { normalizeTitleAlias } from "@/lib/sync/titleAliases";
+import { findFuzzyTitleIds } from "@/lib/title/findFuzzyTitleIds";
 
 type TitleSort =
   | "newest"
@@ -18,6 +19,7 @@ type GetTitlesInput = {
   sort?: TitleSort;
   page?: number;
   limit?: number;
+  searchMode?: "literal" | "fuzzy";
 };
 
 export async function getTitles({
@@ -26,6 +28,7 @@ export async function getTitles({
   sort = "newest",
   page = 1,
   limit = 24,
+  searchMode = "literal",
 }: GetTitlesInput) {
   const { session } = await requireUserServer();
   const normalizedQuery = query.trim();
@@ -34,6 +37,11 @@ export async function getTitles({
   const safePage = Math.max(1, page);
   const safeLimit = Math.min(Math.max(1, limit), 48);
   const skip = (safePage - 1) * safeLimit;
+
+  const fuzzyIds =
+    searchMode === "fuzzy" && normalizedQuery.length >= 3
+      ? await findFuzzyTitleIds(normalizedQuery, type, skip, safeLimit + 1)
+      : null;
 
   const orderBy =
     sort === "popular"
@@ -55,28 +63,30 @@ export async function getTitles({
 
   const titles = await prisma.title.findMany({
     where: {
-      ...(normalizedQuery
-        ? {
-            OR: [
-              {
-                name: {
-                  contains: normalizedQuery,
-                  mode: "insensitive",
+      ...(fuzzyIds !== null
+        ? { id: { in: fuzzyIds } }
+        : normalizedQuery
+          ? {
+              OR: [
+                {
+                  name: {
+                    contains: normalizedQuery,
+                    mode: "insensitive" as const,
+                  },
                 },
-              },
-              {
-                aliases: {
-                  some: {
-                    normalizedValue: {
-                      contains: normalizedAliasQuery,
-                      mode: "insensitive",
+                {
+                  aliases: {
+                    some: {
+                      normalizedValue: {
+                        contains: normalizedAliasQuery,
+                        mode: "insensitive" as const,
+                      },
                     },
                   },
                 },
-              },
-            ],
-          }
-        : {}),
+              ],
+            }
+          : {}),
       ...(type !== "ALL" ? { type } : {}),
     },
     orderBy,
@@ -101,12 +111,19 @@ export async function getTitles({
         },
       },
     },
-    skip,
-    take: safeLimit + 1,
+    skip: fuzzyIds === null ? skip : undefined,
+    take: fuzzyIds === null ? safeLimit + 1 : undefined,
   });
 
-  const hasMore = titles.length > safeLimit;
-  const visibleTitles = titles.slice(0, safeLimit);
+  const orderedTitles =
+    fuzzyIds === null
+      ? titles
+      : [...titles].sort(
+          (a, b) => fuzzyIds.indexOf(a.id) - fuzzyIds.indexOf(b.id),
+        );
+
+  const hasMore = orderedTitles.length > safeLimit;
+  const visibleTitles = orderedTitles.slice(0, safeLimit);
 
   const titlesWithStats = visibleTitles.map((title) => {
     const ratings = title.users
@@ -167,7 +184,7 @@ export async function getTitles({
   });
 
   return {
-    titles: sortedTitles,
+    titles: fuzzyIds === null ? sortedTitles : titlesWithStats,
     hasMore,
     nextPage: hasMore ? safePage + 1 : null,
   };

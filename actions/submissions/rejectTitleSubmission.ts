@@ -9,7 +9,7 @@ import { requireUserServer } from "../auth";
 import { normalizeString } from "../title/normalizeString";
 import { canReviewSubmissions } from "./canReviewSubmissions";
 import { isReviewableSubmissionStatus } from "./submissionStatus";
-import { ActionResult } from "../types";
+import type { ActionResult } from "../types";
 
 export async function rejectTitleSubmission(
   submissionId: string,

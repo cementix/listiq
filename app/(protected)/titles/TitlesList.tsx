@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import {
   Check,
   LoaderCircle,
@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import ConfirmDialog from "@/components/custom/ConfirmDialog";
 import { getTitles } from "@/actions/title/getTitles";
+import SaveToListButton from "@/components/custom/SaveToListButton";
 
 const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "ALL", label: "All" },
@@ -116,11 +117,31 @@ export default function TitlesList({
   const [nextPage, setNextPage] = useState(initialNextPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
+  const filterKey = `${query}:${type}:${sort}`;
+  const previousFilterKeyRef = useRef(filterKey);
+
   useEffect(() => {
-    setTitles(initialTitles);
-    setHasMore(initialHasMore);
-    setNextPage(initialNextPage);
-  }, [initialTitles, initialHasMore, initialNextPage]);
+    const filtersChanged = previousFilterKeyRef.current !== filterKey;
+
+    previousFilterKeyRef.current = filterKey;
+
+    if (filtersChanged) {
+      setTitles(initialTitles);
+      setHasMore(initialHasMore);
+      setNextPage(initialNextPage);
+      return;
+    }
+
+    setTitles((currentTitles) => {
+      const refreshedTitleIds = new Set(initialTitles.map((title) => title.id));
+
+      const previouslyLoadedTitles = currentTitles.filter(
+        (title) => !refreshedTitleIds.has(title.id),
+      );
+
+      return [...initialTitles, ...previouslyLoadedTitles];
+    });
+  }, [filterKey, initialTitles, initialHasMore, initialNextPage]);
 
   const applyFilters = useCallback(
     (nextQuery = search, nextType = selectedType, nextSort = sort) => {
@@ -315,32 +336,36 @@ export default function TitlesList({
                       </p>
                     </div>
 
-                    <Button
-                      type="button"
-                      size="sm"
-                      onClick={() => {
-                        if (isInLibrary) {
-                          setTitleToRemove(title.id);
-                          return;
-                        }
+                    <div className="flex shrink-0 items-center gap-2">
+                      <SaveToListButton titleId={title.id} compact />
 
-                        toggleLibrary(title.id, false);
-                      }}
-                      disabled={isPending}
-                      className={
-                        isInLibrary
-                          ? "h-9 bg-primary/15 text-primary hover:bg-primary/25"
-                          : "h-9 bg-white text-black hover:bg-white/90"
-                      }
-                    >
-                      {isItemPending ? (
-                        <LoaderCircle className="size-4 animate-spin" />
-                      ) : isInLibrary ? (
-                        <Check className="size-4" />
-                      ) : (
-                        <Plus className="size-4" />
-                      )}
-                    </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={() => {
+                          if (isInLibrary) {
+                            setTitleToRemove(title.id);
+                            return;
+                          }
+
+                          toggleLibrary(title.id, false);
+                        }}
+                        disabled={isPending}
+                        className={
+                          isInLibrary
+                            ? "h-9 bg-primary/15 text-primary hover:bg-primary/25"
+                            : "h-9 bg-white text-black hover:bg-white/90"
+                        }
+                      >
+                        {isItemPending ? (
+                          <LoaderCircle className="size-4 animate-spin" />
+                        ) : isInLibrary ? (
+                          <Check className="size-4" />
+                        ) : (
+                          <Plus className="size-4" />
+                        )}
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="grid h-10 grid-cols-3 items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 text-xs text-white/60">

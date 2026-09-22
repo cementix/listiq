@@ -83,6 +83,31 @@ const Navbar = ({
                 </Link>
               </div>
             </div>
+            <div className="group relative">
+              <Link
+                href="/lists"
+                className={`${navLinkClass} flex items-end gap-1`}
+              >
+                Lists
+                <ChevronDown size={14} />
+              </Link>
+
+              <div className="invisible absolute top-full left-0 z-20 w-44 rounded-xl border border-white/10 bg-black/90 p-1 pt-2 opacity-0 shadow-2xl backdrop-blur transition group-hover:visible group-hover:opacity-100">
+                <Link
+                  href="/lists"
+                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
+                >
+                  Browse lists
+                </Link>
+
+                <Link
+                  href="/my-lists"
+                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
+                >
+                  My lists
+                </Link>
+              </div>
+            </div>
           </nav>
         </div>
 

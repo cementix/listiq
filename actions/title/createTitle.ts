@@ -9,7 +9,7 @@ import { validateCreateInput } from "./validateCreateInput";
 import { validateGenreIds } from "./validateGenresId";
 import { normalizeString } from "./normalizeString";
 import { revalidatePath } from "next/cache";
-import { ActionResult } from "../types";
+import type { ActionResult } from "../types";
 
 export async function createTitle(
   data: CreateTitleInput,

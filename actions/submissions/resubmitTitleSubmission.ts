@@ -9,7 +9,7 @@ import { canEditSubmissionStatus } from "./submissionStatus";
 import { normalizeString } from "../title/normalizeString";
 import { SubmissionStatus } from "@/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
-import { ActionResult } from "../types";
+import type { ActionResult } from "../types";
 
 export async function resubmitTitleSubmission(
   submissionId: string,

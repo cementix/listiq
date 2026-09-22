@@ -92,3 +92,18 @@ export type SyncRun = Prisma.SyncRunModel
  * 
  */
 export type TitleAlias = Prisma.TitleAliasModel
+/**
+ * Model TitleList
+ * 
+ */
+export type TitleList = Prisma.TitleListModel
+/**
+ * Model TitleListItem
+ * 
+ */
+export type TitleListItem = Prisma.TitleListItemModel
+/**
+ * Model SavedTitleList
+ * 
+ */
+export type SavedTitleList = Prisma.SavedTitleListModel

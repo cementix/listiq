@@ -14,10 +14,7 @@ export default function DashboardRandomPicks({
   titles,
 }: DashboardRandomPicksProps) {
   return (
-    <GlassCard
-      className="dashboard-panel-in p-4"
-      style={{ animationDelay: "420ms" } as React.CSSProperties}
-    >
+    <GlassCard className="dashboard-panel-in p-4">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-medium text-white">Random picks</p>
         <Dice5 className="size-4 text-white/45" />

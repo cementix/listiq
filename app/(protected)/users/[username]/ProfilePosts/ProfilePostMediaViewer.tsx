@@ -19,12 +19,10 @@ import {
 import Image from "next/image";
 import {
   useCallback,
-  useEffect,
   useRef,
   useState,
   type PointerEvent,
 } from "react";
-import { createPortal } from "react-dom";
 
 type ProfilePostMedia = {
   id: string;
@@ -102,62 +100,6 @@ export default function ProfilePostMediaViewer({
     },
     [isImage, changeZoom],
   );
-
-  useEffect(() => {
-    if (!open) return;
-
-    const preventScroll = (event: WheelEvent | TouchEvent) => {
-      event.preventDefault();
-    };
-
-    const preventScrollKeys = (event: KeyboardEvent) => {
-      const target = event.target;
-      const isEditable =
-        target instanceof HTMLElement &&
-        (target.isContentEditable ||
-          target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.tagName === "SELECT");
-
-      if (isEditable) {
-        return;
-      }
-
-      if (
-        [
-          " ",
-          "ArrowDown",
-          "ArrowUp",
-          "PageDown",
-          "PageUp",
-          "Home",
-          "End",
-        ].includes(event.key)
-      ) {
-        event.preventDefault();
-      }
-    };
-
-    window.addEventListener("wheel", preventScroll, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("touchmove", preventScroll, {
-      passive: false,
-      capture: true,
-    });
-    window.addEventListener("keydown", preventScrollKeys, { capture: true });
-
-    return () => {
-      window.removeEventListener("wheel", preventScroll, { capture: true });
-      window.removeEventListener("touchmove", preventScroll, {
-        capture: true,
-      });
-      window.removeEventListener("keydown", preventScrollKeys, {
-        capture: true,
-      });
-    };
-  }, [open]);
 
   const openMedia = (index: number) => {
     setActiveIndex(index);
@@ -307,35 +249,12 @@ export default function ProfilePostMediaViewer({
         )}
       </div>
 
-      {open &&
-        createPortal(
-          <div
-            aria-hidden="true"
-            className="fixed inset-0 z-[55] cursor-default bg-black/50 backdrop-blur-[3px]"
-            onPointerDown={(event) => {
-              event.stopPropagation();
-            }}
-            onClick={() => setOpen(false)}
-            onWheel={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-            }}
-            onTouchMove={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-            }}
-          />,
-          document.body,
-        )}
-
-      <Dialog open={open} onOpenChange={setOpen} modal={false}>
+      <Dialog open={open} onOpenChange={setOpen} stableScroll>
         <DialogContent
           showCloseButton={false}
           aria-describedby={undefined}
-          overlayClassName="hidden"
+          overlayClassName="z-[55] cursor-default bg-black/50 backdrop-blur-[3px]"
           onWheel={(event) => event.stopPropagation()}
-          onPointerDownOutside={(event) => event.preventDefault()}
-          onInteractOutside={(event) => event.preventDefault()}
           className="z-[60] max-h-[84vh] w-[min(92vw,920px)] max-w-[920px] gap-0 overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:max-w-[920px]"
         >
           <DialogTitle className="sr-only">Post media viewer</DialogTitle>

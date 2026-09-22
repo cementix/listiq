@@ -12,6 +12,7 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { UserRole } from "@/generated/prisma/enums";
+import { ensureSaveForLaterList } from "../lib/title-list/ensureSaveForLaterList";
 
 export async function requireGuest() {
   const session = await getSession();
@@ -129,12 +130,18 @@ export async function registerUser(
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await prisma.user.create({
-      data: {
-        email,
-        username,
-        passwordHash,
-      },
+    const user = await prisma.$transaction(async (tx) => {
+      const createdUser = await tx.user.create({
+        data: {
+          email,
+          username,
+          passwordHash,
+        },
+      });
+
+      await ensureSaveForLaterList(createdUser.id, tx);
+
+      return createdUser;
     });
 
     await createSession({

@@ -80,6 +80,15 @@ enum TitleAliasKind {
   SLUG
 }
 
+enum TitleListVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum TitleListSystemType {
+  SAVE_FOR_LATER
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -95,8 +104,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdTitles Title[]     @relation("TitleCreator")
-  library       UserTitle[]
+  createdTitles   Title[]          @relation("TitleCreator")
+  library         UserTitle[]
+  titleLists      TitleList[]
+  savedTitleLists SavedTitleList[]
 
   activityEvents ActivityEvent[]
 
@@ -136,10 +147,12 @@ model Title {
   activityEvents ActivityEvent[]
   externalTitles ExternalTitle[]
   aliases        TitleAlias[]
+  listItems      TitleListItem[]
 
   @@index([name])
   @@index([type])
   @@index([year])
+  @@index([name(ops: raw("gin_trgm_ops"))], type: Gin, map: "Title_name_trgm_idx")
 }
 
 model Genre {
@@ -403,4 +416,62 @@ model TitleAlias {
   @@unique([titleId, normalizedValue, kind])
   @@index([normalizedValue])
   @@index([titleId])
+  @@index([normalizedValue(ops: raw("gin_trgm_ops"))], type: Gin, map: "TitleAlias_normalizedValue_trgm_idx")
+}
+
+model TitleList {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title       String
+  slug        String
+  description String?
+
+  savedBy SavedTitleList[]
+
+  visibility TitleListVisibility  @default(PUBLIC)
+  systemType TitleListSystemType?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items TitleListItem[]
+
+  @@unique([userId, slug])
+  @@unique([userId, systemType])
+  @@index([userId, createdAt])
+  @@index([visibility, createdAt])
+}
+
+model TitleListItem {
+  id String @id @default(cuid())
+
+  listId String
+  list   TitleList @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+  titleId String
+  title   Title  @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@unique([listId, titleId])
+  @@index([listId, position])
+  @@index([titleId])
+}
+
+model SavedTitleList {
+  id        String   @id @default(cuid())
+  userId    String
+  listId    String
+  createdAt DateTime @default(now())
+
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  list TitleList @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listId])
+  @@index([userId, createdAt])
+  @@index([listId])
 }

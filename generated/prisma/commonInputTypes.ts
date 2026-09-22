@@ -437,6 +437,40 @@ export type EnumTitleAliasKindWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumTitleAliasKindFilter<$PrismaModel>
 }
 
+export type EnumTitleListVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListVisibility | Prisma.EnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel> | $Enums.TitleListVisibility
+}
+
+export type EnumTitleListSystemTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListSystemType | Prisma.EnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel> | $Enums.TitleListSystemType | null
+}
+
+export type EnumTitleListVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListVisibility | Prisma.EnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTitleListVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.TitleListVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel>
+}
+
+export type EnumTitleListSystemTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListSystemType | Prisma.EnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTitleListSystemTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TitleListSystemType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -833,6 +867,40 @@ export type NestedEnumTitleAliasKindWithAggregatesFilter<$PrismaModel = never> =
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTitleAliasKindFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTitleAliasKindFilter<$PrismaModel>
+}
+
+export type NestedEnumTitleListVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListVisibility | Prisma.EnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel> | $Enums.TitleListVisibility
+}
+
+export type NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListSystemType | Prisma.EnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel> | $Enums.TitleListSystemType | null
+}
+
+export type NestedEnumTitleListVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListVisibility | Prisma.EnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TitleListVisibility[] | Prisma.ListEnumTitleListVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTitleListVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.TitleListVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTitleListVisibilityFilter<$PrismaModel>
+}
+
+export type NestedEnumTitleListSystemTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TitleListSystemType | Prisma.EnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  in?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.TitleListSystemType[] | Prisma.ListEnumTitleListSystemTypeFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumTitleListSystemTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.TitleListSystemType | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTitleListSystemTypeNullableFilter<$PrismaModel>
 }
 
 
