@@ -52,32 +52,30 @@ export default async function TitleDetailsPage({
         <div className="space-y-6">
           <GlassCard className="p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm text-white/50">
-                    {title.type}
-                    {title.year ? ` - ${title.year}` : ""}
+              <div>
+                <p className="text-sm text-white/50">
+                  {title.type}
+                  {title.year ? ` - ${title.year}` : ""}
+                </p>
+
+                <h1 className="mt-2 text-4xl font-semibold text-white">
+                  {title.name}
+                </h1>
+
+                {title.createdBy && (
+                  <p className="mt-2 text-sm text-white/45">
+                    Added by{" "}
+                    <Link
+                      href={`/users/${title.createdBy.username}`}
+                      className="text-white/70 transition hover:text-white"
+                    >
+                      @{title.createdBy.username}
+                    </Link>
                   </p>
-
-                  <h1 className="mt-2 text-4xl font-semibold text-white">
-                    {title.name}
-                  </h1>
-
-                  {title.createdBy && (
-                    <p className="mt-2 text-sm text-white/45">
-                      Added by{" "}
-                      <Link
-                        href={`/users/${title.createdBy.username}`}
-                        className="text-white/70 transition hover:text-white"
-                      >
-                        @{title.createdBy.username}
-                      </Link>
-                    </p>
-                  )}
-                </div>
-
-                <SaveToListButton titleId={title.id} />
+                )}
               </div>
+
+              <SaveToListButton titleId={title.id} />
             </div>
 
             {title.genres.length > 0 && (
