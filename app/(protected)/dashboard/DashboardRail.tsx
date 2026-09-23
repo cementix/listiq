@@ -6,6 +6,7 @@ import {
   CalendarDays,
   Dice5,
   Flame,
+  List,
   Star,
 } from "lucide-react";
 import type { RailIcon } from "./dashboardTypes";
@@ -25,6 +26,7 @@ const icons = {
   calendar: CalendarDays,
   dice: Dice5,
   star: Star,
+  list: List,
 };
 
 export default function DashboardRail({
@@ -118,7 +120,9 @@ export default function DashboardRail({
       ref={sectionRef}
       style={
         isVisible
-          ? ({ animationDelay: index === 0 ? "1100ms" : "0ms" } as React.CSSProperties)
+          ? ({
+              animationDelay: index === 0 ? "1100ms" : "0ms",
+            } as React.CSSProperties)
           : undefined
       }
       className={

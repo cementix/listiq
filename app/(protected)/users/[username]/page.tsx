@@ -10,6 +10,7 @@ import ProfileReviews from "./ProfileReviews";
 import ProfileActivity from "./ProfileActivity";
 import ProfileWall from "./ProfilePosts/ProfileWall";
 import ProfilePostsStateInitializer from "./ProfilePosts/ProfilePostStateInitializer";
+import ProfileListActivity from "./ProfileListActivity";
 
 type PublicProfilePageProps = {
   params: Promise<{
@@ -67,7 +68,8 @@ export default async function PublicProfilePage({
           <ProfileReviews reviews={profile.latestReviews} />
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 space-y-4">
+          <ProfileListActivity items={profile.recentListActivity} />
           <ProfileActivity groups={profile.recentActivityGroups} />
         </div>
       </div>

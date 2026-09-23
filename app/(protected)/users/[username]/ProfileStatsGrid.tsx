@@ -1,4 +1,4 @@
-import { BookOpen, MessageSquare, Star } from "lucide-react";
+import { BookOpen, CircleCheck, List, MessageSquare, Star } from "lucide-react";
 
 import GlassCard from "@/components/custom/GlassCard";
 
@@ -9,6 +9,8 @@ type ProfileStatsGridProps = {
     reviewCount: number;
     submissionsCount: number;
     averageRating: number | null;
+    createdListsCount: number;
+    completedListsCount: number;
   };
 };
 
@@ -16,7 +18,7 @@ export default function ProfileStatsGrid({ stats }: ProfileStatsGridProps) {
   const averageRating = stats.averageRating?.toFixed(1) ?? "-";
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
       <GlassCard className="p-4">
         <BookOpen className="size-5 text-white/45" />
         <p className="mt-3 text-2xl font-semibold">{stats.libraryCount}</p>
@@ -39,6 +41,20 @@ export default function ProfileStatsGrid({ stats }: ProfileStatsGridProps) {
         <BookOpen className="size-5 text-white/45" />
         <p className="mt-3 text-2xl font-semibold">{stats.submissionsCount}</p>
         <p className="text-sm text-white/50">Submissions</p>
+      </GlassCard>
+
+      <GlassCard className="p-4">
+        <List className="size-5 text-white/45" />
+        <p className="mt-3 text-2xl font-semibold">{stats.createdListsCount}</p>
+        <p className="text-sm text-white/50">Created lists</p>
+      </GlassCard>
+
+      <GlassCard className="p-4">
+        <CircleCheck className="size-5 text-emerald-400/80" />
+        <p className="mt-3 text-2xl font-semibold">
+          {stats.completedListsCount}
+        </p>
+        <p className="text-sm text-white/50">Completed lists</p>
       </GlassCard>
     </div>
   );

@@ -21,7 +21,7 @@ export type DashboardTitle = {
   }[];
 };
 
-export type RailIcon = "flame" | "calendar" | "dice" | "star";
+export type RailIcon = "flame" | "calendar" | "dice" | "star" | "list";
 
 export type DashboardRailItem = {
   title: string;

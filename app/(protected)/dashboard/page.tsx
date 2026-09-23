@@ -10,12 +10,18 @@ import DashboardRail from "./DashboardRail";
 import TitlePosterCard from "./TitlePosterCard";
 import { getDashboardTitles } from "./dashboardQueries";
 import DashboardToast from "./DashboardToast";
+import { getPublicTitleLists } from "@/lib/title-list/getPublicTitleLists";
+import PublicListCard from "../lists/PublicListCard";
 
 export default async function DashboardPage() {
   const session = await getSession();
   const cookieStore = await cookies();
   const flash = cookieStore.get("flash")?.value ?? null;
   const { hero, randomSideTitles, rails } = await getDashboardTitles();
+  const { lists: popularLists } = await getPublicTitleLists({
+    sort: "popular",
+    limit: 12,
+  });
 
   return (
     <>
@@ -55,6 +61,20 @@ export default async function DashboardPage() {
               ))}
             </DashboardRail>
           ))}
+          {popularLists.length > 0 && (
+            <DashboardRail
+              title="Popular lists"
+              href="/lists?sort=popular"
+              icon="list"
+              index={rails.length}
+            >
+              {popularLists.map((list) => (
+                <div key={list.id} className="w-72 shrink-0 sm:w-80">
+                  <PublicListCard list={list} />
+                </div>
+              ))}
+            </DashboardRail>
+          )}
         </div>
       </PageSection>
     </>

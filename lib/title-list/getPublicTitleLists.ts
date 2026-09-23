@@ -27,7 +27,10 @@ export async function getPublicTitleLists({
 
   const orderBy =
     sort === "popular"
-      ? [{ items: { _count: "desc" as const } }, { updatedAt: "desc" as const }]
+      ? [
+          { savedBy: { _count: "desc" as const } },
+          { updatedAt: "desc" as const },
+        ]
       : [{ createdAt: "desc" as const }];
 
   const lists = await prisma.titleList.findMany({
