@@ -23,6 +23,11 @@ export async function getTitleListPage(username: string, slug: string) {
       description: true,
       visibility: true,
       systemType: true,
+      savedBy: {
+        where: { userId: session.userId },
+        select: { id: true },
+        take: 1,
+      },
       createdAt: true,
       updatedAt: true,
       user: {
@@ -91,6 +96,7 @@ export async function getTitleListPage(username: string, slug: string) {
     items,
     viewer: {
       isOwner: list.user.id === session.userId,
+      isSaved: list.savedBy.length > 0,
       totalCount: items.length,
       completedCount,
       completionPercentage:

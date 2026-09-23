@@ -7,6 +7,7 @@ import { getTitleListPage } from "@/lib/title-list/getTitleListPage";
 import AddTitlesDialog from "./AddTitlesDialog";
 import SortableTitleGrid from "./SortableTitleGrid";
 import EditTitleListDialog from "./EditTitleListDialog";
+import SaveTitleListButton from "./SaveTitleListButton";
 
 type Props = {
   params: Promise<{ username: string; slug: string }>;
@@ -82,6 +83,16 @@ export default async function TitleListPage({ params, searchParams }: Props) {
                 visibility={list.visibility}
               />
             )}
+          </div>
+        )}
+
+        {!viewer.isOwner && (
+          <div className="mt-5">
+            <SaveTitleListButton
+              key={`${list.id}:${viewer.isSaved}`}
+              listId={list.id}
+              initialSaved={viewer.isSaved}
+            />
           </div>
         )}
       </header>
