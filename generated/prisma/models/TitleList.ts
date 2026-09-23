@@ -186,7 +186,7 @@ export type TitleListGroupByOutputType = {
   _max: TitleListMaxAggregateOutputType | null
 }
 
-type GetTitleListGroupByPayload<T extends TitleListGroupByArgs> = Prisma.PrismaPromise<
+export type GetTitleListGroupByPayload<T extends TitleListGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TitleListGroupByOutputType, T['by']> &
       {

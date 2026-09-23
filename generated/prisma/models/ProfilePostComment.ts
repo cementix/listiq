@@ -172,7 +172,7 @@ export type ProfilePostCommentGroupByOutputType = {
   _max: ProfilePostCommentMaxAggregateOutputType | null
 }
 
-type GetProfilePostCommentGroupByPayload<T extends ProfilePostCommentGroupByArgs> = Prisma.PrismaPromise<
+export type GetProfilePostCommentGroupByPayload<T extends ProfilePostCommentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ProfilePostCommentGroupByOutputType, T['by']> &
       {

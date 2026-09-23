@@ -151,7 +151,7 @@ export type ProfilePostLikeGroupByOutputType = {
   _max: ProfilePostLikeMaxAggregateOutputType | null
 }
 
-type GetProfilePostLikeGroupByPayload<T extends ProfilePostLikeGroupByArgs> = Prisma.PrismaPromise<
+export type GetProfilePostLikeGroupByPayload<T extends ProfilePostLikeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ProfilePostLikeGroupByOutputType, T['by']> &
       {

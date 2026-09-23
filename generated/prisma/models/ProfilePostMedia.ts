@@ -217,7 +217,7 @@ export type ProfilePostMediaGroupByOutputType = {
   _max: ProfilePostMediaMaxAggregateOutputType | null
 }
 
-type GetProfilePostMediaGroupByPayload<T extends ProfilePostMediaGroupByArgs> = Prisma.PrismaPromise<
+export type GetProfilePostMediaGroupByPayload<T extends ProfilePostMediaGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ProfilePostMediaGroupByOutputType, T['by']> &
       {

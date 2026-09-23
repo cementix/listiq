@@ -158,7 +158,7 @@ export type GenreGroupByOutputType = {
   _max: GenreMaxAggregateOutputType | null
 }
 
-type GetGenreGroupByPayload<T extends GenreGroupByArgs> = Prisma.PrismaPromise<
+export type GetGenreGroupByPayload<T extends GenreGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<GenreGroupByOutputType, T['by']> &
       {

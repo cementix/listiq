@@ -182,7 +182,7 @@ export type ExternalTitleGroupByOutputType = {
   _max: ExternalTitleMaxAggregateOutputType | null
 }
 
-type GetExternalTitleGroupByPayload<T extends ExternalTitleGroupByArgs> = Prisma.PrismaPromise<
+export type GetExternalTitleGroupByPayload<T extends ExternalTitleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ExternalTitleGroupByOutputType, T['by']> &
       {

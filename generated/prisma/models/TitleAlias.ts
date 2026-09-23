@@ -172,7 +172,7 @@ export type TitleAliasGroupByOutputType = {
   _max: TitleAliasMaxAggregateOutputType | null
 }
 
-type GetTitleAliasGroupByPayload<T extends TitleAliasGroupByArgs> = Prisma.PrismaPromise<
+export type GetTitleAliasGroupByPayload<T extends TitleAliasGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TitleAliasGroupByOutputType, T['by']> &
       {

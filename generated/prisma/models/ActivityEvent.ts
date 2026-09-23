@@ -213,7 +213,7 @@ export type ActivityEventGroupByOutputType = {
   _max: ActivityEventMaxAggregateOutputType | null
 }
 
-type GetActivityEventGroupByPayload<T extends ActivityEventGroupByArgs> = Prisma.PrismaPromise<
+export type GetActivityEventGroupByPayload<T extends ActivityEventGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ActivityEventGroupByOutputType, T['by']> &
       {
