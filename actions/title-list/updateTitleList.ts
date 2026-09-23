@@ -1,10 +1,11 @@
 "use server";
 
-import { z } from "zod";
-import type { ActionResult } from "../types";
-import { requireUserServer } from "../auth";
-import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+import { requireUserServer } from "@/actions/auth";
+import type { ActionResult } from "@/actions/types";
+import { prisma } from "@/lib/prisma";
 
 const updateTitleListSchema = z.object({
   listId: z.string().min(1, "List ID is required"),
@@ -29,7 +30,6 @@ export async function updateTitleList(
 ): Promise<ActionResult> {
   try {
     const { session } = await requireUserServer();
-
     const parsed = updateTitleListSchema.safeParse(input);
 
     if (!parsed.success) {
@@ -63,9 +63,7 @@ export async function updateTitleList(
       }
 
       await tx.titleList.update({
-        where: {
-          id: list.id,
-        },
+        where: { id: list.id },
         data: {
           title,
           description: description || null,
@@ -88,20 +86,14 @@ export async function updateTitleList(
     }
 
     revalidatePath("/lists");
+    revalidatePath("/my-lists");
     revalidatePath(`/lists/${session.username}/${result.slug}`);
     revalidatePath(`/users/${session.username}`);
     revalidatePath("/dashboard");
 
-    return {
-      ok: true,
-      message: "List updated",
-    };
+    return { ok: true, message: "List updated" };
   } catch (error) {
-    console.error("updateTitleList error: ", error);
-
-    return {
-      ok: false,
-      error: "Failed to update the list",
-    };
+    console.error("updateTitleList error:", error);
+    return { ok: false, error: "Failed to update the list" };
   }
 }

@@ -6,6 +6,7 @@ import PageSection from "@/components/custom/PageSection";
 import { getTitleListPage } from "@/lib/title-list/getTitleListPage";
 import AddTitlesDialog from "./AddTitlesDialog";
 import SortableTitleGrid from "./SortableTitleGrid";
+import EditTitleListDialog from "./EditTitleListDialog";
 
 type Props = {
   params: Promise<{ username: string; slug: string }>;
@@ -67,11 +68,20 @@ export default async function TitleListPage({ params, searchParams }: Props) {
         )}
 
         {viewer.isOwner && (
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
             <AddTitlesDialog
               listId={list.id}
               existingTitleIds={list.items.map((item) => item.title.id)}
             />
+            {!list.systemType && (
+              <EditTitleListDialog
+                key={`${list.title}:${list.description}:${list.visibility}`}
+                listId={list.id}
+                title={list.title}
+                description={list.description}
+                visibility={list.visibility}
+              />
+            )}
           </div>
         )}
       </header>

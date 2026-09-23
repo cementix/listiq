@@ -74,7 +74,7 @@ export default function CreateTitleListDialog() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange} stableScroll>
       <DialogTrigger asChild>
         <Button size="lg">
           <Plus />
@@ -91,8 +91,10 @@ export default function CreateTitleListDialog() {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="space-y-2">
-            <Label htmlFor="list-title">Title</Label>
+          <div className="space-y-1">
+            <Label htmlFor="list-title" className="block">
+              Title
+            </Label>
             <Input
               id="list-title"
               value={title}
@@ -104,8 +106,10 @@ export default function CreateTitleListDialog() {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="list-description">Description</Label>
+          <div className="space-y-1">
+            <Label htmlFor="list-description" className="block">
+              Description
+            </Label>
             <Textarea
               id="list-description"
               value={description}
@@ -113,35 +117,43 @@ export default function CreateTitleListDialog() {
               placeholder="Optional"
               maxLength={500}
               disabled={isPending}
-              className="min-h-28 border-white/10 bg-white/5"
+              className="min-h-28"
             />
           </div>
 
-          <div className="space-y-2">
-            <Label>Visibility</Label>
+          <fieldset className="space-y-3" disabled={isPending}>
+            <legend className="text-sm font-medium">Visibility</legend>
 
-            <Select
-              value={visibility}
-              onValueChange={(value) => setVisibility(value as Visibility)}
-              disabled={isPending}
-            >
-              <SelectTrigger className="w-full border-white/10 bg-white/5">
-                <SelectValue />
-              </SelectTrigger>
+            <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/10 bg-white/5 p-1">
+              <button
+                type="button"
+                aria-pressed={visibility === "PUBLIC"}
+                onClick={() => setVisibility("PUBLIC")}
+                className={`flex h-10 items-center cursor-pointer justify-center gap-2 rounded-md text-sm transition ${
+                  visibility === "PUBLIC"
+                    ? "bg-white/15 text-white"
+                    : "text-white/50 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <Globe2 className="size-4" />
+                Public
+              </button>
 
-              <SelectContent>
-                <SelectItem value="PUBLIC">
-                  <Globe2 />
-                  Public
-                </SelectItem>
-
-                <SelectItem value="PRIVATE">
-                  <Lock />
-                  Private
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+              <button
+                type="button"
+                aria-pressed={visibility === "PRIVATE"}
+                onClick={() => setVisibility("PRIVATE")}
+                className={`flex h-10 items-center cursor-pointer justify-center gap-2 rounded-md text-sm transition ${
+                  visibility === "PRIVATE"
+                    ? "bg-white/15 text-white"
+                    : "text-white/50 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <Lock className="size-4" />
+                Private
+              </button>
+            </div>
+          </fieldset>
 
           <DialogFooter className="border-white/10 bg-transparent">
             <DialogClose asChild>
