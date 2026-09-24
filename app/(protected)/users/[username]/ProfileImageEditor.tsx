@@ -19,12 +19,14 @@ type ProfileImageEditorProps = {
   type: "avatar" | "banner";
   imageUrl: string | null;
   imagePublicId: string | null;
+  largeAvatar?: boolean;
 };
 
 export default function ProfileImageEditor({
   type,
   imageUrl,
   imagePublicId,
+  largeAvatar = false,
 }: ProfileImageEditorProps) {
   const [open, setOpen] = useState(false);
   const [currentUrl, setCurrentUrl] = useState(imageUrl ?? "");
@@ -82,7 +84,9 @@ export default function ProfileImageEditor({
         <DialogTrigger asChild>
           <button
             type="button"
-            className="group relative flex size-24 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl"
+            className={`group relative flex items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl ${
+              largeAvatar ? "size-36" : "size-24"
+            }`}
           >
             {currentUrl ? (
               <Image

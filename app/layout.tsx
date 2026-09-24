@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { getSession } from "@/lib/session";
+import { prisma } from "@/lib/prisma";
+import PrivacySetupDialog from "@/components/custom/PrivacySetupDialog";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -20,11 +23,19 @@ export const metadata: Metadata = {
     "A minimal, highly polished list experience with smooth micro‑animations.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
+
+  const user = session
+    ? await prisma.user.findUnique({
+        where: { id: session.userId },
+        select: { privacySetupCompleted: true },
+      })
+    : null;
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -37,6 +48,7 @@ export default function RootLayout({
           </div>
 
           {children}
+          {user && !user.privacySetupCompleted && <PrivacySetupDialog />}
         </div>
         <Toaster position="top-right" closeButton duration={2500} />
       </body>

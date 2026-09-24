@@ -34,6 +34,13 @@ export type UserMinAggregateOutputType = {
   avatarPublicId: string | null
   bannerUrl: string | null
   bannerPublicId: string | null
+  privacySetupCompleted: boolean | null
+  libraryPublic: boolean | null
+  reviewsPublic: boolean | null
+  statsPublic: boolean | null
+  postsPublic: boolean | null
+  titleActivityPublic: boolean | null
+  listActivityPublic: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +55,13 @@ export type UserMaxAggregateOutputType = {
   avatarPublicId: string | null
   bannerUrl: string | null
   bannerPublicId: string | null
+  privacySetupCompleted: boolean | null
+  libraryPublic: boolean | null
+  reviewsPublic: boolean | null
+  statsPublic: boolean | null
+  postsPublic: boolean | null
+  titleActivityPublic: boolean | null
+  listActivityPublic: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +76,13 @@ export type UserCountAggregateOutputType = {
   avatarPublicId: number
   bannerUrl: number
   bannerPublicId: number
+  privacySetupCompleted: number
+  libraryPublic: number
+  reviewsPublic: number
+  statsPublic: number
+  postsPublic: number
+  titleActivityPublic: number
+  listActivityPublic: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -78,6 +99,13 @@ export type UserMinAggregateInputType = {
   avatarPublicId?: true
   bannerUrl?: true
   bannerPublicId?: true
+  privacySetupCompleted?: true
+  libraryPublic?: true
+  reviewsPublic?: true
+  statsPublic?: true
+  postsPublic?: true
+  titleActivityPublic?: true
+  listActivityPublic?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +120,13 @@ export type UserMaxAggregateInputType = {
   avatarPublicId?: true
   bannerUrl?: true
   bannerPublicId?: true
+  privacySetupCompleted?: true
+  libraryPublic?: true
+  reviewsPublic?: true
+  statsPublic?: true
+  postsPublic?: true
+  titleActivityPublic?: true
+  listActivityPublic?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +141,13 @@ export type UserCountAggregateInputType = {
   avatarPublicId?: true
   bannerUrl?: true
   bannerPublicId?: true
+  privacySetupCompleted?: true
+  libraryPublic?: true
+  reviewsPublic?: true
+  statsPublic?: true
+  postsPublic?: true
+  titleActivityPublic?: true
+  listActivityPublic?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -193,6 +235,13 @@ export type UserGroupByOutputType = {
   avatarPublicId: string | null
   bannerUrl: string | null
   bannerPublicId: string | null
+  privacySetupCompleted: boolean
+  libraryPublic: boolean
+  reviewsPublic: boolean
+  statsPublic: boolean
+  postsPublic: boolean
+  titleActivityPublic: boolean
+  listActivityPublic: boolean
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -228,6 +277,13 @@ export type UserWhereInput = {
   avatarPublicId?: Prisma.StringNullableFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bannerPublicId?: Prisma.StringNullableFilter<"User"> | string | null
+  privacySetupCompleted?: Prisma.BoolFilter<"User"> | boolean
+  libraryPublic?: Prisma.BoolFilter<"User"> | boolean
+  reviewsPublic?: Prisma.BoolFilter<"User"> | boolean
+  statsPublic?: Prisma.BoolFilter<"User"> | boolean
+  postsPublic?: Prisma.BoolFilter<"User"> | boolean
+  titleActivityPublic?: Prisma.BoolFilter<"User"> | boolean
+  listActivityPublic?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdTitles?: Prisma.TitleListRelationFilter
@@ -255,6 +311,13 @@ export type UserOrderByWithRelationInput = {
   avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  privacySetupCompleted?: Prisma.SortOrder
+  libraryPublic?: Prisma.SortOrder
+  reviewsPublic?: Prisma.SortOrder
+  statsPublic?: Prisma.SortOrder
+  postsPublic?: Prisma.SortOrder
+  titleActivityPublic?: Prisma.SortOrder
+  listActivityPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   createdTitles?: Prisma.TitleOrderByRelationAggregateInput
@@ -285,6 +348,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   avatarPublicId?: Prisma.StringNullableFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
   bannerPublicId?: Prisma.StringNullableFilter<"User"> | string | null
+  privacySetupCompleted?: Prisma.BoolFilter<"User"> | boolean
+  libraryPublic?: Prisma.BoolFilter<"User"> | boolean
+  reviewsPublic?: Prisma.BoolFilter<"User"> | boolean
+  statsPublic?: Prisma.BoolFilter<"User"> | boolean
+  postsPublic?: Prisma.BoolFilter<"User"> | boolean
+  titleActivityPublic?: Prisma.BoolFilter<"User"> | boolean
+  listActivityPublic?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   createdTitles?: Prisma.TitleListRelationFilter
@@ -312,6 +382,13 @@ export type UserOrderByWithAggregationInput = {
   avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  privacySetupCompleted?: Prisma.SortOrder
+  libraryPublic?: Prisma.SortOrder
+  reviewsPublic?: Prisma.SortOrder
+  statsPublic?: Prisma.SortOrder
+  postsPublic?: Prisma.SortOrder
+  titleActivityPublic?: Prisma.SortOrder
+  listActivityPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -332,6 +409,13 @@ export type UserScalarWhereWithAggregatesInput = {
   avatarPublicId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bannerPublicId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  privacySetupCompleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  libraryPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  reviewsPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  statsPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  postsPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  titleActivityPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  listActivityPublic?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -346,6 +430,13 @@ export type UserCreateInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -373,6 +464,13 @@ export type UserUncheckedCreateInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -400,6 +498,13 @@ export type UserUpdateInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -427,6 +532,13 @@ export type UserUncheckedUpdateInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -454,6 +566,13 @@ export type UserCreateManyInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -468,6 +587,13 @@ export type UserUpdateManyMutationInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -482,6 +608,13 @@ export type UserUncheckedUpdateManyInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -496,6 +629,13 @@ export type UserCountOrderByAggregateInput = {
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   bannerPublicId?: Prisma.SortOrder
+  privacySetupCompleted?: Prisma.SortOrder
+  libraryPublic?: Prisma.SortOrder
+  reviewsPublic?: Prisma.SortOrder
+  statsPublic?: Prisma.SortOrder
+  postsPublic?: Prisma.SortOrder
+  titleActivityPublic?: Prisma.SortOrder
+  listActivityPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -510,6 +650,13 @@ export type UserMaxOrderByAggregateInput = {
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   bannerPublicId?: Prisma.SortOrder
+  privacySetupCompleted?: Prisma.SortOrder
+  libraryPublic?: Prisma.SortOrder
+  reviewsPublic?: Prisma.SortOrder
+  statsPublic?: Prisma.SortOrder
+  postsPublic?: Prisma.SortOrder
+  titleActivityPublic?: Prisma.SortOrder
+  listActivityPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -524,6 +671,13 @@ export type UserMinOrderByAggregateInput = {
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
   bannerPublicId?: Prisma.SortOrder
+  privacySetupCompleted?: Prisma.SortOrder
+  libraryPublic?: Prisma.SortOrder
+  reviewsPublic?: Prisma.SortOrder
+  statsPublic?: Prisma.SortOrder
+  postsPublic?: Prisma.SortOrder
+  titleActivityPublic?: Prisma.SortOrder
+  listActivityPublic?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -548,6 +702,10 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -750,6 +908,13 @@ export type UserCreateWithoutCreatedTitlesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
@@ -776,6 +941,13 @@ export type UserUncheckedCreateWithoutCreatedTitlesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
@@ -818,6 +990,13 @@ export type UserUpdateWithoutCreatedTitlesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
@@ -844,6 +1023,13 @@ export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
@@ -870,6 +1056,13 @@ export type UserCreateWithoutLibraryInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -896,6 +1089,13 @@ export type UserUncheckedCreateWithoutLibraryInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -938,6 +1138,13 @@ export type UserUpdateWithoutLibraryInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -964,6 +1171,13 @@ export type UserUncheckedUpdateWithoutLibraryInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -990,6 +1204,13 @@ export type UserCreateWithoutSubmissionsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1016,6 +1237,13 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1047,6 +1275,13 @@ export type UserCreateWithoutReviewedSubsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1073,6 +1308,13 @@ export type UserUncheckedCreateWithoutReviewedSubsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1115,6 +1357,13 @@ export type UserUpdateWithoutSubmissionsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1141,6 +1390,13 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1178,6 +1434,13 @@ export type UserUpdateWithoutReviewedSubsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1204,6 +1467,13 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1230,6 +1500,13 @@ export type UserCreateWithoutActivityEventsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1256,6 +1533,13 @@ export type UserUncheckedCreateWithoutActivityEventsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1298,6 +1582,13 @@ export type UserUpdateWithoutActivityEventsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1324,6 +1615,13 @@ export type UserUncheckedUpdateWithoutActivityEventsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1350,6 +1648,13 @@ export type UserCreateWithoutProfilePostsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1376,6 +1681,13 @@ export type UserUncheckedCreateWithoutProfilePostsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1418,6 +1730,13 @@ export type UserUpdateWithoutProfilePostsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1444,6 +1763,13 @@ export type UserUncheckedUpdateWithoutProfilePostsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1470,6 +1796,13 @@ export type UserCreateWithoutProfilePostLikesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1496,6 +1829,13 @@ export type UserUncheckedCreateWithoutProfilePostLikesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1538,6 +1878,13 @@ export type UserUpdateWithoutProfilePostLikesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1564,6 +1911,13 @@ export type UserUncheckedUpdateWithoutProfilePostLikesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1590,6 +1944,13 @@ export type UserCreateWithoutProfilePostCommentsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1616,6 +1977,13 @@ export type UserUncheckedCreateWithoutProfilePostCommentsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1658,6 +2026,13 @@ export type UserUpdateWithoutProfilePostCommentsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1684,6 +2059,13 @@ export type UserUncheckedUpdateWithoutProfilePostCommentsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1710,6 +2092,13 @@ export type UserCreateWithoutProfilePostCommentLikesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1736,6 +2125,13 @@ export type UserUncheckedCreateWithoutProfilePostCommentLikesInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1778,6 +2174,13 @@ export type UserUpdateWithoutProfilePostCommentLikesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1804,6 +2207,13 @@ export type UserUncheckedUpdateWithoutProfilePostCommentLikesInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1830,6 +2240,13 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1856,6 +2273,13 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1887,6 +2311,13 @@ export type UserCreateWithoutNotificationsSentInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -1913,6 +2344,13 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1955,6 +2393,13 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -1981,6 +2426,13 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2018,6 +2470,13 @@ export type UserUpdateWithoutNotificationsSentInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -2044,6 +2503,13 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2070,6 +2536,13 @@ export type UserCreateWithoutTitleListsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -2096,6 +2569,13 @@ export type UserUncheckedCreateWithoutTitleListsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2138,6 +2618,13 @@ export type UserUpdateWithoutTitleListsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -2164,6 +2651,13 @@ export type UserUncheckedUpdateWithoutTitleListsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2190,6 +2684,13 @@ export type UserCreateWithoutSavedTitleListsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
@@ -2216,6 +2717,13 @@ export type UserUncheckedCreateWithoutSavedTitleListsInput = {
   avatarPublicId?: string | null
   bannerUrl?: string | null
   bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2258,6 +2766,13 @@ export type UserUpdateWithoutSavedTitleListsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
@@ -2284,6 +2799,13 @@ export type UserUncheckedUpdateWithoutSavedTitleListsInput = {
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2449,6 +2971,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   avatarPublicId?: boolean
   bannerUrl?: boolean
   bannerPublicId?: boolean
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
@@ -2477,6 +3006,13 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatarPublicId?: boolean
   bannerUrl?: boolean
   bannerPublicId?: boolean
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2491,6 +3027,13 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatarPublicId?: boolean
   bannerUrl?: boolean
   bannerPublicId?: boolean
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -2505,11 +3048,18 @@ export type UserSelectScalar = {
   avatarPublicId?: boolean
   bannerUrl?: boolean
   bannerPublicId?: boolean
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "passwordHash" | "role" | "avatarUrl" | "avatarPublicId" | "bannerUrl" | "bannerPublicId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "passwordHash" | "role" | "avatarUrl" | "avatarPublicId" | "bannerUrl" | "bannerPublicId" | "privacySetupCompleted" | "libraryPublic" | "reviewsPublic" | "statsPublic" | "postsPublic" | "titleActivityPublic" | "listActivityPublic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
   library?: boolean | Prisma.User$libraryArgs<ExtArgs>
@@ -2556,6 +3106,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     avatarPublicId: string | null
     bannerUrl: string | null
     bannerPublicId: string | null
+    privacySetupCompleted: boolean
+    libraryPublic: boolean
+    reviewsPublic: boolean
+    statsPublic: boolean
+    postsPublic: boolean
+    titleActivityPublic: boolean
+    listActivityPublic: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -3003,6 +3560,13 @@ export interface UserFieldRefs {
   readonly avatarPublicId: Prisma.FieldRef<"User", 'String'>
   readonly bannerUrl: Prisma.FieldRef<"User", 'String'>
   readonly bannerPublicId: Prisma.FieldRef<"User", 'String'>
+  readonly privacySetupCompleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly libraryPublic: Prisma.FieldRef<"User", 'Boolean'>
+  readonly reviewsPublic: Prisma.FieldRef<"User", 'Boolean'>
+  readonly statsPublic: Prisma.FieldRef<"User", 'Boolean'>
+  readonly postsPublic: Prisma.FieldRef<"User", 'Boolean'>
+  readonly titleActivityPublic: Prisma.FieldRef<"User", 'Boolean'>
+  readonly listActivityPublic: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

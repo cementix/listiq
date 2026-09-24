@@ -101,6 +101,14 @@ model User {
   bannerUrl      String?
   bannerPublicId String?
 
+  privacySetupCompleted Boolean @default(false)
+  libraryPublic         Boolean @default(false)
+  reviewsPublic         Boolean @default(false)
+  statsPublic           Boolean @default(false)
+  postsPublic           Boolean @default(false)
+  titleActivityPublic   Boolean @default(false)
+  listActivityPublic    Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

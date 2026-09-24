@@ -97,6 +97,13 @@ export const UserScalarFieldEnum = {
   avatarPublicId: 'avatarPublicId',
   bannerUrl: 'bannerUrl',
   bannerPublicId: 'bannerPublicId',
+  privacySetupCompleted: 'privacySetupCompleted',
+  libraryPublic: 'libraryPublic',
+  reviewsPublic: 'reviewsPublic',
+  statsPublic: 'statsPublic',
+  postsPublic: 'postsPublic',
+  titleActivityPublic: 'titleActivityPublic',
+  listActivityPublic: 'listActivityPublic',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
