@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/session";
 
 export async function getPublicProfileOverview(username: string) {
   const user = await prisma.user.findUnique({
@@ -9,17 +10,30 @@ export async function getPublicProfileOverview(username: string) {
       id: true,
       username: true,
       role: true,
+      reviewsPublic: true,
+      postsPublic: true,
       avatarUrl: true,
       avatarPublicId: true,
       bannerUrl: true,
       bannerPublicId: true,
       createdAt: true,
+      statsPublic: true,
+      titleActivityPublic: true,
+      listActivityPublic: true,
     },
   });
 
   if (!user) {
     return null;
   }
+
+  const session = await getSession();
+  const isOwner = session?.userId === user.id;
+  const canViewProfileStats = isOwner || user.statsPublic;
+  const canViewProfileTitleActivity = isOwner || user.titleActivityPublic;
+  const canViewProfileListActivity = isOwner || user.listActivityPublic;
+  const canSeePosts = isOwner || user.postsPublic;
+  const canSeeReviews = isOwner || user.reviewsPublic;
 
   const [library, submissions, activityEvents, posts, lists] =
     await Promise.all([
@@ -84,66 +98,48 @@ export async function getPublicProfileOverview(username: string) {
         },
       }),
 
-      prisma.profilePost.findMany({
-        where: { authorId: user.id },
-        orderBy: { createdAt: "desc" },
-        take: 20,
-        select: {
-          id: true,
-          content: true,
-          createdAt: true,
-          updatedAt: true,
-          author: {
-            select: {
-              username: true,
-              avatarUrl: true,
-            },
-          },
-          media: {
-            select: {
-              id: true,
-              type: true,
-              url: true,
-              width: true,
-              height: true,
-            },
-          },
-          attachedUserTitle: {
-            select: {
-              id: true,
-              rating: true,
-              note: true,
-              title: {
-                select: {
-                  name: true,
-                  slug: true,
-                  imageUrl: true,
-                  type: true,
-                  year: true,
-                },
-              },
-            },
-          },
-          likes: {
-            select: {
-              id: true,
-              userId: true,
-            },
-          },
-          comments: {
+      canSeePosts
+        ? prisma.profilePost.findMany({
             where: {
-              parentId: null,
+              authorId: user.id,
+              ...(canSeeReviews ? {} : { attachedUserTitleId: null }),
             },
-            orderBy: [{ likes: { _count: "desc" } }, { createdAt: "asc" }],
+            orderBy: { createdAt: "desc" },
             take: 20,
             select: {
               id: true,
               content: true,
               createdAt: true,
+              updatedAt: true,
               author: {
                 select: {
                   username: true,
                   avatarUrl: true,
+                },
+              },
+              media: {
+                select: {
+                  id: true,
+                  type: true,
+                  url: true,
+                  width: true,
+                  height: true,
+                },
+              },
+              attachedUserTitle: {
+                select: {
+                  id: true,
+                  rating: true,
+                  note: true,
+                  title: {
+                    select: {
+                      name: true,
+                      slug: true,
+                      imageUrl: true,
+                      type: true,
+                      year: true,
+                    },
+                  },
                 },
               },
               likes: {
@@ -152,7 +148,10 @@ export async function getPublicProfileOverview(username: string) {
                   userId: true,
                 },
               },
-              replies: {
+              comments: {
+                where: {
+                  parentId: null,
+                },
                 orderBy: [{ likes: { _count: "desc" } }, { createdAt: "asc" }],
                 take: 20,
                 select: {
@@ -171,12 +170,35 @@ export async function getPublicProfileOverview(username: string) {
                       userId: true,
                     },
                   },
+                  replies: {
+                    orderBy: [
+                      { likes: { _count: "desc" } },
+                      { createdAt: "asc" },
+                    ],
+                    take: 20,
+                    select: {
+                      id: true,
+                      content: true,
+                      createdAt: true,
+                      author: {
+                        select: {
+                          username: true,
+                          avatarUrl: true,
+                        },
+                      },
+                      likes: {
+                        select: {
+                          id: true,
+                          userId: true,
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
-          },
-        },
-      }),
+          })
+        : Promise.resolve([]),
       prisma.titleList.findMany({
         where: {
           visibility: "PUBLIC",
@@ -286,21 +308,26 @@ export async function getPublicProfileOverview(username: string) {
 
   return {
     user,
-    stats: {
-      libraryCount: library.length,
-      ratingCount: ratings.length,
-      reviewCount: reviews.length,
-      averageRating:
-        ratings.length > 0
-          ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
-          : null,
-      submissionsCount: submissions.length,
-      completedListsCount,
-      createdListsCount,
-    },
-    latestReviews: reviews.slice(0, 12),
+    stats: canViewProfileStats
+      ? {
+          libraryCount: library.length,
+          ratingCount: ratings.length,
+          reviewCount: reviews.length,
+          averageRating:
+            ratings.length > 0
+              ? ratings.reduce((sum, rating) => sum + rating, 0) /
+                ratings.length
+              : null,
+          submissionsCount: submissions.length,
+          completedListsCount,
+          createdListsCount,
+        }
+      : null,
+    latestReviews: canSeeReviews ? reviews.slice(0, 12) : [],
     posts,
-    recentActivityGroups,
-    recentListActivity,
+    recentActivityGroups: canViewProfileTitleActivity
+      ? recentActivityGroups
+      : [],
+    recentListActivity: canViewProfileListActivity ? recentListActivity : [],
   };
 }

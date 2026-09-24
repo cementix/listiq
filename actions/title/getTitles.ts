@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "../auth";
 import { normalizeTitleAlias } from "@/lib/sync/titleAliases";
 import { findFuzzyTitleIds } from "@/lib/title/findFuzzyTitleIds";
+import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
+import { getRankedTitleIds } from "@/lib/title/getRankedTitleIds";
 
 type TitleSort =
   | "newest"
@@ -43,28 +45,24 @@ export async function getTitles({
       ? await findFuzzyTitleIds(normalizedQuery, type, skip, safeLimit + 1)
       : null;
 
-  const orderBy =
-    sort === "popular"
-      ? [
-          {
-            users: {
-              _count: "desc" as const,
-            },
-          },
-          {
-            createdAt: "desc" as const,
-          },
-        ]
-      : [
-          {
-            createdAt: "desc" as const,
-          },
-        ];
+  const rankedIds =
+    fuzzyIds === null && sort !== "newest"
+      ? await getRankedTitleIds({
+          sort,
+          limit: safeLimit + 1,
+          offset: skip,
+          query: normalizedQuery,
+          aliasQuery: normalizedAliasQuery,
+          type,
+        })
+      : null;
+
+  const orderedIds = fuzzyIds ?? rankedIds;
 
   const titles = await prisma.title.findMany({
     where: {
-      ...(fuzzyIds !== null
-        ? { id: { in: fuzzyIds } }
+      ...(orderedIds !== null
+        ? { id: { in: orderedIds } }
         : normalizedQuery
           ? {
               OR: [
@@ -89,7 +87,10 @@ export async function getTitles({
           : {}),
       ...(type !== "ALL" ? { type } : {}),
     },
-    orderBy,
+    orderBy:
+      orderedIds === null
+        ? [{ createdAt: "desc" as const }, { id: "desc" as const }]
+        : undefined,
     include: {
       genres: {
         select: {
@@ -105,86 +106,53 @@ export async function getTitles({
           rating: true,
           note: true,
           createdAt: true,
+          user: {
+            select: {
+              libraryPublic: true,
+              reviewsPublic: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
         },
       },
     },
-    skip: fuzzyIds === null ? skip : undefined,
-    take: fuzzyIds === null ? safeLimit + 1 : undefined,
+    skip: orderedIds === null ? skip : undefined,
+    take: orderedIds === null ? safeLimit + 1 : undefined,
   });
 
   const orderedTitles =
-    fuzzyIds === null
+    orderedIds === null
       ? titles
       : [...titles].sort(
-          (a, b) => fuzzyIds.indexOf(a.id) - fuzzyIds.indexOf(b.id),
+          (a, b) => orderedIds.indexOf(a.id) - orderedIds.indexOf(b.id),
         );
 
   const hasMore = orderedTitles.length > safeLimit;
   const visibleTitles = orderedTitles.slice(0, safeLimit);
 
   const titlesWithStats = visibleTitles.map((title) => {
-    const ratings = title.users
-      .map((entry) => entry.rating)
-      .filter((rating): rating is number => rating !== null);
-
-    const averageRating =
-      ratings.length > 0
-        ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
-        : null;
+    const { users, ...publicTitle } = title;
+    const ownEntry = users.find((entry) => entry.userId === session.userId);
 
     return {
-      ...title,
-      currentUserTitle:
-        title.users.find((entry) => entry.userId === session.userId) ?? null,
-      stats: {
-        libraryCount: title.users.length,
-        ratingCount: ratings.length,
-        averageRating,
-        reviewCount: title.users.filter((entry) => entry.note).length,
-      },
+      ...publicTitle,
+      currentUserTitle: ownEntry
+        ? {
+            id: ownEntry.id,
+            userId: ownEntry.userId,
+            rating: ownEntry.rating,
+            note: ownEntry.note,
+            createdAt: ownEntry.createdAt,
+          }
+        : null,
+      stats: getPublicTitleStats(users),
     };
   });
 
-  const sortedTitles = [...titlesWithStats].sort((a, b) => {
-    if (sort === "popular") {
-      return (
-        b.stats.libraryCount - a.stats.libraryCount ||
-        b.createdAt.getTime() - a.createdAt.getTime()
-      );
-    }
-
-    if (sort === "highest-rated") {
-      return (
-        (b.stats.averageRating ?? 0) - (a.stats.averageRating ?? 0) ||
-        b.stats.ratingCount - a.stats.ratingCount ||
-        b.createdAt.getTime() - a.createdAt.getTime()
-      );
-    }
-
-    if (sort === "most-reviewed") {
-      return (
-        b.stats.reviewCount - a.stats.reviewCount ||
-        b.createdAt.getTime() - a.createdAt.getTime()
-      );
-    }
-
-    if (sort === "recently-added") {
-      const aLastAdded =
-        a.users[0]?.createdAt.getTime() ?? a.createdAt.getTime();
-      const bLastAdded =
-        b.users[0]?.createdAt.getTime() ?? b.createdAt.getTime();
-
-      return bLastAdded - aLastAdded;
-    }
-
-    return b.createdAt.getTime() - a.createdAt.getTime();
-  });
-
   return {
-    titles: fuzzyIds === null ? sortedTitles : titlesWithStats,
+    titles: titlesWithStats,
     hasMore,
     nextPage: hasMore ? safePage + 1 : null,
   };

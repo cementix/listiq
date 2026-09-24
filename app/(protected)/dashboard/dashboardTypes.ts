@@ -18,6 +18,10 @@ export type DashboardTitle = {
   users: {
     rating: number | null;
     note: string | null;
+    user: {
+      libraryPublic: boolean;
+      reviewsPublic: boolean;
+    };
   }[];
 };
 

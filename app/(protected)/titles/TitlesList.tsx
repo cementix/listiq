@@ -62,13 +62,6 @@ type Title = {
   imageUrl: string | null;
   type: TitleType;
   genres: Genre[];
-  users: {
-    id: string;
-    userId: string;
-    rating: number | null;
-    note: string | null;
-    createdAt: Date;
-  }[];
   currentUserTitle: {
     id: string;
     userId: string;

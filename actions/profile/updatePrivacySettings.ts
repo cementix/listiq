@@ -37,7 +37,7 @@ export async function updatePrivacySettings(
       },
     });
 
-    revalidatePath(`/users/${session.username}`);
+    revalidatePath("/", "layout");
 
     return { ok: true, message: "Privacy settings updated" };
   } catch (error) {

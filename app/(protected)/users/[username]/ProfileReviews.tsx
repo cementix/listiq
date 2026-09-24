@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
 import GlassCard from "@/components/custom/GlassCard";
+import ProfilePrivacyHint from "./ProfilePrivacyHint";
 
 type ProfileReview = {
   id: string;
@@ -15,12 +16,19 @@ type ProfileReview = {
 
 type ProfileReviewsProps = {
   reviews: ProfileReview[];
+  privateForOthers?: boolean;
 };
 
-export default function ProfileReviews({ reviews }: ProfileReviewsProps) {
+export default function ProfileReviews({
+  reviews,
+  privateForOthers = false,
+}: ProfileReviewsProps) {
   return (
     <GlassCard className="p-5">
-      <h2 className="text-xl font-semibold text-white">Latest reviews</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xl font-semibold text-white">Latest reviews</h2>
+        {privateForOthers && <ProfilePrivacyHint />}
+      </div>
 
       <div className="mt-4 space-y-3">
         {reviews.length === 0 ? (

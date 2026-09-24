@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "../auth";
 import { revalidatePath } from "next/cache";
 
@@ -18,15 +19,19 @@ export async function toggleProfilePostLike({
       where: { id: postId },
       select: {
         id: true,
+        authorId: true,
+        attachedUserTitleId: true,
         author: {
           select: {
             username: true,
+            postsPublic: true,
+            reviewsPublic: true,
           },
         },
       },
     });
 
-    if (!post) {
+    if (!post || !canViewProfilePost(post, session.userId)) {
       return { ok: false, error: "Post not found" };
     }
 

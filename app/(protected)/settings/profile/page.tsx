@@ -60,7 +60,12 @@ export default async function ProfileSettingsPage() {
         <AccountSecurityForms initialUsername={user.username} />
       </section>
       <section className="space-y-4">
-        <h2 className="text-lg font-medium text-white">Privacy</h2>
+        <div className="space-y-1">
+          <h2 className="text-lg font-medium text-white">Privacy</h2>
+          <p className="text-sm text-white/45">
+            Choose which parts of your profile other users can see.
+          </p>
+        </div>
         <PrivacySettingsForm
           initialSettings={{
             libraryPublic: user.libraryPublic,

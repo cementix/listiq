@@ -1,19 +1,8 @@
 import type { DashboardTitle } from "./dashboardTypes";
+import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
 
 export function getTitleStats(title: DashboardTitle) {
-  const ratings = title.users
-    .map((entry) => entry.rating)
-    .filter((rating): rating is number => rating !== null);
-
-  return {
-    libraryCount: title.users.length,
-    reviewCount: title.users.filter((entry) => entry.note).length,
-    ratingCount: ratings.length,
-    averageRating:
-      ratings.length > 0
-        ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
-        : null,
-  };
+  return getPublicTitleStats(title.users);
 }
 
 export function formatTitleMeta(title: DashboardTitle) {

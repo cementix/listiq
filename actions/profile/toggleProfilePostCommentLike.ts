@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "../auth";
 import type { ActionResult } from "../types";
 import { revalidatePath } from "next/cache";
@@ -23,9 +24,13 @@ export async function toggleProfilePostCommentLike({
         post: {
           select: {
             id: true,
+            authorId: true,
+            attachedUserTitleId: true,
             author: {
               select: {
                 username: true,
+                postsPublic: true,
+                reviewsPublic: true,
               },
             },
           },
@@ -33,7 +38,7 @@ export async function toggleProfilePostCommentLike({
       },
     });
 
-    if (!comment) {
+    if (!comment || !canViewProfilePost(comment.post, session.userId)) {
       return { ok: false, error: "Comment not found" };
     }
 

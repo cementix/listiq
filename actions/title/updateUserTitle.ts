@@ -88,6 +88,8 @@ export async function updateUserTitle(
     }
 
     revalidatePath(`/titles/${existing.title.slug}`);
+    revalidatePath("/titles");
+    revalidatePath("/dashboard");
     revalidatePath("/library");
     revalidatePath(`/users/${session.username}`);
 

@@ -61,6 +61,8 @@ export async function toggleLibraryTitle(
     }
 
     revalidatePath(`/titles/${title.slug}`);
+    revalidatePath("/titles");
+    revalidatePath("/dashboard");
     revalidatePath("/library");
     revalidatePath(`/users/${session.username}`);
 

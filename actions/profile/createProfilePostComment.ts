@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "../auth";
 import { normalizeString } from "../title/normalizeString";
 import type { ActionResult } from "../types";
@@ -35,15 +36,18 @@ export async function createProfilePostComment({
       select: {
         id: true,
         authorId: true,
+        attachedUserTitleId: true,
         author: {
           select: {
             username: true,
+            postsPublic: true,
+            reviewsPublic: true,
           },
         },
       },
     });
 
-    if (!post) {
+    if (!post || !canViewProfilePost(post, session.userId)) {
       return { ok: false, error: "Post not found" };
     }
 

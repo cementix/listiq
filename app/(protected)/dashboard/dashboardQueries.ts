@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { getRankedTitleIds } from "@/lib/title/getRankedTitleIds";
 
 import type { DashboardRailItem } from "./dashboardTypes";
-import { getTitleStats, pickRandomFromTop, shuffle } from "./dashboardUtils";
+import { shuffle } from "./dashboardUtils";
 
 // obj for prisma include for titles
 const dashboardTitleInclude = {
@@ -17,9 +18,26 @@ const dashboardTitleInclude = {
     select: {
       rating: true,
       note: true,
+      user: {
+        select: {
+          libraryPublic: true,
+          reviewsPublic: true,
+        },
+      },
     },
   },
 };
+
+function orderTitlesByIds<T extends { id: string }>(
+  titles: T[],
+  ids: string[],
+) {
+  const positions = new Map(ids.map((id, index) => [id, index]));
+  return [...titles].sort(
+    (a, b) =>
+      (positions.get(a.id) ?? Infinity) - (positions.get(b.id) ?? Infinity),
+  );
+}
 
 // helper for random titles
 async function getRandomTitleIds(limit = 80) {
@@ -73,21 +91,60 @@ async function getRandomHeroTitleIds(limit = 200) {
 
 // util to get all kinds of titles
 export async function getDashboardTitles() {
-  const [randomTitleIds, randomHeroTitleIds] = await Promise.all([
+  const [
+    randomTitleIds,
+    randomHeroTitleIds,
+    popularIds,
+    gameIds,
+    animeIds,
+    mangaIds,
+    topRatedIds,
+  ] = await Promise.all([
     getRandomTitleIds(80),
     getRandomHeroTitleIds(200),
+    getRankedTitleIds({
+      sort: "popular",
+      limit: 18,
+      imageOnly: true,
+      excludeType: "BOOK",
+    }),
+    getRankedTitleIds({
+      sort: "popular",
+      limit: 18,
+      imageOnly: true,
+      type: "GAME",
+    }),
+    getRankedTitleIds({
+      sort: "popular",
+      limit: 18,
+      imageOnly: true,
+      type: "ANIME",
+    }),
+    getRankedTitleIds({
+      sort: "popular",
+      limit: 18,
+      imageOnly: true,
+      types: ["MANGA", "MANHWA", "NOVEL"],
+    }),
+    getRankedTitleIds({
+      sort: "highest-rated",
+      limit: 18,
+      imageOnly: true,
+      excludeType: "BOOK",
+      minRatings: 2,
+    }),
   ]);
   // Promise.all for prisma queries
   const [
     heroCandidates,
     randomTitles,
-    popularTitles,
+    unorderedPopularTitles,
     newReleases,
-    games,
-    anime,
-    manga,
+    unorderedGames,
+    unorderedAnime,
+    unorderedManga,
     books,
-    topRatedPool,
+    unorderedTopRated,
   ] = await Promise.all([
     prisma.title.findMany({
       where: {
@@ -102,13 +159,8 @@ export async function getDashboardTitles() {
       include: dashboardTitleInclude,
     }),
     prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        type: { not: "BOOK" },
-      },
+      where: { id: { in: popularIds } },
       include: dashboardTitleInclude,
-      orderBy: [{ users: { _count: "desc" } }, { updatedAt: "desc" }],
-      take: 18,
     }),
     prisma.title.findMany({
       where: {
@@ -121,31 +173,16 @@ export async function getDashboardTitles() {
       take: 18,
     }),
     prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        type: "GAME",
-      },
+      where: { id: { in: gameIds } },
       include: dashboardTitleInclude,
-      orderBy: [{ users: { _count: "desc" } }, { updatedAt: "desc" }],
-      take: 18,
     }),
     prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        type: "ANIME",
-      },
+      where: { id: { in: animeIds } },
       include: dashboardTitleInclude,
-      orderBy: [{ users: { _count: "desc" } }, { updatedAt: "desc" }],
-      take: 18,
     }),
     prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        type: { in: ["MANGA", "MANHWA", "NOVEL"] },
-      },
+      where: { id: { in: mangaIds } },
       include: dashboardTitleInclude,
-      orderBy: [{ users: { _count: "desc" } }, { updatedAt: "desc" }],
-      take: 18,
     }),
     prisma.title.findMany({
       where: {
@@ -158,15 +195,15 @@ export async function getDashboardTitles() {
       take: 18,
     }),
     prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        type: { not: "BOOK" },
-      },
+      where: { id: { in: topRatedIds } },
       include: dashboardTitleInclude,
-      orderBy: { updatedAt: "desc" },
-      take: 120,
     }),
   ]);
+
+  const popularTitles = orderTitlesByIds(unorderedPopularTitles, popularIds);
+  const games = orderTitlesByIds(unorderedGames, gameIds);
+  const anime = orderTitlesByIds(unorderedAnime, animeIds);
+  const manga = orderTitlesByIds(unorderedManga, mangaIds);
 
   // pick random hero
   const hero =
@@ -199,20 +236,7 @@ export async function getDashboardTitles() {
   ).slice(0, 4);
 
   // top rated titles for the rail
-  const topRated = topRatedPool
-    .map((title) => ({
-      title,
-      stats: getTitleStats(title),
-    }))
-    .filter((item) => item.stats.ratingCount >= 2)
-    .sort((a, b) => {
-      return (
-        (b.stats.averageRating ?? 0) - (a.stats.averageRating ?? 0) ||
-        b.stats.ratingCount - a.stats.ratingCount
-      );
-    })
-    .slice(0, 18)
-    .map((item) => item.title);
+  const topRated = orderTitlesByIds(unorderedTopRated, topRatedIds);
 
   // optional rails array (insta shuffle here to just slice after)
   const optionalRails: DashboardRailItem[] = shuffle([

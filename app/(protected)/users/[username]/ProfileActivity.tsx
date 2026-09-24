@@ -2,6 +2,7 @@ import { ChevronDown } from "lucide-react";
 
 import GlassCard from "@/components/custom/GlassCard";
 import ProfileActivityGroup from "./ProfileActivityGroup";
+import ProfilePrivacyHint from "./ProfilePrivacyHint";
 
 type ActivityEvent = {
   id: string;
@@ -20,12 +21,19 @@ type ActivityGroup = {
 
 type ProfileActivityProps = {
   groups: ActivityGroup[];
+  privateForOthers?: boolean;
 };
 
-export default function ProfileActivity({ groups }: ProfileActivityProps) {
+export default function ProfileActivity({
+  groups,
+  privateForOthers = false,
+}: ProfileActivityProps) {
   return (
     <GlassCard className="p-5">
-      <h2 className="text-xl font-semibold text-white">Recent activity</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xl font-semibold text-white">Recent activity</h2>
+        {privateForOthers && <ProfilePrivacyHint />}
+      </div>
 
       <div className="mt-4 space-y-3">
         {groups.length === 0 ? (

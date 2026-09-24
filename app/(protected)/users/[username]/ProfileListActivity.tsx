@@ -3,6 +3,7 @@ import { ListPlus, Plus } from "lucide-react";
 
 import GlassCard from "@/components/custom/GlassCard";
 import { formatRelativeDate } from "./ProfileUtils";
+import ProfilePrivacyHint from "./ProfilePrivacyHint";
 
 type ListActivityItem = {
   id: string;
@@ -16,12 +17,17 @@ type ListActivityItem = {
 
 export default function ProfileListActivity({
   items,
+  privateForOthers = false,
 }: {
   items: ListActivityItem[];
+  privateForOthers?: boolean;
 }) {
   return (
     <GlassCard className="p-5">
-      <h2 className="text-xl font-semibold text-white">Recent list activity</h2>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-xl font-semibold text-white">Recent list activity</h2>
+        {privateForOthers && <ProfilePrivacyHint />}
+      </div>
 
       <div className="mt-4 space-y-4">
         {items.length === 0 ? (

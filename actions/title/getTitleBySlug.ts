@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
 import { requireUserServer } from "../auth";
 
 export async function getTitleBySlug(slug: string) {
@@ -30,6 +31,8 @@ export async function getTitleBySlug(slug: string) {
             user: {
               select: {
                 username: true,
+                libraryPublic: true,
+                reviewsPublic: true,
               },
             },
           },
@@ -47,27 +50,28 @@ export async function getTitleBySlug(slug: string) {
     .then((title) => {
       if (!title) return null;
 
-      const currentUserTitle =
-        title.users.find((entry) => entry.userId === session.userId) ?? null;
-
-      const ratings = title.users
-        .map((entry) => entry.rating)
-        .filter((rating): rating is number => rating !== null);
-
-      const averageRating =
-        ratings.length > 0
-          ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
-          : null;
+      const { users, ...publicTitle } = title;
+      const ownEntry = users.find((entry) => entry.userId === session.userId);
+      const currentUserTitle = ownEntry
+        ? { id: ownEntry.id, rating: ownEntry.rating, note: ownEntry.note }
+        : null;
+      const visibleReviews = users
+        .filter(
+          (entry) =>
+            entry.user.reviewsPublic || entry.userId === session.userId,
+        )
+        .map((entry) => ({
+          id: entry.id,
+          rating: entry.rating,
+          note: entry.note,
+          user: { username: entry.user.username },
+        }));
 
       return {
-        ...title,
+        ...publicTitle,
+        users: visibleReviews,
         currentUserTitle,
-        stats: {
-          libraryCount: title.users.length,
-          ratingCount: ratings.length,
-          averageRating,
-          reviewCount: title.users.filter((entry) => entry.note).length,
-        },
+        stats: getPublicTitleStats(users),
       };
     });
 }
