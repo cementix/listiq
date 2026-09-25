@@ -55,6 +55,7 @@ export const ModelName = {
   Title: 'Title',
   Genre: 'Genre',
   UserTitle: 'UserTitle',
+  UserTitleDiscovery: 'UserTitleDiscovery',
   TitleSubmission: 'TitleSubmission',
   ActivityEvent: 'ActivityEvent',
   ProfilePost: 'ProfilePost',
@@ -152,6 +153,22 @@ export const UserTitleScalarFieldEnum = {
 } as const
 
 export type UserTitleScalarFieldEnum = (typeof UserTitleScalarFieldEnum)[keyof typeof UserTitleScalarFieldEnum]
+
+
+export const UserTitleDiscoveryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  titleId: 'titleId',
+  shownCount: 'shownCount',
+  lastShownAt: 'lastShownAt',
+  skipCount: 'skipCount',
+  lastAction: 'lastAction',
+  lastActionAt: 'lastActionAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserTitleDiscoveryScalarFieldEnum = (typeof UserTitleDiscoveryScalarFieldEnum)[keyof typeof UserTitleDiscoveryScalarFieldEnum]
 
 
 export const TitleSubmissionScalarFieldEnum = {

@@ -89,6 +89,12 @@ enum TitleListSystemType {
   SAVE_FOR_LATER
 }
 
+enum DiscoveryAction {
+  SKIPPED
+  SAVED_FOR_LATER
+  ADDED_TO_LIBRARY
+}
+
 model User {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -127,8 +133,9 @@ model User {
   profilePostComments     ProfilePostComment[]
   profilePostCommentLikes ProfilePostCommentLike[]
 
-  notificationsReceived Notification[] @relation("NotificationRecipient")
-  notificationsSent     Notification[] @relation("NotificationActor")
+  notificationsReceived Notification[]       @relation("NotificationRecipient")
+  notificationsSent     Notification[]       @relation("NotificationActor")
+  userTitleDiscoveries  UserTitleDiscovery[]
 }
 
 model Title {
@@ -152,6 +159,7 @@ model Title {
 
   genres         Genre[]
   users          UserTitle[]
+  discoveries    UserTitleDiscovery[]
   activityEvents ActivityEvent[]
   externalTitles ExternalTitle[]
   aliases        TitleAlias[]
@@ -193,6 +201,31 @@ model UserTitle {
 
   @@unique([userId, titleId])
   @@index([userId])
+  @@index([titleId])
+}
+
+model UserTitleDiscovery {
+  id String @id @default(cuid())
+
+  userId  String
+  titleId String
+
+  shownCount  Int       @default(0)
+  lastShownAt DateTime?
+  skipCount   Int       @default(0)
+
+  // The last choice is history, not current library or list membership.
+  lastAction   DiscoveryAction?
+  lastActionAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title Title @relation(fields: [titleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, titleId])
+  @@index([userId, lastShownAt])
   @@index([titleId])
 }
 

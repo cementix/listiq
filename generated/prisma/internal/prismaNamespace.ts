@@ -401,6 +401,7 @@ export const ModelName = {
   Title: 'Title',
   Genre: 'Genre',
   UserTitle: 'UserTitle',
+  UserTitleDiscovery: 'UserTitleDiscovery',
   TitleSubmission: 'TitleSubmission',
   ActivityEvent: 'ActivityEvent',
   ProfilePost: 'ProfilePost',
@@ -430,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias" | "titleList" | "titleListItem" | "savedTitleList"
+    modelProps: "user" | "title" | "genre" | "userTitle" | "userTitleDiscovery" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias" | "titleList" | "titleListItem" | "savedTitleList"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -727,6 +728,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserTitleCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserTitleCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserTitleDiscovery: {
+      payload: Prisma.$UserTitleDiscoveryPayload<ExtArgs>
+      fields: Prisma.UserTitleDiscoveryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserTitleDiscoveryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserTitleDiscoveryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        findFirst: {
+          args: Prisma.UserTitleDiscoveryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserTitleDiscoveryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        findMany: {
+          args: Prisma.UserTitleDiscoveryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>[]
+        }
+        create: {
+          args: Prisma.UserTitleDiscoveryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        createMany: {
+          args: Prisma.UserTitleDiscoveryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserTitleDiscoveryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>[]
+        }
+        delete: {
+          args: Prisma.UserTitleDiscoveryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        update: {
+          args: Prisma.UserTitleDiscoveryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserTitleDiscoveryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserTitleDiscoveryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserTitleDiscoveryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserTitleDiscoveryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserTitleDiscoveryPayload>
+        }
+        aggregate: {
+          args: Prisma.UserTitleDiscoveryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserTitleDiscovery>
+        }
+        groupBy: {
+          args: Prisma.UserTitleDiscoveryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTitleDiscoveryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserTitleDiscoveryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserTitleDiscoveryCountAggregateOutputType> | number
         }
       }
     }
@@ -1872,6 +1947,22 @@ export const UserTitleScalarFieldEnum = {
 export type UserTitleScalarFieldEnum = (typeof UserTitleScalarFieldEnum)[keyof typeof UserTitleScalarFieldEnum]
 
 
+export const UserTitleDiscoveryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  titleId: 'titleId',
+  shownCount: 'shownCount',
+  lastShownAt: 'lastShownAt',
+  skipCount: 'skipCount',
+  lastAction: 'lastAction',
+  lastActionAt: 'lastActionAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserTitleDiscoveryScalarFieldEnum = (typeof UserTitleDiscoveryScalarFieldEnum)[keyof typeof UserTitleDiscoveryScalarFieldEnum]
+
+
 export const TitleSubmissionScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2195,6 +2286,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'DiscoveryAction'
+ */
+export type EnumDiscoveryActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscoveryAction'>
+    
+
+
+/**
+ * Reference to a field of type 'DiscoveryAction[]'
+ */
+export type ListEnumDiscoveryActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DiscoveryAction[]'>
+    
+
+
+/**
  * Reference to a field of type 'SubmissionStatus'
  */
 export type EnumSubmissionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubmissionStatus'>
@@ -2488,6 +2593,7 @@ export type GlobalOmitConfig = {
   title?: Prisma.TitleOmit
   genre?: Prisma.GenreOmit
   userTitle?: Prisma.UserTitleOmit
+  userTitleDiscovery?: Prisma.UserTitleDiscoveryOmit
   titleSubmission?: Prisma.TitleSubmissionOmit
   activityEvent?: Prisma.ActivityEventOmit
   profilePost?: Prisma.ProfilePostOmit

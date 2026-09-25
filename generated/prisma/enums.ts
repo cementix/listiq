@@ -122,3 +122,12 @@ export const TitleListSystemType = {
 } as const
 
 export type TitleListSystemType = (typeof TitleListSystemType)[keyof typeof TitleListSystemType]
+
+
+export const DiscoveryAction = {
+  SKIPPED: 'SKIPPED',
+  SAVED_FOR_LATER: 'SAVED_FOR_LATER',
+  ADDED_TO_LIBRARY: 'ADDED_TO_LIBRARY'
+} as const
+
+export type DiscoveryAction = (typeof DiscoveryAction)[keyof typeof DiscoveryAction]

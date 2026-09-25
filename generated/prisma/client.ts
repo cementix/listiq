@@ -62,6 +62,11 @@ export type Genre = Prisma.GenreModel
  */
 export type UserTitle = Prisma.UserTitleModel
 /**
+ * Model UserTitleDiscovery
+ * 
+ */
+export type UserTitleDiscovery = Prisma.UserTitleDiscoveryModel
+/**
  * Model TitleSubmission
  * 
  */
