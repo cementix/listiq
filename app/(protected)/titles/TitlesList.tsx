@@ -200,6 +200,7 @@ export default function TitlesList({
         sort,
         page: pageToLoad,
         limit: 24,
+        searchMode: "fuzzy",
       });
 
       setTitles((currentTitles) => {

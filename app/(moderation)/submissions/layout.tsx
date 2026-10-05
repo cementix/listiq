@@ -31,6 +31,7 @@ export default async function ModerationLayout({
         username={session.username}
         needsChangesCount={needsChangesCount}
         avatarUrl={null}
+        canReview={canReview}
       />
       {children}
     </div>

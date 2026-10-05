@@ -11,10 +11,12 @@ const Navbar = ({
   username,
   avatarUrl,
   needsChangesCount,
+  canReview,
 }: {
   username: string;
   avatarUrl: string | null;
   needsChangesCount: number;
+  canReview: boolean;
 }) => {
   return (
     <header className="border-b border-white/10 bg-black/95 backdrop-blur">
@@ -76,12 +78,14 @@ const Navbar = ({
                 >
                   Add submission
                 </Link>
-                <Link
-                  href="/submissions"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Review queue
-                </Link>
+                {canReview && (
+                  <Link
+                    href="/submissions"
+                    className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
+                  >
+                    Review queue
+                  </Link>
+                )}
               </div>
             </div>
             <div className="group relative">

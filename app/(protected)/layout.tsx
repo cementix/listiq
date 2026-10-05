@@ -5,15 +5,19 @@ import React from "react";
 import { prisma } from "@/lib/prisma";
 import NavbarShell from "./NavbarShell";
 import StoreProvider from "../storeProvider";
+import { canReviewSubmissions } from "@/actions/submissions/canReviewSubmissions";
 
 const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   const session = await requireAuth();
   const needsChangesCount = await getNeedsChangesSubmissionsCount();
 
   const user = await prisma.user.findUnique({
-    where: { id: session.userId },
+    where: {
+      id: session.userId,
+    },
     select: {
       avatarUrl: true,
+      role: true,
     },
   });
   return (
@@ -24,6 +28,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
             username={session.username}
             needsChangesCount={needsChangesCount}
             avatarUrl={user?.avatarUrl ?? null}
+            canReview={user ? canReviewSubmissions(user.role) : false}
           />
         </NavbarShell>
         {children}
