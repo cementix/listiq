@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 
 export async function getTitleBySlug(slug: string) {
   const { session } = await requireUserServer();

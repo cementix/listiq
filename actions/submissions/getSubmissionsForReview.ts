@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { canReviewSubmissions } from "./canReviewSubmissions";
 import { SubmissionStatus } from "@/generated/prisma/enums";
 

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUserServer } from "@/actions/auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
 import { ActivityEventType, DiscoveryAction } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";

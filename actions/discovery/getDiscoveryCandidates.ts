@@ -1,6 +1,6 @@
 "use server";
 
-import { requireUserServer } from "@/actions/auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import {
   TitleListSystemType,
   TitleType,

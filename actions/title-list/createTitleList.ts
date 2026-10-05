@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import type { ActionResult } from "../types";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { generateUniqueTitleListSlug } from "@/lib/title-list/generateUniqueTitleListSlug";
 import { revalidatePath } from "next/cache";

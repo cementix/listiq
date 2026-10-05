@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { CreateTitleInput } from "../title/types";
 import { validateCreateInput } from "../title/validateCreateInput";
 import { validateGenreIds } from "../title/validateGenresId";

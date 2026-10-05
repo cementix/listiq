@@ -1,5 +1,5 @@
 import { getNeedsChangesSubmissionsCount } from "@/actions/submissions/getNeedsChangesSubmissionsCount";
-import { requireAuth } from "../../actions/auth";
+import { requireAuth } from "@/lib/auth/guards";
 import Navbar from "./Navbar";
 import React from "react";
 import { prisma } from "@/lib/prisma";

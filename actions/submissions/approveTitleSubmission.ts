@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { SubmissionStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { generateUniqueSlug } from "../title/generateUniqueSlug";
 import { normalizeString } from "../title/normalizeString";
 import { canReviewSubmissions } from "./canReviewSubmissions";

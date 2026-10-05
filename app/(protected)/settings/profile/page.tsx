@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { requireAuth } from "@/actions/auth";
+import { requireAuth } from "@/lib/auth/guards";
 import PageSection from "@/components/custom/PageSection";
 import { prisma } from "@/lib/prisma";
 import ProfileImageEditor from "../../users/[username]/ProfileImageEditor";

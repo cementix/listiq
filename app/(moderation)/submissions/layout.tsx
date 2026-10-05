@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/auth";
+import { getCurrentUser } from "@/lib/auth/guards";
 import { getNeedsChangesSubmissionsCount } from "@/actions/submissions/getNeedsChangesSubmissionsCount";
 import Navbar from "@/app/(protected)/Navbar";
 import { getSession } from "@/lib/session";

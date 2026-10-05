@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 
 export async function getProfileOverview() {
   const { session } = await requireUserServer();

@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 
 export async function getMySubmissions() {
   const { session } = await requireUserServer();

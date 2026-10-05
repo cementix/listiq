@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { canCreateTitle } from "./canCreateTitle";
 import { generateUniqueSlug } from "./generateUniqueSlug";
 import { CreateTitleInput } from "./types";

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { requireUserServer } from "@/actions/auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { ensureSaveForLaterList } from "./ensureSaveForLaterList";
 

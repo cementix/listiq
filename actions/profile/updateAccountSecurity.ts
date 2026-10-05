@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { requireUserServer } from "@/actions/auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";

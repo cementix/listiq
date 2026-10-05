@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { revalidatePath } from "next/cache";
 
 type ToggleProfilePostLikeInput = {

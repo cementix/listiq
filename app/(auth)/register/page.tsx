@@ -1,5 +1,5 @@
 import { caveat } from "@/app/fonts";
-import { requireGuest } from "../../../actions/auth";
+import { requireGuest } from "@/lib/auth/guards";
 import RegisterForm from "./RegisterForm";
 
 const RegisterPage = async () => {

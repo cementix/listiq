@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireUserServer } from "../auth";
+import { requireUserServer } from "@/lib/auth/guards";
 import { UpdateUserTitleInput } from "./types";
 import { Prisma } from "@/generated/prisma/client";
 import { normalizeString } from "./normalizeString";

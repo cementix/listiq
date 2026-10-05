@@ -1,74 +1,12 @@
 "use server";
 
-import {
-  createSession,
-  deleteSession,
-  getSession,
-  SessionPayload,
-} from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { UserRole } from "@/generated/prisma/enums";
 import { ensureSaveForLaterList } from "../lib/title-list/ensureSaveForLaterList";
-
-export async function requireGuest() {
-  const session = await getSession();
-
-  if (session) {
-    redirect("/dashboard");
-  }
-}
-
-export async function requireAuth() {
-  const session = await getSession();
-
-  if (!session) {
-    redirect("/login");
-  } else {
-    return session;
-  }
-}
-
-type CurrentUser = {
-  role: UserRole;
-};
-
-type AuthenticatedUserContext = {
-  user: CurrentUser;
-  session: SessionPayload;
-};
-
-export async function requireUserServer(): Promise<AuthenticatedUserContext> {
-  const session = await getSession();
-
-  if (!session?.userId) {
-    throw new Error("Unauthorized");
-  }
-
-  const user = await getCurrentUser(session);
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  return { user, session };
-}
-
-export async function getCurrentUser(
-  session: SessionPayload,
-): Promise<CurrentUser | null> {
-  const currentUser = await prisma.user.findUnique({
-    where: { id: session?.userId },
-    select: {
-      role: true,
-    },
-  });
-
-  return currentUser;
-}
 
 const registerSchema = z.object({
   email: z.email().trim().toLowerCase(),

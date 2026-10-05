@@ -1,4 +1,4 @@
-import { getCurrentUser } from "../../../actions/auth";
+import { getCurrentUser } from "@/lib/auth/guards";
 import AddTitleForm from "./AddTitleForm";
 import GlassCard from "../../../components/custom/GlassCard";
 import PageSection from "../../../components/custom/PageSection";
