@@ -28,10 +28,12 @@ export type AggregateTitle = {
 
 export type TitleAvgAggregateOutputType = {
   year: number | null
+  catalogScore: number | null
 }
 
 export type TitleSumAggregateOutputType = {
   year: number | null
+  catalogScore: number | null
 }
 
 export type TitleMinAggregateOutputType = {
@@ -48,6 +50,9 @@ export type TitleMinAggregateOutputType = {
   createdById: string | null
   releaseDate: Date | null
   backdropUrl: string | null
+  catalogScore: number | null
+  catalogEligible: boolean | null
+  catalogScoredAt: Date | null
 }
 
 export type TitleMaxAggregateOutputType = {
@@ -64,6 +69,9 @@ export type TitleMaxAggregateOutputType = {
   createdById: string | null
   releaseDate: Date | null
   backdropUrl: string | null
+  catalogScore: number | null
+  catalogEligible: boolean | null
+  catalogScoredAt: Date | null
 }
 
 export type TitleCountAggregateOutputType = {
@@ -80,16 +88,21 @@ export type TitleCountAggregateOutputType = {
   createdById: number
   releaseDate: number
   backdropUrl: number
+  catalogScore: number
+  catalogEligible: number
+  catalogScoredAt: number
   _all: number
 }
 
 
 export type TitleAvgAggregateInputType = {
   year?: true
+  catalogScore?: true
 }
 
 export type TitleSumAggregateInputType = {
   year?: true
+  catalogScore?: true
 }
 
 export type TitleMinAggregateInputType = {
@@ -106,6 +119,9 @@ export type TitleMinAggregateInputType = {
   createdById?: true
   releaseDate?: true
   backdropUrl?: true
+  catalogScore?: true
+  catalogEligible?: true
+  catalogScoredAt?: true
 }
 
 export type TitleMaxAggregateInputType = {
@@ -122,6 +138,9 @@ export type TitleMaxAggregateInputType = {
   createdById?: true
   releaseDate?: true
   backdropUrl?: true
+  catalogScore?: true
+  catalogEligible?: true
+  catalogScoredAt?: true
 }
 
 export type TitleCountAggregateInputType = {
@@ -138,6 +157,9 @@ export type TitleCountAggregateInputType = {
   createdById?: true
   releaseDate?: true
   backdropUrl?: true
+  catalogScore?: true
+  catalogEligible?: true
+  catalogScoredAt?: true
   _all?: true
 }
 
@@ -241,6 +263,9 @@ export type TitleGroupByOutputType = {
   createdById: string | null
   releaseDate: Date | null
   backdropUrl: string | null
+  catalogScore: number | null
+  catalogEligible: boolean
+  catalogScoredAt: Date | null
   _count: TitleCountAggregateOutputType | null
   _avg: TitleAvgAggregateOutputType | null
   _sum: TitleSumAggregateOutputType | null
@@ -280,6 +305,9 @@ export type TitleWhereInput = {
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
   backdropUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  catalogScore?: Prisma.FloatNullableFilter<"Title"> | number | null
+  catalogEligible?: Prisma.BoolFilter<"Title"> | boolean
+  catalogScoredAt?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   genres?: Prisma.GenreListRelationFilter
   users?: Prisma.UserTitleListRelationFilter
@@ -304,6 +332,9 @@ export type TitleOrderByWithRelationInput = {
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
   backdropUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  catalogScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  catalogEligible?: Prisma.SortOrder
+  catalogScoredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.UserOrderByWithRelationInput
   genres?: Prisma.GenreOrderByRelationAggregateInput
   users?: Prisma.UserTitleOrderByRelationAggregateInput
@@ -331,6 +362,9 @@ export type TitleWhereUniqueInput = Prisma.AtLeast<{
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
   backdropUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  catalogScore?: Prisma.FloatNullableFilter<"Title"> | number | null
+  catalogEligible?: Prisma.BoolFilter<"Title"> | boolean
+  catalogScoredAt?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   genres?: Prisma.GenreListRelationFilter
   users?: Prisma.UserTitleListRelationFilter
@@ -355,6 +389,9 @@ export type TitleOrderByWithAggregationInput = {
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   releaseDate?: Prisma.SortOrderInput | Prisma.SortOrder
   backdropUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  catalogScore?: Prisma.SortOrderInput | Prisma.SortOrder
+  catalogEligible?: Prisma.SortOrder
+  catalogScoredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TitleCountOrderByAggregateInput
   _avg?: Prisma.TitleAvgOrderByAggregateInput
   _max?: Prisma.TitleMaxOrderByAggregateInput
@@ -379,6 +416,9 @@ export type TitleScalarWhereWithAggregatesInput = {
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
   releaseDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Title"> | Date | string | null
   backdropUrl?: Prisma.StringNullableWithAggregatesFilter<"Title"> | string | null
+  catalogScore?: Prisma.FloatNullableWithAggregatesFilter<"Title"> | number | null
+  catalogEligible?: Prisma.BoolWithAggregatesFilter<"Title"> | boolean
+  catalogScoredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Title"> | Date | string | null
 }
 
 export type TitleCreateInput = {
@@ -394,6 +434,9 @@ export type TitleCreateInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -418,6 +461,9 @@ export type TitleUncheckedCreateInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -440,6 +486,9 @@ export type TitleUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -464,6 +513,9 @@ export type TitleUncheckedUpdateInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -487,6 +539,9 @@ export type TitleCreateManyInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
 }
 
 export type TitleUpdateManyMutationInput = {
@@ -502,6 +557,9 @@ export type TitleUpdateManyMutationInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TitleUncheckedUpdateManyInput = {
@@ -518,6 +576,9 @@ export type TitleUncheckedUpdateManyInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TitleListRelationFilter = {
@@ -544,10 +605,14 @@ export type TitleCountOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   backdropUrl?: Prisma.SortOrder
+  catalogScore?: Prisma.SortOrder
+  catalogEligible?: Prisma.SortOrder
+  catalogScoredAt?: Prisma.SortOrder
 }
 
 export type TitleAvgOrderByAggregateInput = {
   year?: Prisma.SortOrder
+  catalogScore?: Prisma.SortOrder
 }
 
 export type TitleMaxOrderByAggregateInput = {
@@ -564,6 +629,9 @@ export type TitleMaxOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   backdropUrl?: Prisma.SortOrder
+  catalogScore?: Prisma.SortOrder
+  catalogEligible?: Prisma.SortOrder
+  catalogScoredAt?: Prisma.SortOrder
 }
 
 export type TitleMinOrderByAggregateInput = {
@@ -580,10 +648,14 @@ export type TitleMinOrderByAggregateInput = {
   createdById?: Prisma.SortOrder
   releaseDate?: Prisma.SortOrder
   backdropUrl?: Prisma.SortOrder
+  catalogScore?: Prisma.SortOrder
+  catalogEligible?: Prisma.SortOrder
+  catalogScoredAt?: Prisma.SortOrder
 }
 
 export type TitleSumOrderByAggregateInput = {
   year?: Prisma.SortOrder
+  catalogScore?: Prisma.SortOrder
 }
 
 export type TitleScalarRelationFilter = {
@@ -652,6 +724,14 @@ export type EnumTitleTypeFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type TitleCreateNestedManyWithoutGenresInput = {
@@ -791,6 +871,9 @@ export type TitleCreateWithoutCreatedByInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutTitleInput
@@ -813,6 +896,9 @@ export type TitleUncheckedCreateWithoutCreatedByInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -865,6 +951,9 @@ export type TitleScalarWhereInput = {
   createdById?: Prisma.StringNullableFilter<"Title"> | string | null
   releaseDate?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
   backdropUrl?: Prisma.StringNullableFilter<"Title"> | string | null
+  catalogScore?: Prisma.FloatNullableFilter<"Title"> | number | null
+  catalogEligible?: Prisma.BoolFilter<"Title"> | boolean
+  catalogScoredAt?: Prisma.DateTimeNullableFilter<"Title"> | Date | string | null
 }
 
 export type TitleCreateWithoutGenresInput = {
@@ -880,6 +969,9 @@ export type TitleCreateWithoutGenresInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutTitleInput
@@ -903,6 +995,9 @@ export type TitleUncheckedCreateWithoutGenresInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
@@ -945,6 +1040,9 @@ export type TitleCreateWithoutUsersInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   discoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutTitleInput
@@ -968,6 +1066,9 @@ export type TitleUncheckedCreateWithoutUsersInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
@@ -1005,6 +1106,9 @@ export type TitleUpdateWithoutUsersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutTitleNestedInput
@@ -1028,6 +1132,9 @@ export type TitleUncheckedUpdateWithoutUsersInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
@@ -1049,6 +1156,9 @@ export type TitleCreateWithoutDiscoveriesInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -1072,6 +1182,9 @@ export type TitleUncheckedCreateWithoutDiscoveriesInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutTitleInput
@@ -1109,6 +1222,9 @@ export type TitleUpdateWithoutDiscoveriesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -1132,6 +1248,9 @@ export type TitleUncheckedUpdateWithoutDiscoveriesInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
@@ -1153,6 +1272,9 @@ export type TitleCreateWithoutActivityEventsInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -1176,6 +1298,9 @@ export type TitleUncheckedCreateWithoutActivityEventsInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -1213,6 +1338,9 @@ export type TitleUpdateWithoutActivityEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -1236,6 +1364,9 @@ export type TitleUncheckedUpdateWithoutActivityEventsInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -1257,6 +1388,9 @@ export type TitleCreateWithoutExternalTitlesInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -1280,6 +1414,9 @@ export type TitleUncheckedCreateWithoutExternalTitlesInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -1317,6 +1454,9 @@ export type TitleUpdateWithoutExternalTitlesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -1340,6 +1480,9 @@ export type TitleUncheckedUpdateWithoutExternalTitlesInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -1361,6 +1504,9 @@ export type TitleCreateWithoutAliasesInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -1384,6 +1530,9 @@ export type TitleUncheckedCreateWithoutAliasesInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -1421,6 +1570,9 @@ export type TitleUpdateWithoutAliasesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -1444,6 +1596,9 @@ export type TitleUncheckedUpdateWithoutAliasesInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -1465,6 +1620,9 @@ export type TitleCreateWithoutListItemsInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedTitlesInput
   genres?: Prisma.GenreCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleCreateNestedManyWithoutTitleInput
@@ -1488,6 +1646,9 @@ export type TitleUncheckedCreateWithoutListItemsInput = {
   createdById?: string | null
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
   genres?: Prisma.GenreUncheckedCreateNestedManyWithoutTitlesInput
   users?: Prisma.UserTitleUncheckedCreateNestedManyWithoutTitleInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutTitleInput
@@ -1525,6 +1686,9 @@ export type TitleUpdateWithoutListItemsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
@@ -1548,6 +1712,9 @@ export type TitleUncheckedUpdateWithoutListItemsInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -1569,6 +1736,9 @@ export type TitleCreateManyCreatedByInput = {
   updatedAt?: Date | string
   releaseDate?: Date | string | null
   backdropUrl?: string | null
+  catalogScore?: number | null
+  catalogEligible?: boolean
+  catalogScoredAt?: Date | string | null
 }
 
 export type TitleUpdateWithoutCreatedByInput = {
@@ -1584,6 +1754,9 @@ export type TitleUpdateWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutTitleNestedInput
@@ -1606,6 +1779,9 @@ export type TitleUncheckedUpdateWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   genres?: Prisma.GenreUncheckedUpdateManyWithoutTitlesNestedInput
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
@@ -1628,6 +1804,9 @@ export type TitleUncheckedUpdateManyWithoutCreatedByInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TitleUpdateWithoutGenresInput = {
@@ -1643,6 +1822,9 @@ export type TitleUpdateWithoutGenresInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdBy?: Prisma.UserUpdateOneWithoutCreatedTitlesNestedInput
   users?: Prisma.UserTitleUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutTitleNestedInput
@@ -1666,6 +1848,9 @@ export type TitleUncheckedUpdateWithoutGenresInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   users?: Prisma.UserTitleUncheckedUpdateManyWithoutTitleNestedInput
   discoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput
   activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutTitleNestedInput
@@ -1688,6 +1873,9 @@ export type TitleUncheckedUpdateManyWithoutGenresInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   releaseDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   backdropUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  catalogScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  catalogEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogScoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1789,6 +1977,9 @@ export type TitleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdById?: boolean
   releaseDate?: boolean
   backdropUrl?: boolean
+  catalogScore?: boolean
+  catalogEligible?: boolean
+  catalogScoredAt?: boolean
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
   genres?: boolean | Prisma.Title$genresArgs<ExtArgs>
   users?: boolean | Prisma.Title$usersArgs<ExtArgs>
@@ -1814,6 +2005,9 @@ export type TitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdById?: boolean
   releaseDate?: boolean
   backdropUrl?: boolean
+  catalogScore?: boolean
+  catalogEligible?: boolean
+  catalogScoredAt?: boolean
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
 }, ExtArgs["result"]["title"]>
 
@@ -1831,6 +2025,9 @@ export type TitleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   createdById?: boolean
   releaseDate?: boolean
   backdropUrl?: boolean
+  catalogScore?: boolean
+  catalogEligible?: boolean
+  catalogScoredAt?: boolean
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
 }, ExtArgs["result"]["title"]>
 
@@ -1848,9 +2045,12 @@ export type TitleSelectScalar = {
   createdById?: boolean
   releaseDate?: boolean
   backdropUrl?: boolean
+  catalogScore?: boolean
+  catalogEligible?: boolean
+  catalogScoredAt?: boolean
 }
 
-export type TitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "year" | "description" | "imageUrl" | "imagePublicId" | "type" | "createdAt" | "updatedAt" | "createdById" | "releaseDate" | "backdropUrl", ExtArgs["result"]["title"]>
+export type TitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "year" | "description" | "imageUrl" | "imagePublicId" | "type" | "createdAt" | "updatedAt" | "createdById" | "releaseDate" | "backdropUrl" | "catalogScore" | "catalogEligible" | "catalogScoredAt", ExtArgs["result"]["title"]>
 export type TitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.Title$createdByArgs<ExtArgs>
   genres?: boolean | Prisma.Title$genresArgs<ExtArgs>
@@ -1895,6 +2095,9 @@ export type $TitlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     createdById: string | null
     releaseDate: Date | null
     backdropUrl: string | null
+    catalogScore: number | null
+    catalogEligible: boolean
+    catalogScoredAt: Date | null
   }, ExtArgs["result"]["title"]>
   composites: {}
 }
@@ -2339,6 +2542,9 @@ export interface TitleFieldRefs {
   readonly createdById: Prisma.FieldRef<"Title", 'String'>
   readonly releaseDate: Prisma.FieldRef<"Title", 'DateTime'>
   readonly backdropUrl: Prisma.FieldRef<"Title", 'String'>
+  readonly catalogScore: Prisma.FieldRef<"Title", 'Float'>
+  readonly catalogEligible: Prisma.FieldRef<"Title", 'Boolean'>
+  readonly catalogScoredAt: Prisma.FieldRef<"Title", 'DateTime'>
 }
     
 

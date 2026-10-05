@@ -33,6 +33,7 @@ type ComicVinePublisher = {
 type ComicVineVolume = {
   id: number;
   name: string | null;
+  count_of_issues: number | null;
   deck: string | null;
   description: string | null;
   start_year: string | null;
@@ -382,7 +383,7 @@ export async function syncComicVineVolumes(
         offset: page * COMIC_VINE_PAGE_SIZE,
         sort,
         field_list:
-          "id,name,deck,description,start_year,date_added,date_last_updated,site_detail_url,publisher,image",
+          "id,name,count_of_issues,deck,description,start_year,date_added,date_last_updated,site_detail_url,publisher,image",
       },
     );
 

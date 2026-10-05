@@ -109,6 +109,14 @@ const Navbar = ({
                 </Link>
               </div>
             </div>
+            <div className="group relative">
+              <Link
+                href="/discover"
+                className={`${navLinkClass} flex items-end gap-1`}
+              >
+                Discover
+              </Link>
+            </div>
           </nav>
         </div>
 

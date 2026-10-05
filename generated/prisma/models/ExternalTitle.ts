@@ -20,8 +20,22 @@ export type ExternalTitleModel = runtime.Types.Result.DefaultSelection<Prisma.$E
 
 export type AggregateExternalTitle = {
   _count: ExternalTitleCountAggregateOutputType | null
+  _avg: ExternalTitleAvgAggregateOutputType | null
+  _sum: ExternalTitleSumAggregateOutputType | null
   _min: ExternalTitleMinAggregateOutputType | null
   _max: ExternalTitleMaxAggregateOutputType | null
+}
+
+export type ExternalTitleAvgAggregateOutputType = {
+  sourcePopularity: number | null
+  sourceRating: number | null
+  sourceRatingCount: number | null
+}
+
+export type ExternalTitleSumAggregateOutputType = {
+  sourcePopularity: number | null
+  sourceRating: number | null
+  sourceRatingCount: number | null
 }
 
 export type ExternalTitleMinAggregateOutputType = {
@@ -30,6 +44,9 @@ export type ExternalTitleMinAggregateOutputType = {
   provider: $Enums.ExternalTitleProvider | null
   externalId: string | null
   externalUrl: string | null
+  sourcePopularity: number | null
+  sourceRating: number | null
+  sourceRatingCount: number | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -41,6 +58,9 @@ export type ExternalTitleMaxAggregateOutputType = {
   provider: $Enums.ExternalTitleProvider | null
   externalId: string | null
   externalUrl: string | null
+  sourcePopularity: number | null
+  sourceRating: number | null
+  sourceRatingCount: number | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,6 +72,9 @@ export type ExternalTitleCountAggregateOutputType = {
   provider: number
   externalId: number
   externalUrl: number
+  sourcePopularity: number
+  sourceRating: number
+  sourceRatingCount: number
   rawData: number
   lastSyncedAt: number
   createdAt: number
@@ -60,12 +83,27 @@ export type ExternalTitleCountAggregateOutputType = {
 }
 
 
+export type ExternalTitleAvgAggregateInputType = {
+  sourcePopularity?: true
+  sourceRating?: true
+  sourceRatingCount?: true
+}
+
+export type ExternalTitleSumAggregateInputType = {
+  sourcePopularity?: true
+  sourceRating?: true
+  sourceRatingCount?: true
+}
+
 export type ExternalTitleMinAggregateInputType = {
   id?: true
   titleId?: true
   provider?: true
   externalId?: true
   externalUrl?: true
+  sourcePopularity?: true
+  sourceRating?: true
+  sourceRatingCount?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -77,6 +115,9 @@ export type ExternalTitleMaxAggregateInputType = {
   provider?: true
   externalId?: true
   externalUrl?: true
+  sourcePopularity?: true
+  sourceRating?: true
+  sourceRatingCount?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -88,6 +129,9 @@ export type ExternalTitleCountAggregateInputType = {
   provider?: true
   externalId?: true
   externalUrl?: true
+  sourcePopularity?: true
+  sourceRating?: true
+  sourceRatingCount?: true
   rawData?: true
   lastSyncedAt?: true
   createdAt?: true
@@ -133,6 +177,18 @@ export type ExternalTitleAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ExternalTitleAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ExternalTitleSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ExternalTitleMinAggregateInputType
@@ -163,6 +219,8 @@ export type ExternalTitleGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: ExternalTitleCountAggregateInputType | true
+  _avg?: ExternalTitleAvgAggregateInputType
+  _sum?: ExternalTitleSumAggregateInputType
   _min?: ExternalTitleMinAggregateInputType
   _max?: ExternalTitleMaxAggregateInputType
 }
@@ -173,11 +231,16 @@ export type ExternalTitleGroupByOutputType = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl: string | null
+  sourcePopularity: number | null
+  sourceRating: number | null
+  sourceRatingCount: number | null
   rawData: runtime.JsonValue | null
   lastSyncedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: ExternalTitleCountAggregateOutputType | null
+  _avg: ExternalTitleAvgAggregateOutputType | null
+  _sum: ExternalTitleSumAggregateOutputType | null
   _min: ExternalTitleMinAggregateOutputType | null
   _max: ExternalTitleMaxAggregateOutputType | null
 }
@@ -206,6 +269,9 @@ export type ExternalTitleWhereInput = {
   provider?: Prisma.EnumExternalTitleProviderFilter<"ExternalTitle"> | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFilter<"ExternalTitle"> | string
   externalUrl?: Prisma.StringNullableFilter<"ExternalTitle"> | string | null
+  sourcePopularity?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRating?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRatingCount?: Prisma.IntNullableFilter<"ExternalTitle"> | number | null
   rawData?: Prisma.JsonNullableFilter<"ExternalTitle">
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"ExternalTitle"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ExternalTitle"> | Date | string
@@ -219,6 +285,9 @@ export type ExternalTitleOrderByWithRelationInput = {
   provider?: Prisma.SortOrder
   externalId?: Prisma.SortOrder
   externalUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourcePopularity?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrderInput | Prisma.SortOrder
   rawData?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -236,6 +305,9 @@ export type ExternalTitleWhereUniqueInput = Prisma.AtLeast<{
   provider?: Prisma.EnumExternalTitleProviderFilter<"ExternalTitle"> | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFilter<"ExternalTitle"> | string
   externalUrl?: Prisma.StringNullableFilter<"ExternalTitle"> | string | null
+  sourcePopularity?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRating?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRatingCount?: Prisma.IntNullableFilter<"ExternalTitle"> | number | null
   rawData?: Prisma.JsonNullableFilter<"ExternalTitle">
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"ExternalTitle"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ExternalTitle"> | Date | string
@@ -249,13 +321,18 @@ export type ExternalTitleOrderByWithAggregationInput = {
   provider?: Prisma.SortOrder
   externalId?: Prisma.SortOrder
   externalUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourcePopularity?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrderInput | Prisma.SortOrder
   rawData?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ExternalTitleCountOrderByAggregateInput
+  _avg?: Prisma.ExternalTitleAvgOrderByAggregateInput
   _max?: Prisma.ExternalTitleMaxOrderByAggregateInput
   _min?: Prisma.ExternalTitleMinOrderByAggregateInput
+  _sum?: Prisma.ExternalTitleSumOrderByAggregateInput
 }
 
 export type ExternalTitleScalarWhereWithAggregatesInput = {
@@ -267,6 +344,9 @@ export type ExternalTitleScalarWhereWithAggregatesInput = {
   provider?: Prisma.EnumExternalTitleProviderWithAggregatesFilter<"ExternalTitle"> | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringWithAggregatesFilter<"ExternalTitle"> | string
   externalUrl?: Prisma.StringNullableWithAggregatesFilter<"ExternalTitle"> | string | null
+  sourcePopularity?: Prisma.FloatNullableWithAggregatesFilter<"ExternalTitle"> | number | null
+  sourceRating?: Prisma.FloatNullableWithAggregatesFilter<"ExternalTitle"> | number | null
+  sourceRatingCount?: Prisma.IntNullableWithAggregatesFilter<"ExternalTitle"> | number | null
   rawData?: Prisma.JsonNullableWithAggregatesFilter<"ExternalTitle">
   lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExternalTitle"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ExternalTitle"> | Date | string
@@ -278,6 +358,9 @@ export type ExternalTitleCreateInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -291,6 +374,9 @@ export type ExternalTitleUncheckedCreateInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -302,6 +388,9 @@ export type ExternalTitleUpdateInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -315,6 +404,9 @@ export type ExternalTitleUncheckedUpdateInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -327,6 +419,9 @@ export type ExternalTitleCreateManyInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -338,6 +433,9 @@ export type ExternalTitleUpdateManyMutationInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -350,6 +448,9 @@ export type ExternalTitleUncheckedUpdateManyInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -377,10 +478,19 @@ export type ExternalTitleCountOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   externalId?: Prisma.SortOrder
   externalUrl?: Prisma.SortOrder
+  sourcePopularity?: Prisma.SortOrder
+  sourceRating?: Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrder
   rawData?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ExternalTitleAvgOrderByAggregateInput = {
+  sourcePopularity?: Prisma.SortOrder
+  sourceRating?: Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrder
 }
 
 export type ExternalTitleMaxOrderByAggregateInput = {
@@ -389,6 +499,9 @@ export type ExternalTitleMaxOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   externalId?: Prisma.SortOrder
   externalUrl?: Prisma.SortOrder
+  sourcePopularity?: Prisma.SortOrder
+  sourceRating?: Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -400,9 +513,18 @@ export type ExternalTitleMinOrderByAggregateInput = {
   provider?: Prisma.SortOrder
   externalId?: Prisma.SortOrder
   externalUrl?: Prisma.SortOrder
+  sourcePopularity?: Prisma.SortOrder
+  sourceRating?: Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ExternalTitleSumOrderByAggregateInput = {
+  sourcePopularity?: Prisma.SortOrder
+  sourceRating?: Prisma.SortOrder
+  sourceRatingCount?: Prisma.SortOrder
 }
 
 export type ExternalTitleCreateNestedManyWithoutTitleInput = {
@@ -456,6 +578,9 @@ export type ExternalTitleCreateWithoutTitleInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -467,6 +592,9 @@ export type ExternalTitleUncheckedCreateWithoutTitleInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -508,6 +636,9 @@ export type ExternalTitleScalarWhereInput = {
   provider?: Prisma.EnumExternalTitleProviderFilter<"ExternalTitle"> | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFilter<"ExternalTitle"> | string
   externalUrl?: Prisma.StringNullableFilter<"ExternalTitle"> | string | null
+  sourcePopularity?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRating?: Prisma.FloatNullableFilter<"ExternalTitle"> | number | null
+  sourceRatingCount?: Prisma.IntNullableFilter<"ExternalTitle"> | number | null
   rawData?: Prisma.JsonNullableFilter<"ExternalTitle">
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"ExternalTitle"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ExternalTitle"> | Date | string
@@ -519,6 +650,9 @@ export type ExternalTitleCreateManyTitleInput = {
   provider: $Enums.ExternalTitleProvider
   externalId: string
   externalUrl?: string | null
+  sourcePopularity?: number | null
+  sourceRating?: number | null
+  sourceRatingCount?: number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
@@ -530,6 +664,9 @@ export type ExternalTitleUpdateWithoutTitleInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -541,6 +678,9 @@ export type ExternalTitleUncheckedUpdateWithoutTitleInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -552,6 +692,9 @@ export type ExternalTitleUncheckedUpdateManyWithoutTitleInput = {
   provider?: Prisma.EnumExternalTitleProviderFieldUpdateOperationsInput | $Enums.ExternalTitleProvider
   externalId?: Prisma.StringFieldUpdateOperationsInput | string
   externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourcePopularity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  sourceRatingCount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   rawData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -566,6 +709,9 @@ export type ExternalTitleSelect<ExtArgs extends runtime.Types.Extensions.Interna
   provider?: boolean
   externalId?: boolean
   externalUrl?: boolean
+  sourcePopularity?: boolean
+  sourceRating?: boolean
+  sourceRatingCount?: boolean
   rawData?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
@@ -579,6 +725,9 @@ export type ExternalTitleSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   provider?: boolean
   externalId?: boolean
   externalUrl?: boolean
+  sourcePopularity?: boolean
+  sourceRating?: boolean
+  sourceRatingCount?: boolean
   rawData?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
@@ -592,6 +741,9 @@ export type ExternalTitleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   provider?: boolean
   externalId?: boolean
   externalUrl?: boolean
+  sourcePopularity?: boolean
+  sourceRating?: boolean
+  sourceRatingCount?: boolean
   rawData?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
@@ -605,13 +757,16 @@ export type ExternalTitleSelectScalar = {
   provider?: boolean
   externalId?: boolean
   externalUrl?: boolean
+  sourcePopularity?: boolean
+  sourceRating?: boolean
+  sourceRatingCount?: boolean
   rawData?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ExternalTitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titleId" | "provider" | "externalId" | "externalUrl" | "rawData" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["externalTitle"]>
+export type ExternalTitleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "titleId" | "provider" | "externalId" | "externalUrl" | "sourcePopularity" | "sourceRating" | "sourceRatingCount" | "rawData" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["externalTitle"]>
 export type ExternalTitleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   title?: boolean | Prisma.TitleDefaultArgs<ExtArgs>
 }
@@ -633,6 +788,9 @@ export type $ExternalTitlePayload<ExtArgs extends runtime.Types.Extensions.Inter
     provider: $Enums.ExternalTitleProvider
     externalId: string
     externalUrl: string | null
+    sourcePopularity: number | null
+    sourceRating: number | null
+    sourceRatingCount: number | null
     rawData: runtime.JsonValue | null
     lastSyncedAt: Date | null
     createdAt: Date
@@ -1066,6 +1224,9 @@ export interface ExternalTitleFieldRefs {
   readonly provider: Prisma.FieldRef<"ExternalTitle", 'ExternalTitleProvider'>
   readonly externalId: Prisma.FieldRef<"ExternalTitle", 'String'>
   readonly externalUrl: Prisma.FieldRef<"ExternalTitle", 'String'>
+  readonly sourcePopularity: Prisma.FieldRef<"ExternalTitle", 'Float'>
+  readonly sourceRating: Prisma.FieldRef<"ExternalTitle", 'Float'>
+  readonly sourceRatingCount: Prisma.FieldRef<"ExternalTitle", 'Int'>
   readonly rawData: Prisma.FieldRef<"ExternalTitle", 'Json'>
   readonly lastSyncedAt: Prisma.FieldRef<"ExternalTitle", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"ExternalTitle", 'DateTime'>

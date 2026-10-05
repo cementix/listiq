@@ -157,6 +157,11 @@ model Title {
   releaseDate DateTime?
   backdropUrl String?
 
+  // Provider-normalized score; user ratings are stored separately.
+  catalogScore    Float?
+  catalogEligible Boolean   @default(false)
+  catalogScoredAt DateTime?
+
   genres         Genre[]
   users          UserTitle[]
   discoveries    UserTitleDiscovery[]
@@ -169,6 +174,8 @@ model Title {
   @@index([type])
   @@index([year])
   @@index([name(ops: raw("gin_trgm_ops"))], type: Gin, map: "Title_name_trgm_idx")
+  @@index([catalogEligible, catalogScore(sort: Desc)])
+  @@index([type, catalogEligible, catalogScore(sort: Desc)])
 }
 
 model Genre {
@@ -413,6 +420,11 @@ model ExternalTitle {
   provider    ExternalTitleProvider
   externalId  String
   externalUrl String?
+
+  // Comparable source metrics are extracted from rawData during sync.
+  sourcePopularity  Float?
+  sourceRating      Float?
+  sourceRatingCount Int?
 
   rawData      Json?
   lastSyncedAt DateTime?

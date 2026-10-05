@@ -50,7 +50,7 @@ export default async function RootLayout({
           {children}
           {user && !user.privacySetupCompleted && <PrivacySetupDialog />}
         </div>
-        <Toaster position="top-right" closeButton duration={2500} />
+        <Toaster position="top-right" closeButton duration={2000} />
       </body>
     </html>
   );

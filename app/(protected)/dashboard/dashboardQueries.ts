@@ -1,17 +1,11 @@
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { getRankedTitleIds } from "@/lib/title/getRankedTitleIds";
-
 import type { DashboardRailItem } from "./dashboardTypes";
 import { shuffle } from "./dashboardUtils";
 
-// obj for prisma include for titles
 const dashboardTitleInclude = {
   genres: {
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-    },
+    select: { id: true, name: true, slug: true },
     take: 4,
   },
   users: {
@@ -26,220 +20,104 @@ const dashboardTitleInclude = {
       },
     },
   },
+} as const;
+
+const catalogWhere: Prisma.TitleWhereInput = {
+  catalogEligible: true,
+  catalogScore: { gte: 60 },
+  imageUrl: { not: null },
 };
 
-function orderTitlesByIds<T extends { id: string }>(
-  titles: T[],
-  ids: string[],
-) {
-  const positions = new Map(ids.map((id, index) => [id, index]));
-  return [...titles].sort(
-    (a, b) =>
-      (positions.get(a.id) ?? Infinity) - (positions.get(b.id) ?? Infinity),
-  );
-}
+const popularOrder = [
+  { catalogScore: "desc" as const },
+  { id: "asc" as const },
+];
 
-// helper for random titles
-async function getRandomTitleIds(limit = 80) {
-  const rows = await prisma.$queryRaw<{ id: string }[]>`
-    SELECT "id"
-    FROM "Title"
-    WHERE "imageUrl" IS NOT NULL
-    ORDER BY random()
-    LIMIT ${limit}
-  `;
-
-  return rows.map((row) => row.id);
-}
-
-function pickDiverseHero<T extends { type: string }>(titles: T[]) {
-  const groups = titles.reduce(
-    (acc, title) => {
-      acc[title.type] = acc[title.type] ?? [];
-      acc[title.type].push(title);
-      return acc;
-    },
-    {} as Record<string, T[]>,
-  );
-
-  const groupsList = shuffle(Object.values(groups)).filter(
-    (group) => group.length > 0,
-  );
-
-  const group = groupsList[0];
-
-  if (!group) {
-    return null;
-  }
-
-  return shuffle(group.slice(0, 30))[0] ?? null;
-}
-
-async function getRandomHeroTitleIds(limit = 200) {
-  const rows = await prisma.$queryRaw<{ id: string }[]>`
-    SELECT "id"
-    FROM "Title"
-    WHERE "imageUrl" IS NOT NULL
-      AND "description" IS NOT NULL
-      AND "type" NOT IN ('BOOK', 'OTHER')
-    ORDER BY random()
-    LIMIT ${limit}
-  `;
-
-  return rows.map((row) => row.id);
-}
-
-// util to get all kinds of titles
 export async function getDashboardTitles() {
-  const [
-    randomTitleIds,
-    randomHeroTitleIds,
-    popularIds,
-    gameIds,
-    animeIds,
-    mangaIds,
-    topRatedIds,
-  ] = await Promise.all([
-    getRandomTitleIds(80),
-    getRandomHeroTitleIds(200),
-    getRankedTitleIds({
-      sort: "popular",
-      limit: 18,
-      imageOnly: true,
-      excludeType: "BOOK",
-    }),
-    getRankedTitleIds({
-      sort: "popular",
-      limit: 18,
-      imageOnly: true,
-      type: "GAME",
-    }),
-    getRankedTitleIds({
-      sort: "popular",
-      limit: 18,
-      imageOnly: true,
-      type: "ANIME",
-    }),
-    getRankedTitleIds({
-      sort: "popular",
-      limit: 18,
-      imageOnly: true,
-      types: ["MANGA", "MANHWA", "NOVEL"],
-    }),
-    getRankedTitleIds({
-      sort: "highest-rated",
-      limit: 18,
-      imageOnly: true,
-      excludeType: "BOOK",
-      minRatings: 2,
-    }),
-  ]);
-  // Promise.all for prisma queries
-  const [
-    heroCandidates,
-    randomTitles,
-    unorderedPopularTitles,
-    newReleases,
-    unorderedGames,
-    unorderedAnime,
-    unorderedManga,
-    books,
-    unorderedTopRated,
-  ] = await Promise.all([
+  const now = new Date();
+  const twoYearsAgo = new Date(now);
+  twoYearsAgo.setFullYear(now.getFullYear() - 2);
+
+  const [topTitles, newReleases, games, anime, manga] = await Promise.all([
     prisma.title.findMany({
-      where: {
-        id: { in: randomHeroTitleIds },
-      },
+      where: catalogWhere,
+      orderBy: popularOrder,
+      take: 80,
       include: dashboardTitleInclude,
     }),
     prisma.title.findMany({
       where: {
-        id: { in: randomTitleIds },
+        ...catalogWhere,
+        releaseDate: { gte: twoYearsAgo, lte: now },
       },
-      include: dashboardTitleInclude,
-    }),
-    prisma.title.findMany({
-      where: { id: { in: popularIds } },
-      include: dashboardTitleInclude,
-    }),
-    prisma.title.findMany({
-      where: {
-        imageUrl: { not: null },
-        releaseDate: { not: null },
-        year: { gte: 1980 },
-      },
-      include: dashboardTitleInclude,
-      orderBy: [{ releaseDate: "desc" }, { updatedAt: "desc" }],
+      orderBy: [{ releaseDate: "desc" }, { catalogScore: "desc" }],
       take: 18,
-    }),
-    prisma.title.findMany({
-      where: { id: { in: gameIds } },
       include: dashboardTitleInclude,
     }),
     prisma.title.findMany({
-      where: { id: { in: animeIds } },
+      where: { ...catalogWhere, type: "GAME" },
+      orderBy: popularOrder,
+      take: 18,
       include: dashboardTitleInclude,
     }),
     prisma.title.findMany({
-      where: { id: { in: mangaIds } },
+      where: { ...catalogWhere, type: "ANIME" },
+      orderBy: popularOrder,
+      take: 18,
       include: dashboardTitleInclude,
     }),
     prisma.title.findMany({
       where: {
-        imageUrl: { not: null },
-        type: "BOOK",
-        year: { gte: 1980 },
+        ...catalogWhere,
+        type: { in: ["MANGA", "MANHWA", "NOVEL"] },
       },
-      include: dashboardTitleInclude,
-      orderBy: [{ updatedAt: "desc" }],
+      orderBy: popularOrder,
       take: 18,
-    }),
-    prisma.title.findMany({
-      where: { id: { in: topRatedIds } },
       include: dashboardTitleInclude,
     }),
   ]);
 
-  const popularTitles = orderTitlesByIds(unorderedPopularTitles, popularIds);
-  const games = orderTitlesByIds(unorderedGames, gameIds);
-  const anime = orderTitlesByIds(unorderedAnime, animeIds);
-  const manga = orderTitlesByIds(unorderedManga, mangaIds);
+  const popularTitles = topTitles.slice(0, 18);
 
-  // pick random hero
-  const hero =
-    pickDiverseHero(heroCandidates) ??
-    pickDiverseHero(popularTitles) ??
-    randomTitles[0] ??
-    null;
+  const heroCandidates = topTitles
+    .slice(0, 30)
+    .filter(
+      (title) =>
+        title.backdropUrl &&
+        title.description &&
+        title.type !== "BOOK" &&
+        title.type !== "OTHER",
+    );
 
-  // pick random side titles
+  const hero = shuffle(heroCandidates)[0] ?? topTitles[0] ?? null;
+
+  const usedTypes = new Set<string>();
   const randomSideTitles = shuffle(
-    Object.values(
-      shuffle(randomTitles)
-        .filter((title) => title.id !== hero?.id)
-        .reduce(
-          (groups, title) => {
-            if (!groups[title.type]) {
-              groups[title.type] = title;
-            }
+    topTitles.filter((title) => title.id !== hero?.id),
+  )
+    .filter((title) => {
+      if (usedTypes.has(title.type)) return false;
+      usedTypes.add(title.type);
+      return true;
+    })
+    .slice(0, 4);
 
-            return groups;
-          },
-          {} as Partial<
-            Record<
-              (typeof randomTitles)[number]["type"],
-              (typeof randomTitles)[number]
-            >
-          >,
-        ),
-    ),
-  ).slice(0, 4);
+  const defaultRails: DashboardRailItem[] = [
+    {
+      title: "Popular now",
+      href: "/titles?sort=popular",
+      icon: "flame",
+      titles: popularTitles,
+    },
+    {
+      title: "New releases",
+      href: "/titles?sort=newest",
+      icon: "calendar",
+      titles: newReleases,
+    },
+  ];
 
-  // top rated titles for the rail
-  const topRated = orderTitlesByIds(unorderedTopRated, topRatedIds);
-
-  // optional rails array (insta shuffle here to just slice after)
-  const optionalRails: DashboardRailItem[] = shuffle([
+  const optionalRails: DashboardRailItem[] = [
     {
       title: "Games",
       href: "/titles?type=GAME&sort=popular",
@@ -258,45 +136,13 @@ export async function getDashboardTitles() {
       icon: "star",
       titles: manga,
     },
-    {
-      title: "Books",
-      href: "/titles?type=BOOK&sort=newest",
-      icon: "star",
-      titles: books,
-    },
-    {
-      title: "Top rated",
-      href: "/titles?sort=highest-rated",
-      icon: "star",
-      titles: topRated,
-    },
-  ]);
-
-  // first 2 default rails
-  const defaultRails: DashboardRailItem[] = [
-    {
-      title: "Popular now",
-      href: "/titles?sort=popular",
-      icon: "flame",
-      titles: popularTitles,
-    },
-    {
-      title: "New releases",
-      href: "/titles?sort=newest",
-      icon: "calendar",
-      titles: newReleases,
-    },
   ];
 
-  // get other random rails
-  const rails = [...defaultRails, ...optionalRails.slice(0, 3)].filter(
-    (rail) => rail.titles.length > 0,
-  );
-
-  // return queried titles
   return {
     hero,
     randomSideTitles,
-    rails,
+    rails: [...defaultRails, ...shuffle(optionalRails).slice(0, 3)].filter(
+      (rail) => rail.titles.length > 0,
+    ),
   };
 }

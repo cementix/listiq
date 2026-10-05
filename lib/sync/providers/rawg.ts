@@ -368,3 +368,27 @@ export async function syncRawgDeepCatalog(): Promise<SyncResult> {
       popular.titlesUpdated + topRated.titlesUpdated + metacritic.titlesUpdated,
   };
 }
+
+export async function syncRawgSeedCatalog(): Promise<SyncResult> {
+  const popular = await syncRawgGamesFromParams(
+    { ordering: "-added" },
+    { pages: 15, minRatingCount: 200 },
+  );
+
+  const rated = await syncRawgGamesFromParams(
+    { ordering: "-rating" },
+    { pages: 10, minRatingCount: 300 },
+  );
+
+  const acclaimed = await syncRawgGamesFromParams(
+    { ordering: "-metacritic", metacritic: "80,100" },
+    { pages: 8, minRatingCount: 150 },
+  );
+
+  return {
+    titlesCreated:
+      popular.titlesCreated + rated.titlesCreated + acclaimed.titlesCreated,
+    titlesUpdated:
+      popular.titlesUpdated + rated.titlesUpdated + acclaimed.titlesUpdated,
+  };
+}

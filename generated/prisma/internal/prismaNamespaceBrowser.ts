@@ -125,7 +125,10 @@ export const TitleScalarFieldEnum = {
   updatedAt: 'updatedAt',
   createdById: 'createdById',
   releaseDate: 'releaseDate',
-  backdropUrl: 'backdropUrl'
+  backdropUrl: 'backdropUrl',
+  catalogScore: 'catalogScore',
+  catalogEligible: 'catalogEligible',
+  catalogScoredAt: 'catalogScoredAt'
 } as const
 
 export type TitleScalarFieldEnum = (typeof TitleScalarFieldEnum)[keyof typeof TitleScalarFieldEnum]
@@ -283,6 +286,9 @@ export const ExternalTitleScalarFieldEnum = {
   provider: 'provider',
   externalId: 'externalId',
   externalUrl: 'externalUrl',
+  sourcePopularity: 'sourcePopularity',
+  sourceRating: 'sourceRating',
+  sourceRatingCount: 'sourceRatingCount',
   rawData: 'rawData',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',

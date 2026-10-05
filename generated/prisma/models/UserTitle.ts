@@ -509,14 +509,6 @@ export type UserTitleUncheckedUpdateManyWithoutTitleNestedInput = {
   deleteMany?: Prisma.UserTitleScalarWhereInput | Prisma.UserTitleScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type UserTitleCreateNestedOneWithoutAttachedProfilePostsInput = {
   create?: Prisma.XOR<Prisma.UserTitleCreateWithoutAttachedProfilePostsInput, Prisma.UserTitleUncheckedCreateWithoutAttachedProfilePostsInput>
   connectOrCreate?: Prisma.UserTitleCreateOrConnectWithoutAttachedProfilePostsInput

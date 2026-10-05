@@ -224,8 +224,6 @@ export async function loginUser(
       httpOnly: false,
       maxAge: 10,
     });
-
-    redirect("/dashboard");
   } catch (error) {
     console.error(
       "loginUser error: ",
@@ -237,6 +235,8 @@ export async function loginUser(
       error: "something went wrong",
     };
   }
+
+  redirect("/dashboard");
 }
 
 export async function logoutUser() {
