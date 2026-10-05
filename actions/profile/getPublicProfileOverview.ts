@@ -1,5 +1,6 @@
 "use server";
 
+import { ActivityEventType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 
@@ -72,7 +73,19 @@ export async function getPublicProfileOverview(username: string) {
       }),
 
       prisma.activityEvent.findMany({
-        where: { userId: user.id },
+        where: {
+          userId: user.id,
+          ...(!canSeeReviews
+            ? {
+                type: {
+                  notIn: [
+                    ActivityEventType.TITLE_RATED,
+                    ActivityEventType.TITLE_REVIEWED,
+                  ],
+                },
+              }
+            : {}),
+        },
         orderBy: { createdAt: "desc" },
         take: 12,
         select: {
