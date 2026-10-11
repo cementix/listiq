@@ -15,7 +15,7 @@
 - [x] Add loading, empty, error and 404 states; prevent duplicate submissions and check keyboard navigation.
 - [x] Test permissions, privacy, scoring and concurrent library/list writes against isolated test data.
 - [ ] Add e2e coverage: signup/login, library/reviews, lists, Discover and moderation restrictions.
-- [ ] Add CI: Prisma generation, typecheck, lint, tests, production build and migration replay on empty PostgreSQL.
+- [x] Add CI: Prisma generation, typecheck, lint, tests, production build and migration replay on empty PostgreSQL.
 
 ## Database & deployment
 

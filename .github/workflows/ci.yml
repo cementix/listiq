@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Typecheck, lint, tests and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: listiq_ci
+          POSTGRES_PASSWORD: listiq_ci
+          POSTGRES_DB: listiq_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U listiq_ci -d listiq_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://listiq_ci:listiq_ci@127.0.0.1:5432/listiq_ci
+      TEST_DATABASE_ADMIN_URL: postgresql://listiq_ci:listiq_ci@127.0.0.1:5432/postgres
+      SESSION_SECRET: ci-only-session-secret-at-least-32-characters
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Generate Prisma client
+        run: npm run db:generate
+      - name: Replay migrations on empty PostgreSQL
+        run: npm run db:migrate
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Integration tests on isolated database
+        run: npm run test:integration
+      - name: Production build
+        run: npm run build
