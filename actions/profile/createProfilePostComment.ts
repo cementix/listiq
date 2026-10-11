@@ -6,6 +6,8 @@ import { requireUserServer } from "@/lib/auth/guards";
 import { normalizeString } from "../title/normalizeString";
 import type { ActionResult } from "../types";
 import { revalidatePath } from "next/cache";
+import { limitUser } from "@/lib/security/limits";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 type CreateProfilePostCommentInput = {
   postId: string;
@@ -20,6 +22,10 @@ export async function createProfilePostComment({
 }: CreateProfilePostCommentInput): Promise<ActionResult> {
   try {
     const { session } = await requireUserServer();
+    if (typeof content !== "string" || typeof postId !== "string" ||
+        (parentId != null && typeof parentId !== "string")) {
+      return { ok: false, error: "Invalid comment" };
+    }
     const normalizedContent = normalizeString(content);
     const normalizedParentId = normalizeString(parentId);
 
@@ -30,6 +36,7 @@ export async function createProfilePostComment({
     if (normalizedContent.length > 500) {
       return { ok: false, error: "Comment is too long" };
     }
+    await limitUser("comment", session.userId);
 
     const post = await prisma.profilePost.findUnique({
       where: { id: postId },
@@ -101,6 +108,6 @@ export async function createProfilePostComment({
     return { ok: true, message: "Comment posted" };
   } catch (error) {
     console.error("createProfilePostComment error: ", error);
-    return { ok: false, error: "Failed to post comment" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to post comment") };
   }
 }

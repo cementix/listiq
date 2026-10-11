@@ -9,6 +9,7 @@ import { ImagePlus, LoaderCircle, Send, Star, X } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
+import { MEDIA_ACCEPT, validateUploadFile } from "@/lib/uploads/policy";
 
 const MAX_PROFILE_POST_MEDIA = 10;
 
@@ -61,6 +62,12 @@ export default function ProfilePostForm() {
       const uploadedMedia: typeof media = [];
 
       for (const file of files) {
+        try {
+          validateUploadFile(file, "post");
+        } catch (error) {
+          toast.error(error instanceof Error ? error.message : "Invalid file");
+          continue;
+        }
         const formData = new FormData();
         formData.append("file", file);
 
@@ -79,6 +86,8 @@ export default function ProfilePostForm() {
           [...current, ...uploadedMedia].slice(0, MAX_PROFILE_POST_MEDIA),
         );
       }
+    } catch {
+      toast.error("Media upload failed. Please try again.");
     } finally {
       setIsUploadingMedia(false);
       event.target.value = "";
@@ -209,7 +218,7 @@ export default function ProfilePostForm() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*,video/*"
+            accept={MEDIA_ACCEPT}
             multiple
             className="hidden"
             onChange={handleMediaSelect}

@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/UploadedAsset'
+export type * from './models/RateLimitBucket'
 export type * from './models/Title'
 export type * from './models/Genre'
 export type * from './models/UserTitle'

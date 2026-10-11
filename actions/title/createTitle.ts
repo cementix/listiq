@@ -10,6 +10,8 @@ import { validateGenreIds } from "./validateGenresId";
 import { normalizeString } from "./normalizeString";
 import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
 import type { ActionResult } from "../types";
+import { resolveOwnedImage } from "@/lib/uploads/ownership";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 export async function createTitle(
   data: CreateTitleInput,
@@ -32,6 +34,7 @@ export async function createTitle(
     }
 
     const slug = await generateUniqueSlug(data.name);
+    const image = await resolveOwnedImage(prisma, session.userId, data);
 
     await prisma.title.create({
       data: {
@@ -39,8 +42,7 @@ export async function createTitle(
         slug,
         year: data.year ?? null,
         description: normalizeString(data.description),
-        imageUrl: normalizeString(data.imageUrl),
-        imagePublicId: normalizeString(data.imagePublicId),
+        ...image,
         type: data.type,
         createdById: session.userId,
         genres: {
@@ -54,6 +56,6 @@ export async function createTitle(
     return { ok: true, message: "Title created" };
   } catch (error) {
     console.error("createTitle error: ", error);
-    return { ok: false, error: "Failed to create title" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to create title") };
   }
 }

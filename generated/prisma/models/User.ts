@@ -300,6 +300,7 @@ export type UserWhereInput = {
   notificationsReceived?: Prisma.NotificationListRelationFilter
   notificationsSent?: Prisma.NotificationListRelationFilter
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryListRelationFilter
+  uploadedAssets?: Prisma.UploadedAssetListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -335,6 +336,7 @@ export type UserOrderByWithRelationInput = {
   notificationsReceived?: Prisma.NotificationOrderByRelationAggregateInput
   notificationsSent?: Prisma.NotificationOrderByRelationAggregateInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryOrderByRelationAggregateInput
+  uploadedAssets?: Prisma.UploadedAssetOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -373,6 +375,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notificationsReceived?: Prisma.NotificationListRelationFilter
   notificationsSent?: Prisma.NotificationListRelationFilter
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryListRelationFilter
+  uploadedAssets?: Prisma.UploadedAssetListRelationFilter
 }, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -456,6 +459,7 @@ export type UserCreateInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -491,6 +495,7 @@ export type UserUncheckedCreateInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -526,6 +531,7 @@ export type UserUpdateInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -561,6 +567,7 @@ export type UserUncheckedUpdateInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -689,14 +696,14 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type UserNullableScalarRelationFilter = {
-  is?: Prisma.UserWhereInput | null
-  isNot?: Prisma.UserWhereInput | null
-}
-
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -717,6 +724,20 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutUploadedAssetsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedAssetsInput, Prisma.UserUncheckedCreateWithoutUploadedAssetsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedAssetsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUploadedAssetsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUploadedAssetsInput, Prisma.UserUncheckedCreateWithoutUploadedAssetsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUploadedAssetsInput
+  upsert?: Prisma.UserUpsertWithoutUploadedAssetsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUploadedAssetsInput, Prisma.UserUpdateWithoutUploadedAssetsInput>, Prisma.UserUncheckedUpdateWithoutUploadedAssetsInput>
 }
 
 export type UserCreateNestedOneWithoutCreatedTitlesInput = {
@@ -919,6 +940,162 @@ export type UserUpdateOneRequiredWithoutSavedTitleListsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedTitleListsInput, Prisma.UserUpdateWithoutSavedTitleListsInput>, Prisma.UserUncheckedUpdateWithoutSavedTitleListsInput>
 }
 
+export type UserCreateWithoutUploadedAssetsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
+  userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUploadedAssetsInput = {
+  id?: string
+  email: string
+  username: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  bannerUrl?: string | null
+  bannerPublicId?: string | null
+  privacySetupCompleted?: boolean
+  libraryPublic?: boolean
+  reviewsPublic?: boolean
+  statsPublic?: boolean
+  postsPublic?: boolean
+  titleActivityPublic?: boolean
+  listActivityPublic?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  createdTitles?: Prisma.TitleUncheckedCreateNestedManyWithoutCreatedByInput
+  library?: Prisma.UserTitleUncheckedCreateNestedManyWithoutUserInput
+  titleLists?: Prisma.TitleListUncheckedCreateNestedManyWithoutUserInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedCreateNestedManyWithoutUserInput
+  activityEvents?: Prisma.ActivityEventUncheckedCreateNestedManyWithoutUserInput
+  submissions?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutSubmittedByInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedCreateNestedManyWithoutReviewedByInput
+  profilePosts?: Prisma.ProfilePostUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedCreateNestedManyWithoutUserInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedCreateNestedManyWithoutAuthorInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
+  notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
+  userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUploadedAssetsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedAssetsInput, Prisma.UserUncheckedCreateWithoutUploadedAssetsInput>
+}
+
+export type UserUpsertWithoutUploadedAssetsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUploadedAssetsInput, Prisma.UserUncheckedUpdateWithoutUploadedAssetsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUploadedAssetsInput, Prisma.UserUncheckedCreateWithoutUploadedAssetsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUploadedAssetsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUploadedAssetsInput, Prisma.UserUncheckedUpdateWithoutUploadedAssetsInput>
+}
+
+export type UserUpdateWithoutUploadedAssetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
+  userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUploadedAssetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bannerPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  privacySetupCompleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  libraryPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reviewsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  statsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  postsPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  titleActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  listActivityPublic?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdTitles?: Prisma.TitleUncheckedUpdateManyWithoutCreatedByNestedInput
+  library?: Prisma.UserTitleUncheckedUpdateManyWithoutUserNestedInput
+  titleLists?: Prisma.TitleListUncheckedUpdateManyWithoutUserNestedInput
+  savedTitleLists?: Prisma.SavedTitleListUncheckedUpdateManyWithoutUserNestedInput
+  activityEvents?: Prisma.ActivityEventUncheckedUpdateManyWithoutUserNestedInput
+  submissions?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutSubmittedByNestedInput
+  reviewedSubs?: Prisma.TitleSubmissionUncheckedUpdateManyWithoutReviewedByNestedInput
+  profilePosts?: Prisma.ProfilePostUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostLikes?: Prisma.ProfilePostLikeUncheckedUpdateManyWithoutUserNestedInput
+  profilePostComments?: Prisma.ProfilePostCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
+  notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
+  userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutCreatedTitlesInput = {
   id?: string
   email: string
@@ -951,6 +1128,7 @@ export type UserCreateWithoutCreatedTitlesInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCreatedTitlesInput = {
@@ -985,6 +1163,7 @@ export type UserUncheckedCreateWithoutCreatedTitlesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCreatedTitlesInput = {
@@ -1035,6 +1214,7 @@ export type UserUpdateWithoutCreatedTitlesInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
@@ -1069,6 +1249,7 @@ export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLibraryInput = {
@@ -1103,6 +1284,7 @@ export type UserCreateWithoutLibraryInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLibraryInput = {
@@ -1137,6 +1319,7 @@ export type UserUncheckedCreateWithoutLibraryInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLibraryInput = {
@@ -1187,6 +1370,7 @@ export type UserUpdateWithoutLibraryInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLibraryInput = {
@@ -1221,6 +1405,7 @@ export type UserUncheckedUpdateWithoutLibraryInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserTitleDiscoveriesInput = {
@@ -1255,6 +1440,7 @@ export type UserCreateWithoutUserTitleDiscoveriesInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserTitleDiscoveriesInput = {
@@ -1289,6 +1475,7 @@ export type UserUncheckedCreateWithoutUserTitleDiscoveriesInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserTitleDiscoveriesInput = {
@@ -1339,6 +1526,7 @@ export type UserUpdateWithoutUserTitleDiscoveriesInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserTitleDiscoveriesInput = {
@@ -1373,6 +1561,7 @@ export type UserUncheckedUpdateWithoutUserTitleDiscoveriesInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubmissionsInput = {
@@ -1407,6 +1596,7 @@ export type UserCreateWithoutSubmissionsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -1441,6 +1631,7 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -1480,6 +1671,7 @@ export type UserCreateWithoutReviewedSubsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReviewedSubsInput = {
@@ -1514,6 +1706,7 @@ export type UserUncheckedCreateWithoutReviewedSubsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReviewedSubsInput = {
@@ -1564,6 +1757,7 @@ export type UserUpdateWithoutSubmissionsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -1598,6 +1792,7 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReviewedSubsInput = {
@@ -1643,6 +1838,7 @@ export type UserUpdateWithoutReviewedSubsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReviewedSubsInput = {
@@ -1677,6 +1873,7 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutActivityEventsInput = {
@@ -1711,6 +1908,7 @@ export type UserCreateWithoutActivityEventsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivityEventsInput = {
@@ -1745,6 +1943,7 @@ export type UserUncheckedCreateWithoutActivityEventsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivityEventsInput = {
@@ -1795,6 +1994,7 @@ export type UserUpdateWithoutActivityEventsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivityEventsInput = {
@@ -1829,6 +2029,7 @@ export type UserUncheckedUpdateWithoutActivityEventsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfilePostsInput = {
@@ -1863,6 +2064,7 @@ export type UserCreateWithoutProfilePostsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilePostsInput = {
@@ -1897,6 +2099,7 @@ export type UserUncheckedCreateWithoutProfilePostsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilePostsInput = {
@@ -1947,6 +2150,7 @@ export type UserUpdateWithoutProfilePostsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilePostsInput = {
@@ -1981,6 +2185,7 @@ export type UserUncheckedUpdateWithoutProfilePostsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfilePostLikesInput = {
@@ -2015,6 +2220,7 @@ export type UserCreateWithoutProfilePostLikesInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilePostLikesInput = {
@@ -2049,6 +2255,7 @@ export type UserUncheckedCreateWithoutProfilePostLikesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilePostLikesInput = {
@@ -2099,6 +2306,7 @@ export type UserUpdateWithoutProfilePostLikesInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilePostLikesInput = {
@@ -2133,6 +2341,7 @@ export type UserUncheckedUpdateWithoutProfilePostLikesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfilePostCommentsInput = {
@@ -2167,6 +2376,7 @@ export type UserCreateWithoutProfilePostCommentsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilePostCommentsInput = {
@@ -2201,6 +2411,7 @@ export type UserUncheckedCreateWithoutProfilePostCommentsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilePostCommentsInput = {
@@ -2251,6 +2462,7 @@ export type UserUpdateWithoutProfilePostCommentsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilePostCommentsInput = {
@@ -2285,6 +2497,7 @@ export type UserUncheckedUpdateWithoutProfilePostCommentsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProfilePostCommentLikesInput = {
@@ -2319,6 +2532,7 @@ export type UserCreateWithoutProfilePostCommentLikesInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProfilePostCommentLikesInput = {
@@ -2353,6 +2567,7 @@ export type UserUncheckedCreateWithoutProfilePostCommentLikesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProfilePostCommentLikesInput = {
@@ -2403,6 +2618,7 @@ export type UserUpdateWithoutProfilePostCommentLikesInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProfilePostCommentLikesInput = {
@@ -2437,6 +2653,7 @@ export type UserUncheckedUpdateWithoutProfilePostCommentLikesInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsReceivedInput = {
@@ -2471,6 +2688,7 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
@@ -2505,6 +2723,7 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsReceivedInput = {
@@ -2544,6 +2763,7 @@ export type UserCreateWithoutNotificationsSentInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeCreateNestedManyWithoutUserInput
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsSentInput = {
@@ -2578,6 +2798,7 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedCreateNestedManyWithoutUserInput
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsSentInput = {
@@ -2628,6 +2849,7 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
@@ -2662,6 +2884,7 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutNotificationsSentInput = {
@@ -2707,6 +2930,7 @@ export type UserUpdateWithoutNotificationsSentInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUpdateManyWithoutUserNestedInput
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsSentInput = {
@@ -2741,6 +2965,7 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   profilePostCommentLikes?: Prisma.ProfilePostCommentLikeUncheckedUpdateManyWithoutUserNestedInput
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTitleListsInput = {
@@ -2775,6 +3000,7 @@ export type UserCreateWithoutTitleListsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTitleListsInput = {
@@ -2809,6 +3035,7 @@ export type UserUncheckedCreateWithoutTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTitleListsInput = {
@@ -2859,6 +3086,7 @@ export type UserUpdateWithoutTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTitleListsInput = {
@@ -2893,6 +3121,7 @@ export type UserUncheckedUpdateWithoutTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSavedTitleListsInput = {
@@ -2927,6 +3156,7 @@ export type UserCreateWithoutSavedTitleListsInput = {
   notificationsReceived?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSavedTitleListsInput = {
@@ -2961,6 +3191,7 @@ export type UserUncheckedCreateWithoutSavedTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   notificationsSent?: Prisma.NotificationUncheckedCreateNestedManyWithoutActorInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedCreateNestedManyWithoutUserInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSavedTitleListsInput = {
@@ -3011,6 +3242,7 @@ export type UserUpdateWithoutSavedTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSavedTitleListsInput = {
@@ -3045,6 +3277,7 @@ export type UserUncheckedUpdateWithoutSavedTitleListsInput = {
   notificationsReceived?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   notificationsSent?: Prisma.NotificationUncheckedUpdateManyWithoutActorNestedInput
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryUncheckedUpdateManyWithoutUserNestedInput
+  uploadedAssets?: Prisma.UploadedAssetUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -3067,6 +3300,7 @@ export type UserCountOutputType = {
   notificationsReceived: number
   notificationsSent: number
   userTitleDiscoveries: number
+  uploadedAssets: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3084,6 +3318,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   notificationsReceived?: boolean | UserCountOutputTypeCountNotificationsReceivedArgs
   notificationsSent?: boolean | UserCountOutputTypeCountNotificationsSentArgs
   userTitleDiscoveries?: boolean | UserCountOutputTypeCountUserTitleDiscoveriesArgs
+  uploadedAssets?: boolean | UserCountOutputTypeCountUploadedAssetsArgs
 }
 
 /**
@@ -3194,6 +3429,13 @@ export type UserCountOutputTypeCountUserTitleDiscoveriesArgs<ExtArgs extends run
   where?: Prisma.UserTitleDiscoveryWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUploadedAssetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UploadedAssetWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3228,6 +3470,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notificationsReceived?: boolean | Prisma.User$notificationsReceivedArgs<ExtArgs>
   notificationsSent?: boolean | Prisma.User$notificationsSentArgs<ExtArgs>
   userTitleDiscoveries?: boolean | Prisma.User$userTitleDiscoveriesArgs<ExtArgs>
+  uploadedAssets?: boolean | Prisma.User$uploadedAssetsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3310,6 +3553,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notificationsReceived?: boolean | Prisma.User$notificationsReceivedArgs<ExtArgs>
   notificationsSent?: boolean | Prisma.User$notificationsSentArgs<ExtArgs>
   userTitleDiscoveries?: boolean | Prisma.User$userTitleDiscoveriesArgs<ExtArgs>
+  uploadedAssets?: boolean | Prisma.User$uploadedAssetsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -3332,6 +3576,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notificationsReceived: Prisma.$NotificationPayload<ExtArgs>[]
     notificationsSent: Prisma.$NotificationPayload<ExtArgs>[]
     userTitleDiscoveries: Prisma.$UserTitleDiscoveryPayload<ExtArgs>[]
+    uploadedAssets: Prisma.$UploadedAssetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3760,6 +4005,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notificationsReceived<T extends Prisma.User$notificationsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notificationsSent<T extends Prisma.User$notificationsSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userTitleDiscoveries<T extends Prisma.User$userTitleDiscoveriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userTitleDiscoveriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserTitleDiscoveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  uploadedAssets<T extends Prisma.User$uploadedAssetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$uploadedAssetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UploadedAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4533,6 +4779,30 @@ export type User$userTitleDiscoveriesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.UserTitleDiscoveryScalarFieldEnum | Prisma.UserTitleDiscoveryScalarFieldEnum[]
+}
+
+/**
+ * User.uploadedAssets
+ */
+export type User$uploadedAssetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UploadedAsset
+   */
+  select?: Prisma.UploadedAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UploadedAsset
+   */
+  omit?: Prisma.UploadedAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UploadedAssetInclude<ExtArgs> | null
+  where?: Prisma.UploadedAssetWhereInput
+  orderBy?: Prisma.UploadedAssetOrderByWithRelationInput | Prisma.UploadedAssetOrderByWithRelationInput[]
+  cursor?: Prisma.UploadedAssetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UploadedAssetScalarFieldEnum | Prisma.UploadedAssetScalarFieldEnum[]
 }
 
 /**

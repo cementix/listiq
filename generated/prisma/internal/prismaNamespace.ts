@@ -398,6 +398,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  UploadedAsset: 'UploadedAsset',
+  RateLimitBucket: 'RateLimitBucket',
   Title: 'Title',
   Genre: 'Genre',
   UserTitle: 'UserTitle',
@@ -431,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "title" | "genre" | "userTitle" | "userTitleDiscovery" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias" | "titleList" | "titleListItem" | "savedTitleList"
+    modelProps: "user" | "uploadedAsset" | "rateLimitBucket" | "title" | "genre" | "userTitle" | "userTitleDiscovery" | "titleSubmission" | "activityEvent" | "profilePost" | "profilePostMedia" | "profilePostLike" | "profilePostComment" | "profilePostCommentLike" | "notification" | "externalTitle" | "syncRun" | "titleAlias" | "titleList" | "titleListItem" | "savedTitleList"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -506,6 +508,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    UploadedAsset: {
+      payload: Prisma.$UploadedAssetPayload<ExtArgs>
+      fields: Prisma.UploadedAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UploadedAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UploadedAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.UploadedAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UploadedAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        findMany: {
+          args: Prisma.UploadedAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>[]
+        }
+        create: {
+          args: Prisma.UploadedAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        createMany: {
+          args: Prisma.UploadedAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UploadedAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.UploadedAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        update: {
+          args: Prisma.UploadedAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.UploadedAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UploadedAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UploadedAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.UploadedAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UploadedAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.UploadedAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUploadedAsset>
+        }
+        groupBy: {
+          args: Prisma.UploadedAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UploadedAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UploadedAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UploadedAssetCountAggregateOutputType> | number
+        }
+      }
+    }
+    RateLimitBucket: {
+      payload: Prisma.$RateLimitBucketPayload<ExtArgs>
+      fields: Prisma.RateLimitBucketFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RateLimitBucketFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RateLimitBucketFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        findFirst: {
+          args: Prisma.RateLimitBucketFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RateLimitBucketFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        findMany: {
+          args: Prisma.RateLimitBucketFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>[]
+        }
+        create: {
+          args: Prisma.RateLimitBucketCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        createMany: {
+          args: Prisma.RateLimitBucketCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RateLimitBucketCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>[]
+        }
+        delete: {
+          args: Prisma.RateLimitBucketDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        update: {
+          args: Prisma.RateLimitBucketUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        deleteMany: {
+          args: Prisma.RateLimitBucketDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RateLimitBucketUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RateLimitBucketUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>[]
+        }
+        upsert: {
+          args: Prisma.RateLimitBucketUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RateLimitBucketPayload>
+        }
+        aggregate: {
+          args: Prisma.RateLimitBucketAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRateLimitBucket>
+        }
+        groupBy: {
+          args: Prisma.RateLimitBucketGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RateLimitBucketGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RateLimitBucketCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RateLimitBucketCountAggregateOutputType> | number
         }
       }
     }
@@ -1904,6 +2054,30 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const UploadedAssetScalarFieldEnum = {
+  publicId: 'publicId',
+  userId: 'userId',
+  purpose: 'purpose',
+  type: 'type',
+  url: 'url',
+  width: 'width',
+  height: 'height',
+  bytes: 'bytes',
+  createdAt: 'createdAt'
+} as const
+
+export type UploadedAssetScalarFieldEnum = (typeof UploadedAssetScalarFieldEnum)[keyof typeof UploadedAssetScalarFieldEnum]
+
+
+export const RateLimitBucketScalarFieldEnum = {
+  key: 'key',
+  count: 'count',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RateLimitBucketScalarFieldEnum = (typeof RateLimitBucketScalarFieldEnum)[keyof typeof RateLimitBucketScalarFieldEnum]
+
+
 export const TitleScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2250,6 +2424,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'ProfilePostMediaType'
+ */
+export type EnumProfilePostMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfilePostMediaType'>
+    
+
+
+/**
+ * Reference to a field of type 'ProfilePostMediaType[]'
+ */
+export type ListEnumProfilePostMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfilePostMediaType[]'>
+    
+
+
+/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -2330,20 +2518,6 @@ export type EnumActivityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'ActivityEventType[]'
  */
 export type ListEnumActivityEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityEventType[]'>
-    
-
-
-/**
- * Reference to a field of type 'ProfilePostMediaType'
- */
-export type EnumProfilePostMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfilePostMediaType'>
-    
-
-
-/**
- * Reference to a field of type 'ProfilePostMediaType[]'
- */
-export type ListEnumProfilePostMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProfilePostMediaType[]'>
     
 
 
@@ -2596,6 +2770,8 @@ export interface PrismaClientOptionsWithAdapter extends PrismaClientBaseOptions 
 export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaClientOptionsWithAdapter
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  uploadedAsset?: Prisma.UploadedAssetOmit
+  rateLimitBucket?: Prisma.RateLimitBucketOmit
   title?: Prisma.TitleOmit
   genre?: Prisma.GenreOmit
   userTitle?: Prisma.UserTitleOmit

@@ -475,10 +475,6 @@ export type ProfilePostMediaUncheckedUpdateManyWithoutPostNestedInput = {
   deleteMany?: Prisma.ProfilePostMediaScalarWhereInput | Prisma.ProfilePostMediaScalarWhereInput[]
 }
 
-export type EnumProfilePostMediaTypeFieldUpdateOperationsInput = {
-  set?: $Enums.ProfilePostMediaType
-}
-
 export type ProfilePostMediaCreateWithoutPostInput = {
   id?: string
   type: $Enums.ProfilePostMediaType

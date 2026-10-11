@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 import { uploadImage } from "@/actions/upload/uploadImage";
 import { Button } from "@/components/ui/button";
+import { IMAGE_ACCEPT, MAX_UPLOAD_BYTES } from "@/lib/uploads/policy";
 
 type CoverImageFieldProps = {
   imageUrl: string;
@@ -114,6 +115,11 @@ export default function CoverImageField({
   const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!IMAGE_ACCEPT.split(",").includes(file.type) || file.size > MAX_UPLOAD_BYTES) {
+      toast.error("Choose a JPEG, PNG, WebP or GIF up to 3 MB");
+      e.target.value = "";
+      return;
+    }
 
     if (cropSource) {
       URL.revokeObjectURL(cropSource);
@@ -205,7 +211,7 @@ export default function CoverImageField({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept={IMAGE_ACCEPT}
         onChange={handleImageSelect}
         disabled={isUploadingImage}
         className="hidden"

@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test:mutations": "node --import tsx --import ./tests/register-server-only.mjs --test tests/mutations.test.ts",
     "test:catalog": "node --import tsx --test tests/catalog.test.ts",
+    "test:security": "node --import tsx --import ./tests/register-server-only.mjs --test tests/security.test.ts",
     "sync:titles": "tsx scripts/syncTitles.ts daily",
     "sync:titles:daily": "tsx scripts/syncTitles.ts daily",
     "sync:titles:deep": "tsx scripts/syncTitles.ts deep",

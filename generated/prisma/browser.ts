@@ -23,6 +23,16 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model UploadedAsset
+ * 
+ */
+export type UploadedAsset = Prisma.UploadedAssetModel
+/**
+ * Model RateLimitBucket
+ * 
+ */
+export type RateLimitBucket = Prisma.RateLimitBucketModel
+/**
  * Model Title
  * 
  */

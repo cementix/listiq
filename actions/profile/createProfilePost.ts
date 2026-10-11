@@ -5,26 +5,19 @@ import { requireUserServer } from "@/lib/auth/guards";
 import { normalizeString } from "../title/normalizeString";
 import type { ActionResult } from "../types";
 import { revalidatePath } from "next/cache";
-
-type ProfilePostMediaInput = {
-  type: "IMAGE" | "VIDEO";
-  url: string;
-  publicId?: string | null;
-  width: number;
-  height: number;
-};
-
-type CreateProfilePostInput = {
-  content: string;
-  attachedUserTitleId?: string | null;
-  media?: ProfilePostMediaInput[];
-};
+import { resolveOwnedPostMedia } from "@/lib/uploads/ownership";
+import { limitUser } from "@/lib/security/limits";
+import { securityErrorMessage } from "@/lib/security/errors";
+import { postSchema, type CreateProfilePostInput } from "@/lib/profile/postValidation";
 
 export async function createProfilePost(
   data: CreateProfilePostInput,
 ): Promise<ActionResult> {
   try {
     const { session } = await requireUserServer();
+    const parsed = postSchema.safeParse(data);
+    if (!parsed.success) return { ok: false, error: "Invalid post content or media" };
+    data = parsed.data;
     const content = normalizeString(data.content);
 
     const attachedUserTitleId = normalizeString(data.attachedUserTitleId);
@@ -35,17 +28,8 @@ export async function createProfilePost(
       return { ok: false, error: "Post cannot be empty" };
     }
 
-    if (media.length > 10) {
-      return { ok: false, error: "You can attach up to 10 media files" };
-    }
-
-    if (!content && !attachedUserTitleId && media.length === 0) {
-      return { ok: false, error: "Post cannot be empty" };
-    }
-
-    if (content && content.length > 1000) {
-      return { ok: false, error: "Post is too long" };
-    }
+    await limitUser("post", session.userId);
+    const verifiedMedia = await resolveOwnedPostMedia(prisma, session.userId, media);
 
     if (attachedUserTitleId) {
       const attachedUserTitle = await prisma.userTitle.findFirst({
@@ -67,13 +51,7 @@ export async function createProfilePost(
         content,
         attachedUserTitleId,
         media: {
-          create: media.map((item) => ({
-            type: item.type,
-            url: item.url,
-            publicId: item.publicId,
-            width: item.width,
-            height: item.height,
-          })),
+          create: verifiedMedia,
         },
       },
     });
@@ -83,6 +61,6 @@ export async function createProfilePost(
     return { ok: true, message: "Post published" };
   } catch (error) {
     console.error("createProfilePost error: ", error);
-    return { ok: false, error: "Failed to publish post" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to publish post") };
   }
 }

@@ -9,11 +9,13 @@ import type { ActionResult } from "@/actions/types";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { createSession } from "@/lib/session";
+import { limitUser } from "@/lib/security/limits";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 const schema = z.discriminatedUnion("kind", [
   z.object({
     kind: z.literal("username"),
-    currentPassword: z.string().min(1),
+    currentPassword: z.string().min(1).max(1024),
     username: z
       .string()
       .trim()
@@ -23,9 +25,11 @@ const schema = z.discriminatedUnion("kind", [
   }),
   z.object({
     kind: z.literal("password"),
-    currentPassword: z.string().min(1),
-    newPassword: z.string().min(8, "Use at least 8 characters"),
-    confirmPassword: z.string().min(1),
+    currentPassword: z.string().min(1).max(1024),
+    newPassword: z.string().min(8, "Use at least 8 characters").refine(
+      (value) => Buffer.byteLength(value, "utf8") <= 72, "Password must be at most 72 bytes",
+    ),
+    confirmPassword: z.string().min(1).max(1024),
   }),
 ]);
 
@@ -43,6 +47,7 @@ export async function updateAccountSecurity(
       };
     }
 
+    await limitUser("account", session.userId);
     const account = await prisma.user.findUnique({
       where: { id: session.userId },
       select: { username: true, email: true, passwordHash: true },
@@ -104,6 +109,6 @@ export async function updateAccountSecurity(
     }
 
     console.error("updateAccountSecurity error:", error);
-    return { ok: false, error: "Failed to update account" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to update account") };
   }
 }

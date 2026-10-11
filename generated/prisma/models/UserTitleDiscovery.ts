@@ -569,14 +569,6 @@ export type UserTitleDiscoveryUncheckedUpdateManyWithoutTitleNestedInput = {
   deleteMany?: Prisma.UserTitleDiscoveryScalarWhereInput | Prisma.UserTitleDiscoveryScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type NullableEnumDiscoveryActionFieldUpdateOperationsInput = {
   set?: $Enums.DiscoveryAction | null
 }

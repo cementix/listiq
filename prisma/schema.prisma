@@ -136,6 +136,30 @@ model User {
   notificationsReceived Notification[]       @relation("NotificationRecipient")
   notificationsSent     Notification[]       @relation("NotificationActor")
   userTitleDiscoveries  UserTitleDiscovery[]
+  uploadedAssets        UploadedAsset[]
+}
+
+model UploadedAsset {
+  publicId String @id
+  userId   String
+  user     User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose  String
+  type     ProfilePostMediaType
+  url      String
+  width    Int
+  height   Int
+  bytes    Int
+  createdAt DateTime @default(now())
+
+  @@index([userId, purpose])
+}
+
+model RateLimitBucket {
+  key       String @id
+  count     Int
+  expiresAt DateTime
+
+  @@index([expiresAt])
 }
 
 model Title {

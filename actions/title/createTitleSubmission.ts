@@ -8,6 +8,8 @@ import { validateGenreIds } from "./validateGenresId";
 import { normalizeString } from "./normalizeString";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "../types";
+import { resolveOwnedImage } from "@/lib/uploads/ownership";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 export async function createTitleSubmission(
   data: CreateTitleInput,
@@ -25,13 +27,13 @@ export async function createTitleSubmission(
       return { ok: false, error: "Invalid genres" };
     }
 
+    const image = await resolveOwnedImage(prisma, session.userId, data);
     const submission = await prisma.titleSubmission.create({
       data: {
         name: data.name.trim(),
         year: data.year ?? null,
         description: normalizeString(data.description),
-        imageUrl: normalizeString(data.imageUrl),
-        imagePublicId: normalizeString(data.imagePublicId),
+        ...image,
         type: data.type,
         submittedById: session.userId,
         genres: {
@@ -54,6 +56,6 @@ export async function createTitleSubmission(
     return { ok: true, message: "submission created" };
   } catch (error) {
     console.error("createTitleSubmission error: ", error);
-    return { ok: false, error: "Failed to create submission" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to create submission") };
   }
 }

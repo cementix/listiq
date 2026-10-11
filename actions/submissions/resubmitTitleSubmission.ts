@@ -10,6 +10,8 @@ import { normalizeString } from "../title/normalizeString";
 import { SubmissionStatus } from "@/generated/prisma/enums";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "../types";
+import { resolveOwnedImage } from "@/lib/uploads/ownership";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 export async function resubmitTitleSubmission(
   submissionId: string,
@@ -34,6 +36,8 @@ export async function resubmitTitleSubmission(
         id: true,
         status: true,
         submittedById: true,
+        imageUrl: true,
+        imagePublicId: true,
       },
     });
 
@@ -49,14 +53,14 @@ export async function resubmitTitleSubmission(
       return { ok: false, error: "Submission can not be edited" };
     }
 
+    const image = await resolveOwnedImage(prisma, session.userId, data, submission);
     await prisma.titleSubmission.update({
       where: { id: submission.id },
       data: {
         name: data.name.trim(),
         year: data.year ?? null,
         description: normalizeString(data.description),
-        imageUrl: normalizeString(data.imageUrl),
-        imagePublicId: normalizeString(data.imagePublicId),
+        ...image,
         type: data.type,
         status: SubmissionStatus.RESUBMITTED,
         reviewComment: null,
@@ -74,6 +78,6 @@ export async function resubmitTitleSubmission(
     return { ok: true, message: "Submission sent for review again" };
   } catch (error) {
     console.error("resubmitTitleSubmission error: ", error);
-    return { ok: false, error: "Failed to resubmit title" };
+    return { ok: false, error: securityErrorMessage(error, "Failed to resubmit title") };
   }
 }

@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  UploadedAsset: 'UploadedAsset',
+  RateLimitBucket: 'RateLimitBucket',
   Title: 'Title',
   Genre: 'Genre',
   UserTitle: 'UserTitle',
@@ -110,6 +112,30 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UploadedAssetScalarFieldEnum = {
+  publicId: 'publicId',
+  userId: 'userId',
+  purpose: 'purpose',
+  type: 'type',
+  url: 'url',
+  width: 'width',
+  height: 'height',
+  bytes: 'bytes',
+  createdAt: 'createdAt'
+} as const
+
+export type UploadedAssetScalarFieldEnum = (typeof UploadedAssetScalarFieldEnum)[keyof typeof UploadedAssetScalarFieldEnum]
+
+
+export const RateLimitBucketScalarFieldEnum = {
+  key: 'key',
+  count: 'count',
+  expiresAt: 'expiresAt'
+} as const
+
+export type RateLimitBucketScalarFieldEnum = (typeof RateLimitBucketScalarFieldEnum)[keyof typeof RateLimitBucketScalarFieldEnum]
 
 
 export const TitleScalarFieldEnum = {

@@ -1,5 +1,6 @@
 import { syncTitlesDaily } from "@/lib/sync/syncTitles";
 import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
+import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,11 @@ export async function GET(request: Request) {
   }
 
   const startedAt = Date.now();
+  try {
+    await prisma.rateLimitBucket.deleteMany({ where: { expiresAt: { lt: new Date() } } });
+  } catch {
+    console.error("Rate-limit cleanup failed");
+  }
   let result;
   try {
     result = await syncTitlesDaily();

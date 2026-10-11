@@ -7,6 +7,8 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { ensureSaveForLaterList } from "../lib/title-list/ensureSaveForLaterList";
+import { limitAuth } from "@/lib/security/limits";
+import { securityErrorMessage } from "@/lib/security/errors";
 
 const registerSchema = z.object({
   email: z.email().trim().toLowerCase(),
@@ -19,12 +21,14 @@ const registerSchema = z.object({
       /^[a-zA-Z0-9_]+$/,
       "username can contain only letters, numbers and underscore",
     ),
-  password: z.string().min(6, "password must be at least 6 characters"),
+  password: z.string().min(6, "password must be at least 6 characters").refine(
+    (value) => Buffer.byteLength(value, "utf8") <= 72, "password must be at most 72 bytes",
+  ),
 });
 
 const loginSchema = z.object({
   email: z.email("invalid email").trim().toLowerCase(),
-  password: z.string().min(1, "password is required"),
+  password: z.string().min(1, "password is required").max(1024, "password is too long"),
 });
 
 export type AuthState = {
@@ -53,6 +57,7 @@ export async function registerUser(
   const { email, username, password } = parsed.data;
 
   try {
+    await limitAuth("register", email);
     const existingUser = await prisma.user.findFirst({
       where: {
         OR: [{ email }, { username }],
@@ -99,7 +104,7 @@ export async function registerUser(
 
     return {
       ok: false,
-      error: "something went wrong",
+      error: securityErrorMessage(error, "something went wrong"),
     };
   }
 
@@ -123,6 +128,7 @@ export async function loginUser(
     }
 
     const { email, password } = parsed.data;
+    await limitAuth("login", email);
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -170,7 +176,7 @@ export async function loginUser(
 
     return {
       ok: false,
-      error: "something went wrong",
+      error: securityErrorMessage(error, "something went wrong"),
     };
   }
 
