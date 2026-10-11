@@ -4,9 +4,11 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
-import { ActivityEventType, DiscoveryAction } from "@/generated/prisma/enums";
+import { DiscoveryAction } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 import { ensureSaveForLaterList } from "@/lib/title-list/ensureSaveForLaterList";
+import { addLibraryTitle } from "@/lib/library/mutations";
+import { addListTitle } from "@/lib/title-list/mutations";
 
 const inputSchema = z.object({
   titleId: z.string().trim().min(1),
@@ -40,41 +42,15 @@ export async function saveDiscoveryTitle(
         const list = await ensureSaveForLaterList(session.userId, tx);
         listSlug = list.slug;
 
-        const lastItem = await tx.titleListItem.aggregate({
-          where: { listId: list.id },
-          _max: { position: true },
-        });
-
-        const inserted = await tx.titleListItem.createMany({
-          data: {
-            listId: list.id,
-            titleId,
-            position: (lastItem._max.position ?? -1) + 1,
-          },
-          skipDuplicates: true,
-        });
-
-        if (inserted.count > 0) {
-          await tx.titleList.update({
-            where: { id: list.id },
-            data: { updatedAt: new Date() },
-          });
+        const added = await addListTitle(tx, session.userId, list.id, titleId);
+        if (
+          added.status === "list-not-found" ||
+          added.status === "title-not-found"
+        ) {
+          throw new Error("Discovery destination not found");
         }
       } else {
-        const inserted = await tx.userTitle.createMany({
-          data: { userId: session.userId, titleId },
-          skipDuplicates: true,
-        });
-
-        if (inserted.count > 0) {
-          await tx.activityEvent.create({
-            data: {
-              userId: session.userId,
-              titleId,
-              type: ActivityEventType.TITLE_ADDED,
-            },
-          });
-        }
+        await addLibraryTitle(tx, session.userId, titleId);
       }
 
       // The choice and its actual destination succeed or fail together.

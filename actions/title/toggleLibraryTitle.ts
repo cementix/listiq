@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "../types";
+import { addLibraryTitle, removeLibraryTitle } from "@/lib/library/mutations";
 
 export async function toggleLibraryTitle(
   titleId: string,
@@ -11,54 +12,33 @@ export async function toggleLibraryTitle(
   try {
     const { session } = await requireUserServer();
 
-    const title = await prisma.title.findUnique({
-      where: { id: titleId },
-      select: { id: true, slug: true },
-    });
+    const title = await prisma.$transaction(async (tx) => {
+      const title = await tx.title.findUnique({
+        where: { id: titleId },
+        select: { id: true, slug: true },
+      });
 
-    if (!title) return { ok: false, error: "Title not found" };
+      if (!title) return null;
 
-    const existing = await prisma.userTitle.findUnique({
-      where: {
-        userId_titleId: {
-          userId: session.userId,
-          titleId,
-        },
-      },
-      select: { id: true },
-    });
-
-    if (existing) {
-      await prisma.userTitle.delete({
+      const existing = await tx.userTitle.findUnique({
         where: {
           userId_titleId: {
             userId: session.userId,
             titleId,
           },
         },
+        select: { id: true },
       });
-      await prisma.activityEvent.create({
-        data: {
-          userId: session.userId,
-          titleId,
-          type: "TITLE_REMOVED",
-        },
-      });
-    } else {
-      await prisma.userTitle.create({
-        data: {
-          userId: session.userId,
-          titleId,
-        },
-      });
-      await prisma.activityEvent.create({
-        data: {
-          userId: session.userId,
-          titleId,
-          type: "TITLE_ADDED",
-        },
-      });
-    }
+
+      if (existing) {
+        await removeLibraryTitle(tx, session.userId, titleId);
+      } else {
+        await addLibraryTitle(tx, session.userId, titleId);
+      }
+      return title;
+    });
+
+    if (!title) return { ok: false, error: "Title not found" };
 
     revalidatePath(`/titles/${title.slug}`);
     revalidatePath("/titles");

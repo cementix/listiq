@@ -3,8 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { UpdateUserTitleInput } from "./types";
-import { Prisma } from "@/generated/prisma/client";
-import { normalizeString } from "./normalizeString";
+import { updateLibraryTitle } from "@/lib/library/mutations";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "../types";
 
@@ -14,24 +13,6 @@ export async function updateUserTitle(
   try {
     const { session } = await requireUserServer();
 
-    const existing = await prisma.userTitle.findUnique({
-      where: {
-        userId_titleId: {
-          userId: session.userId,
-          titleId: data.titleId,
-        },
-      },
-      include: {
-        title: {
-          select: { slug: true },
-        },
-      },
-    });
-
-    if (!existing) {
-      return { ok: false, error: "Add title to library first" };
-    }
-
     if (data.rating !== undefined && data.rating !== null) {
       const isValidHalfStep = data.rating * 2 === Math.round(data.rating * 2);
 
@@ -40,54 +21,18 @@ export async function updateUserTitle(
       }
     }
 
-    const updateData: Prisma.UserTitleUpdateInput = {};
+    const result = await prisma.$transaction((tx) =>
+      updateLibraryTitle(tx, session.userId, data.titleId, {
+        rating: data.rating,
+        note: data.note,
+      }),
+    );
 
-    if (data.rating !== undefined) {
-      updateData.rating = data.rating;
+    if (!result) {
+      return { ok: false, error: "Add title to library first" };
     }
 
-    if (data.note !== undefined) {
-      const note = data.note ? normalizeString(data.note) : null;
-      updateData.note = note;
-    }
-
-    await prisma.userTitle.update({
-      where: {
-        userId_titleId: {
-          userId: session.userId,
-          titleId: data.titleId,
-        },
-      },
-      data: updateData,
-    });
-
-    if (data.rating !== undefined && data.rating !== existing.rating) {
-      await prisma.activityEvent.create({
-        data: {
-          userId: session.userId,
-          titleId: data.titleId,
-          type: "TITLE_RATED",
-          rating: data.rating,
-        },
-      });
-    }
-
-    if (data.note !== undefined) {
-      const nextNote = data.note ? normalizeString(data.note) : null;
-
-      if (nextNote !== existing.note) {
-        await prisma.activityEvent.create({
-          data: {
-            userId: session.userId,
-            titleId: data.titleId,
-            type: "TITLE_REVIEWED",
-            note: nextNote,
-          },
-        });
-      }
-    }
-
-    revalidatePath(`/titles/${existing.title.slug}`);
+    revalidatePath(`/titles/${result.titleSlug}`);
     revalidatePath("/titles");
     revalidatePath("/dashboard");
     revalidatePath("/library");

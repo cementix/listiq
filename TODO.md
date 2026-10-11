@@ -5,7 +5,7 @@
 - [+] Hide moderation links for regular users; enforce roles and ownership in server actions.
 - [+] Verify privacy across profiles, reviews, posts, activity and title stats.
 - [+] Move auth guards, queries, validation and helpers into domain modules in `lib`; keep `actions` thin. Remove `lib → actions` imports.
-- [ ] Share library/list mutations between regular UI and Discover; save mutations and activity events in one transaction.
+- [x] Share library/list mutations between regular UI and Discover; save mutations and activity events in one transaction.
 - [ ] Separate catalog import, scoring and persistence; remove unused code and fix cache invalidation paths.
 - [ ] Consolidate Cloudinary uploads; add auth, file limits, resource ownership checks and rate limiting for auth/uploads/posts.
 

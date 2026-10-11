@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
+import { addListTitle } from "@/lib/title-list/mutations";
 import { revalidatePath } from "next/cache";
 
 const addTitleToListSchema = z.object({
@@ -30,84 +31,9 @@ export async function addTitleToList(
 
     const { listId, titleId } = parsed.data;
 
-    const result = await prisma.$transaction(async (tx) => {
-      const list = await tx.titleList.findFirst({
-        where: {
-          id: listId,
-          userId: session.userId,
-        },
-        select: {
-          id: true,
-          slug: true,
-        },
-      });
-
-      if (!list) {
-        return { status: "list-not-found" as const };
-      }
-
-      const title = await tx.title.findUnique({
-        where: {
-          id: titleId,
-        },
-        select: {
-          id: true,
-          slug: true,
-        },
-      });
-
-      if (!title) {
-        return { status: "title-not-found" as const };
-      }
-
-      const existingItem = await tx.titleListItem.findUnique({
-        where: {
-          listId_titleId: {
-            listId,
-            titleId,
-          },
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      if (existingItem) {
-        return { status: "already-added" as const };
-      }
-
-      const lastItem = await tx.titleListItem.aggregate({
-        where: {
-          listId,
-        },
-        _max: {
-          position: true,
-        },
-      });
-
-      await tx.titleListItem.create({
-        data: {
-          listId,
-          titleId,
-          position: (lastItem._max.position ?? -1) + 1,
-        },
-      });
-
-      await tx.titleList.update({
-        where: {
-          id: listId,
-        },
-        data: {
-          updatedAt: new Date(),
-        },
-      });
-
-      return {
-        status: "added" as const,
-        listSlug: list.slug,
-        titleSlug: title.slug,
-      };
-    });
+    const result = await prisma.$transaction((tx) =>
+      addListTitle(tx, session.userId, listId, titleId),
+    );
 
     if (result.status === "list-not-found") {
       return { ok: false, error: "List not found" };
