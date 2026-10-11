@@ -9,7 +9,7 @@ import {
 import { addListTitle } from "../lib/title-list/mutations";
 
 function transaction(stubs: object) {
-  return stubs as Prisma.TransactionClient;
+  return { $queryRaw: async () => [], ...stubs } as unknown as Prisma.TransactionClient;
 }
 
 test("saving an existing library title leaves its review untouched and emits no event", async () => {

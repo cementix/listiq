@@ -45,6 +45,13 @@ export async function updateLibraryTitle(
   titleId: string,
   changes: { rating?: number | null; note?: string | null },
 ) {
+  // Compare and write under the same row lock so concurrent saves do not
+  // record the same rating/review change twice.
+  await tx.$queryRaw`
+    SELECT id FROM "UserTitle"
+    WHERE "userId" = ${userId} AND "titleId" = ${titleId}
+    FOR UPDATE
+  `;
   const existing = await tx.userTitle.findUnique({
     where: { userId_titleId: { userId, titleId } },
     select: { rating: true, note: true, title: { select: { slug: true } } },

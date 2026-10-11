@@ -6,6 +6,7 @@ import { z } from "zod";
 import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
 import { prisma } from "@/lib/prisma";
+import { lockOwnedList } from "@/lib/title-list/mutations";
 
 const deleteTitleListSchema = z.object({
   listId: z.string().min(1, "List ID is required"),
@@ -29,6 +30,7 @@ export async function deleteTitleList(
     }
 
     const result = await prisma.$transaction(async (tx) => {
+      await lockOwnedList(tx, session.userId, parsed.data.listId);
       const list = await tx.titleList.findFirst({
         where: {
           id: parsed.data.listId,

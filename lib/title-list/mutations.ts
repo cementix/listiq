@@ -2,6 +2,14 @@ import "server-only";
 
 import type { Prisma } from "@/generated/prisma/client";
 
+export async function lockOwnedList(tx: Prisma.TransactionClient, userId: string, listId: string) {
+  await tx.$queryRaw`
+    SELECT id FROM "TitleList"
+    WHERE id = ${listId} AND "userId" = ${userId}
+    FOR UPDATE
+  `;
+}
+
 export async function addListTitle(
   tx: Prisma.TransactionClient,
   userId: string,
@@ -9,11 +17,7 @@ export async function addListTitle(
   titleId: string,
 ) {
   // Serialize appends to a list before reading its last position.
-  await tx.$queryRaw`
-    SELECT id FROM "TitleList"
-    WHERE id = ${listId} AND "userId" = ${userId}
-    FOR UPDATE
-  `;
+  await lockOwnedList(tx, userId, listId);
 
   const list = await tx.titleList.findFirst({
     where: { id: listId, userId },
