@@ -161,7 +161,8 @@ export default function ProfilePostForm() {
           <button
             type="button"
             onClick={() => setAttachedUserTitleId(null)}
-            className="ml-1 shrink-0 text-white/35 transition hover:text-white"
+            aria-label="Remove attached review"
+            className="ml-1 flex size-11 shrink-0 items-center justify-center text-white/35 transition hover:text-white"
           >
             <X className="size-3.5" />
           </button>
@@ -204,7 +205,8 @@ export default function ProfilePostForm() {
                     ),
                   )
                 }
-                className="absolute right-2 top-2 flex size-6 items-center justify-center rounded-full bg-black/60 text-white/70 opacity-0 transition hover:text-white group-hover:opacity-100"
+                aria-label="Remove attachment"
+                className="absolute right-2 top-2 flex size-11 items-center justify-center rounded-full bg-black/60 text-white/70 transition hover:text-white lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100"
               >
                 <X className="size-3.5" />
               </button>
@@ -213,8 +215,8 @@ export default function ProfilePostForm() {
         </div>
       )}
 
-      <div className="mt-3 flex items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-1.5">
+      <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <input
             ref={fileInputRef}
             type="file"
@@ -230,7 +232,7 @@ export default function ProfilePostForm() {
             disabled={
               isUploadingMedia || media.length >= MAX_PROFILE_POST_MEDIA
             }
-            className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white disabled:opacity-40"
+            className="flex min-h-11 items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white disabled:opacity-40"
           >
             <ImagePlus className="size-3.5" />
             Add image/video
@@ -240,14 +242,14 @@ export default function ProfilePostForm() {
               key={review.id}
               type="button"
               onClick={() => setAttachedUserTitleId(review.id)}
-              className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white"
+              className="flex min-h-11 max-w-full items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/50 transition hover:bg-white/[0.08] hover:text-white"
             >
               <Star className="size-3.5" />
               <span className="max-w-28 truncate">{review.title.name}</span>
             </button>
           ))}
         </div>
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="flex shrink-0 items-center justify-end gap-3">
           <p className="text-xs text-white/35">{content.length}/1000</p>
 
           <Button

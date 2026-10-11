@@ -20,7 +20,7 @@ export default function DashboardRandomPicks({
         <Dice5 className="size-4 text-white/45" />
       </div>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
         {titles.map((title, index) => (
           <Link
             key={title.id}
@@ -28,7 +28,7 @@ export default function DashboardRandomPicks({
             style={
               { animationDelay: `${560 + index * 90}ms` } as React.CSSProperties
             }
-            className="dashboard-pick-in group grid grid-cols-[56px_1fr] gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-2 transition hover:bg-white/[0.07]"
+            className="dashboard-pick-in group grid min-w-0 grid-cols-[56px_minmax(0,1fr)] gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-2 transition hover:bg-white/[0.07]"
           >
             <div className="relative aspect-[460/649] overflow-hidden rounded-md bg-black/40">
               {title.imageUrl ? (

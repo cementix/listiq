@@ -18,7 +18,7 @@ export default function ProfileStatsGrid({ stats }: ProfileStatsGridProps) {
   const averageRating = stats.averageRating?.toFixed(1) ?? "-";
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
       <GlassCard className="p-4">
         <BookOpen className="size-5 text-white/45" />
         <p className="mt-3 text-2xl font-semibold">{stats.libraryCount}</p>

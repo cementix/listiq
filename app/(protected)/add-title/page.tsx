@@ -18,7 +18,7 @@ export default async function AddTitlePage() {
 
   return (
     <PageSection className="mx-auto w-full max-w-6xl px-4">
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <p className="text-sm text-white/50">Add title</p>
         <h1 className="mt-2 text-3xl font-semibold">Add new title</h1>
         <p className="mt-3 max-w-xl text-white/70">

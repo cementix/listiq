@@ -22,7 +22,8 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   });
   return (
     <StoreProvider>
-      <div className="min-h-screen bg-black pt-[73px] text-white">
+      <div className="min-h-dvh bg-black pt-16 pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-2 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-black">Skip to content</a>
         <NavbarShell>
           <Navbar
             username={session.username}
@@ -31,7 +32,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
             canReview={user ? canReviewSubmissions(user.role) : false}
           />
         </NavbarShell>
-        {children}
+        <main id="main-content" tabIndex={-1} className="min-w-0 outline-none">{children}</main>
       </div>
     </StoreProvider>
   );

@@ -62,7 +62,7 @@ function DeckCard({
       onPointerMove={position === "current" ? onPointerMove : undefined}
       onPointerUp={position === "current" ? onPointerUp : undefined}
       onPointerCancel={position === "current" ? onPointerCancel : undefined}
-      className="absolute left-1/2 top-1/2 h-full w-[min(72vw,350px)] overflow-hidden rounded-lg border border-white/15 bg-neutral-900 shadow-2xl motion-reduce:!transition-none"
+      className="absolute left-1/2 top-1/2 h-full w-[min(78vw,350px)] overflow-hidden rounded-xl border border-white/15 bg-neutral-900 shadow-2xl motion-reduce:!transition-none"
       style={{
         transform: centered
           ? `translate(calc(-50% + ${offset}px), -50%) rotate(${offset / 25}deg)`
@@ -95,7 +95,7 @@ function DeckCard({
 
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-      <div className="absolute inset-x-0 bottom-0 p-5">
+      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
         <p className="text-xs uppercase text-white/65">
           {title.type.replaceAll("_", " ")}
           {title.year ? ` · ${title.year}` : ""}
@@ -105,7 +105,7 @@ function DeckCard({
           href={`/titles/${title.slug}`}
           tabIndex={position === "current" && !advancing ? 0 : -1}
           onPointerDown={(event) => event.stopPropagation()}
-          className="mt-2 inline-flex items-start gap-2 text-2xl font-semibold leading-tight hover:underline"
+          className="mt-2 inline-flex max-w-full break-words items-start gap-2 text-xl font-semibold leading-tight hover:underline sm:text-2xl"
         >
           {title.name}
           <ArrowUpRight className="mt-1 size-4 shrink-0" />
@@ -281,7 +281,7 @@ export default function DiscoveryDeck({
           onChange={(event) =>
             void changeType(event.target.value as TitleType | "ALL")
           }
-          className="h-9 rounded-md border border-white/15 bg-neutral-900 px-3 text-sm text-white outline-none focus:border-white/40"
+          className="h-11 max-w-[55%] rounded-lg border border-white/15 bg-neutral-900 px-3 text-base sm:text-sm text-white outline-none focus:border-white/40"
         >
           {typeOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -291,7 +291,7 @@ export default function DiscoveryDeck({
         </select>
       </div>
 
-      <div className="relative mt-6 h-[min(60vh,520px)] min-h-[380px] w-full max-w-[900px] overflow-hidden">
+      <div className="relative mt-4 h-[clamp(280px,calc(100dvh-310px),520px)] w-full max-w-[900px] overflow-hidden sm:mt-6">
         {[
           previous && { title: previous, position: "previous" as const },
           next && { title: next, position: "next" as const },

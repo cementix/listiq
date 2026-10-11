@@ -255,11 +255,11 @@ export default function ProfilePostMediaViewer({
           aria-describedby={undefined}
           overlayClassName="z-[55] cursor-default bg-black/50 backdrop-blur-[3px]"
           onWheel={(event) => event.stopPropagation()}
-          className="z-[60] max-h-[84vh] w-[min(92vw,920px)] max-w-[920px] gap-0 overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:max-w-[920px]"
+          className="z-[60] max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-[920px] gap-0 overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:w-[calc(100%-2rem)] sm:max-w-[920px]"
         >
           <DialogTitle className="sr-only">Post media viewer</DialogTitle>
 
-          <div className="relative flex max-h-[84vh] flex-col overflow-hidden">
+          <div className="relative flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden">
             <div className="absolute right-3 top-3 z-40 flex items-center gap-2">
               {activeMedia.type === "IMAGE" && (
                 <>
@@ -349,7 +349,7 @@ export default function ProfilePostMediaViewer({
               onPointerUp={stopDragging}
               onPointerCancel={stopDragging}
               onLostPointerCapture={stopDragging}
-              className="relative z-0 flex h-[min(72vh,680px)] min-h-0 cursor-default items-center justify-center overflow-hidden overscroll-none p-4"
+              className="relative z-0 flex h-[min(72dvh,680px)] min-h-0 cursor-default items-center justify-center overflow-hidden overscroll-none px-2 pt-16 pb-4 sm:px-4"
               style={{
                 touchAction: activeMedia.type === "IMAGE" ? "none" : "auto",
               }}

@@ -14,7 +14,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
   return (
     <Link
       href={`/titles/${title.slug}`}
-      className="group relative min-h-[420px] overflow-hidden rounded-xl border border-white/10 bg-black/95 animate-in fade-in slide-in-from-left-6 duration-700"
+      className="group relative min-h-[380px] overflow-hidden rounded-xl border border-white/10 bg-black/95 animate-in fade-in slide-in-from-left-6 duration-700 sm:min-h-[420px]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(139,92,246,0.22),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.015)_42%,rgba(0,0,0,0.55))]" />
 
@@ -31,7 +31,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
       ) : null}
 
       {title.imageUrl ? (
-        <div className="absolute right-6 z-100 top-1/2 hidden aspect-[460/649] h-[78%] -translate-y-1/2 overflow-hidden rounded-xl border border-white/20 bg-black/20 shadow-[0_24px_80px_rgba(0,0,0,0.72),0_0_0_1px_rgba(255,255,255,0.08)] transition duration-500 group-hover:scale-[1.025] group-hover:border-white/35 group-hover:shadow-[0_28px_90px_rgba(0,0,0,0.78),0_0_32px_rgba(139,92,246,0.18)] lg:block xl:right-8">
+        <div className="absolute right-6 z-10 top-1/2 hidden aspect-[460/649] h-[78%] -translate-y-1/2 overflow-hidden rounded-xl border border-white/20 bg-black/20 shadow-[0_24px_80px_rgba(0,0,0,0.72),0_0_0_1px_rgba(255,255,255,0.08)] transition duration-500 group-hover:scale-[1.025] group-hover:border-white/35 group-hover:shadow-[0_28px_90px_rgba(0,0,0,0.78),0_0_32px_rgba(139,92,246,0.18)] lg:block xl:right-8">
           <Image
             src={title.imageUrl}
             alt={title.name}
@@ -46,7 +46,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/78 via-58% to-black/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
 
-      <div className="absolute inset-x-0 bottom-0 p-6 pr-6 sm:p-8 lg:pr-[360px] xl:pr-[420px]">
+      <div className="relative z-20 flex min-h-[380px] flex-col justify-end p-5 sm:min-h-[420px] sm:p-8 lg:pr-[360px] xl:pr-[420px]">
         <p
           className="dashboard-text-in text-sm font-medium text-primary"
           style={{ animationDelay: "360ms" }}
@@ -55,7 +55,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
         </p>
 
         <h1
-          className="dashboard-text-in mt-2 max-w-3xl text-4xl font-semibold text-white sm:text-5xl"
+          className="dashboard-text-in mt-2 max-w-3xl break-words text-3xl font-semibold text-white sm:text-4xl lg:text-5xl"
           style={{ animationDelay: "460ms" }}
         >
           {title.name}

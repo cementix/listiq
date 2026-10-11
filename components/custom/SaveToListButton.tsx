@@ -127,7 +127,7 @@ export default function SaveToListButton({
 
       <PopoverContent
         align="end"
-        className="w-72 border border-white/10 bg-black text-white"
+        className="w-72 max-w-[calc(100vw-2rem)] max-h-[min(420px,70dvh)] overflow-y-auto overscroll-contain border border-white/10 bg-black text-white"
         onClick={(event) => event.stopPropagation()}
       >
         <PopoverHeader className="border-b border-white/10 pb-2">
@@ -149,7 +149,7 @@ export default function SaveToListButton({
                   type="button"
                   disabled={pendingListId !== null}
                   onClick={() => void handleToggleList(list)}
-                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition hover:bg-white/10 disabled:opacity-50"
+                  className="flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition hover:bg-white/10 disabled:opacity-50"
                 >
                   {list.systemType ? (
                     <Bookmark className="size-4 shrink-0 text-primary" />

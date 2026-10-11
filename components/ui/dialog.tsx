@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const StableScrollContext = React.createContext<{
   enabled: boolean;
   close: () => void;
-  contentRef: React.RefObject<HTMLDivElement | null>;
+  setContentRef: (node: HTMLDivElement | null) => void;
 } | null>(null);
 
 function Dialog({
@@ -27,6 +27,9 @@ function Dialog({
   const [localOpen, setLocalOpen] = React.useState(defaultOpen);
   const isOpen = open ?? localOpen;
   const contentRef = React.useRef<HTMLDivElement>(null);
+  const setContentRef = React.useCallback((node: HTMLDivElement | null) => {
+    contentRef.current = node;
+  }, []);
 
   const changeOpen = (nextOpen: boolean) => {
     setLocalOpen(nextOpen);
@@ -98,7 +101,7 @@ function Dialog({
       value={{
         enabled: stableScroll,
         close: () => changeOpen(false),
-        contentRef,
+        setContentRef,
       }}
     >
       <DialogPrimitive.Root
@@ -189,12 +192,12 @@ function DialogContent({
           if (stableScroll?.enabled) event.preventDefault();
         }}
         ref={(node) => {
-          if (stableScroll) stableScroll.contentRef.current = node;
+          stableScroll?.setContentRef(node);
           if (typeof ref === "function") ref(node);
           else if (ref) ref.current = node;
         }}
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-background p-4 text-sm ring-1 ring-foreground/10 outline-none sm:max-w-sm",
+          "fixed top-1/2 left-1/2 z-50 grid min-w-0 w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto overscroll-contain rounded-xl bg-background p-4 text-sm ring-1 ring-foreground/10 outline-none sm:w-full sm:max-w-sm",
           !disableDefaultAnimation &&
             "duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className,
@@ -206,7 +209,7 @@ function DialogContent({
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2 cursor-pointer"
+              className="absolute top-2 right-2 size-11 cursor-pointer"
               size="icon-sm"
             >
               <XIcon />
@@ -223,7 +226,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-2", className)}
+      className={cn("min-w-0 flex flex-col gap-2 pr-10", className)}
       {...props}
     />
   );

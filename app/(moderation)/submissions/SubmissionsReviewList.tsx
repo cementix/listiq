@@ -114,7 +114,7 @@ export default function SubmissionsReviewList({
             key={submission.id}
             className="rounded-3xl border border-white/10 bg-white/5 p-5"
           >
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <div className="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
                 {submission.imageUrl ? (
                   <Image
@@ -134,7 +134,7 @@ export default function SubmissionsReviewList({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="break-words text-xl font-semibold text-white">
                       {submission.name}
                     </h2>
 
@@ -184,7 +184,7 @@ export default function SubmissionsReviewList({
                   className="mt-4 min-h-20 border-white/10 bg-black/20 text-white placeholder:text-white/35"
                 />
 
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   <Button
                     type="button"
                     onClick={() => review(submission.id, "approve")}

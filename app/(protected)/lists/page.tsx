@@ -109,7 +109,7 @@ export default async function PublicListsPage({
           <Button type="submit">Search</Button>
         </form>
 
-        <div className="flex rounded-lg border border-white/10 bg-white/5 p-1">
+        <div className="flex shrink-0 rounded-lg border border-white/10 bg-white/5 p-1">
           {allowedSorts.map((option) => {
             const active = sort === option;
 

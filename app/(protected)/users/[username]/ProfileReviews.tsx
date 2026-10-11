@@ -39,12 +39,12 @@ export default function ProfileReviews({
               <Link
                 key={entry.id}
                 href={`/titles/${entry.title.slug}`}
-                className="block rounded-2xl border border-white/10 bg-black/20 p-[14.5] transition hover:bg-white/10"
+                className="block rounded-2xl border border-white/10 bg-black/20 p-3 transition hover:bg-white/10"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium text-white">{entry.title.name}</p>
+                  <p className="min-w-0 break-words font-medium text-white">{entry.title.name}</p>
                   {entry.rating !== null && (
-                    <p className="text-sm text-primary">
+                    <p className="shrink-0 text-sm text-primary">
                       {entry.rating.toFixed(1)}/10
                     </p>
                   )}

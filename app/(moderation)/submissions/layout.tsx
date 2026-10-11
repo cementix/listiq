@@ -26,7 +26,7 @@ export default async function ModerationLayout({
   const needsChangesCount = await getNeedsChangesSubmissionsCount();
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-dvh bg-black pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
       <Navbar
         username={session.username}
         needsChangesCount={needsChangesCount}

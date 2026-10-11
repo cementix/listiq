@@ -12,7 +12,8 @@ export default function NavbarShell({ children }: NavbarShellProps) {
 
   useEffect(() => {
     const handleWheel = (event: WheelEvent) => {
-      if (event.defaultPrevented || hasOpenDialog()) {
+      if (event.defaultPrevented || hasOpenDialog() || document.querySelector('[role="menu"][data-state="open"]') || window.innerWidth < 1024 ||
+          (document.activeElement instanceof HTMLElement && document.activeElement.closest("header"))) {
         return;
       }
 
@@ -29,7 +30,7 @@ export default function NavbarShell({ children }: NavbarShellProps) {
     const handleScroll = () => {
       if (hasOpenDialog()) return;
 
-      if (window.scrollY < 24) {
+      if (window.scrollY < 24 || window.innerWidth < 1024) {
         setIsVisible(true);
       }
     };
@@ -45,8 +46,8 @@ export default function NavbarShell({ children }: NavbarShellProps) {
 
   return (
     <div
-      className={`fixed left-0 right-0 top-0 z-40 transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
+      className={`fixed left-0 right-0 top-0 z-40 motion-safe:transition-transform motion-safe:duration-300 ${
+        isVisible ? "" : "lg:-translate-y-full"
       }`}
     >
       {children}

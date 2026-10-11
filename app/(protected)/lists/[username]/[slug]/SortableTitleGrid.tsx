@@ -94,7 +94,7 @@ export default function SortableTitleGrid({
       </DragDropProvider>
 
       {isOwner && changed && (
-        <div className="fixed inset-x-4 bottom-4 z-40 mx-auto flex w-fit max-w-[calc(100%-2rem)] items-center gap-3 rounded-lg border border-white/15 bg-black/95 px-3 py-2 shadow-xl">
+        <div className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-40 mx-auto flex w-fit max-w-[calc(100%-2rem)] flex-wrap justify-center items-center gap-2 rounded-lg border border-white/15 bg-black/95 px-3 py-2 shadow-xl lg:bottom-4">
           <span className="text-sm text-white/65">Unsaved order</span>
 
           <Button

@@ -40,7 +40,7 @@ export default async function TitlesPage({ searchParams }: TitlesPageProps) {
 
   return (
     <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <p className="text-sm text-white/50">Catalog</p>
         <h1 className="mt-2 text-3xl font-semibold">Titles</h1>
         <p className="mt-3 max-w-xl text-white/70">

@@ -9,6 +9,28 @@ html {
   overflow-y: scroll;
 }
 
+/* Keep small-screen fields readable without iOS focus zoom. */
+@media (max-width: 1023px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  [data-slot="button"][data-size^="icon"] {
+    min-width: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body[data-scroll-locked] {
   overflow-y: scroll !important;
   margin-right: 0 !important;

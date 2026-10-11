@@ -84,8 +84,9 @@ export default function ProfileImageEditor({
         <DialogTrigger asChild>
           <button
             type="button"
+            aria-label="Change profile avatar"
             className={`group relative flex items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl ${
-              largeAvatar ? "size-36" : "size-24"
+                largeAvatar ? "size-28 sm:size-36" : "size-24 shrink-0"
             }`}
           >
             {currentUrl ? (
@@ -100,7 +101,7 @@ export default function ProfileImageEditor({
               <UserRound className="size-10 text-white/60" />
             )}
 
-            <span className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black/50 opacity-0 transition group-hover:opacity-100">
+            <span className="absolute cursor-pointer inset-0 flex items-center justify-center bg-black/30 transition lg:opacity-0 lg:group-hover:opacity-100 group-focus-visible:opacity-100">
               <Camera className="size-5 text-white" />
             </span>
           </button>
@@ -122,7 +123,8 @@ export default function ProfileImageEditor({
           <DialogTrigger asChild>
             <button
               type="button"
-              className="absolute right-4 cursor-pointer top-4 z-10 flex size-9 items-center justify-center rounded-full border border-white/10 bg-black/60 text-white opacity-0 backdrop-blur transition hover:bg-black/75 group-hover:opacity-100"
+              aria-label="Change profile banner"
+              className="absolute right-4 cursor-pointer top-4 z-10 flex size-11 items-center justify-center rounded-full border border-white/10 bg-black/60 text-white backdrop-blur transition hover:bg-black/75 lg:opacity-0 lg:group-hover:opacity-100 focus-visible:opacity-100"
             >
               <Pencil className="size-4" />
             </button>

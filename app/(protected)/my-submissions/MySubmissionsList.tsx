@@ -134,7 +134,7 @@ export default function MySubmissionsList({
 
         return (
           <GlassCard key={submission.id} className="p-5">
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-black/30">
                 {submission.imageUrl ? (
                   <Image
@@ -154,7 +154,7 @@ export default function MySubmissionsList({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="break-words text-xl font-semibold text-white">
                       {submission.name}
                     </h2>
 

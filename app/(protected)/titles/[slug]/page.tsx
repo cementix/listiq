@@ -30,8 +30,8 @@ export default async function TitleDetailsPage({
 
   return (
     <PageSection className="mx-auto w-full max-w-6xl px-4">
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <GlassCard className="overflow-hidden p-0">
+      <div className="grid items-start gap-4 md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-6">
+        <GlassCard className="mx-auto w-full max-w-60 overflow-hidden p-0 md:max-w-none">
           <div className="relative aspect-3/4 bg-black/30">
             {title.imageUrl ? (
               <Image
@@ -49,8 +49,8 @@ export default async function TitleDetailsPage({
           </div>
         </GlassCard>
 
-        <div className="space-y-6">
-          <GlassCard className="p-6">
+        <div className="min-w-0 space-y-4 sm:space-y-6">
+          <GlassCard className="p-4 sm:p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-sm text-white/50">
@@ -58,7 +58,7 @@ export default async function TitleDetailsPage({
                   {title.year ? ` - ${title.year}` : ""}
                 </p>
 
-                <h1 className="mt-2 text-4xl font-semibold text-white">
+                <h1 className="mt-2 break-words text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
                   {title.name}
                 </h1>
 
@@ -97,7 +97,7 @@ export default async function TitleDetailsPage({
             currentUserTitle={title.currentUserTitle}
           />
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
             <GlassCard className="p-4">
               <Users className="size-5 text-white/45" />
               <p className="mt-4 text-2xl font-semibold">
@@ -133,7 +133,7 @@ export default async function TitleDetailsPage({
         </div>
       </div>
 
-      <GlassCard className="p-6">
+      <GlassCard className="p-4 sm:p-6">
         <h2 className="text-xl font-semibold text-white">Reviews</h2>
 
         <div className="mt-4 space-y-3">

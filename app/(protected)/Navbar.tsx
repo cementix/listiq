@@ -1,138 +1,89 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { DropdownMenu } from "radix-ui";
+import { BookOpen, ChevronDown, Compass, Home, List, Menu, Plus, Settings, ShieldCheck, UserRound } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import LogoutButton from "./LogoutButton";
-import { ChevronDown } from "lucide-react";
-import Image from "next/image";
 import UserMenu from "./UserMenu";
 
-const navLinkClass =
-  "rounded-md px-3 py-2 text-sm text-white/70 transition-colors duration-200 hover:bg-white/5 hover:text-white";
+type Props = { username: string; avatarUrl: string | null; needsChangesCount: number; canReview: boolean };
 
-const Navbar = ({
-  username,
-  avatarUrl,
-  needsChangesCount,
-  canReview,
-}: {
-  username: string;
-  avatarUrl: string | null;
-  needsChangesCount: number;
-  canReview: boolean;
-}) => {
+export default function Navbar({ username, avatarUrl, needsChangesCount, canReview }: Props) {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const groups = [
+    { label: "Titles", href: "/titles", items: [{ label: "Browse titles", href: "/titles" }, { label: "Add a title", href: "/add-title" }] },
+    { label: "Submissions", href: "/my-submissions", items: [{ label: "My submissions", href: "/my-submissions" }, ...(canReview ? [{ label: "Review queue", href: "/submissions" }] : [])] },
+    { label: "Lists", href: "/lists", items: [{ label: "Browse lists", href: "/lists" }, { label: "My lists", href: "/my-lists" }] },
+  ];
+  const active = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const mobileLinks = [
+    { label: "Home", href: "/dashboard", icon: Home },
+    { label: "Titles", href: "/titles", icon: BookOpen },
+    { label: "Discover", href: "/discover", icon: Compass },
+    { label: "My lists", href: "/my-lists", icon: List },
+  ];
+  const menuLinks = [
+    ...mobileLinks,
+    { label: "Browse lists", href: "/lists", icon: List },
+    { label: "Add a title", href: "/add-title", icon: Plus },
+    { label: "My submissions", href: "/my-submissions", icon: BookOpen },
+    ...(canReview ? [{ label: "Review queue", href: "/submissions", icon: ShieldCheck }] : []),
+    { label: "My profile", href: `/users/${username}`, icon: UserRound },
+    { label: "Settings", href: "/settings/profile", icon: Settings },
+  ];
+
   return (
-    <header className="border-b border-white/10 bg-black/95 backdrop-blur">
-      <div className="flex w-full items-center justify-between px-12 py-4">
-        {/* left */}
-        <div className="flex items-center gap-6">
-          <Link
-            href="/dashboard"
-            className="text-lg font-semibold text-white transition-opacity duration-200 hover:opacity-80"
-          >
-            listiq
-          </Link>
+    <>
+      <header className="border-b border-white/10 bg-black/95 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-5 xl:gap-8">
+            <Link href="/dashboard" className="flex min-h-11 shrink-0 items-center text-xl font-semibold tracking-tight text-white">listiq</Link>
+            <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
+              {groups.map((group) => (
+                <DropdownMenu.Root key={group.label} modal={false}>
+                  <DropdownMenu.Trigger asChild>
+                    <button type="button" className={cn("flex min-h-11 items-center gap-1 rounded-lg px-3 text-sm text-white/65 transition hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-primary", group.items.some((item) => active(item.href)) && "bg-white/5 text-white")}>
+                      {group.label}<ChevronDown className="size-3.5" />
+                      {group.label === "Submissions" && needsChangesCount > 0 && <span className="rounded-full bg-amber-400/15 px-1.5 text-xs text-amber-200">{needsChangesCount}</span>}
+                    </button>
+                  </DropdownMenu.Trigger>
+                  <DropdownMenu.Portal>
+                    <DropdownMenu.Content sideOffset={8} collisionPadding={12} className="z-50 min-w-48 rounded-xl border border-white/10 bg-zinc-950 p-1.5 text-white shadow-2xl">
+                      {group.items.map((item) => <DropdownMenu.Item key={item.href} asChild><Link href={item.href} aria-current={active(item.href) ? "page" : undefined} className="flex min-h-11 items-center rounded-lg px-3 text-sm text-white/75 outline-none hover:bg-white/10 focus:bg-white/10">{item.label}</Link></DropdownMenu.Item>)}
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Portal>
+                </DropdownMenu.Root>
+              ))}
+              <Link href="/discover" aria-current={active("/discover") ? "page" : undefined} className={cn("flex min-h-11 items-center rounded-lg px-3 text-sm text-white/65 hover:bg-white/10 hover:text-white", active("/discover") && "bg-white/5 text-white")}>Discover</Link>
+            </nav>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <UserMenu username={username} avatarUrl={avatarUrl} />
+            <div className="hidden lg:block"><LogoutButton /></div>
+            <button type="button" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 lg:hidden"><Menu className="size-5" /></button>
+          </div>
+        </div>
+      </header>
 
-          <nav className="flex items-center gap-2">
-            <div className="group relative">
-              <Link href="/titles" className={`${navLinkClass} flex items-end`}>
-                Titles <ChevronDown size={14} />
-              </Link>
+      <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-white/10 bg-black/95 px-2 pt-1 pb-[max(0.25rem,env(safe-area-inset-bottom))] backdrop-blur lg:hidden">
+        {mobileLinks.map(({ label, href, icon: Icon }) => <Link key={href} href={href} aria-current={active(href) ? "page" : undefined} className={cn("flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[11px] text-white/50 transition active:bg-white/10", active(href) && "bg-primary/10 text-primary")}><Icon className="size-5" /><span>{label}</span></Link>)}
+        <button type="button" aria-label="Open navigation menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} className="flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[11px] text-white/60 active:bg-white/10"><Menu className="size-5" /><span>Menu</span></button>
+      </nav>
 
-              <div className="invisible absolute left-0 top-full z-20 pt-2 w-44 rounded-xl border border-white/10 bg-black/90 p-1 opacity-0 shadow-2xl backdrop-blur transition group-hover:visible group-hover:opacity-100">
-                <Link
-                  href="/titles"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Browse titles
-                </Link>
-                <Link
-                  href="/add-title"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Add a title
-                </Link>
-              </div>
-            </div>
-
-            <div className="group relative">
-              <Link
-                href="/my-submissions"
-                className={`${navLinkClass} relative flex items-end`}
-              >
-                Submissions <ChevronDown size={14} />
-                {needsChangesCount > 0 && (
-                  <span className="ml-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-2 py-0.5 text-xs text-amber-200">
-                    {needsChangesCount}
-                  </span>
-                )}
-              </Link>
-
-              <div className="invisible absolute left-0 top-full z-20 pt-2 w-48 rounded-xl border border-white/10 bg-black/90 p-1 opacity-0 shadow-2xl backdrop-blur transition group-hover:visible group-hover:opacity-100">
-                <Link
-                  href="/my-submissions"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  My submissions
-                </Link>
-                <Link
-                  href="/add-title"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Add submission
-                </Link>
-                {canReview && (
-                  <Link
-                    href="/submissions"
-                    className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                  >
-                    Review queue
-                  </Link>
-                )}
-              </div>
-            </div>
-            <div className="group relative">
-              <Link
-                href="/lists"
-                className={`${navLinkClass} flex items-end gap-1`}
-              >
-                Lists
-                <ChevronDown size={14} />
-              </Link>
-
-              <div className="invisible absolute top-full left-0 z-20 w-44 rounded-xl border border-white/10 bg-black/90 p-1 pt-2 opacity-0 shadow-2xl backdrop-blur transition group-hover:visible group-hover:opacity-100">
-                <Link
-                  href="/lists"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Browse lists
-                </Link>
-
-                <Link
-                  href="/my-lists"
-                  className="block rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  My lists
-                </Link>
-              </div>
-            </div>
-            <div className="group relative">
-              <Link
-                href="/discover"
-                className={`${navLinkClass} flex items-end gap-1`}
-              >
-                Discover
-              </Link>
-            </div>
+      <Dialog open={menuOpen} onOpenChange={setMenuOpen}>
+        <DialogContent className="max-h-[calc(100dvh-2rem)] border-white/10 bg-zinc-950 text-white sm:max-w-md">
+          <DialogHeader className="pr-12"><DialogTitle>Navigation</DialogTitle><DialogDescription className="truncate">@{username}</DialogDescription></DialogHeader>
+          <nav aria-label="All pages" className="grid gap-1">
+            {menuLinks.map(({ label, href, icon: Icon }) => <Link key={href} href={href} onClick={() => setMenuOpen(false)} aria-current={active(href) ? "page" : undefined} className={cn("flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm text-white/70 hover:bg-white/5", active(href) && "bg-primary/10 text-primary")}><Icon className="size-5 shrink-0" /><span>{label}</span>{href === "/my-submissions" && needsChangesCount > 0 && <span className="ml-auto rounded-full bg-amber-400/15 px-2 text-xs text-amber-200">{needsChangesCount}</span>}</Link>)}
           </nav>
-        </div>
-
-        {/* right */}
-        <div className="flex items-center gap-3">
-          <UserMenu username={username} avatarUrl={avatarUrl} />
-
-          <LogoutButton />
-        </div>
-      </div>
-    </header>
+          <div className="border-t border-white/10 pt-3"><LogoutButton /></div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
-};
-
-export default Navbar;
+}

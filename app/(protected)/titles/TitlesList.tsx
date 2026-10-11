@@ -233,7 +233,7 @@ export default function TitlesList({
             />
           </div>
 
-          <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto pb-1">
+          <div aria-label="Title types" className="scrollbar-hide flex flex-nowrap justify-start gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:justify-center">
             {TITLE_TYPE_OPTIONS.map((option) => {
               const active = selectedType === option.value;
 
@@ -256,7 +256,7 @@ export default function TitlesList({
             })}
           </div>
 
-          <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto pb-1">
+          <div aria-label="Sort titles" className="scrollbar-hide flex flex-nowrap justify-start gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:justify-center">
             {TITLE_SORT_OPTIONS.map((option) => {
               const active = sort === option.value;
 
@@ -286,14 +286,14 @@ export default function TitlesList({
       {titles.length === 0 ? (
         <GlassCard className="p-6 text-white/60">No titles found.</GlassCard>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {titles.map((title) => {
             const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
             const averageRating = title.stats.averageRating?.toFixed(1) ?? "-";
 
             return (
-              <GlassCard key={title.id} className="overflow-hidden p-0">
+              <GlassCard key={title.id} className="min-w-0 overflow-hidden p-0">
                 <Link
                   href={`/titles/${title.slug}`}
                   className="relative block aspect-[460/649] border-b border-white/10 bg-black/30"
@@ -313,18 +313,18 @@ export default function TitlesList({
                   )}
                 </Link>
 
-                <div className="flex flex-1 flex-col gap-3 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
+                <div className="flex min-w-0 flex-1 flex-col gap-3 p-2.5 sm:p-3">
+                  <div className="flex min-w-0 flex-col gap-2">
+                    <div className="min-w-0 w-full">
                       <Link
                         href={`/titles/${title.slug}`}
                         className="block min-w-0"
                       >
-                        <h2 className="truncate text-lg font-semibold text-white hover:text-white/80">
+                        <h2 className="truncate text-sm font-semibold text-white hover:text-white/80 sm:text-base">
                           {title.name}
                         </h2>
                       </Link>
-                      <p className="mt-1 text-sm text-white/50">
+                      <p className="mt-1 text-xs text-white/50">
                         {title.type}
                         {title.year ? ` . ${title.year}` : ""}
                       </p>
@@ -336,6 +336,7 @@ export default function TitlesList({
                       <Button
                         type="button"
                         size="sm"
+                        aria-label={isInLibrary ? `Remove ${title.name} from library` : `Add ${title.name} to library`}
                         onClick={() => {
                           if (isInLibrary) {
                             setTitleToRemove(title.id);
@@ -362,7 +363,7 @@ export default function TitlesList({
                     </div>
                   </div>
 
-                  <div className="grid h-10 grid-cols-3 items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 text-xs text-white/60">
+                  <div className="flex min-h-10 flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-xs text-white/60">
                     <div className="flex items-center gap-1.5">
                       <Users className="size-3.5 text-white/40" />
                       <span>{title.stats.libraryCount}</span>
@@ -383,7 +384,7 @@ export default function TitlesList({
                     </div>
                   </div>
 
-                  <div className="mt-auto">
+                  <div className="mt-auto hidden sm:block">
                     {title.genres.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {title.genres.map((genre) => (

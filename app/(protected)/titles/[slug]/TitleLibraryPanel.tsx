@@ -124,7 +124,11 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
           <div>
             <label className="text-sm text-white/70">Rating</label>
 
-            <div className="mt-2 flex gap-1">
+            <select aria-label="Rating" value={rating} onChange={(event) => setRating(event.target.value)} className="mt-2 h-11 w-full rounded-lg border border-white/10 bg-zinc-950 px-3 text-base sm:hidden">
+              <option value="">No rating</option>
+              {Array.from({ length: 19 }, (_, index) => 1 + index * 0.5).map((value) => <option key={value} value={value}>{value}/10</option>)}
+            </select>
+            <div className="mt-2 hidden flex-wrap gap-1 sm:flex">
               {Array.from({ length: 10 }, (_, index) => {
                 const value = index + 1;
                 const ratingNumber = Number(rating);
@@ -139,15 +143,16 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
                   <button
                     key={value}
                     type="button"
+                    aria-label={`Rate ${value} out of 10`}
                     onClick={(event) => {
                       const rect = event.currentTarget.getBoundingClientRect();
-                      const isLeftHalf =
+                      const isLeftHalf = event.detail !== 0 &&
                         event.clientX - rect.left < rect.width / 2;
                       setRating(
                         String(isLeftHalf ? Math.max(1, value - 0.5) : value),
                       );
                     }}
-                    className="rounded-md p-1 text-primary transition hover:bg-primary/10"
+                    className="flex min-h-11 min-w-11 items-center justify-center rounded-md p-1 text-primary transition hover:bg-primary/10"
                   >
                     <span className="relative block size-6">
                       <Star className="absolute inset-0 size-6 text-white/25" />
@@ -168,7 +173,7 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
               <button
                 type="button"
                 onClick={() => setRating("")}
-                className="mt-2 text-xs text-white/45 hover:text-white/70"
+                className="mt-2 min-h-11 text-xs text-white/45 hover:text-white/70"
               >
                 Clear rating
               </button>

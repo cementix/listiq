@@ -48,8 +48,8 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
           </div>
         )}
       </div>
-      <div className="flex flex-wrap items-end justify-between gap-4 p-6 pt-0">
-        <div className="-mt-12 flex items-end gap-4">
+      <div className="flex min-w-0 flex-wrap items-end justify-between gap-4 px-4 pb-5 sm:px-6 sm:pb-6">
+        <div className="-mt-12 flex min-w-0 flex-col items-start gap-3 sm:flex-row sm:items-end sm:gap-4">
           {isOwnProfile ? (
             <ProfileImageEditor
               type="avatar"
@@ -57,7 +57,7 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
               imagePublicId={user.avatarPublicId}
             />
           ) : (
-            <div className="relative flex size-24 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl">
+            <div className="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl">
               {user.avatarUrl ? (
                 <Image
                   src={user.avatarUrl}
@@ -72,8 +72,8 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
             </div>
           )}
 
-          <div className="pb-1">
-            <h1 className="text-3xl font-semibold text-white">
+          <div className="min-w-0 max-w-full pb-1">
+            <h1 className="break-words text-2xl font-semibold text-white sm:text-3xl">
               @{user.username}
             </h1>
             <p className="mt-1 text-sm text-white/50">

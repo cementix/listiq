@@ -11,7 +11,7 @@
 
 ## UI & tests
 
-- [ ] Build touch-friendly mobile navigation; fix key screens and dialogs at 360, 768 and 1440 px.
+- [x] Build touch-friendly mobile navigation; fix key screens and dialogs at 360, 768 and 1440 px.
 - [ ] Add loading, empty, error and 404 states; prevent duplicate submissions and check keyboard navigation.
 - [ ] Test permissions, privacy, scoring and concurrent library/list writes against isolated test data.
 - [ ] Add e2e coverage: signup/login, library/reviews, lists, Discover and moderation restrictions.

@@ -231,7 +231,7 @@ export default function ProfilePostComments({
                   <button
                     type="button"
                     onClick={() => setReplyingToCommentId(comment.id)}
-                    className="text-[11px] text-white/30 transition hover:text-white/55"
+                    className="min-h-11 px-2 text-xs text-white/40 transition hover:text-white/65"
                   >
                     Reply
                   </button>
@@ -350,7 +350,7 @@ export default function ProfilePostComments({
           )}
         </div>
 
-        <div className="flex min-h-9 min-w-0 flex-1 items-end gap-1.5 rounded-xl bg-white/[0.07] px-3.5 py-2">
+        <div className="flex min-h-11 min-w-0 flex-1 items-end gap-1.5 rounded-xl bg-white/[0.07] px-3 py-2">
           <textarea
             ref={textareaRef}
             value={content}
@@ -366,19 +366,20 @@ export default function ProfilePostComments({
             }
             maxLength={500}
             rows={1}
-            className="max-h-24 min-h-5 min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-sm leading-5 text-white outline-none placeholder:text-white/32"
+            aria-label={replyingToComment ? "Write a reply" : "Write a comment"}
+            className="max-h-24 min-h-6 min-w-0 flex-1 resize-none overflow-y-auto bg-transparent text-base sm:text-sm leading-6 text-white outline-none placeholder:text-white/32"
           />
 
           <button
             type="button"
-            className="mb-0.5 text-white/35 transition hover:text-white/65"
+            className="mb-0.5 hidden text-white/35 transition hover:text-white/65 sm:block"
           >
             <AtSign className="size-[17px]" />
           </button>
 
           <button
             type="button"
-            className="mb-0.5 text-white/35 transition hover:text-white/65"
+            className="mb-0.5 hidden text-white/35 transition hover:text-white/65 sm:block"
           >
             <Smile className="size-[17px]" />
           </button>
@@ -387,9 +388,10 @@ export default function ProfilePostComments({
         <Button
           type="button"
           size="icon-sm"
+          aria-label="Send comment"
           onClick={handleSubmit}
           disabled={isPending || !content.trim()}
-          className="size-9 shrink-0 rounded-xl bg-primary/80 text-white hover:bg-primary disabled:bg-white/[0.06] disabled:text-white/25"
+          className="size-11 shrink-0 rounded-xl bg-primary/80 text-white hover:bg-primary disabled:bg-white/[0.06] disabled:text-white/25"
         >
           <Send className="size-4" />
         </Button>
