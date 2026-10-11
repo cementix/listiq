@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:ui": "node --import tsx --test tests/ui.test.ts",
     "test:mutations": "node --import tsx --import ./tests/register-server-only.mjs --test tests/mutations.test.ts",
     "test:catalog": "node --import tsx --test tests/catalog.test.ts",
     "test:security": "node --import tsx --import ./tests/register-server-only.mjs --test tests/security.test.ts",

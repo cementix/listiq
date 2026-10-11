@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DragDropProvider } from "@dnd-kit/react";
@@ -31,7 +33,9 @@ export default function SortableTitleGrid({
     items.length !== savedItems.length ||
     items.some((item, index) => item.id !== savedItems[index]?.id);
 
-  const save = async () => {
+  const [, runMutation] = useMutation();
+
+  const save = () => runMutation(async () => {
     setSaving(true);
 
     try {
@@ -53,7 +57,7 @@ export default function SortableTitleGrid({
     } finally {
       setSaving(false);
     }
-  };
+  });
 
   return (
     <>

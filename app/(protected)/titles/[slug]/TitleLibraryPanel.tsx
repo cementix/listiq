@@ -1,7 +1,9 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { LoaderCircle, Plus, Save, Star, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -24,7 +26,7 @@ type Props = {
 
 const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const [rating, setRating] = useState(
     currentUserTitle?.rating?.toString() ?? "",
@@ -36,7 +38,7 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
   const isInLibrary = Boolean(currentUserTitle);
 
   const toggleLibrary = () => {
-    startTransition(async () => {
+    runMutation(async () => {
       const result = await toggleLibraryTitle(titleId);
 
       if (!result.ok) {
@@ -64,7 +66,7 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
       return;
     }
 
-    startTransition(async () => {
+    runMutation(async () => {
       const result = await updateUserTitle({
         titleId,
         rating: parsedRating,

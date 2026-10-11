@@ -255,6 +255,7 @@ export default function TitleFormFields({
               <span>{genre.name}</span>
               <button
                 type="button"
+                aria-label={`Remove ${genre.name} genre`}
                 onClick={() => removeGenre(genre.id)}
                 className="rounded-full cursor-pointer p-0.5 text-white/60 transition hover:bg-white/10 hover:text-white"
               >

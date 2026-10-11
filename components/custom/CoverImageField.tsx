@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import Image from "next/image";
 import { useRef, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
@@ -16,6 +18,7 @@ type CoverImageFieldProps = {
   onImageUrlChange: (value: string) => void;
   onImagePublicIdChange: (value: string) => void;
   compact?: boolean;
+  disabled?: boolean;
   aspect?: number;
   cropShape?: "rect" | "round";
   fileName?: string;
@@ -85,6 +88,7 @@ export default function CoverImageField({
   onImageUrlChange,
   onImagePublicIdChange,
   compact = false,
+  disabled = false,
   aspect = 1,
   cropShape = "rect",
   fileName = "cover.jpg",
@@ -132,7 +136,9 @@ export default function CoverImageField({
     setCroppedAreaPixels(null);
   };
 
-  const handleUploadCroppedImage = async () => {
+  const [, runMutation] = useMutation();
+
+  const handleUploadCroppedImage = () => runMutation(async () => {
     if (!cropSource || !croppedAreaPixels) {
       toast.error("crop the image first");
       return;
@@ -177,7 +183,7 @@ export default function CoverImageField({
     } finally {
       setIsUploadingImage(false);
     }
-  };
+  });
 
   const clearImage = () => {
     if (localPreview) {
@@ -213,7 +219,7 @@ export default function CoverImageField({
         type="file"
         accept={IMAGE_ACCEPT}
         onChange={handleImageSelect}
-        disabled={isUploadingImage}
+        disabled={disabled || isUploadingImage}
         className="hidden"
       />
 
@@ -221,7 +227,7 @@ export default function CoverImageField({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          disabled={isUploadingImage}
+          disabled={disabled || isUploadingImage}
           className={
             compact
               ? `${coverHeight} flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-white/15 bg-white/5 px-3 text-sm text-white/75 disabled:cursor-not-allowed disabled:opacity-60`
@@ -271,7 +277,7 @@ export default function CoverImageField({
               type="button"
               size="sm"
               onClick={handleUploadCroppedImage}
-              disabled={isUploadingImage}
+              disabled={disabled || isUploadingImage}
               className="h-9 flex-1 bg-white text-black hover:bg-white/90"
             >
               {isUploadingImage ? (
@@ -286,7 +292,7 @@ export default function CoverImageField({
               size="sm"
               variant="outline"
               onClick={resetCrop}
-              disabled={isUploadingImage}
+              disabled={disabled || isUploadingImage}
               className="h-9 border-white/10 bg-transparent text-white hover:bg-white/10"
             >
               Cancel
@@ -331,7 +337,7 @@ export default function CoverImageField({
               size="sm"
               variant="outline"
               onClick={() => fileInputRef.current?.click()}
-              disabled={isUploadingImage}
+              disabled={disabled || isUploadingImage}
               className="h-9 border-white/10 bg-black/60 text-white backdrop-blur hover:bg-black/70 cursor-pointer"
             >
               Change
@@ -342,7 +348,7 @@ export default function CoverImageField({
               size="sm"
               variant="outline"
               onClick={clearImage}
-              disabled={isUploadingImage}
+              disabled={disabled || isUploadingImage}
               className="h-9 border-white/10 bg-black/60 text-white backdrop-blur hover:bg-black/70 cursor-pointer"
             >
               <Trash2 className="size-4" />

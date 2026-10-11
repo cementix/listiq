@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { LoaderCircle, Plus, Search } from "lucide-react";
@@ -31,12 +33,16 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
   const [titles, setTitles] = useState<SearchTitle[]>([]);
   const [addedIds, setAddedIds] = useState(() => new Set(existingTitleIds));
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+  const [searchAttempt, setSearchAttempt] = useState(0);
   const [pendingId, setPendingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
 
     let cancelled = false;
+    setLoading(true);
+    setSearchError(false);
 
     const timer = window.setTimeout(async () => {
       setLoading(true);
@@ -51,7 +57,7 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
 
         if (!cancelled) setTitles(result.titles);
       } catch {
-        if (!cancelled) toast.error("Failed to search titles");
+        if (!cancelled) setSearchError(true);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -61,9 +67,11 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [open, query]);
+  }, [open, query, searchAttempt]);
 
-  const addTitle = async (titleId: string) => {
+  const [, runMutation] = useMutation();
+
+  const addTitle = (titleId: string) => runMutation(async () => {
     setPendingId(titleId);
 
     try {
@@ -81,7 +89,7 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
     } finally {
       setPendingId(null);
     }
-  };
+  });
 
   return (
     <Dialog open={open} onOpenChange={setOpen} stableScroll>
@@ -113,8 +121,13 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
 
         <div className="list-dialog-scroll max-h-96 space-y-1 overflow-y-auto overscroll-contain">
           {loading ? (
-            <div className="flex h-32 items-center justify-center">
+            <div role="status" aria-label="Searching titles" className="flex h-32 items-center justify-center">
               <LoaderCircle className="size-5 animate-spin text-white/50" />
+            </div>
+          ) : searchError ? (
+            <div role="alert" className="space-y-3 py-8 text-center">
+              <p className="text-sm text-white/60">Couldn&apos;t search titles.</p>
+              <Button type="button" variant="outline" onClick={() => setSearchAttempt((value) => value + 1)}>Try again</Button>
             </div>
           ) : titles.length === 0 ? (
             <p className="py-8 text-center text-sm text-white/50">

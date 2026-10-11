@@ -1,7 +1,9 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Globe2, LoaderCircle, Lock, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
@@ -19,13 +21,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 type Visibility = "PRIVATE" | "PUBLIC";
@@ -48,7 +43,7 @@ export default function EditTitleListDialog({
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription ?? "");
   const [visibility, setVisibility] = useState(initialVisibility);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const resetForm = () => {
     setTitle(initialTitle);
@@ -66,7 +61,7 @@ export default function EditTitleListDialog({
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    startTransition(async () => {
+    runMutation(async () => {
       try {
         const result = await updateTitleList({
           listId,
@@ -83,7 +78,7 @@ export default function EditTitleListDialog({
         toast.success(result.message ?? "List updated");
         setOpen(false);
         router.refresh();
-      } catch (error) {
+      } catch {
         toast.error("Failed to update the list");
       }
     });

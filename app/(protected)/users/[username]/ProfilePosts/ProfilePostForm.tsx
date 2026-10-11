@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { createProfilePost } from "@/actions/profile/createProfilePost";
 import { uploadProfilePostMedia } from "@/actions/profile/uploadProfilePostMedia";
 import { Button } from "@/components/ui/button";
@@ -7,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppSelector } from "@/lib/store/hooks";
 import { ImagePlus, LoaderCircle, Send, Star, X } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { MEDIA_ACCEPT, validateUploadFile } from "@/lib/uploads/policy";
 
@@ -28,7 +30,8 @@ export default function ProfilePostForm() {
     }[]
   >([]);
   const [isUploadingMedia, setIsUploadingMedia] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
+  const [, runUpload] = useMutation();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -40,9 +43,9 @@ export default function ProfilePostForm() {
     (review) => review.id === attachedUserTitleId,
   );
 
-  const handleMediaSelect = async (
+  const handleMediaSelect = (
     event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  ) => runUpload(async () => {
     const selectedFiles = Array.from(event.target.files ?? []);
     const slotsLeft = MAX_PROFILE_POST_MEDIA - media.length;
     const files = selectedFiles.slice(0, slotsLeft);
@@ -92,10 +95,11 @@ export default function ProfilePostForm() {
       setIsUploadingMedia(false);
       event.target.value = "";
     }
-  };
+  });
 
   const handleSubmit = () => {
-    startTransition(async () => {
+    if (isUploadingMedia) return;
+    runMutation(async () => {
       const result = await createProfilePost({
         content,
         attachedUserTitleId,
@@ -117,6 +121,8 @@ export default function ProfilePostForm() {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
       <Textarea
+        aria-label="Post content"
+        disabled={isPending}
         value={content}
         onChange={(event) => setContent(event.target.value)}
         placeholder="Write something..."

@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { loginUser, type AuthState } from "../../../actions/auth";
 import { Key, LoaderCircle, Mail } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,9 @@ const initialState: AuthState = {
 
 const LoginForm = () => {
   const [state, formAction, pending] = useActionState(loginUser, initialState);
+
+  const submitting = useRef(false);
+  useEffect(() => { if (!pending) submitting.current = false; }, [pending, state]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +31,11 @@ const LoginForm = () => {
   return (
     <form
       action={formAction}
+      aria-busy={pending}
+      onSubmit={(event) => {
+        if (submitting.current) { event.preventDefault(); return; }
+        submitting.current = true;
+      }}
       className="space-y-4 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-200"
     >
       <div className="w-full space-y-2">
@@ -39,6 +47,7 @@ const LoginForm = () => {
           name="email"
           type="email"
           placeholder="you@example.com"
+          readOnly={pending}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -54,11 +63,14 @@ const LoginForm = () => {
           type="password"
           name="password"
           placeholder="*****************"
+          readOnly={pending}
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+
+      {!state.ok && state.error && <p role="alert" className="text-sm text-red-300">{state.error}</p>}
 
       <Button
         type="submit"

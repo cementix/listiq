@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -41,10 +43,10 @@ export default function PrivacySetupDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(true);
   const [settings, setSettings] = useState(initialSettings);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const save = () => {
-    startTransition(async () => {
+    runMutation(async () => {
       try {
         const result = await updatePrivacySettings(settings);
 

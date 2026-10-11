@@ -1,11 +1,13 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { createProfilePostComment } from "@/actions/profile/createProfilePostComment";
 import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/lib/store/hooks";
 import { AtSign, ChevronDown, Send, Smile, UserRound } from "lucide-react";
 import Image from "next/image";
-import { type KeyboardEvent, useRef, useState, useTransition } from "react";
+import { type KeyboardEvent, useRef, useState } from "react";
 import { toast } from "sonner";
 import ProfilePostCommentLikeButton from "./ProfilePostCommentLikeButton";
 
@@ -29,8 +31,6 @@ type ProfilePostCommentsProps = {
   comments: ProfilePostComment[];
 };
 
-const TAB_SPACES = "    ";
-
 export default function ProfilePostComments({
   postId,
   comments,
@@ -45,7 +45,7 @@ export default function ProfilePostComments({
   const [visibleReplyCounts, setVisibleReplyCounts] = useState<
     Record<string, number>
   >({});
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const visibleComments = comments.slice(0, visibleCount);
   const hasMoreComments = visibleCount < comments.length;
@@ -70,7 +70,7 @@ export default function ProfilePostComments({
       return;
     }
 
-    startTransition(async () => {
+    runMutation(async () => {
       const result = await createProfilePostComment({
         postId,
         content,
@@ -125,11 +125,7 @@ export default function ProfilePostComments({
   };
 
   const handleTextareaKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      replaceTextareaSelection(event.currentTarget, TAB_SPACES);
-      return;
-    }
+    if (event.nativeEvent.isComposing) return;
 
     if (event.key !== "Enter") {
       return;

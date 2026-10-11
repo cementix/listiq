@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
 import {
   Bookmark,
   BookmarkCheck,
@@ -45,23 +46,28 @@ export default function SaveToListButton({
   const [lists, setLists] = useState<ListOption[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [pendingListId, setPendingListId] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [, runMutation] = useMutation();
+  const [, runLoad] = useMutation();
 
   const hasSavedList = lists?.some((list) => list.containsTitle) ?? false;
 
-  const loadLists = async () => {
+  const loadLists = () => runLoad(async () => {
     setIsLoading(true);
-
-    const result = await getTitleListOptions({ titleId });
-
-    setIsLoading(false);
-
-    if (!result.ok) {
-      toast.error(result.error);
-      return;
+    setLoadError(null);
+    try {
+      const result = await getTitleListOptions({ titleId });
+      if (!result.ok) {
+        setLoadError(result.error);
+        return;
+      }
+      setLists(result.lists);
+    } catch {
+      setLoadError("Couldn't load your lists.");
+    } finally {
+      setIsLoading(false);
     }
-
-    setLists(result.lists);
-  };
+  });
 
   const handleOpenChange = (nextOpen: boolean) => {
     setOpen(nextOpen);
@@ -71,9 +77,9 @@ export default function SaveToListButton({
     }
   };
 
-  const handleToggleList = async (list: ListOption) => {
+  const handleToggleList = (list: ListOption) => runMutation(async () => {
     setPendingListId(list.id);
-
+    try {
     const result = list.containsTitle
       ? await removeTitleFromList({
           listId: list.id,
@@ -83,8 +89,6 @@ export default function SaveToListButton({
           listId: list.id,
           titleId,
         });
-
-    setPendingListId(null);
 
     if (!result.ok) {
       toast.error(result.error);
@@ -108,7 +112,10 @@ export default function SaveToListButton({
         ? `Removed from ${list.title}`
         : `Added to ${list.title}`,
     );
-  };
+    } finally {
+      setPendingListId(null);
+    }
+  });
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -135,8 +142,13 @@ export default function SaveToListButton({
         </PopoverHeader>
 
         {isLoading ? (
-          <div className="flex min-h-24 items-center justify-center">
+          <div role="status" aria-label="Loading lists" className="flex min-h-24 items-center justify-center">
             <LoaderCircle className="size-5 animate-spin text-white/50" />
+          </div>
+        ) : loadError ? (
+          <div role="alert" className="space-y-3 py-4 text-center">
+            <p className="text-sm text-white/60">{loadError}</p>
+            <Button type="button" variant="outline" onClick={loadLists}>Try again</Button>
           </div>
         ) : lists && lists.length > 0 ? (
           <div className="space-y-1">

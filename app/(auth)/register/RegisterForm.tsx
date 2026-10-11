@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Key, LoaderCircle, Mail, User } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const initialState: AuthState = {
@@ -18,6 +18,9 @@ const RegisterForm = () => {
     registerUser,
     initialState,
   );
+
+  const submitting = useRef(false);
+  useEffect(() => { if (!pending) submitting.current = false; }, [pending, state]);
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -32,6 +35,11 @@ const RegisterForm = () => {
   return (
     <form
       action={formAction}
+      aria-busy={pending}
+      onSubmit={(event) => {
+        if (submitting.current) { event.preventDefault(); return; }
+        submitting.current = true;
+      }}
       className="animate-in slide-in-from-bottom-2 flex flex-col items-center space-y-4 fade-in duration-300"
     >
       <div className="w-full space-y-2">
@@ -43,6 +51,7 @@ const RegisterForm = () => {
           type="email"
           name="email"
           placeholder="you@example.com"
+          readOnly={pending}
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -58,6 +67,7 @@ const RegisterForm = () => {
           type="text"
           name="username"
           placeholder="leonKennedyFan"
+          readOnly={pending}
           required
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -73,11 +83,14 @@ const RegisterForm = () => {
           type="password"
           name="password"
           placeholder="*****************"
+          readOnly={pending}
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+
+      {!state.ok && state.error && <p role="alert" className="text-sm text-red-300">{state.error}</p>}
 
       <Button
         type="submit"

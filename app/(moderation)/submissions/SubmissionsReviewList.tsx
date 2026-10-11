@@ -1,12 +1,14 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { approveTitleSubmission } from "@/actions/submissions/approveTitleSubmission";
 import { rejectTitleSubmission } from "@/actions/submissions/rejectTitleSubmission";
 import { requestChangesTitleSubmission } from "@/actions/submissions/requestChangesTitleSubmission";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Check, LoaderCircle, RotateCcw, X } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -40,14 +42,14 @@ export default function SubmissionsReviewList({
     id: string;
     action: "approve" | "reject" | "changes";
   } | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const router = useRouter();
 
   const review = (id: string, action: "approve" | "reject" | "changes") => {
-    setPendingAction({ id, action });
-
-    startTransition(async () => {
+    runMutation(async () => {
+      setPendingAction({ id, action });
+      try {
       const comment = comments[id] ?? "";
 
       const result =
@@ -57,8 +59,6 @@ export default function SubmissionsReviewList({
             ? await rejectTitleSubmission(id, comment)
             : await requestChangesTitleSubmission(id, comment);
 
-      setPendingAction(null);
-
       if (!result.ok) {
         toast.error(result.error);
         return;
@@ -66,6 +66,9 @@ export default function SubmissionsReviewList({
 
       toast.success(result.message);
       router.refresh();
+      } finally {
+        setPendingAction(null);
+      }
     });
   };
 

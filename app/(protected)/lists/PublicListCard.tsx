@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,7 +26,9 @@ export default function PublicListCard({ list }: { list: PublicList }) {
     (_, index) => list.items[index] ?? null,
   );
 
-  const toggleSaved = async () => {
+  const [, runMutation] = useMutation();
+
+  const toggleSaved = () => runMutation(async () => {
     const next = !saved;
     setPending(true);
 
@@ -43,7 +47,7 @@ export default function PublicListCard({ list }: { list: PublicList }) {
     } finally {
       setPending(false);
     }
-  };
+  });
 
   return (
     <article className="group relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] transition hover:border-white/20 hover:bg-white/[0.07]">

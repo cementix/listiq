@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
+
+import { useState } from "react";
 import { Globe2, LoaderCircle, Lock, Plus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -18,13 +20,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 type Visibility = "PUBLIC" | "PRIVATE";
@@ -34,7 +29,7 @@ export default function CreateTitleListDialog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("PUBLIC");
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const resetForm = () => {
     setTitle("");
@@ -55,7 +50,7 @@ export default function CreateTitleListDialog() {
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    startTransition(async () => {
+    runMutation(async () => {
       const result = await createTitleList({
         title,
         description,

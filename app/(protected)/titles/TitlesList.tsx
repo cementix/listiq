@@ -1,8 +1,10 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Check,
   LoaderCircle,
@@ -103,12 +105,14 @@ export default function TitlesList({
   const [search, setSearch] = useState(query);
   const [selectedType, setSelectedType] = useState<TitleType | "ALL">(type);
   const [pendingId, setPendingId] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
   const [titleToRemove, setTitleToRemove] = useState<string | null>(null);
   const [titles, setTitles] = useState(initialTitles);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [nextPage, setNextPage] = useState(initialNextPage);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [, runLoad] = useMutation();
 
   const filterKey = `${query}:${type}:${sort}`;
   const previousFilterKeyRef = useRef(filterKey);
@@ -119,6 +123,7 @@ export default function TitlesList({
     previousFilterKeyRef.current = filterKey;
 
     if (filtersChanged) {
+      setLoadError(null);
       setTitles(initialTitles);
       setHasMore(initialHasMore);
       setNextPage(initialNextPage);
@@ -166,12 +171,11 @@ export default function TitlesList({
   }, [search, selectedType, applyFilters]);
 
   const toggleLibrary = (titleId: string, isInLibrary: boolean) => {
-    setPendingId(titleId);
-
-    startTransition(async () => {
+    runMutation(async () => {
+      setPendingId(titleId);
+      try {
       const result = await toggleLibraryTitle(titleId);
 
-      setPendingId(null);
       if (!result.ok) {
         toast.error(result.error);
         return;
@@ -180,18 +184,23 @@ export default function TitlesList({
       toast.success(isInLibrary ? "Removed from library" : "Added to library");
       setTitleToRemove(null);
       router.refresh();
+      } finally {
+        setPendingId(null);
+      }
     });
   };
 
-  const loadMoreTitles = async () => {
+  const loadMoreTitles = () => runLoad(async () => {
     if (!nextPage || isLoadingMore) {
       return;
     }
 
     const pageToLoad = nextPage;
+    const requestedFilterKey = filterKey;
 
     setNextPage(null);
     setIsLoadingMore(true);
+    setLoadError(null);
 
     try {
       const result = await getTitles({
@@ -202,6 +211,7 @@ export default function TitlesList({
         limit: 24,
         searchMode: "fuzzy",
       });
+      if (previousFilterKeyRef.current !== requestedFilterKey) return;
 
       setTitles((currentTitles) => {
         const existingIds = new Set(currentTitles.map((title) => title.id));
@@ -214,10 +224,15 @@ export default function TitlesList({
 
       setHasMore(result.hasMore);
       setNextPage(result.nextPage);
+    } catch {
+      if (previousFilterKeyRef.current === requestedFilterKey) {
+        setNextPage(pageToLoad);
+        setLoadError("Couldn't load more titles. Try again.");
+      }
     } finally {
       setIsLoadingMore(false);
     }
-  };
+  });
 
   return (
     <div className="space-y-4">
@@ -284,7 +299,7 @@ export default function TitlesList({
       </GlassCard>
 
       {titles.length === 0 ? (
-        <GlassCard className="p-6 text-white/60">No titles found.</GlassCard>
+        <GlassCard className="p-6 text-white/60"><p role="status">No titles found. Try a different search or reset the filters.</p></GlassCard>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {titles.map((title) => {
@@ -405,6 +420,7 @@ export default function TitlesList({
         </div>
       )}
 
+      {loadError && <p role="alert" className="text-center text-sm text-red-300">{loadError}</p>}
       {hasMore && (
         <div className="flex justify-center pt-4">
           <Button

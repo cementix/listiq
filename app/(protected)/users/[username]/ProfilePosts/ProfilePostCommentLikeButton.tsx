@@ -1,9 +1,11 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { toggleProfilePostCommentLike } from "@/actions/profile/toggleProfilePostCommentLike";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type ProfilePostCommentLikeButtonProps = {
@@ -19,22 +21,19 @@ export default function ProfilePostCommentLikeButton({
 }: ProfilePostCommentLikeButtonProps) {
   const [liked, setLiked] = useState(isLiked);
   const [count, setCount] = useState(likesCount);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const handleClick = () => {
-    const nextLiked = !isLiked;
-
-    setLiked(nextLiked);
-    setCount((current) => current + (nextLiked ? 1 : -1));
-
-    startTransition(async () => {
+    runMutation(async () => {
+      const nextLiked = !liked;
       const result = await toggleProfilePostCommentLike({ commentId });
 
       if (!result.ok) {
-        setLiked(!nextLiked);
-        setCount((current) => current + (nextLiked ? -1 : 1));
         toast.error(result.error);
+        return;
       }
+      setLiked(nextLiked);
+      setCount((current) => current + (nextLiked ? 1 : -1));
     });
   };
 
@@ -45,6 +44,8 @@ export default function ProfilePostCommentLikeButton({
       size="sm"
       onClick={handleClick}
       disabled={isPending}
+      aria-pressed={liked}
+      aria-label={liked ? "Unlike comment" : "Like comment"}
       className={`h-auto gap-1 px-0 py-0 text-[11px] transition hover:bg-transparent ${
         liked
           ? "text-rose-300 hover:text-rose-200"

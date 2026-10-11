@@ -145,6 +145,7 @@ export default function DiscoveryDeck({
   const shownIds = useRef(new Set<string>());
   const pointerStartX = useRef<number | null>(null);
   const dragXRef = useRef(0);
+  const busyRef = useRef(false);
 
   const current = cards[0] ?? null;
   const next = cards[1] ?? null;
@@ -159,11 +160,12 @@ export default function DiscoveryDeck({
       if (!result.ok) {
         toast.error(result.error);
       }
-    });
+    }).catch(() => toast.error("Couldn't record this recommendation."));
   }, [current]);
 
   async function choose(choice: Choice) {
-    if (!current || busy) return;
+    if (!current || busyRef.current) return;
+    busyRef.current = true;
 
     setBusy(true);
     dragXRef.current = 0;
@@ -212,12 +214,14 @@ export default function DiscoveryDeck({
       setDragX(0);
       setAdvancing(false);
     } finally {
+      busyRef.current = false;
       setBusy(false);
     }
   }
 
   async function changeType(value: TitleType | "ALL") {
-    if (busy || value === selectedType) return;
+    if (busyRef.current || value === selectedType) return;
+    busyRef.current = true;
 
     setBusy(true);
 
@@ -236,6 +240,7 @@ export default function DiscoveryDeck({
       console.error("Discover filter error:", error);
       toast.error("Failed to load recommendations");
     } finally {
+      busyRef.current = false;
       setBusy(false);
     }
   }

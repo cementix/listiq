@@ -1,5 +1,7 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { useState } from "react";
 import { Bookmark, BookmarkCheck, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -16,7 +18,9 @@ export default function SaveTitleListButton({ listId, initialSaved }: Props) {
   const [saved, setSaved] = useState(initialSaved);
   const [pending, setPending] = useState(false);
 
-  const toggleSaved = async () => {
+  const [, runMutation] = useMutation();
+
+  const toggleSaved = () => runMutation(async () => {
     setPending(true);
 
     try {
@@ -33,12 +37,12 @@ export default function SaveTitleListButton({ listId, initialSaved }: Props) {
 
       setSaved(nextSaved);
       toast.success(result.message ?? "Saved lists updated");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update saved list");
     } finally {
       setPending(false);
     }
-  };
+  });
 
   return (
     <Button type="button" disabled={pending} onClick={() => void toggleSaved()}>

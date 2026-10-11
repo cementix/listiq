@@ -1,8 +1,10 @@
 "use client";
 
+import { useMutation } from "@/lib/hooks/use-mutation";
+
 import { Camera, Pencil, UserRound } from "lucide-react";
 import Image from "next/image";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 import { updateProfileImages } from "@/actions/profile/updateProfileImages";
@@ -33,11 +35,12 @@ export default function ProfileImageEditor({
   const [currentPublicId, setCurrentPublicId] = useState(imagePublicId ?? "");
   const [draftUrl, setDraftUrl] = useState(imageUrl ?? "");
   const [draftPublicId, setDraftPublicId] = useState(imagePublicId ?? "");
-  const [, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const isAvatar = type === "avatar";
 
   const handleOpenChange = (nextOpen: boolean) => {
+    if (isPending) return;
     setOpen(nextOpen);
 
     if (nextOpen) {
@@ -50,7 +53,7 @@ export default function ProfileImageEditor({
     imageUrl: string;
     imagePublicId: string;
   }) => {
-    startTransition(async () => {
+    runMutation(async () => {
       const result = await updateProfileImages(
         isAvatar
           ? {
@@ -140,6 +143,7 @@ export default function ProfileImageEditor({
         </DialogHeader>
 
         <CoverImageField
+          disabled={isPending}
           imageUrl={draftUrl}
           imagePublicId={draftPublicId}
           onImageUrlChange={setDraftUrl}

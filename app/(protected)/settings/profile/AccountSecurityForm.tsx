@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -21,12 +23,12 @@ export default function AccountSecurityForms({
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [usernamePending, startUsernameTransition] = useTransition();
-  const [passwordPending, startPasswordTransition] = useTransition();
+  const [usernamePending, runUsernameMutation] = useMutation();
+  const [passwordPending, runPasswordMutation] = useMutation();
 
   const changeUsername = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    startUsernameTransition(async () => {
+    runUsernameMutation(async () => {
       const result = await updateAccountSecurity({
         kind: "username",
         username,
@@ -45,7 +47,7 @@ export default function AccountSecurityForms({
 
   const changePassword = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
-    startPasswordTransition(async () => {
+    runPasswordMutation(async () => {
       const result = await updateAccountSecurity({
         kind: "password",
         currentPassword,

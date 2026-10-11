@@ -9,6 +9,12 @@ html {
   overflow-y: scroll;
 }
 
+/* Keep keyboard focus visible on custom controls as well as UI primitives. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
 /* Keep small-screen fields readable without iOS focus zoom. */
 @media (max-width: 1023px) {
   input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),

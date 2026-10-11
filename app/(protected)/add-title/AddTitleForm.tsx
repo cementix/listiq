@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
+
+import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -45,7 +47,7 @@ export default function AddTitleForm({
   const [imageUrl, setImageUrl] = useState("");
   const [imagePublicId, setImagePublicId] = useState("");
 
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const resetForm = () => {
     setName("");
@@ -62,7 +64,7 @@ export default function AddTitleForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    startTransition(async () => {
+    runMutation(async () => {
       const payload = {
         name: name.trim(),
         year: year.trim() ? Number(year) : null,
@@ -132,8 +134,8 @@ export default function AddTitleForm({
       </CardHeader>
 
       <CardContent className="p-4 pt-0 sm:p-5 sm:pt-0">
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <form onSubmit={handleSubmit} aria-busy={isPending}>
+          <fieldset disabled={isPending} className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
             <TitleFormFields
               genres={genres}
               name={name}
@@ -158,7 +160,7 @@ export default function AddTitleForm({
               onImageUrlChange={setImageUrl}
               onImagePublicIdChange={setImagePublicId}
             />
-          </div>
+          </fieldset>
 
           <Button
             type="submit"

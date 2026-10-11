@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMutation } from "@/lib/hooks/use-mutation";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoaderCircle, Pencil, X } from "lucide-react";
 import { toast } from "sonner";
@@ -55,7 +57,7 @@ export default function MySubmissionsList({
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isPending, runMutation] = useMutation();
 
   const [name, setName] = useState("");
   const [year, setYear] = useState("");
@@ -91,9 +93,9 @@ export default function MySubmissionsList({
   };
 
   const submitEdit = (submission: Submission) => {
-    setPendingId(submission.id);
-
-    startTransition(async () => {
+    runMutation(async () => {
+      setPendingId(submission.id);
+      try {
       const result = await resubmitTitleSubmission(submission.id, {
         name: name.trim(),
         year: year.trim() ? Number(year) : null,
@@ -104,8 +106,6 @@ export default function MySubmissionsList({
         genresIds,
       });
 
-      setPendingId(null);
-
       if (!result.ok) {
         toast.error(result.error);
         return;
@@ -114,6 +114,9 @@ export default function MySubmissionsList({
       toast.success(result.message || "Submitted");
       setEditingId(null);
       router.refresh();
+      } finally {
+        setPendingId(null);
+      }
     });
   };
 

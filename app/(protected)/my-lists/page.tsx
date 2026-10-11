@@ -29,6 +29,12 @@ export default async function ListsPage() {
         <CreateTitleListDialog />
       </header>
 
+      {sections.length === 0 && (
+        <div role="status" className="rounded-2xl border border-white/10 bg-white/5 p-6 text-white/60">
+          <h2 className="font-medium text-white">No lists yet</h2>
+          <p className="mt-2 text-sm">Create your first list with New list, or save a public list while browsing.</p>
+        </div>
+      )}
       {sections.map(({ label, entries }) => (
         <section key={label} aria-label={label} className="space-y-4">
           <h2 className="text-lg font-medium text-white">{label}</h2>

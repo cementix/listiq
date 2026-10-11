@@ -59,7 +59,7 @@ export default function ConfirmDialog({
   }, [open, present]);
 
   return (
-    <Dialog open={present} onOpenChange={onOpenChange}>
+    <Dialog open={present} onOpenChange={(nextOpen) => { if (!isPending) onOpenChange(nextOpen); }}>
       <DialogContent
         disableDefaultAnimation
         showCloseButton={false}

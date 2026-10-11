@@ -37,7 +37,7 @@ export default async function DashboardPage() {
             </h1>
 
             <p className="mt-3 max-w-xl text-white/70">
-              No titles yet. Run the title sync to fill the dashboard.
+              No titles yet. Check back soon or add a title to get started.
             </p>
           </GlassCard>
         ) : (
