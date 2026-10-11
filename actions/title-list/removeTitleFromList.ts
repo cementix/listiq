@@ -4,7 +4,7 @@ import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 
 const removeTitleFromListSchema = z.object({
   listId: z.string().min(1, "List ID is required"),
@@ -100,12 +100,7 @@ export async function removeTitleFromList(
       };
     }
 
-    revalidatePath("/my-lists");
-    revalidatePath(`/my-lists/${result.listSlug}`);
-    revalidatePath("/lists");
-    revalidatePath(`/lists/${session.username}/${result.listSlug}`);
-    revalidatePath(`/titles/${result.titleSlug}`);
-    revalidatePath("/dashboard");
+    revalidateLibraryViews(result.titleSlug);
 
     return {
       ok: true,

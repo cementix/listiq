@@ -5,7 +5,7 @@ import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { addListTitle } from "@/lib/title-list/mutations";
-import { revalidatePath } from "next/cache";
+import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 
 const addTitleToListSchema = z.object({
   listId: z.string().min(1, "List ID is required"),
@@ -47,12 +47,8 @@ export async function addTitleToList(
       return { ok: true, message: "Title is already in this list" };
     }
 
-    revalidatePath("/my-lists");
-    revalidatePath(`/my-lists/${result.listSlug}`);
-    revalidatePath("/lists");
-    revalidatePath(`/lists/${session.username}/${result.listSlug}`);
-    revalidatePath(`/titles/${result.titleSlug}`);
-    revalidatePath("/dashboard");
+    revalidateLibraryViews(result.titleSlug);
+
     return {
       ok: true,
       message: "Title added to list",

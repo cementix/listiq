@@ -5,7 +5,7 @@ import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { generateUniqueTitleListSlug } from "@/lib/title-list/generateUniqueTitleListSlug";
-import { revalidatePath } from "next/cache";
+import { revalidateListViews } from "@/lib/cache/revalidateViews";
 
 const createTitleListSchema = z.object({
   title: z
@@ -55,9 +55,7 @@ export async function createTitleList(
       });
     });
 
-    revalidatePath("/my-lists");
-    revalidatePath("/lists");
-    revalidatePath("/dashboard");
+    revalidateListViews();
 
     return {
       ok: true,

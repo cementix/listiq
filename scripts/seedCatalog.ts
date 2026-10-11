@@ -1,10 +1,7 @@
 import "dotenv/config";
 
-import {
-  seedCatalog,
-  type SeedMode,
-  type SeedProvider,
-} from "@/lib/catalog/seedCatalog";
+import { seedCatalog } from "@/lib/catalog/seedCatalog";
+import type { SeedMode, SeedProvider } from "@/lib/catalog/types";
 import { prisma } from "@/lib/prisma";
 import { getSyncProgressSnapshot } from "@/lib/sync/syncUtils";
 

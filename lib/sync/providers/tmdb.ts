@@ -609,30 +609,6 @@ export async function syncTmdbTopRated(
   };
 }
 
-export async function syncTmdbDailyCatalog(): Promise<SyncResult> {
-  const trending = await syncTmdbTrending({
-    pages: 5,
-    minVoteCount: 20,
-  });
-
-  const popular = await syncTmdbPopular({
-    pages: 10,
-    minVoteCount: 50,
-  });
-
-  const topRated = await syncTmdbTopRated({
-    pages: 10,
-    minVoteCount: 500,
-  });
-
-  return {
-    titlesCreated:
-      trending.titlesCreated + popular.titlesCreated + topRated.titlesCreated,
-    titlesUpdated:
-      trending.titlesUpdated + popular.titlesUpdated + topRated.titlesUpdated,
-  };
-}
-
 export async function syncTmdbDeepCatalog(): Promise<SyncResult> {
   const trending = await syncTmdbTrending({
     pages: 70,

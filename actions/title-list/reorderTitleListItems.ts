@@ -5,7 +5,7 @@ import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidateListViews } from "@/lib/cache/revalidateViews";
 
 const reorderTitleListItemsSchema = z.object({
   listId: z.string().min(1, "List ID is required"),
@@ -107,10 +107,7 @@ export async function reorderTitleListItems(
       };
     }
 
-    revalidatePath("/lists");
-    revalidatePath(`/lists/${session.username}/${result.slug}`);
-    revalidatePath(`/users/${session.username}`);
-    revalidatePath("/dashboard");
+    revalidateListViews();
 
     return {
       ok: true,

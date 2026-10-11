@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
 import { requireUserServer } from "@/lib/auth/guards";
@@ -85,11 +85,7 @@ export async function updateTitleList(
       return { ok: false, error: "System lists cannot be customized" };
     }
 
-    revalidatePath("/lists");
-    revalidatePath("/my-lists");
-    revalidatePath(`/lists/${session.username}/${result.slug}`);
-    revalidatePath(`/users/${session.username}`);
-    revalidatePath("/dashboard");
+    revalidateListViews();
 
     return { ok: true, message: "List updated" };
   } catch (error) {

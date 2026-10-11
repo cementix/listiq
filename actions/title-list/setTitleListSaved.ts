@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
 import { requireUserServer } from "@/lib/auth/guards";
@@ -30,8 +30,6 @@ export async function setTitleListSaved(
       select: {
         userId: true,
         visibility: true,
-        slug: true,
-        user: { select: { username: true } },
       },
     });
 
@@ -54,9 +52,7 @@ export async function setTitleListSaved(
       });
     }
 
-    revalidatePath("/my-lists");
-    revalidatePath("/lists");
-    if (list) revalidatePath(`/lists/${list.user.username}/${list.slug}`);
+    revalidateListViews();
 
     return {
       ok: true,

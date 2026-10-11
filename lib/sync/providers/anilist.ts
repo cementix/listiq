@@ -457,67 +457,6 @@ async function syncAniListMedia(params: {
   };
 }
 
-export async function syncAniListDailyCatalog(): Promise<SyncResult> {
-  const anime = await syncAniListMedia({
-    type: "ANIME",
-    titleType: "ANIME",
-    format: ["TV", "MOVIE", "OVA", "ONA", "SPECIAL"],
-    sort: ["POPULARITY_DESC", "SCORE_DESC"],
-    options: {
-      pages: 8,
-      minPopularity: 500,
-    },
-  });
-
-  const manga = await syncAniListMedia({
-    type: "MANGA",
-    titleType: "MANGA",
-    format: ["MANGA", "ONE_SHOT"],
-    countryOfOrigin: "JP",
-    sort: ["POPULARITY_DESC", "SCORE_DESC"],
-    options: {
-      pages: 6,
-      minPopularity: 200,
-    },
-  });
-
-  const manhwa = await syncAniListMedia({
-    type: "MANGA",
-    titleType: "MANHWA",
-    format: ["MANGA"],
-    countryOfOrigin: "KR",
-    sort: ["POPULARITY_DESC", "SCORE_DESC"],
-    options: {
-      pages: 4,
-      minPopularity: 100,
-    },
-  });
-
-  const novels = await syncAniListMedia({
-    type: "MANGA",
-    titleType: "NOVEL",
-    format: ["NOVEL"],
-    sort: ["POPULARITY_DESC", "SCORE_DESC"],
-    options: {
-      pages: 4,
-      minPopularity: 100,
-    },
-  });
-
-  return {
-    titlesCreated:
-      anime.titlesCreated +
-      manga.titlesCreated +
-      manhwa.titlesCreated +
-      novels.titlesCreated,
-    titlesUpdated:
-      anime.titlesUpdated +
-      manga.titlesUpdated +
-      manhwa.titlesUpdated +
-      novels.titlesUpdated,
-  };
-}
-
 export async function syncAniListDeepCatalog(): Promise<SyncResult> {
   const anime = await syncAniListMedia({
     type: "ANIME",

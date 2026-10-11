@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { UpdateUserTitleInput } from "./types";
 import { updateLibraryTitle } from "@/lib/library/mutations";
-import { revalidatePath } from "next/cache";
+import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 import type { ActionResult } from "../types";
 
 export async function updateUserTitle(
@@ -32,11 +32,7 @@ export async function updateUserTitle(
       return { ok: false, error: "Add title to library first" };
     }
 
-    revalidatePath(`/titles/${result.titleSlug}`);
-    revalidatePath("/titles");
-    revalidatePath("/dashboard");
-    revalidatePath("/library");
-    revalidatePath(`/users/${session.username}`);
+    revalidateLibraryViews(result.titleSlug);
 
     return { ok: true, message: "Updated" };
   } catch (error) {

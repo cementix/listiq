@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { scoreCatalog } from "@/lib/catalog/seedCatalog";
+import { scoreCatalog } from "@/lib/catalog/scoreCatalog";
 import { prisma } from "@/lib/prisma";
 
 scoreCatalog()

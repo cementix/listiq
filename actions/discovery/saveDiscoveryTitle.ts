@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
@@ -36,11 +36,8 @@ export async function saveDiscoveryTitle(
 
       if (!title) return null;
 
-      let listSlug: string | null = null;
-
       if (destination === "for-later") {
         const list = await ensureSaveForLaterList(session.userId, tx);
-        listSlug = list.slug;
 
         const added = await addListTitle(tx, session.userId, list.id, titleId);
         if (
@@ -76,22 +73,12 @@ export async function saveDiscoveryTitle(
         },
       });
 
-      return { titleSlug: title.slug, listSlug };
+      return { titleSlug: title.slug };
     });
 
     if (!result) return { ok: false, error: "Title not found" };
 
-    revalidatePath(`/titles/${result.titleSlug}`);
-    revalidatePath("/my-lists");
-    revalidatePath(`/users/${session.username}`);
-
-    if (result.listSlug) {
-      revalidatePath(`/lists/${session.username}/${result.listSlug}`);
-    } else {
-      revalidatePath("/titles");
-      revalidatePath("/dashboard");
-      revalidatePath("/library");
-    }
+    revalidateLibraryViews(result.titleSlug);
 
     return { ok: true };
   } catch (error) {

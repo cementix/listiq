@@ -1,4 +1,5 @@
 import { syncTitlesDaily } from "@/lib/sync/syncTitles";
+import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,7 +21,13 @@ export async function GET(request: Request) {
   }
 
   const startedAt = Date.now();
-  const result = await syncTitlesDaily();
+  let result;
+  try {
+    result = await syncTitlesDaily();
+  } finally {
+    // Successful providers remain saved even if another provider fails.
+    revalidateCatalogViews();
+  }
 
   return Response.json({
     ok: true,

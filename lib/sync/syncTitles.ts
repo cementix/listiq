@@ -1,4 +1,5 @@
-import { seedCatalog, type SeedProvider } from "@/lib/catalog/seedCatalog";
+import { seedCatalog } from "@/lib/catalog/seedCatalog";
+import type { SeedProvider } from "@/lib/catalog/types";
 import { runDailySyncOnce } from "./syncRun";
 
 export async function syncTitlesDaily() {

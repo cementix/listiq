@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
 
 import { SubmissionStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
@@ -71,7 +72,7 @@ export async function approveTitleSubmission(
 
     revalidatePath("/submissions");
     revalidatePath("/my-submissions");
-    revalidatePath("/titles");
+    revalidateCatalogViews();
 
     return { ok: true, message: "Submission approved" };
   } catch (error) {

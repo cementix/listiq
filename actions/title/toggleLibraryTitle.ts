@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
-import { revalidatePath } from "next/cache";
+import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 import type { ActionResult } from "../types";
 import { addLibraryTitle, removeLibraryTitle } from "@/lib/library/mutations";
 
@@ -40,11 +40,7 @@ export async function toggleLibraryTitle(
 
     if (!title) return { ok: false, error: "Title not found" };
 
-    revalidatePath(`/titles/${title.slug}`);
-    revalidatePath("/titles");
-    revalidatePath("/dashboard");
-    revalidatePath("/library");
-    revalidatePath(`/users/${session.username}`);
+    revalidateLibraryViews(title.slug);
 
     return { ok: true };
   } catch (error) {
