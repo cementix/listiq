@@ -2,6 +2,41 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+### Neon PostgreSQL
+
+The workspace is linked to Neon project `royal-bar-26320381`, branch `production`.
+`neon.ts` declares the infrastructure policy; Postgres is included by default.
+Keep `.neon`, `.env`, and `.env.preview` out of Git.
+
+```bash
+npx neon@latest deploy
+npx neon@latest env pull --branch preview --file .env.preview
+npm run db:migrate
+npm run build
+npm start
+```
+
+`DATABASE_URL` is the pooled application connection. `DATABASE_URL_UNPOOLED`
+is the direct connection used by Prisma migrations. The existing migrations enable
+`pg_trgm` and create the search indexes. The app keeps Prisma and `pg`, with a
+five-connection pool and the Vercel pool lifecycle helper.
+
+Vercel runs `npm run vercel-build` (generate client, deploy migrations, build).
+Set `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, and `SESSION_SECRET` in each Vercel
+environment. Production must use the production branch URLs; Preview must use
+the preview branch URLs. Configure the app's existing Cloudinary/provider/cron
+secrets separately as needed. Neon CLI pulls local env files; it does not set
+Vercel environment variables. Vercel account configuration still needs to be done
+in the hosting project.
+
+With the production server running locally, `npm run test:neon` checks `pg_trgm`,
+submits the real registration form over HTTP, verifies the user and default list,
+exercises Prisma create/read/update, and checks authenticated pages render database
+content. It creates uniquely named temporary fixtures and deletes them afterward.
+Use a matching database environment for the server and test. Set `SMOKE_BASE_URL`
+to change the local URL. Production builds use Webpack because Turbopack's CSS
+worker crashed on this Windows environment.
+
 First, run the development server:
 
 ```bash
