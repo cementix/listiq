@@ -19,8 +19,8 @@
 
 ## Database & deployment
 
-- [ ] Set up cloud PostgreSQL with `pg_trgm`, connection pooling and separate production/preview databases.
-- [ ] Configure Vercel env variables, Prisma generation and a production migration step (`migrate deploy`).
+- [x] Set up cloud PostgreSQL with `pg_trgm`, connection pooling and separate production/preview databases.
+- [x] Configure Vercel env variables, Prisma generation and a production migration step (`migrate deploy`).
 - [ ] Seed and score the catalog; create the first admin securely and verify database backup restoration.
 - [ ] Schedule daily title sync; verify runtime limits, overlapping-run protection, retries, score refresh and failure alerts.
 - [ ] Deploy preview, then production; verify auth cookies, uploads and core flows on mobile and desktop.
