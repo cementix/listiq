@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidatePath } from "next/cache";
 import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
 
@@ -7,7 +9,7 @@ import { SubmissionStatus } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
 import { requireUserServer } from "@/lib/auth/guards";
-import { generateUniqueSlug } from "../title/generateUniqueSlug";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
 import { normalizeString } from "../title/normalizeString";
 import { canReviewSubmissions } from "./canReviewSubmissions";
 import { isReviewableSubmissionStatus } from "./submissionStatus";
@@ -76,7 +78,7 @@ export async function approveTitleSubmission(
 
     return { ok: true, message: "Submission approved" };
   } catch (error) {
-    console.error("approveTitleSubmission error: ", error);
+    logError("actions.submissions.approveTitleSubmission", error);
     return { ok: false, error: "Failed to approve submission" };
   }
 }

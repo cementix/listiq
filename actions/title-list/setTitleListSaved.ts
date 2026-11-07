@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
@@ -59,7 +61,7 @@ export async function setTitleListSaved(
       message: saved ? "List saved" : "List removed from saved",
     };
   } catch (error) {
-    console.error("setTitleListSaved error:", error);
+    logError("actions.title-list.setTitleListSaved", error);
     return { ok: false, error: "Failed to update saved list" };
   }
 }

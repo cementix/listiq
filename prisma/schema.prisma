@@ -55,6 +55,8 @@ enum NotificationType {
 }
 
 enum ExternalTitleProvider {
+  WIKIDATA
+  MANGA_UPDATES
   RAWG
   TMDB_MOVIE
   TMDB_TV
@@ -468,6 +470,8 @@ model SyncRun {
 
   startedAt  DateTime  @default(now())
   finishedAt DateTime?
+  heartbeatAt DateTime @default(now())
+  workflowRunId String?
 
   titlesCreated Int @default(0)
   titlesUpdated Int @default(0)

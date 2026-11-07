@@ -1,6 +1,7 @@
+import { ProviderError, providerRequest } from "@/lib/sync/providerRequest";
 import { prisma } from "@/lib/prisma";
-import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
-import { slugify } from "@/actions/title/slugify";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
+import { slugify } from "@/lib/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
 import { setSyncProgress } from "@/lib/sync/syncUtils";
 
@@ -78,6 +79,7 @@ type MappedTmdbTitle = {
 };
 
 type SyncTmdbOptions = {
+  startPage?: number;
   pages?: number;
   minVoteCount?: number;
 };
@@ -97,38 +99,15 @@ function getTmdbAccessToken() {
   return token;
 }
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
-function getRetryDelayMs(response: Response, attempt: number) {
-  const retryAfter = Number(response.headers.get("retry-after"));
 
-  if (Number.isFinite(retryAfter) && retryAfter > 0) {
-    return retryAfter * 1000;
-  }
 
-  return Math.min(1000 * 2 ** attempt, 30_000);
-}
 
-async function fetchTmdb<T>(path: string, attempt = 0): Promise<T> {
-  const response = await fetch(`${TMDB_API_BASE_URL}${path}`, {
-    headers: {
-      Authorization: `Bearer ${getTmdbAccessToken()}`,
-      Accept: "application/json",
-    },
+async function fetchTmdb<T>(path: string): Promise<T> {
+  const response = await providerRequest("TMDB", TMDB_API_BASE_URL + path, {
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${getTmdbAccessToken()}`, Accept: "application/json" },
   });
-
-  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
-    await sleep(getRetryDelayMs(response, attempt));
-
-    return fetchTmdb<T>(path, attempt + 1);
-  }
-
-  if (!response.ok) {
-    throw new Error(`TMDB request failed ${response.status}`);
-  }
-
   return response.json() as Promise<T>;
 }
 
@@ -153,7 +132,11 @@ export async function fetchTmdbMoviesFromPath(
 
   const genres = genresByTmdbId ?? (await fetchTmdbMovieGenres());
 
-  return data.results.map((movie) => ({
+  return data.results.map(movie => mapMovie(movie, genres));
+}
+
+function mapMovie(movie: TmdbTrendingMovie, genres: TmdbGenreMap) {
+  return {
     externalId: String(movie.id),
     name: movie.title,
     description: movie.overview || null,
@@ -173,7 +156,7 @@ export async function fetchTmdbMoviesFromPath(
 
       return genre ? [genre] : [];
     }),
-  }));
+  };
 }
 
 async function upsertTmdbTitle({
@@ -181,16 +164,17 @@ async function upsertTmdbTitle({
   provider,
   type,
   externalUrl,
+  refreshOnly = false,
 }: {
   title: MappedTmdbTitle;
   provider: "TMDB_MOVIE" | "TMDB_TV";
   type: "MOVIE" | "SERIES";
   externalUrl: string;
+  refreshOnly?: boolean;
 }) {
   if (
     title.isAdult ||
-    !title.imageUrl ||
-    !title.backdropUrl ||
+    (!refreshOnly && (!title.imageUrl || !title.backdropUrl)) ||
     !slugify(title.name)
   ) {
     return "skipped" as const;
@@ -236,29 +220,21 @@ async function upsertTmdbTitle({
         backdropUrl: title.backdropUrl,
         releaseDate: title.releaseDate,
         genres: {
-          set: title.genres.map((genre) => ({
-            slug: genre.slug,
-          })),
+          set: title.genres.map(({ slug }) => ({ slug })),
         },
-      },
-    });
-
-    await prisma.externalTitle.update({
-      where: {
-        provider_externalId: {
-          provider,
-          externalId: title.externalId,
+        externalTitles: {
+          update: {
+            where: { provider_externalId: { provider, externalId: title.externalId } },
+            data: { externalUrl, rawData: title.rawData, lastSyncedAt: new Date() },
+          },
         },
-      },
-      data: {
-        externalUrl,
-        rawData: title.rawData,
-        lastSyncedAt: new Date(),
       },
     });
 
     return "updated" as const;
   }
+
+  if (refreshOnly) return "skipped" as const;
 
   const slug = await generateUniqueSlug(title.name);
 
@@ -301,7 +277,7 @@ export async function syncTrendingTmdbMovies(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = options?.startPage ?? 1; page < (options?.startPage ?? 1) + pages; page++) {
     setSyncProgress("tmdb", `trending movies page ${page}/${pages}`, {
       titlesCreated,
       titlesUpdated,
@@ -393,7 +369,11 @@ export async function fetchTmdbTvFromPath(
 
   const genres = genresByTmdbId ?? (await fetchTmdbTvGenres());
 
-  return data.results.map((show) => ({
+  return data.results.map(show => mapShow(show, genres));
+}
+
+function mapShow(show: TmdbTrendingTv, genres: TmdbGenreMap) {
+  return {
     externalId: String(show.id),
     name: show.name,
     description: show.overview || null,
@@ -413,7 +393,7 @@ export async function fetchTmdbTvFromPath(
 
       return genre ? [genre] : [];
     }),
-  }));
+  };
 }
 
 export async function syncTrendingTmdbTv(
@@ -425,7 +405,7 @@ export async function syncTrendingTmdbTv(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = options?.startPage ?? 1; page < (options?.startPage ?? 1) + pages; page++) {
     setSyncProgress("tmdb", `trending tv page ${page}/${pages}`, {
       titlesCreated,
       titlesUpdated,
@@ -466,7 +446,7 @@ async function syncTmdbMoviesFromPath(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = options?.startPage ?? 1; page < (options?.startPage ?? 1) + pages; page++) {
     setSyncProgress("tmdb", `${path} movie page ${page}/${pages}`, {
       titlesCreated,
       titlesUpdated,
@@ -503,7 +483,7 @@ async function syncTmdbTvFromPath(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = options?.startPage ?? 1; page < (options?.startPage ?? 1) + pages; page++) {
     setSyncProgress("tmdb", `${path} tv page ${page}/${pages}`, {
       titlesCreated,
       titlesUpdated,
@@ -631,4 +611,90 @@ export async function syncTmdbDeepCatalog(): Promise<SyncResult> {
     titlesUpdated:
       trending.titlesUpdated + popular.titlesUpdated + topRated.titlesUpdated,
   };
+}
+
+const tmdbProviders = ["TMDB_MOVIE", "TMDB_TV"] as const;
+const dayMs = 24 * 60 * 60_000;
+
+export async function expireTmdbCache() {
+  const cutoff = new Date(Date.now() - 180 * dayMs);
+  await prisma.$executeRaw`
+    WITH expired AS (
+      UPDATE "ExternalTitle"
+      SET "rawData" = NULL, "sourcePopularity" = NULL, "sourceRating" = NULL,
+          "sourceRatingCount" = NULL, "updatedAt" = CURRENT_TIMESTAMP
+      WHERE "provider" IN ('TMDB_MOVIE', 'TMDB_TV')
+        AND COALESCE("lastSyncedAt", "createdAt") <= ${cutoff}
+        AND "rawData" IS NOT NULL
+      RETURNING "titleId"
+    ), cleared AS (
+      UPDATE "Title" AS title
+      SET "description" = NULL, "year" = NULL, "releaseDate" = NULL,
+          "imageUrl" = CASE WHEN "imageUrl" LIKE 'https://image.tmdb.org/%' THEN NULL ELSE "imageUrl" END,
+          "backdropUrl" = CASE WHEN "backdropUrl" LIKE 'https://image.tmdb.org/%' THEN NULL ELSE "backdropUrl" END,
+          "catalogEligible" = false, "catalogScore" = NULL, "catalogScoredAt" = NULL,
+          "updatedAt" = CURRENT_TIMESTAMP
+      WHERE title."id" IN (SELECT "titleId" FROM expired)
+        AND title."createdById" IS NULL
+        AND NOT EXISTS (
+          SELECT 1 FROM "ExternalTitle" AS source
+          WHERE source."titleId" = title."id"
+            AND (source."provider" NOT IN ('TMDB_MOVIE', 'TMDB_TV')
+              OR COALESCE(source."lastSyncedAt", source."createdAt") > ${cutoff})
+        )
+      RETURNING title."id"
+    )
+    DELETE FROM "_GenreToTitle" WHERE "B" IN (SELECT "id" FROM cleared)
+  `;
+}
+
+// Start at 150 days to leave time for retries before the retention cutoff.
+export async function refreshStaleTmdbTitles(): Promise<SyncResult> {
+  const now = Date.now();
+  const stale = await prisma.externalTitle.findMany({
+    where: {
+      provider: { in: [...tmdbProviders] },
+      OR: [{ lastSyncedAt: null }, { lastSyncedAt: { lte: new Date(now - 150 * dayMs) } }],
+    },
+    orderBy: [{ updatedAt: "asc" }, { id: "asc" }],
+    take: 25,
+    select: { provider: true, externalId: true, externalUrl: true },
+  });
+
+  let titlesUpdated = 0;
+  for (const source of stale) {
+    if (!/^\d+$/.test(source.externalId)) continue;
+    const movie = source.provider === "TMDB_MOVIE";
+    const path = `/${movie ? "movie" : "tv"}/${source.externalId}`;
+    try {
+      const data = await fetchTmdb<(TmdbTrendingMovie | TmdbTrendingTv) & { genres: TmdbGenre[] }>(`${path}?language=en-US`);
+      if (String(data.id) !== source.externalId || !Array.isArray(data.genres)) throw new Error("Invalid TMDB details");
+      const genres = new Map(data.genres.map(({ id, name }) => {
+        const normalized = normalizeTmdbGenreName(name);
+        return [id, { name: normalized, slug: slugify(normalized) }] as const;
+      }));
+      const genre_ids = data.genres.map(({ id }) => id);
+      const title = movie
+        ? mapMovie({ ...data as TmdbTrendingMovie, genre_ids }, genres)
+        : mapShow({ ...data as TmdbTrendingTv, genre_ids }, genres);
+      const outcome = await upsertTmdbTitle({
+        title,
+        provider: movie ? "TMDB_MOVIE" : "TMDB_TV",
+        type: movie ? "MOVIE" : "SERIES",
+        externalUrl: source.externalUrl ?? `https://www.themoviedb.org${path}`,
+        refreshOnly: true,
+      });
+      if (outcome === "updated") {
+        titlesUpdated++;
+        continue;
+      }
+    } catch (error) {
+      if (!(error instanceof ProviderError) || error.status !== 404) throw error;
+    }
+    await prisma.externalTitle.updateMany({
+      where: { provider: source.provider, externalId: source.externalId },
+      data: { updatedAt: new Date() },
+    });
+  }
+  return { titlesCreated: 0, titlesUpdated };
 }

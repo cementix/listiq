@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
@@ -77,7 +79,7 @@ export async function deleteTitleList(
       message: "List deleted",
     };
   } catch (error) {
-    console.error("deleteTitleList error:", error);
+    logError("actions.title-list.deleteTitleList", error);
 
     return {
       ok: false,

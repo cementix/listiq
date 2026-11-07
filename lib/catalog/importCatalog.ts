@@ -1,3 +1,6 @@
+
+import { logError } from "@/lib/observability/errors";
+import { syncMangaUpdatesCatalog } from "@/lib/sync/providers/mangaUpdates";
 import {
   syncAniListDeepCatalog,
   syncAniListSeedCatalog,
@@ -54,6 +57,7 @@ export async function importCatalog(
   const tasks =
     mode === "broad"
       ? [
+          { name: "manga-updates" as const, run: syncMangaUpdatesCatalog },
           { name: "google-books" as const, run: syncGoogleBooksDeepCatalog },
           { name: "comic-vine" as const, run: syncComicVineDeepCatalog },
           { name: "tmdb" as const, run: syncTmdbDeepCatalog },
@@ -61,6 +65,7 @@ export async function importCatalog(
           { name: "anilist" as const, run: syncAniListDeepCatalog },
         ]
       : [
+          { name: "manga-updates" as const, run: syncMangaUpdatesCatalog },
           { name: "tmdb" as const, run: syncTmdbSeedCatalog },
           { name: "rawg" as const, run: syncRawgSeedCatalog },
           { name: "anilist" as const, run: syncAniListSeedCatalog },
@@ -94,7 +99,7 @@ export async function importCatalog(
       );
     } catch (error) {
       failures.push({ provider: task.name, error });
-      console.error(`[catalog] ${task.name} failed:`, error);
+      logError("lib.catalog.importCatalog", error);
       setSyncProgress(`catalog:${task.name}`, "failed; continuing");
     }
   }

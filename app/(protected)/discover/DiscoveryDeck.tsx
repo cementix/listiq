@@ -1,5 +1,7 @@
 "use client";
 
+import { logError } from "@/lib/observability/errors";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -11,6 +13,7 @@ import { markDiscoveryShown } from "@/actions/discovery/markDiscoveryShown";
 import { saveDiscoveryTitle } from "@/actions/discovery/saveDiscoveryTitle";
 import { skipDiscoveryTitle } from "@/actions/discovery/skipDiscoveryTitle";
 import { TitleType } from "@/generated/prisma/enums";
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type DiscoveryTitle = Awaited<
   ReturnType<typeof getDiscoveryCandidates>
@@ -110,6 +113,7 @@ function DeckCard({
           {title.name}
           <ArrowUpRight className="mt-1 size-4 shrink-0" />
         </Link>
+        {position === "current" && <TitleSourceLinks sources={title.externalTitles} />}
 
         <p className="mt-2 line-clamp-3 text-sm text-white/75">
           {title.description}
@@ -209,7 +213,7 @@ export default function DiscoveryDeck({
         });
       }
     } catch (error) {
-      console.error("Discover action error:", error);
+      logError("app.(protected).discover.DiscoveryDeck", error);
       toast.error("Something went wrong");
       setDragX(0);
       setAdvancing(false);
@@ -237,7 +241,7 @@ export default function DiscoveryDeck({
       setDragX(0);
       setAdvancing(false);
     } catch (error) {
-      console.error("Discover filter error:", error);
+      logError("app.(protected).discover.DiscoveryDeck", error);
       toast.error("Failed to load recommendations");
     } finally {
       busyRef.current = false;

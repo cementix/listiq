@@ -1,0 +1,1 @@
+ALTER TYPE "ExternalTitleProvider" ADD VALUE 'MANGA_UPDATES';

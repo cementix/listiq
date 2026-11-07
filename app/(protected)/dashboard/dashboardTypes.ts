@@ -1,6 +1,8 @@
 import { TitleType } from "@/generated/prisma/enums";
+import type { CatalogSourceLink } from "@/lib/catalog/attribution";
 
 export type DashboardTitle = {
+  externalTitles?: CatalogSourceLink[];
   id: string;
   name: string;
   slug: string;

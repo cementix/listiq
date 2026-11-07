@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 
 import { scoreCatalog } from "@/lib/catalog/scoreCatalog";
@@ -8,7 +10,7 @@ scoreCatalog()
     console.log("Catalog scoring finished:", result);
   })
   .catch((error) => {
-    console.error("Catalog scoring failed:", error);
+    logError("scripts.scoreCatalog", error);
     process.exitCode = 1;
   })
   .finally(async () => {

@@ -75,6 +75,8 @@ export type NotificationType = (typeof NotificationType)[keyof typeof Notificati
 
 
 export const ExternalTitleProvider = {
+  WIKIDATA: 'WIKIDATA',
+  MANGA_UPDATES: 'MANGA_UPDATES',
   RAWG: 'RAWG',
   TMDB_MOVIE: 'TMDB_MOVIE',
   TMDB_TV: 'TMDB_TV',

@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { normalizeString } from "../title/normalizeString";
@@ -60,7 +62,7 @@ export async function createProfilePost(
 
     return { ok: true, message: "Post published" };
   } catch (error) {
-    console.error("createProfilePost error: ", error);
+    logError("actions.profile.createProfilePost", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to publish post") };
   }
 }

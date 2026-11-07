@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { UpdateUserTitleInput } from "./types";
@@ -36,7 +38,7 @@ export async function updateUserTitle(
 
     return { ok: true, message: "Updated" };
   } catch (error) {
-    console.error("updateUserTitle error: ", error);
+    logError("actions.title.updateUserTitle", error);
     return { ok: false, error: "Failed to update user title" };
   }
 }

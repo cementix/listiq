@@ -124,7 +124,7 @@ export default function Aurora(props: AuroraProps) {
     blend = 0.5,
   } = props;
   const propsRef = useRef<AuroraProps>(props);
-  propsRef.current = props;
+  useEffect(() => { propsRef.current = props; }, [props]);
 
   const ctnDom = useRef<HTMLDivElement>(null);
 

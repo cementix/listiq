@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 
 import { backfillSaveForLaterLists } from "@/lib/title-list/backfillSaveForLaterLists";
@@ -13,7 +15,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error("Save-for-later backfill failed: ", error);
+    logError("scripts.backfillSaveForLaterLists", error);
     process.exitCode = 1;
   })
   .finally(async () => {

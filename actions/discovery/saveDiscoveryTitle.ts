@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -82,7 +84,7 @@ export async function saveDiscoveryTitle(
 
     return { ok: true };
   } catch (error) {
-    console.error("saveDiscoveryTitle error:", error);
+    logError("actions.discovery.saveDiscoveryTitle", error);
     return { ok: false, error: "Failed to save title" };
   }
 }

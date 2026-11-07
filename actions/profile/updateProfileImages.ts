@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidatePath } from "next/cache";
 
 import { prisma } from "@/lib/prisma";
@@ -60,7 +62,7 @@ export async function updateProfileImages(
 
     return { ok: true, message: "Profile images updated" };
   } catch (error) {
-    console.error("updateProfileImages error: ", error);
+    logError("actions.profile.updateProfileImages", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to update profile images") };
   }
 }

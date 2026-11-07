@@ -1,8 +1,6 @@
 # Responsive UI checks
 
-Checked locally in the Codex browser on 2026-10-11, using the existing catalog
-and an authenticated admin account. These are manual browser checks, not an
-automated e2e suite.
+Manual browser checks used the local catalog and an authenticated admin account.
 
 ## Page coverage
 

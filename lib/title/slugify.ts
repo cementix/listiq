@@ -1,3 +1,4 @@
+/** Shared by server actions and catalog importers. */
 export function slugify(value: string) {
   return value
     .toLowerCase()

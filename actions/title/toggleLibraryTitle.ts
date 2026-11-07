@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { revalidateLibraryViews } from "@/lib/cache/revalidateViews";
@@ -44,7 +46,7 @@ export async function toggleLibraryTitle(
 
     return { ok: true };
   } catch (error) {
-    console.error("toggleLibraryTitle error: ", error);
+    logError("actions.title.toggleLibraryTitle", error);
     return { ok: false, error: "Failed to toggle title" };
   }
 }

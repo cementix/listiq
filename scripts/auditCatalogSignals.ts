@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 
 import { ExternalTitleProvider } from "@/generated/prisma/enums";
@@ -84,7 +86,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error("Catalog audit failed:", error);
+    logError("scripts.auditCatalogSignals", error);
     process.exitCode = 1;
   })
   .finally(async () => {

@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { z } from "zod";
 
 import type { ActionResult } from "../types";
@@ -116,7 +118,7 @@ export async function reorderTitleListItems(
       message: "List order updated",
     };
   } catch (error) {
-    console.error("reorderTitleListItems error:", error);
+    logError("actions.title-list.reorderTitleListItems", error);
 
     return {
       ok: false,

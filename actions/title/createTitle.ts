@@ -1,9 +1,11 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { canCreateTitle } from "./canCreateTitle";
-import { generateUniqueSlug } from "./generateUniqueSlug";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
 import { CreateTitleInput } from "./types";
 import { validateCreateInput } from "./validateCreateInput";
 import { validateGenreIds } from "./validateGenresId";
@@ -55,7 +57,7 @@ export async function createTitle(
 
     return { ok: true, message: "Title created" };
   } catch (error) {
-    console.error("createTitle error: ", error);
+    logError("actions.title.createTitle", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to create title") };
   }
 }

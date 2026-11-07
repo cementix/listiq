@@ -1,5 +1,6 @@
-import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
-import { slugify } from "@/actions/title/slugify";
+import { providerRequest } from "@/lib/sync/providerRequest";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
+import { slugify } from "@/lib/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { setSyncProgress } from "@/lib/sync/syncUtils";
@@ -41,37 +42,9 @@ function getRawgApiKey() {
 
 async function fetchRawg<T>(
   path: string,
-  params: Record<string, string | number> = {},
-  attempt = 0,
+  params: Record<string, string | number> = {}
 ) {
-  const searchParams = new URLSearchParams({
-    key: getRawgApiKey(),
-    ...Object.fromEntries(
-      Object.entries(params).map(([key, value]) => [key, String(value)]),
-    ),
-  });
-
-  const response = await fetch(
-    `${RAWG_API_BASE_URL}${path}?${searchParams.toString()}`,
-  );
-
-  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
-    const retryAfter = Number(response.headers.get("retry-after"));
-    const waitMs =
-      Number.isFinite(retryAfter) && retryAfter > 0
-        ? retryAfter * 1000
-        : Math.min(1000 * 2 ** attempt, 60_000);
-
-    await new Promise((resolve) => setTimeout(resolve, waitMs));
-
-    return fetchRawg<T>(path, params, attempt + 1);
-  }
-
-  if (!response.ok) {
-    throw new Error(`RAWG request failed ${response.status} ${path}`);
-  }
-
-  return response.json() as Promise<T>;
+const search = new URLSearchParams({ key: getRawgApiKey(), ...Object.fromEntries(Object.entries(params).map(([k,v])=>[k,String(v)])) }); const response = await providerRequest("RAWG", RAWG_API_BASE_URL + path + "?" + search); return response.json() as Promise<T>;
 }
 
 export async function fetchRawgGamesFromPath(
@@ -251,13 +224,13 @@ async function upsertRawgGame(game: MappedRawgGame) {
   return "created" as const;
 }
 
-async function syncRawgGamesFromParams(
+export async function syncRawgGamesFromParams(
   params: {
     ordering?: string;
     dates?: string;
     metacritic?: string;
   },
-  options?: { pages?: number; minRatingCount: number },
+  options?: { pages?: number; startPage?: number; minRatingCount: number },
 ): Promise<SyncResult> {
   const pages = options?.pages ?? 5;
   const minRatingCount = options?.minRatingCount ?? 0;
@@ -265,7 +238,7 @@ async function syncRawgGamesFromParams(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= pages; page++) {
+  for (let page = options?.startPage ?? 1; page < (options?.startPage ?? 1) + pages; page++) {
     setSyncProgress(
       "rawg",
       `${params.ordering ?? "-added"} page ${page}/${pages}`,

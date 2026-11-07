@@ -1,10 +1,10 @@
-import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
-import { slugify } from "@/actions/title/slugify";
+import { providerRequest } from "@/lib/sync/providerRequest";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
+import { slugify } from "@/lib/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { upsertTitleAlias } from "@/lib/sync/titleAliases";
 import {
-  getRetryDelayMs,
   setSyncProgress,
   sleep,
   type SyncResult,
@@ -62,6 +62,7 @@ type MappedGoogleBook = {
 };
 
 type SyncGoogleBooksOptions = {
+  startPage?: number;
   pagesPerQuery?: number;
   queries?: string[];
   orderBy?: "relevance" | "newest";
@@ -133,35 +134,9 @@ function getGoogleBooksApiKey() {
 
 async function fetchGoogleBooks<T>(
   path: string,
-  params: Record<string, string | number>,
-  attempt = 0,
+  params: Record<string, string | number>
 ): Promise<T> {
-  const searchParams = new URLSearchParams({
-    key: getGoogleBooksApiKey(),
-    ...Object.fromEntries(
-      Object.entries(params).map(([key, value]) => [key, String(value)]),
-    ),
-  });
-
-  const response = await fetch(
-    `${GOOGLE_BOOKS_API_BASE_URL}${path}?${searchParams.toString()}`,
-  );
-
-  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
-    await sleep(getRetryDelayMs(response, attempt));
-
-    return fetchGoogleBooks<T>(path, params, attempt + 1);
-  }
-
-  if (!response.ok) {
-    const body = await response.text();
-
-    throw new Error(
-      `Google Books request failed ${response.status} ${path}: ${body}`,
-    );
-  }
-
-  return response.json() as Promise<T>;
+const search = new URLSearchParams({ key: getGoogleBooksApiKey(), ...Object.fromEntries(Object.entries(params).map(([k,v])=>[k,String(v)])) }); const response = await providerRequest("Google Books", GOOGLE_BOOKS_API_BASE_URL + path + "?" + search); return response.json() as Promise<T>;
 }
 
 function parsePublishedDate(value?: string) {
@@ -393,12 +368,12 @@ async function upsertGoogleBook(book: MappedGoogleBook) {
 
 async function syncGoogleBooksQuery(
   query: string,
-  options: Required<Pick<SyncGoogleBooksOptions, "pagesPerQuery" | "orderBy">>,
+  options: Required<Pick<SyncGoogleBooksOptions, "pagesPerQuery" | "orderBy">> & { startPage?: number },
 ): Promise<SyncResult> {
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 0; page < options.pagesPerQuery; page++) {
+  for (let page = options.startPage ?? 0; page < (options.startPage ?? 0) + options.pagesPerQuery; page++) {
     setSyncProgress(
       "google-books",
       `${options.orderBy} ${query} page ${page + 1}/${options.pagesPerQuery}`,
@@ -462,6 +437,7 @@ export async function syncGoogleBooksCatalog(
     const result = await syncGoogleBooksQuery(query, {
       pagesPerQuery,
       orderBy,
+      startPage: options?.startPage,
     });
 
     titlesCreated += result.titlesCreated;

@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidatePath } from "next/cache";
 
 import { SubmissionStatus } from "@/generated/prisma/enums";
@@ -56,7 +58,7 @@ export async function requestChangesTitleSubmission(
 
     return { ok: true, message: "Changes requested" };
   } catch (error) {
-    console.error("requestChangesTitleSubmission error ", error);
+    logError("actions.submissions.requestChangesTitleSubmission", error);
     return { ok: false, error: "Failed to request changes" };
   }
 }

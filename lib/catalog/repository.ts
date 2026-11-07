@@ -2,11 +2,13 @@ import type { PrismaClient } from "@/generated/prisma/client";
 import { ExternalTitleProvider } from "@/generated/prisma/enums";
 import { extractProviderSignals } from "./extractProviderSignals";
 import { setSyncProgress } from "@/lib/sync/syncUtils";
+import type { TitleType } from "@/generated/prisma/enums";
 import type { CatalogSource } from "./types";
 
 export type CatalogDatabase = Pick<PrismaClient, "externalTitle" | "title">;
 
 const scoredProviders = [
+  ExternalTitleProvider.MANGA_UPDATES,
   ExternalTitleProvider.TMDB_MOVIE,
   ExternalTitleProvider.TMDB_TV,
   ExternalTitleProvider.RAWG,
@@ -31,9 +33,10 @@ async function inBatches<T>(
 
 export async function readCatalogSources(
   db: CatalogDatabase,
+  type?: TitleType,
 ): Promise<CatalogSource[]> {
   const sources = await db.externalTitle.findMany({
-    where: { provider: { in: scoredProviders } },
+    where: { provider: { in: scoredProviders }, ...(type ? { title: { type } } : {}) },
     select: {
       id: true,
       titleId: true,

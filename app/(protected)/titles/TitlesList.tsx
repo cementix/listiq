@@ -26,6 +26,8 @@ import Link from "next/link";
 import ConfirmDialog from "@/components/custom/ConfirmDialog";
 import { getTitles } from "@/actions/title/getTitles";
 import SaveToListButton from "@/components/custom/SaveToListButton";
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
+import type { CatalogSourceLink } from "@/lib/catalog/attribution";
 
 const TITLE_TYPE_OPTIONS: { value: TitleType | "ALL"; label: string }[] = [
   { value: "ALL", label: "All" },
@@ -56,6 +58,7 @@ type Genre = {
 };
 
 type Title = {
+  externalTitles?: CatalogSourceLink[];
   id: string;
   name: string;
   slug: string;
@@ -399,6 +402,7 @@ export default function TitlesList({
                     </div>
                   </div>
 
+                  <TitleSourceLinks sources={title.externalTitles} />
                   <div className="mt-auto hidden sm:block">
                     {title.genres.length > 0 && (
                       <div className="flex flex-wrap gap-2">

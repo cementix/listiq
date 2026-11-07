@@ -64,6 +64,10 @@ export function calculateCatalogScores(sources: CatalogSource[]) {
           0.55 * Math.log1p(signals.popularity ?? 0) +
           0.45 * Math.log1p(signals.ratingCount ?? 0);
       }
+    } else if (source.provider === ExternalTitleProvider.MANGA_UPDATES) {
+      if ((signals.ratingCount ?? 0) >= 100 && (signals.rating ?? 0) > 0) {
+        strength = Math.log1p(signals.ratingCount ?? 0) * (signals.rating ?? 0) / 10;
+      }
     } else if (source.provider === ExternalTitleProvider.GOOGLE_BOOKS) {
       if ((signals.ratingCount ?? 0) >= 1) {
         strength = Math.log1p(signals.ratingCount ?? 0);

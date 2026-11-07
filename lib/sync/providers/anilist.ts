@@ -1,5 +1,6 @@
-import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
-import { slugify } from "@/actions/title/slugify";
+import { providerRequest } from "@/lib/sync/providerRequest";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
+import { slugify } from "@/lib/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { setSyncProgress } from "@/lib/sync/syncUtils";
@@ -93,6 +94,7 @@ type SyncResult = {
 };
 
 type SyncAniListOptions = {
+  startPage?: number;
   pages?: number;
   minPopularity?: number;
   minAverageScore?: number;
@@ -153,53 +155,9 @@ async function fetchAniListPage(
     format?: AniListMediaFormat[];
     countryOfOrigin?: AniListCountry;
     sort: AniListSort[];
-  },
-  attempt = 0,
+  }
 ) {
-  const response = await fetch(ANILIST_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: MEDIA_QUERY,
-      variables: {
-        page: params.page,
-        perPage: ANILIST_PER_PAGE,
-        type: params.type,
-        format: params.format,
-        countryOfOrigin: params.countryOfOrigin,
-        sort: params.sort,
-      },
-    }),
-  });
-
-  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
-    const retryAfter = Number(response.headers.get("retry-after"));
-    const waitMs =
-      Number.isFinite(retryAfter) && retryAfter > 0
-        ? retryAfter * 1000
-        : Math.min(1000 * 2 ** attempt, 60_000);
-
-    await sleep(waitMs);
-
-    return fetchAniListPage(params, attempt + 1);
-  }
-
-  if (!response.ok) {
-    const body = await response.text();
-
-    throw new Error(`AniList request failed ${response.status}: ${body}`);
-  }
-
-  const data = (await response.json()) as AniListPageResponse;
-
-  if (data.errors?.length) {
-    throw new Error(`AniList request failed: ${data.errors[0].message}`);
-  }
-
-  return data.data.Page;
+const response = await providerRequest("AniList", ANILIST_API_URL, {method:"POST", headers:{"Content-Type":"application/json",Accept:"application/json"}, body:JSON.stringify({query:MEDIA_QUERY,variables:{page:params.page,perPage:ANILIST_PER_PAGE,type:params.type,format:params.format,countryOfOrigin:params.countryOfOrigin,sort:params.sort}})}); const data = await response.json() as AniListPageResponse; if(data.errors?.length) throw new Error("AniList response error"); return data.data.Page;
 }
 
 function sleep(ms: number) {
@@ -384,7 +342,7 @@ async function upsertAniListTitle({
   return "created" as const;
 }
 
-async function syncAniListMedia(params: {
+export async function syncAniListMedia(params: {
   type: AniListMediaType;
   titleType: "ANIME" | "MANGA" | "MANHWA" | "NOVEL";
   format?: AniListMediaFormat[];
@@ -400,7 +358,7 @@ async function syncAniListMedia(params: {
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 1; page <= safePages; page++) {
+  for (let page = params.options?.startPage ?? 1; page < (params.options?.startPage ?? 1) + safePages && page <= ANILIST_MAX_PAGES; page++) {
     setSyncProgress(
       "anilist",
       `${params.titleType} page ${page}/${safePages}`,

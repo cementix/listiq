@@ -41,11 +41,10 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
     if (!open) return;
 
     let cancelled = false;
-    setLoading(true);
-    setSearchError(false);
 
     const timer = window.setTimeout(async () => {
       setLoading(true);
+      setSearchError(false);
 
       try {
         const result = await getTitles({

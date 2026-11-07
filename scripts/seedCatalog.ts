@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 
 import { seedCatalog } from "@/lib/catalog/seedCatalog";
@@ -6,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { getSyncProgressSnapshot } from "@/lib/sync/syncUtils";
 
 const providers: SeedProvider[] = [
+  "manga-updates",
   "google-books",
   "comic-vine",
   "tmdb",
@@ -59,7 +62,7 @@ async function main() {
           currentTotal = total;
         })
         .catch((error) => {
-          console.warn("[seed] Could not refresh title count:", error);
+          logError("scripts.seedCatalog", error);
         })
         .finally(() => {
           countPending = false;
@@ -81,7 +84,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error("Catalog seed failed:", error);
+    logError("scripts.seedCatalog", error);
     process.exitCode = 1;
   })
   .finally(async () => {

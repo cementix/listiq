@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -62,7 +64,7 @@ export async function createTitleList(
       message: "List created",
     };
   } catch (error) {
-    console.error("createTitleList error: ", error);
+    logError("actions.title-list.createTitleList", error);
 
     return {
       ok: false,

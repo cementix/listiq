@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 import { TitleType } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
@@ -22,7 +24,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error("Catalog status failed:", error);
+    logError("scripts.catalogStatus", error);
     process.exitCode = 1;
   })
   .finally(async () => {

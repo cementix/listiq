@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { z } from "zod";
 
 import { getMyTitleListOptions } from "@/lib/title-list/getMyTitleListOptions";
@@ -40,7 +42,7 @@ export async function getTitleListOptions(
       lists,
     };
   } catch (error) {
-    console.error("getTitleListOptions error:", error);
+    logError("actions.title-list.getTitleListOptions", error);
 
     return {
       ok: false,

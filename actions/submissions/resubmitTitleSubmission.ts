@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { CreateTitleInput } from "../title/types";
@@ -77,7 +79,7 @@ export async function resubmitTitleSubmission(
 
     return { ok: true, message: "Submission sent for review again" };
   } catch (error) {
-    console.error("resubmitTitleSubmission error: ", error);
+    logError("actions.submissions.resubmitTitleSubmission", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to resubmit title") };
   }
 }

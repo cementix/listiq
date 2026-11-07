@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
@@ -41,7 +43,7 @@ export async function updatePrivacySettings(
 
     return { ok: true, message: "Privacy settings updated" };
   } catch (error) {
-    console.error("updatePrivacySettings error:", error);
+    logError("actions.profile.updatePrivacySettings", error);
     return { ok: false, error: "Failed to update privacy settings" };
   }
 }

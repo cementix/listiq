@@ -40,6 +40,13 @@ export function extractProviderSignals(
   }
 
   switch (provider) {
+    case "MANGA_UPDATES":
+      return {
+        popularity: null,
+        rating: nonNegativeNumber(data.bayesian_rating),
+        ratingCount: count(data.rating_votes),
+        ratingScale: 10,
+      };
     case "TMDB_MOVIE":
     case "TMDB_TV":
       return {
@@ -78,6 +85,7 @@ export function extractProviderSignals(
 
     case "COMIC_VINE":
     case "OPEN_LIBRARY":
+    case "WIKIDATA":
       return {
         popularity: null,
         rating: null,

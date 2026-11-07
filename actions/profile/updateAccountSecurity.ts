@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -108,7 +110,7 @@ export async function updateAccountSecurity(
       return { ok: false, error: "Username is already taken" };
     }
 
-    console.error("updateAccountSecurity error:", error);
+    logError("actions.profile.updateAccountSecurity", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to update account") };
   }
 }

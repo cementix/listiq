@@ -8,6 +8,7 @@ import PageSection from "@/components/custom/PageSection";
 import TitleLibraryPanel from "./TitleLibraryPanel";
 import Link from "next/link";
 import SaveToListButton from "@/components/custom/SaveToListButton";
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type TitleDetailsPageProps = {
   params: Promise<{
@@ -61,6 +62,7 @@ export default async function TitleDetailsPage({
                 <h1 className="mt-2 break-words text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
                   {title.name}
                 </h1>
+                <TitleSourceLinks sources={title.externalTitles} />
 
                 {title.createdBy && (
                   <p className="mt-2 text-sm text-white/45">

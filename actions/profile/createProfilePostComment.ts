@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -107,7 +109,7 @@ export async function createProfilePostComment({
 
     return { ok: true, message: "Comment posted" };
   } catch (error) {
-    console.error("createProfilePostComment error: ", error);
+    logError("actions.profile.createProfilePostComment", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to post comment") };
   }
 }

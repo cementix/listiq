@@ -20,8 +20,12 @@ testUrl.search = "";
 const childEnv = {
   ...process.env,
   DATABASE_URL: testUrl.toString(),
+  DATABASE_URL_UNPOOLED: testUrl.toString(),
   LISTIQ_TEST_DATABASE: name,
   SESSION_SECRET: randomUUID() + randomUUID(),
+  MONITORING_WEBHOOK_URL: "",
+  TELEGRAM_BOT_TOKEN: "",
+  TELEGRAM_CHAT_ID: "",
 };
 const admin = new pg.Client({ connectionString: adminUrl.toString() });
 let created = false;

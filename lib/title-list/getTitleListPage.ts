@@ -3,6 +3,7 @@ import "server-only";
 import { requireUserServer } from "@/lib/auth/guards";
 import { TitleListVisibility } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
+import { sourceLinkSelect } from "@/lib/catalog/attribution";
 
 export async function getTitleListPage(username: string, slug: string) {
   const { session } = await requireUserServer();
@@ -51,6 +52,7 @@ export async function getTitleListPage(username: string, slug: string) {
               type: true,
               year: true,
               imageUrl: true,
+              externalTitles: { select: sourceLinkSelect },
               users: {
                 where: { userId: session.userId },
                 take: 1,

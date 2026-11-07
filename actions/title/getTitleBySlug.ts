@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
 import { requireUserServer } from "@/lib/auth/guards";
+import { sourceLinkSelect } from "@/lib/catalog/attribution";
 
 export async function getTitleBySlug(slug: string) {
   const { session } = await requireUserServer();
@@ -13,6 +14,7 @@ export async function getTitleBySlug(slug: string) {
         slug,
       },
       include: {
+        externalTitles: { select: sourceLinkSelect },
         genres: {
           select: {
             id: true,

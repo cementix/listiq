@@ -7,6 +7,7 @@ import { normalizeTitleAlias } from "@/lib/sync/titleAliases";
 import { findFuzzyTitleIds } from "@/lib/title/findFuzzyTitleIds";
 import { getPublicTitleStats } from "@/lib/title/getPublicTitleStats";
 import { getRankedTitleIds } from "@/lib/title/getRankedTitleIds";
+import { sourceLinkSelect } from "@/lib/catalog/attribution";
 
 type TitleSort =
   | "newest"
@@ -92,6 +93,7 @@ export async function getTitles({
         ? [{ createdAt: "desc" as const }, { id: "desc" as const }]
         : undefined,
     include: {
+      externalTitles: { select: sourceLinkSelect },
       genres: {
         select: {
           id: true,

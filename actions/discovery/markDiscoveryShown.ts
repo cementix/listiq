@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
 import { prisma } from "@/lib/prisma";
@@ -45,7 +47,7 @@ export async function markDiscoveryShown(
 
     return { ok: true };
   } catch (error) {
-    console.error("markDiscoveryShown error:", error);
+    logError("actions.discovery.markDiscoveryShown", error);
     return { ok: false, error: "Failed to record title impression" };
   }
 }

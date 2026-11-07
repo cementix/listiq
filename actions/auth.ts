@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { createSession, deleteSession } from "@/lib/session";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
@@ -100,7 +102,7 @@ export async function registerUser(
       maxAge: 10,
     });
   } catch (error) {
-    console.error("registerUser error:", error);
+    logError("actions.auth", error);
 
     return {
       ok: false,
@@ -169,10 +171,7 @@ export async function loginUser(
       maxAge: 10,
     });
   } catch (error) {
-    console.error(
-      "loginUser error: ",
-      error instanceof Error ? error.message : error,
-    );
+    logError("actions.auth");
 
     return {
       ok: false,

@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
@@ -91,7 +93,7 @@ export async function updateTitleList(
 
     return { ok: true, message: "List updated" };
   } catch (error) {
-    console.error("updateTitleList error:", error);
+    logError("actions.title-list.updateTitleList", error);
     return { ok: false, error: "Failed to update the list" };
   }
 }

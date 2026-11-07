@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { requireUserServer } from "@/lib/auth/guards";
 import type { ActionResult } from "@/actions/types";
 import { DiscoveryAction } from "@/generated/prisma/enums";
@@ -46,7 +48,7 @@ export async function skipDiscoveryTitle(
 
     return { ok: true };
   } catch (error) {
-    console.error("skipDiscoveryTitle error:", error);
+    logError("actions.discovery.skipDiscoveryTitle", error);
     return { ok: false, error: "Failed to skip title" };
   }
 }

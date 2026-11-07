@@ -2,8 +2,10 @@ import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { DashboardRailItem } from "./dashboardTypes";
 import { shuffle } from "./dashboardUtils";
+import { sourceLinkSelect } from "@/lib/catalog/attribution";
 
 const dashboardTitleInclude = {
+  externalTitles: { select: sourceLinkSelect },
   genres: {
     select: { id: true, name: true, slug: true },
     take: 4,

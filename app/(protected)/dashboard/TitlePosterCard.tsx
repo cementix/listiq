@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import type { DashboardTitle } from "./dashboardTypes";
 import { formatTitleMeta, getTitleStats } from "./dashboardUtils";
 import Image from "next/image";
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type TitlePosterCardProps = {
   title: DashboardTitle;
@@ -17,6 +18,7 @@ export default function TitlePosterCard({
   const stats = getTitleStats(title);
 
   return (
+    <div className="w-38 shrink-0 sm:w-42">
     <Link
       href={`/titles/${title.slug}`}
       style={{ animationDelay: `${160 + index * 45}ms` } as CSSProperties}
@@ -55,5 +57,7 @@ export default function TitlePosterCard({
         </p>
       </div>
     </Link>
+    <TitleSourceLinks sources={title.externalTitles} />
+    </div>
   );
 }

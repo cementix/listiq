@@ -330,6 +330,8 @@ export const SyncRunScalarFieldEnum = {
   status: 'status',
   startedAt: 'startedAt',
   finishedAt: 'finishedAt',
+  heartbeatAt: 'heartbeatAt',
+  workflowRunId: 'workflowRunId',
   titlesCreated: 'titlesCreated',
   titlesUpdated: 'titlesUpdated',
   errorMessage: 'errorMessage'

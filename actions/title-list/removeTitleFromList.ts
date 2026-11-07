@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -109,7 +111,7 @@ export async function removeTitleFromList(
       message: "Title removed from list",
     };
   } catch (error) {
-    console.error("removeTitleFromList error: ", error);
+    logError("actions.title-list.removeTitleFromList", error);
 
     return {
       ok: false,

@@ -1,6 +1,7 @@
 import type { ExternalTitleProvider, TitleType } from "@/generated/prisma/enums";
 
 export type SeedProvider =
+  | "manga-updates"
   | "tmdb"
   | "rawg"
   | "anilist"

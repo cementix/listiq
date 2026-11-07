@@ -1,5 +1,8 @@
 "use client";
 
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
+import type { CatalogSourceLink } from "@/lib/catalog/attribution";
+
 import Image from "next/image";
 import Link from "next/link";
 import { GripVertical } from "lucide-react";
@@ -9,6 +12,7 @@ import { Button } from "@/components/ui/button";
 export type SortableListItem = {
   id: string;
   title: {
+    externalTitles?: CatalogSourceLink[];
     name: string;
     slug: string;
     imageUrl: string | null;
@@ -76,6 +80,7 @@ export default function SortableTitleCard({ item, index, canReorder }: Props) {
             : "Not in your library"}
         </p>
       </Link>
+      <TitleSourceLinks sources={item.title.externalTitles} />
       {canReorder && (
         <Button
           ref={handleRef}

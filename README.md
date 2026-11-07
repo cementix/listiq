@@ -1,71 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Listiq
 
-## Getting Started
+Listiq is a personal tracker for movies, series, anime, manga, games, books, and comics. Browse the catalog, track what you watch, read, or play, and share recommendations through lists and reviews.
 
-### Neon PostgreSQL
+![Listiq dashboard with recommendations and library activity](docs/screenshots/dashboard-desktop.jpg)
 
-The workspace is linked to Neon project `royal-bar-26320381`, branch `production`.
-`neon.ts` declares the infrastructure policy; Postgres is included by default.
-Keep `.neon`, `.env`, and `.env.preview` out of Git.
+- **Library** — track progress, rate titles, and write reviews.
+- **Discover** — browse recommendations and save titles to your library or lists.
+- **Lists and profiles** — organize titles, share public lists, and choose what appears on your profile.
+- **Catalog submissions** — suggest missing titles for moderator review.
 
-```bash
-npx neon@latest deploy
-npx neon@latest env pull --branch preview --file .env.preview
+The app uses Next.js, TypeScript, React, Prisma, and PostgreSQL. Image uploads use Cloudinary. Hosted catalog sync runs on Vercel Workflow.
+
+## Run locally
+
+Install Node.js 24 and PostgreSQL with `pg_trgm` available. Create an empty development database and give its migration role permission to install the extension.
+
+```sh
+npm ci
+cp .env.example .env
+```
+
+On PowerShell, use `Copy-Item .env.example .env` for the second command. Set `DATABASE_URL` and `DATABASE_URL_UNPOOLED` to the same development database, and replace the `SESSION_SECRET` placeholder with a random secret. To generate one, run `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+
+```sh
+npm run db:generate
 npm run db:migrate
-npm run build
-npm start
-```
-
-`DATABASE_URL` is the pooled application connection. `DATABASE_URL_UNPOOLED`
-is the direct connection used by Prisma migrations. The existing migrations enable
-`pg_trgm` and create the search indexes. The app keeps Prisma and `pg`, with a
-five-connection pool and the Vercel pool lifecycle helper.
-
-Vercel runs `npm run vercel-build` (generate client, deploy migrations, build).
-Set `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, and `SESSION_SECRET` in each Vercel
-environment. Production must use the production branch URLs; Preview must use
-the preview branch URLs. Configure the app's existing Cloudinary/provider/cron
-secrets separately as needed. Neon CLI pulls local env files; it does not set
-Vercel environment variables. Vercel account configuration still needs to be done
-in the hosting project.
-
-With the production server running locally, `npm run test:neon` checks `pg_trgm`,
-submits the real registration form over HTTP, verifies the user and default list,
-exercises Prisma create/read/update, and checks authenticated pages render database
-content. It creates uniquely named temporary fixtures and deletes them afterward.
-Use a matching database environment for the server and test. Set `SMOKE_BASE_URL`
-to change the local URL. Production builds use Webpack because Turbopack's CSS
-worker crashed on this Windows environment.
-
-First, run the development server:
-
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000) and create an account. The database starts with an empty catalog. To import sample titles with a configured `TMDB_ACCESS_TOKEN`, run the command below. See the provider guide for attribution and import limits. [Catalog providers](docs/provider-review.md)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+node --conditions=react-server --import tsx scripts/seedCatalog.ts curated tmdb
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Checks
 
-## Learn More
+```sh
+npm test
+npm run typecheck
+npm run lint
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+`npm run test:integration` requires local PostgreSQL and a role with `CREATEDB`. The runner creates and removes its own test database. [Integration tests](docs/integration-tests.md) · [CI](docs/ci.md)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Use separate PostgreSQL databases and secrets for Preview and Production. Vercel runs `npm run vercel-build`, which generates Prisma Client, applies migrations to the configured database, and builds the app.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The production schedule starts catalog sync daily at 03:00 UTC and checks its health at 07:00 UTC. Configure `CRON_SECRET` for these endpoints and set the Telegram variables in `.env.example` if you want alerts. Cloudinary and provider credentials enable uploads and catalog imports respectively. [Operations guide](docs/operations.md) · [Upload security](docs/upload-security.md)

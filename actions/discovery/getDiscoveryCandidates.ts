@@ -9,6 +9,7 @@ import {
 import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { rankDiscoveryCandidates } from "@/lib/discovery/rankDiscoveryCandidates";
+import { sourceLinkSelect } from "@/lib/catalog/attribution";
 
 type Input = {
   type?: TitleType | null;
@@ -16,6 +17,7 @@ type Input = {
 };
 
 const candidateSelect = {
+  externalTitles: { select: sourceLinkSelect },
   id: true,
   slug: true,
   name: true,

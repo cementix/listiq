@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -98,7 +100,7 @@ export async function toggleProfilePostCommentLike({
     revalidatePath(`/users/${comment.post.author.username}`);
     return { ok: true, message: "Comment liked" };
   } catch (error) {
-    console.error("toggleProfilePostCommentLike error: ", error);
+    logError("actions.profile.toggleProfilePostCommentLike", error);
     return { ok: false, error: "Failed to update comment like" };
   }
 }

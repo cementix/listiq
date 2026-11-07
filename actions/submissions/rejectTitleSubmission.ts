@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { revalidatePath } from "next/cache";
 
 import { SubmissionStatus } from "@/generated/prisma/enums";
@@ -49,7 +51,7 @@ export async function rejectTitleSubmission(
 
     return { ok: true, message: "Submission rejected" };
   } catch (error) {
-    console.error("rejectTitleSubmission error: ", error);
+    logError("actions.submissions.rejectTitleSubmission", error);
     return { ok: false, error: "Failed to reject submission" };
   }
 }

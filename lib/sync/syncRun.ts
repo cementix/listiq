@@ -1,130 +1,66 @@
-import { ExternalTitleProvider } from "@/generated/prisma/enums";
+import "server-only";
+import type { ExternalTitleProvider } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
 
-type SyncTaskResult = {
-  titlesCreated?: number;
-  titlesUpdated?: number;
-};
-
-export async function hasSuccessfulSyncToday(provider?: ExternalTitleProvider) {
-  const startOfTodayUtc = new Date();
-  startOfTodayUtc.setUTCHours(0, 0, 0, 0);
-
-  const syncRun = await prisma.syncRun.findFirst({
-    where: {
-      provider: provider ?? null,
-      status: "SUCCESS",
-      startedAt: {
-        gte: startOfTodayUtc,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  return Boolean(syncRun);
+const leaseMs = 2 * 60 * 60_000;
+type Counts = { titlesCreated?: number; titlesUpdated?: number };
+export class InactiveSyncRunError extends Error {
+  readonly name = "InactiveSyncRunError";
 }
 
-export async function startSyncRun(provider?: ExternalTitleProvider) {
-  return prisma.syncRun.create({
-    data: {
-      provider: provider ?? null,
-      status: "RUNNING",
-    },
-    select: {
-      id: true,
-    },
+/** A transaction advisory lock makes check-and-claim atomic across instances. */
+export async function claimDailySync(provider?: ExternalTitleProvider) {
+  return prisma.$transaction(async tx => {
+    const [lock] = await tx.$queryRaw<{ locked: boolean }[]>`SELECT pg_try_advisory_xact_lock(24471, 1) AS locked`;
+    if (!lock.locked) return { skipped: true as const, reason: "already_running" as const };
+    const now = new Date();
+    const staleBefore = new Date(now.getTime() - leaseMs);
+    await tx.syncRun.updateMany({
+      where: { status: "RUNNING", heartbeatAt: { lt: staleBefore } },
+      data: { status: "FAILED", finishedAt: now, errorMessage: "Heartbeat expired after 2 hours" },
+    });
+    if (await tx.syncRun.findFirst({ where: { status: "RUNNING" }, select: { id: true } })) {
+      return { skipped: true as const, reason: "already_running" as const };
+    }
+    const startOfDay = new Date(now);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    if (await tx.syncRun.findFirst({ where: { provider: provider ?? null, status: "SUCCESS", startedAt: { gte: startOfDay } }, select: { id: true } })) {
+      return { skipped: true as const, reason: "already_synced_today" as const };
+    }
+    const run = await tx.syncRun.create({ data: { provider: provider ?? null, status: "RUNNING", heartbeatAt: now }, select: { id: true } });
+    return { skipped: false as const, syncRunId: run.id };
   });
 }
 
-export async function finishSyncRunSuccess(
-  syncRunId: string,
-  counts?: {
-    titlesCreated?: number;
-    titlesUpdated?: number;
-  },
-) {
-  return prisma.syncRun.update({
-    where: {
-      id: syncRunId,
-    },
-    data: {
-      status: "SUCCESS",
-      finishedAt: new Date(),
-      titlesCreated: counts?.titlesCreated ?? 0,
-      titlesUpdated: counts?.titlesUpdated ?? 0,
-      errorMessage: null,
-    },
-  });
+export async function touchSyncRun(id: string) {
+  const result = await prisma.syncRun.updateMany({ where: { id, status: "RUNNING" }, data: { heartbeatAt: new Date() } });
+  if (result.count !== 1) throw new InactiveSyncRunError("Sync run is no longer active");
 }
 
-export async function finishSyncRunFailure(syncRunId: string, error: unknown) {
-  const errorMessage =
-    error instanceof Error ? error.message : "Unknown sync error";
-
-  return prisma.syncRun.update({
-    where: {
-      id: syncRunId,
-    },
-    data: {
-      status: "FAILED",
-      finishedAt: new Date(),
-      errorMessage,
-    },
-  });
+export async function finishSyncRunSuccess(id: string, counts?: Counts) {
+  return prisma.syncRun.updateMany({ where: { id, status: "RUNNING" }, data: {
+    status: "SUCCESS", finishedAt: new Date(), heartbeatAt: new Date(),
+    titlesCreated: counts?.titlesCreated ?? 0, titlesUpdated: counts?.titlesUpdated ?? 0, errorMessage: null,
+  } });
 }
 
-export async function runDailySyncOnce(
-  task: () => Promise<SyncTaskResult>,
-  provider?: ExternalTitleProvider,
-) {
-  await markStaleSyncRunsAsFailed(provider);
+export async function finishSyncRunFailure(id: string) {
+  // Never persist exception text, provider response bodies or connection strings.
+  return prisma.syncRun.updateMany({ where: { id, status: "RUNNING" }, data: {
+    status: "FAILED", finishedAt: new Date(), errorMessage: "Catalog sync failed; inspect sanitized operation events",
+  } });
+}
 
-  const alreadySynced = await hasSuccessfulSyncToday(provider);
-
-  if (alreadySynced) {
-    return {
-      skipped: true,
-      reason: "already_synced_today" as const,
-    };
-  }
-
-  const syncRun = await startSyncRun(provider);
-
+export async function runDailySyncOnce(task: () => Promise<Counts>, provider?: ExternalTitleProvider) {
+  const claim = await claimDailySync(provider);
+  if (claim.skipped) return claim;
+  const heartbeat = setInterval(() => { void touchSyncRun(claim.syncRunId).catch(() => {}); }, 60_000);
   try {
     const result = await task();
-
-    await finishSyncRunSuccess(syncRun.id, result);
-
-    return {
-      skipped: false,
-      syncRunId: syncRun.id,
-      ...result,
-    };
+    await finishSyncRunSuccess(claim.syncRunId, result);
+    return { ...claim, ...result };
   } catch (error) {
-    await finishSyncRunFailure(syncRun.id, error);
+    await finishSyncRunFailure(claim.syncRunId);
     throw error;
-  }
-}
-
-export async function markStaleSyncRunsAsFailed(
-  provider?: ExternalTitleProvider,
-) {
-  const staleBefore = new Date(Date.now() - 1000 * 60 * 60);
-
-  return prisma.syncRun.updateMany({
-    where: {
-      provider: provider ?? null,
-      status: "RUNNING",
-      startedAt: {
-        lt: staleBefore,
-      },
-    },
-    data: {
-      status: "FAILED",
-      finishedAt: new Date(),
-      errorMessage: "Sync run marked as stale after 1 hour",
-    },
-  });
+  } finally { clearInterval(heartbeat); }
 }

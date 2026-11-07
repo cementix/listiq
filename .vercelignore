@@ -1,0 +1,12 @@
+.env*
+.neon
+.agents/
+.claude/
+.codex/
+AGENTS.md
+docs/handoff.md
+docs/launch-verification.md
+.workflow-data/
+.swc/
+*.tsbuildinfo
+app/.well-known/workflow/

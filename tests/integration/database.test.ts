@@ -27,6 +27,8 @@ import { addLibraryTitle, removeLibraryTitle, updateLibraryTitle } from "../../l
 import { addListTitle } from "../../lib/title-list/mutations";
 import { scoreCatalog } from "../../lib/catalog/scoreCatalog";
 import { saveDiscoveryTitle } from "../../actions/discovery/saveDiscoveryTitle";
+import { claimDailySync, touchSyncRun, finishSyncRunSuccess, finishSyncRunFailure } from "../../lib/sync/syncRun";
+import { expireTmdbCache, refreshStaleTmdbTitles } from "../../lib/sync/providers/tmdb";
 
 const expectedDb = process.env.LISTIQ_TEST_DATABASE;
 assert.match(expectedDb ?? "", /^listiq_test_[a-f0-9]{32}$/, "Use npm run test:integration");
@@ -48,7 +50,7 @@ before(async () => {
 after(async () => { await prisma.$disconnect(); });
 
 beforeEach(async () => {
-  await prisma.$executeRaw`TRUNCATE TABLE "User", "Title", "Genre", "RateLimitBucket" CASCADE`;
+  await prisma.$executeRaw`TRUNCATE TABLE "User", "Title", "Genre", "RateLimitBucket", "SyncRun" CASCADE`;
   await prisma.genre.create({ data: { id: "genre", name: "Fixture genre", slug: "fixture-genre" } });
   await prisma.user.createMany({ data: Object.entries(roles).map(([id, role]) => ({
     id, role, username: id, email: `${id}@example.test`, passwordHash: "test-only-not-a-login-hash",
@@ -356,4 +358,69 @@ test("a regular list occupying the system slug is preserved during parallel firs
   assert.equal(original.title, "My regular list");
   const system = await prisma.titleList.findUniqueOrThrow({ where: { userId_systemType: { userId: "visitor", systemType: "SAVE_FOR_LATER" } } });
   assert.equal(system.slug, "saved-for-later-2");
+});
+
+
+test("TMDB cache expires without removing library entries and refreshes by provider ID", async t => {
+  const now = Date.now();
+  await prisma.title.update({
+    where: { id: "title-0" },
+    data: { description: "Old synopsis", imageUrl: "https://image.tmdb.org/t/p/w500/old.jpg",
+      genres: { connect: { id: "genre" } }, externalTitles: { create: {
+        provider: "TMDB_MOVIE", externalId: "101", rawData: { vote_count: 100 },
+        lastSyncedAt: new Date(now - 181 * 86_400_000),
+      } } },
+  });
+  await expireTmdbCache();
+  const expired = await prisma.title.findUniqueOrThrow({
+    where: { id: "title-0" }, include: { externalTitles: true, genres: true, users: true },
+  });
+  assert.equal(expired.description, null);
+  assert.equal(expired.imageUrl, null);
+  assert.equal(expired.genres.length, 0);
+  assert.equal(expired.users.length, 2);
+  assert.equal(expired.externalTitles[0].rawData, null);
+
+  const token = process.env.TMDB_ACCESS_TOKEN;
+  process.env.TMDB_ACCESS_TOKEN = "test-only";
+  t.after(() => {
+    if (token === undefined) delete process.env.TMDB_ACCESS_TOKEN;
+    else process.env.TMDB_ACCESS_TOKEN = token;
+  });
+  t.mock.method(globalThis, "fetch", async (url: string) => {
+    assert.equal(new URL(url).pathname, "/3/movie/101");
+    return Response.json({ id: 101, title: "Fresh title", overview: "Fresh synopsis",
+      poster_path: "/fresh.jpg", genres: [{ id: 1, name: "Drama" }], vote_count: 200, adult: false });
+  });
+  assert.deepEqual(await refreshStaleTmdbTitles(), { titlesCreated: 0, titlesUpdated: 1 });
+  const fresh = await prisma.title.findUniqueOrThrow({ where: { id: "title-0" }, include: { externalTitles: true } });
+  assert.equal(fresh.description, "Fresh synopsis");
+  assert.ok(fresh.externalTitles[0].lastSyncedAt!.getTime() >= now);
+});
+
+test("daily sync claim is atomic and skips an already successful UTC day", async () => {
+  const claims = await Promise.all(Array.from({ length: 12 }, () => claimDailySync()));
+  const winners = claims.filter(claim => !claim.skipped);
+  assert.equal(winners.length, 1);
+  assert.equal(await prisma.syncRun.count({ where: { status: "RUNNING" } }), 1);
+  const winner = winners[0];
+  if (winner.skipped) throw new Error("Missing winning claim");
+  await touchSyncRun(winner.syncRunId);
+  await finishSyncRunSuccess(winner.syncRunId, { titlesCreated: 2, titlesUpdated: 3 });
+  const next = await claimDailySync();
+  assert.equal(next.skipped, true);
+  if (next.skipped) assert.equal(next.reason, "already_synced_today");
+});
+
+test("stale sync is failed and fenced from replacing a newer run", async () => {
+  const stale = await prisma.syncRun.create({ data: { status: "RUNNING", heartbeatAt: new Date(Date.now() - 3 * 60 * 60_000) } });
+  const claim = await claimDailySync();
+  assert.equal(claim.skipped, false);
+  assert.equal((await prisma.syncRun.findUniqueOrThrow({ where: { id: stale.id } })).status, "FAILED");
+  await assert.rejects(touchSyncRun(stale.id));
+  assert.equal((await finishSyncRunSuccess(stale.id)).count, 0);
+  if (!claim.skipped) await finishSyncRunFailure(claim.syncRunId);
+  const retry = await claimDailySync();
+  assert.equal(retry.skipped, false);
+  if (!retry.skipped) await finishSyncRunSuccess(retry.syncRunId);
 });

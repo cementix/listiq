@@ -33,7 +33,3 @@ you intend to migrate; the integration runner independently guards its temporary
 database. Never point CI connection variables at production or preview databases.
 
 Service setup follows [GitHub's PostgreSQL service documentation](https://docs.github.com/en/actions/tutorials/use-containerized-services/create-postgresql-service-containers).
-
-Local validation: Prisma generation, typecheck, full lint, 42 unit tests,
-20 integration tests, replay of all 29 migrations on an empty temporary database,
-and production build passed. The hosted workflow still needs its first GitHub run.

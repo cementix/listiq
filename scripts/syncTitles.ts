@@ -1,3 +1,5 @@
+
+import { logError } from "@/lib/observability/errors";
 import "dotenv/config";
 import { prisma } from "@/lib/prisma";
 import {
@@ -44,7 +46,7 @@ async function main() {
 
 main()
   .catch((error) => {
-    console.error(error);
+    logError("scripts.syncTitles", error);
     process.exit(1);
   })
   .finally(async () => {

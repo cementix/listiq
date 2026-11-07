@@ -5,6 +5,10 @@
     {
       "path": "/api/cron/sync-titles",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/check-sync",
+      "schedule": "0 7 * * *"
     }
   ]
 }

@@ -5,6 +5,7 @@ import { Dice5 } from "lucide-react";
 import GlassCard from "@/components/custom/GlassCard";
 import type { DashboardTitle } from "./dashboardTypes";
 import { formatTitleMeta } from "./dashboardUtils";
+import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type DashboardRandomPicksProps = {
   titles: DashboardTitle[];
@@ -22,8 +23,8 @@ export default function DashboardRandomPicks({
 
       <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
         {titles.map((title, index) => (
+          <div key={title.id}>
           <Link
-            key={title.id}
             href={`/titles/${title.slug}`}
             style={
               { animationDelay: `${560 + index * 90}ms` } as React.CSSProperties
@@ -59,6 +60,8 @@ export default function DashboardRandomPicks({
               )}
             </div>
           </Link>
+          <TitleSourceLinks sources={title.externalTitles} />
+          </div>
         ))}
       </div>
     </GlassCard>

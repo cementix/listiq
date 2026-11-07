@@ -42,6 +42,8 @@ export type SyncRunMinAggregateOutputType = {
   status: $Enums.SyncRunStatus | null
   startedAt: Date | null
   finishedAt: Date | null
+  heartbeatAt: Date | null
+  workflowRunId: string | null
   titlesCreated: number | null
   titlesUpdated: number | null
   errorMessage: string | null
@@ -53,6 +55,8 @@ export type SyncRunMaxAggregateOutputType = {
   status: $Enums.SyncRunStatus | null
   startedAt: Date | null
   finishedAt: Date | null
+  heartbeatAt: Date | null
+  workflowRunId: string | null
   titlesCreated: number | null
   titlesUpdated: number | null
   errorMessage: string | null
@@ -64,6 +68,8 @@ export type SyncRunCountAggregateOutputType = {
   status: number
   startedAt: number
   finishedAt: number
+  heartbeatAt: number
+  workflowRunId: number
   titlesCreated: number
   titlesUpdated: number
   errorMessage: number
@@ -87,6 +93,8 @@ export type SyncRunMinAggregateInputType = {
   status?: true
   startedAt?: true
   finishedAt?: true
+  heartbeatAt?: true
+  workflowRunId?: true
   titlesCreated?: true
   titlesUpdated?: true
   errorMessage?: true
@@ -98,6 +106,8 @@ export type SyncRunMaxAggregateInputType = {
   status?: true
   startedAt?: true
   finishedAt?: true
+  heartbeatAt?: true
+  workflowRunId?: true
   titlesCreated?: true
   titlesUpdated?: true
   errorMessage?: true
@@ -109,6 +119,8 @@ export type SyncRunCountAggregateInputType = {
   status?: true
   startedAt?: true
   finishedAt?: true
+  heartbeatAt?: true
+  workflowRunId?: true
   titlesCreated?: true
   titlesUpdated?: true
   errorMessage?: true
@@ -207,6 +219,8 @@ export type SyncRunGroupByOutputType = {
   status: $Enums.SyncRunStatus
   startedAt: Date
   finishedAt: Date | null
+  heartbeatAt: Date
+  workflowRunId: string | null
   titlesCreated: number
   titlesUpdated: number
   errorMessage: string | null
@@ -241,6 +255,8 @@ export type SyncRunWhereInput = {
   status?: Prisma.EnumSyncRunStatusFilter<"SyncRun"> | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFilter<"SyncRun"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SyncRun"> | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFilter<"SyncRun"> | Date | string
+  workflowRunId?: Prisma.StringNullableFilter<"SyncRun"> | string | null
   titlesCreated?: Prisma.IntFilter<"SyncRun"> | number
   titlesUpdated?: Prisma.IntFilter<"SyncRun"> | number
   errorMessage?: Prisma.StringNullableFilter<"SyncRun"> | string | null
@@ -252,6 +268,8 @@ export type SyncRunOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  heartbeatAt?: Prisma.SortOrder
+  workflowRunId?: Prisma.SortOrderInput | Prisma.SortOrder
   titlesCreated?: Prisma.SortOrder
   titlesUpdated?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -266,6 +284,8 @@ export type SyncRunWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumSyncRunStatusFilter<"SyncRun"> | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFilter<"SyncRun"> | Date | string
   finishedAt?: Prisma.DateTimeNullableFilter<"SyncRun"> | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFilter<"SyncRun"> | Date | string
+  workflowRunId?: Prisma.StringNullableFilter<"SyncRun"> | string | null
   titlesCreated?: Prisma.IntFilter<"SyncRun"> | number
   titlesUpdated?: Prisma.IntFilter<"SyncRun"> | number
   errorMessage?: Prisma.StringNullableFilter<"SyncRun"> | string | null
@@ -277,6 +297,8 @@ export type SyncRunOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  heartbeatAt?: Prisma.SortOrder
+  workflowRunId?: Prisma.SortOrderInput | Prisma.SortOrder
   titlesCreated?: Prisma.SortOrder
   titlesUpdated?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -296,6 +318,8 @@ export type SyncRunScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumSyncRunStatusWithAggregatesFilter<"SyncRun"> | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"SyncRun"> | Date | string
   finishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SyncRun"> | Date | string | null
+  heartbeatAt?: Prisma.DateTimeWithAggregatesFilter<"SyncRun"> | Date | string
+  workflowRunId?: Prisma.StringNullableWithAggregatesFilter<"SyncRun"> | string | null
   titlesCreated?: Prisma.IntWithAggregatesFilter<"SyncRun"> | number
   titlesUpdated?: Prisma.IntWithAggregatesFilter<"SyncRun"> | number
   errorMessage?: Prisma.StringNullableWithAggregatesFilter<"SyncRun"> | string | null
@@ -307,6 +331,8 @@ export type SyncRunCreateInput = {
   status: $Enums.SyncRunStatus
   startedAt?: Date | string
   finishedAt?: Date | string | null
+  heartbeatAt?: Date | string
+  workflowRunId?: string | null
   titlesCreated?: number
   titlesUpdated?: number
   errorMessage?: string | null
@@ -318,6 +344,8 @@ export type SyncRunUncheckedCreateInput = {
   status: $Enums.SyncRunStatus
   startedAt?: Date | string
   finishedAt?: Date | string | null
+  heartbeatAt?: Date | string
+  workflowRunId?: string | null
   titlesCreated?: number
   titlesUpdated?: number
   errorMessage?: string | null
@@ -329,6 +357,8 @@ export type SyncRunUpdateInput = {
   status?: Prisma.EnumSyncRunStatusFieldUpdateOperationsInput | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workflowRunId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titlesCreated?: Prisma.IntFieldUpdateOperationsInput | number
   titlesUpdated?: Prisma.IntFieldUpdateOperationsInput | number
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -340,6 +370,8 @@ export type SyncRunUncheckedUpdateInput = {
   status?: Prisma.EnumSyncRunStatusFieldUpdateOperationsInput | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workflowRunId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titlesCreated?: Prisma.IntFieldUpdateOperationsInput | number
   titlesUpdated?: Prisma.IntFieldUpdateOperationsInput | number
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -351,6 +383,8 @@ export type SyncRunCreateManyInput = {
   status: $Enums.SyncRunStatus
   startedAt?: Date | string
   finishedAt?: Date | string | null
+  heartbeatAt?: Date | string
+  workflowRunId?: string | null
   titlesCreated?: number
   titlesUpdated?: number
   errorMessage?: string | null
@@ -362,6 +396,8 @@ export type SyncRunUpdateManyMutationInput = {
   status?: Prisma.EnumSyncRunStatusFieldUpdateOperationsInput | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workflowRunId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titlesCreated?: Prisma.IntFieldUpdateOperationsInput | number
   titlesUpdated?: Prisma.IntFieldUpdateOperationsInput | number
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -373,6 +409,8 @@ export type SyncRunUncheckedUpdateManyInput = {
   status?: Prisma.EnumSyncRunStatusFieldUpdateOperationsInput | $Enums.SyncRunStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartbeatAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workflowRunId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   titlesCreated?: Prisma.IntFieldUpdateOperationsInput | number
   titlesUpdated?: Prisma.IntFieldUpdateOperationsInput | number
   errorMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -384,6 +422,8 @@ export type SyncRunCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
+  heartbeatAt?: Prisma.SortOrder
+  workflowRunId?: Prisma.SortOrder
   titlesCreated?: Prisma.SortOrder
   titlesUpdated?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
@@ -400,6 +440,8 @@ export type SyncRunMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
+  heartbeatAt?: Prisma.SortOrder
+  workflowRunId?: Prisma.SortOrder
   titlesCreated?: Prisma.SortOrder
   titlesUpdated?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
@@ -411,6 +453,8 @@ export type SyncRunMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
   finishedAt?: Prisma.SortOrder
+  heartbeatAt?: Prisma.SortOrder
+  workflowRunId?: Prisma.SortOrder
   titlesCreated?: Prisma.SortOrder
   titlesUpdated?: Prisma.SortOrder
   errorMessage?: Prisma.SortOrder
@@ -437,6 +481,8 @@ export type SyncRunSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   startedAt?: boolean
   finishedAt?: boolean
+  heartbeatAt?: boolean
+  workflowRunId?: boolean
   titlesCreated?: boolean
   titlesUpdated?: boolean
   errorMessage?: boolean
@@ -448,6 +494,8 @@ export type SyncRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   startedAt?: boolean
   finishedAt?: boolean
+  heartbeatAt?: boolean
+  workflowRunId?: boolean
   titlesCreated?: boolean
   titlesUpdated?: boolean
   errorMessage?: boolean
@@ -459,6 +507,8 @@ export type SyncRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   startedAt?: boolean
   finishedAt?: boolean
+  heartbeatAt?: boolean
+  workflowRunId?: boolean
   titlesCreated?: boolean
   titlesUpdated?: boolean
   errorMessage?: boolean
@@ -470,12 +520,14 @@ export type SyncRunSelectScalar = {
   status?: boolean
   startedAt?: boolean
   finishedAt?: boolean
+  heartbeatAt?: boolean
+  workflowRunId?: boolean
   titlesCreated?: boolean
   titlesUpdated?: boolean
   errorMessage?: boolean
 }
 
-export type SyncRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "status" | "startedAt" | "finishedAt" | "titlesCreated" | "titlesUpdated" | "errorMessage", ExtArgs["result"]["syncRun"]>
+export type SyncRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "provider" | "status" | "startedAt" | "finishedAt" | "heartbeatAt" | "workflowRunId" | "titlesCreated" | "titlesUpdated" | "errorMessage", ExtArgs["result"]["syncRun"]>
 
 export type $SyncRunPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SyncRun"
@@ -486,6 +538,8 @@ export type $SyncRunPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: $Enums.SyncRunStatus
     startedAt: Date
     finishedAt: Date | null
+    heartbeatAt: Date
+    workflowRunId: string | null
     titlesCreated: number
     titlesUpdated: number
     errorMessage: string | null
@@ -917,6 +971,8 @@ export interface SyncRunFieldRefs {
   readonly status: Prisma.FieldRef<"SyncRun", 'SyncRunStatus'>
   readonly startedAt: Prisma.FieldRef<"SyncRun", 'DateTime'>
   readonly finishedAt: Prisma.FieldRef<"SyncRun", 'DateTime'>
+  readonly heartbeatAt: Prisma.FieldRef<"SyncRun", 'DateTime'>
+  readonly workflowRunId: Prisma.FieldRef<"SyncRun", 'String'>
   readonly titlesCreated: Prisma.FieldRef<"SyncRun", 'Int'>
   readonly titlesUpdated: Prisma.FieldRef<"SyncRun", 'Int'>
   readonly errorMessage: Prisma.FieldRef<"SyncRun", 'String'>

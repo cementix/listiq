@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
 import { CreateTitleInput } from "./types";
@@ -55,7 +57,7 @@ export async function createTitleSubmission(
     revalidatePath(`/users/${session.username}`);
     return { ok: true, message: "submission created" };
   } catch (error) {
-    console.error("createTitleSubmission error: ", error);
+    logError("actions.title.createTitleSubmission", error);
     return { ok: false, error: securityErrorMessage(error, "Failed to create submission") };
   }
 }

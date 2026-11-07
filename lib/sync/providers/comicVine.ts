@@ -1,10 +1,10 @@
-import { generateUniqueSlug } from "@/actions/title/generateUniqueSlug";
-import { slugify } from "@/actions/title/slugify";
+import { providerRequest } from "@/lib/sync/providerRequest";
+import { generateUniqueSlug } from "@/lib/title/generateUniqueSlug";
+import { slugify } from "@/lib/title/slugify";
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { upsertTitleAlias } from "@/lib/sync/titleAliases";
 import {
-  getRetryDelayMs,
   setSyncProgress,
   sleep,
   type SyncResult,
@@ -74,6 +74,7 @@ type MappedComicVineVolume = {
 };
 
 type SyncComicVineOptions = {
+  startPage?: number;
   pages?: number;
   sort?: string;
 };
@@ -94,38 +95,9 @@ function getComicVineUserAgent() {
 
 async function fetchComicVine<T>(
   path: string,
-  params: Record<string, string | number> = {},
-  attempt = 0,
+  params: Record<string, string | number> = {}
 ): Promise<T> {
-  const searchParams = new URLSearchParams({
-    api_key: getComicVineApiKey(),
-    format: "json",
-    ...Object.fromEntries(
-      Object.entries(params).map(([key, value]) => [key, String(value)]),
-    ),
-  });
-
-  const response = await fetch(
-    `${COMIC_VINE_API_BASE_URL}${path}?${searchParams.toString()}`,
-    {
-      headers: {
-        Accept: "application/json",
-        "User-Agent": getComicVineUserAgent(),
-      },
-    },
-  );
-
-  if ((response.status === 429 || response.status >= 500) && attempt < 5) {
-    await sleep(getRetryDelayMs(response, attempt));
-
-    return fetchComicVine<T>(path, params, attempt + 1);
-  }
-
-  if (!response.ok) {
-    throw new Error(`Comic Vine request failed ${response.status} ${path}`);
-  }
-
-  return response.json() as Promise<T>;
+const search = new URLSearchParams({ api_key: getComicVineApiKey(), format: "json", ...Object.fromEntries(Object.entries(params).map(([k,v])=>[k,String(v)])) }); const response = await providerRequest("Comic Vine", COMIC_VINE_API_BASE_URL + path + "?" + search, {headers:{Accept:"application/json","User-Agent":getComicVineUserAgent()}}); return response.json() as Promise<T>;
 }
 
 function stripHtml(value?: string | null) {
@@ -370,7 +342,7 @@ export async function syncComicVineVolumes(
   let titlesCreated = 0;
   let titlesUpdated = 0;
 
-  for (let page = 0; page < pages; page++) {
+  for (let page = options?.startPage ?? 0; page < (options?.startPage ?? 0) + pages; page++) {
     setSyncProgress("comic-vine", `${sort} page ${page + 1}/${pages}`, {
       titlesCreated,
       titlesUpdated,

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import NavbarShell from "./NavbarShell";
 import StoreProvider from "../storeProvider";
 import { canReviewSubmissions } from "@/actions/submissions/canReviewSubmissions";
+import ProviderCredits from "@/components/custom/ProviderCredits";
 
 const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   const session = await requireAuth();
@@ -33,6 +34,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
           />
         </NavbarShell>
         <main id="main-content" tabIndex={-1} className="min-w-0 outline-none">{children}</main>
+        <ProviderCredits />
       </div>
     </StoreProvider>
   );

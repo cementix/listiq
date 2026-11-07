@@ -1,5 +1,7 @@
 "use server";
 
+import { logError } from "@/lib/observability/errors";
+
 import { prisma } from "@/lib/prisma";
 import { canViewProfilePost } from "@/lib/privacy/canViewProfilePost";
 import { requireUserServer } from "@/lib/auth/guards";
@@ -70,7 +72,7 @@ export async function toggleProfilePostLike({
 
     return { ok: true, message: "Post liked" };
   } catch (error) {
-    console.error("toggleProfilePostLike error: ", error);
+    logError("actions.profile.toggleProfilePostLike", error);
     return { ok: false, error: "Failed to update like" };
   }
 }

@@ -1,43 +1,28 @@
-import { syncTitlesDaily } from "@/lib/sync/syncTitles";
-import { revalidateCatalogViews } from "@/lib/cache/revalidateViews";
+import { start } from "workflow/api";
+import { catalogSyncWorkflow } from "@/workflows/catalogSync";
+import { claimDailySync, finishSyncRunFailure } from "@/lib/sync/syncRun";
+import { cronAuthorized } from "@/lib/sync/cronAuth";
+import { reportError } from "@/lib/observability/monitoring";
 import { prisma } from "@/lib/prisma";
+import { dailySyncPlan } from "@/lib/sync/dailyPlan";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-function isAuthorized(request: Request) {
-  const cronSecret = process.env.CRON_SECRET;
-
-  if (!cronSecret) {
-    return process.env.NODE_ENV !== "production";
-  }
-
-  return request.headers.get("authorization") === `Bearer ${cronSecret}`;
-}
-
 export async function GET(request: Request) {
-  if (!isAuthorized(request)) {
-    return Response.json({ ok: false, error: "Unauthorized" }, { status: 401 });
-  }
-
-  const startedAt = Date.now();
+  if (!cronAuthorized(request)) return Response.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+  let runId: string | undefined;
   try {
-    await prisma.rateLimitBucket.deleteMany({ where: { expiresAt: { lt: new Date() } } });
+    const claim = await claimDailySync();
+    if (claim.skipped) return Response.json({ ok: true, ...claim });
+    runId = claim.syncRunId;
+    const run = await start(catalogSyncWorkflow, [runId, dailySyncPlan()]);
+    await prisma.syncRun.updateMany({ where: { id: runId, status: "RUNNING" }, data: { workflowRunId: run.runId } });
+    return Response.json({ ok: true, syncRunId: runId, workflowRunId: run.runId }, { status: 202 });
   } catch {
-    console.error("Rate-limit cleanup failed");
+    if (runId) await finishSyncRunFailure(runId).catch(() => {});
+    await reportError("sync.dispatch.failed");
+    return Response.json({ ok: false, error: "Unable to start catalog sync" }, { status: 503 });
   }
-  let result;
-  try {
-    result = await syncTitlesDaily();
-  } finally {
-    // Successful providers remain saved even if another provider fails.
-    revalidateCatalogViews();
-  }
-
-  return Response.json({
-    ok: true,
-    durationMs: Date.now() - startedAt,
-    result,
-  });
 }
