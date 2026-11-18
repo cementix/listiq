@@ -8,6 +8,9 @@ import PageSection from "@/components/custom/PageSection";
 import { CountUp } from "@/components/landing/primitives";
 import { BarList, ChartCard, ColumnChart, Heatmap } from "@/components/stats/Charts";
 import { requireAuth } from "@/lib/auth/guards";
+import { prisma } from "@/lib/prisma";
+import { Lock } from "lucide-react";
+import type { ReactNode } from "react";
 import { getUserInsights } from "@/lib/stats/getUserInsights";
 
 export const metadata: Metadata = { title: "Your insights" };
@@ -19,8 +22,13 @@ const TYPE_LABEL: Record<string, string> = {
 
 export default async function StatsPage() {
   const session = await requireAuth();
-  const insights = await getUserInsights(session.userId);
+  const [insights, member] = await Promise.all([
+    getUserInsights(session.userId),
+    prisma.user.findUnique({ where: { id: session.userId }, select: { plan: true, isGuest: true } }),
+  ]);
   const { totals } = insights;
+  // Demo sandboxes preview everything so visitors see the full product.
+  const unlocked = member?.plan === "PRO" || member?.isGuest === true;
 
   const tiles = [
     { label: "Titles in library", value: totals.library, icon: BarChart3 },
@@ -80,16 +88,19 @@ export default async function StatsPage() {
           <ColumnChart unit="titles added" height={150} data={insights.monthly.map((month) => ({ label: month.label, value: month.count, detail: month.key }))} />
         </ChartCard>
         <ChartCard title="Favourite genres" subtitle="Most common genres in your library">
-          {insights.genres.length ? (
-            <BarList unit="titles" data={insights.genres.map((genre) => ({ label: genre.name, value: genre.count }))} />
-          ) : (
-            <p className="text-sm text-white/45">Genres appear once your titles have them.</p>
-          )}
+          <ProGate unlocked={unlocked}>
+            {insights.genres.length ? (
+              <BarList unit="titles" data={insights.genres.map((genre) => ({ label: genre.name, value: genre.count }))} />
+            ) : (
+              <p className="text-sm text-white/45">Genres appear once your titles have them.</p>
+            )}
+          </ProGate>
         </ChartCard>
       </div>
 
       {insights.topRated.length > 0 && (
         <ChartCard title="Your hall of fame" subtitle="Highest-rated titles in your library">
+          <ProGate unlocked={unlocked}>
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {insights.topRated.map((title, index) => (
               <Link key={title.id} href={`/titles/${title.slug}`} style={{ animationDelay: `${index * 60}ms` }} className="dashboard-card-pop-in group">
@@ -104,14 +115,31 @@ export default async function StatsPage() {
               </Link>
             ))}
           </div>
+          </ProGate>
         </ChartCard>
       )}
 
       {insights.decades.length > 1 && (
         <ChartCard title="Across the decades" subtitle="Release years of the titles you track">
-          <ColumnChart unit="titles" height={140} data={insights.decades.map((row) => ({ label: row.decade, value: row.count }))} />
+          <ProGate unlocked={unlocked}>
+            <ColumnChart unit="titles" height={140} data={insights.decades.map((row) => ({ label: row.decade, value: row.count }))} />
+          </ProGate>
         </ChartCard>
       )}
     </PageSection>
+  );
+}
+
+function ProGate({ unlocked, children }: { unlocked: boolean; children: ReactNode }) {
+  if (unlocked) return <>{children}</>;
+  return (
+    <div className="relative">
+      <div aria-hidden className="pointer-events-none select-none blur-md saturate-50">{children}</div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-black/40 text-center">
+        <span className="grid size-10 place-items-center rounded-xl bg-violet-500/20 text-violet-200"><Lock className="size-4" /></span>
+        <p className="text-sm font-medium text-white">Part of Listiq Pro</p>
+        <Link href="/settings/billing" className="rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-black transition hover:-translate-y-0.5">Unlock in test mode</Link>
+      </div>
+    </div>
   );
 }

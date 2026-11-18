@@ -21,6 +21,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
       avatarUrl: true,
       role: true,
       isGuest: true,
+      plan: true,
       guestExpiresAt: true,
     },
   });
@@ -42,6 +43,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
             username={session.username}
             needsChangesCount={needsChangesCount}
             avatarUrl={user?.avatarUrl ?? null}
+            isPro={user?.plan === "PRO"}
             canReview={user ? canReviewSubmissions(user.role) : false}
           />
         </NavbarShell>

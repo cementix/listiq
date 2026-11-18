@@ -10,9 +10,11 @@ import { startTransition } from "react";
 export default function UserMenu({
   username,
   avatarUrl,
+  isPro = false,
 }: {
   username: string;
   avatarUrl: string | null;
+  isPro?: boolean;
 }) {
   return (
     <DropdownMenu.Root modal={false}>
@@ -40,6 +42,9 @@ export default function UserMenu({
             )}
           </span>
 
+          {isPro && (
+            <span className="rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-white">PRO</span>
+          )}
           <ChevronDown className="size-4" />
         </button>
       </DropdownMenu.Trigger>
