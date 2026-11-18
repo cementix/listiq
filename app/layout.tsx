@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import PrivacySetupDialog from "@/components/custom/PrivacySetupDialog";
+import { instrumentSerif } from "@/app/fonts";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -39,7 +40,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} antialiased bg-background text-foreground`}
+        className={`${fontSans.variable} ${fontMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
         <div className="relative min-h-screen">
           <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden">
