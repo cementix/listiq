@@ -87,7 +87,9 @@ const RegisterForm = () => {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          aria-describedby="password-strength"
         />
+        <PasswordStrength password={password} />
       </div>
 
       {!state.ok && state.error && <p role="alert" className="text-sm text-red-300">{state.error}</p>}
@@ -119,3 +121,29 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+const STRENGTH = [
+  { label: "Too short", color: "bg-rose-400" },
+  { label: "Weak", color: "bg-rose-400" },
+  { label: "Okay", color: "bg-amber-300" },
+  { label: "Strong", color: "bg-emerald-400" },
+  { label: "Excellent", color: "bg-emerald-400" },
+];
+
+/** Lightweight strength hint: length plus character variety (the server enforces the real rules). */
+function PasswordStrength({ password }: { password: string }) {
+  if (!password) return null;
+  const variety = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/].filter((pattern) => pattern.test(password)).length;
+  const score = password.length < 6 ? 0 : Math.min(4, (password.length >= 12 ? 2 : 1) + Math.max(0, variety - 1));
+  const { label, color } = STRENGTH[score];
+  return (
+    <div id="password-strength" aria-live="polite" className="flex items-center gap-3 pt-1">
+      <div className="flex flex-1 gap-1">
+        {[1, 2, 3, 4].map((step) => (
+          <span key={step} className={`h-1 flex-1 rounded-full transition-colors duration-300 ${score >= step ? color : "bg-white/10"}`} />
+        ))}
+      </div>
+      <span className="w-16 text-right text-xs text-white/60">{label}</span>
+    </div>
+  );
+}
