@@ -10,6 +10,7 @@ import DashboardRail from "./DashboardRail";
 import TitlePosterCard from "./TitlePosterCard";
 import { getDashboardTitles } from "./dashboardQueries";
 import DashboardToast from "./DashboardToast";
+import DashboardWelcome from "./DashboardWelcome";
 import { getPublicTitleLists } from "@/lib/title-list/getPublicTitleLists";
 import PublicListCard from "../lists/PublicListCard";
 
@@ -28,6 +29,7 @@ export default async function DashboardPage() {
       <DashboardToast flash={flash} />
 
       <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
+        {session && <DashboardWelcome userId={session.userId} username={session.username} />}
         {!hero ? (
           <GlassCard className="p-6">
             <p className="text-sm text-white/50">Dashboard</p>
