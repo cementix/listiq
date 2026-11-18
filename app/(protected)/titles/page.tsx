@@ -1,3 +1,4 @@
+export const metadata = { title: "Browse titles" };
 import { getTitles } from "@/actions/title/getTitles";
 import PageHeader from "@/components/custom/PageHeader";
 import { BookOpen } from "lucide-react";

@@ -1,3 +1,4 @@
+export const metadata = { title: "My submissions" };
 import { getMySubmissions } from "@/actions/submissions/getMySubmissions";
 import PageHeader from "@/components/custom/PageHeader";
 import { Inbox } from "lucide-react";

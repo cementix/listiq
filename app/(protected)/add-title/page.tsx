@@ -1,3 +1,4 @@
+export const metadata = { title: "Add a title" };
 import { getCurrentUser } from "@/lib/auth/guards";
 import PageHeader from "@/components/custom/PageHeader";
 import { Plus } from "lucide-react";

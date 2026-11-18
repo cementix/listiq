@@ -1,3 +1,4 @@
+export const metadata = { title: "Settings" };
 import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth/guards";

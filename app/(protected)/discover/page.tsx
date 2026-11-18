@@ -1,3 +1,4 @@
+export const metadata = { title: "Discover" };
 import { getDiscoveryCandidates } from "@/actions/discovery/getDiscoveryCandidates";
 import DiscoveryDeck from "./DiscoveryDeck";
 

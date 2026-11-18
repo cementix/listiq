@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { siteUrl } from "@/lib/site";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -18,11 +19,19 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const description =
+  "Track movies, series, anime, manga, games, books and comics. Rate, review, build lists and discover your next favorite.";
+
 export const metadata: Metadata = {
-  title: "listiq",
-  description:
-    "Track movies, series, anime, manga, games and books. Build lists, share reviews and discover your next favorite.",
+  metadataBase: new URL(siteUrl()),
+  title: { default: "Listiq", template: "%s · Listiq" },
+  description,
+  applicationName: "Listiq",
+  openGraph: { type: "website", siteName: "Listiq", title: "Listiq", description },
+  twitter: { card: "summary_large_image", title: "Listiq", description },
 };
+
+export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
 
 export default async function RootLayout({
   children,

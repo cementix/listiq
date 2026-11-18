@@ -10,7 +10,7 @@ import { BarList, ChartCard, ColumnChart, Heatmap } from "@/components/stats/Cha
 import { requireAuth } from "@/lib/auth/guards";
 import { getUserInsights } from "@/lib/stats/getUserInsights";
 
-export const metadata: Metadata = { title: "Your insights · Listiq" };
+export const metadata: Metadata = { title: "Your insights" };
 
 const TYPE_LABEL: Record<string, string> = {
   MOVIE: "Movies", SERIES: "Series", ANIME: "Anime", MANGA: "Manga", MANHWA: "Manhwa",

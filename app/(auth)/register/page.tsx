@@ -1,3 +1,4 @@
+export const metadata = { title: "Create account" };
 import DemoButton from "@/components/landing/DemoButton";
 import { requireGuest } from "@/lib/auth/guards";
 import RegisterForm from "./RegisterForm";

@@ -1,3 +1,4 @@
+export const metadata = { title: "Dashboard" };
 import { cookies } from "next/headers";
 
 import GlassCard from "@/components/custom/GlassCard";

@@ -1,3 +1,4 @@
+export const metadata = { title: "My lists" };
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Bookmark, Globe2, List, Lock } from "lucide-react";

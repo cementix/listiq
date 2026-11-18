@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Star, Users, MessageSquare, Library } from "lucide-react";
 
@@ -15,6 +17,17 @@ type TitleDetailsPageProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({ params }: TitleDetailsPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const title = await prisma.title.findUnique({ where: { slug }, select: { name: true, year: true, description: true, imageUrl: true } });
+  if (!title) return { title: "Title not found" };
+  return {
+    title: title.year ? `${title.name} (${title.year})` : title.name,
+    description: title.description?.slice(0, 160) ?? undefined,
+    openGraph: title.imageUrl ? { images: [{ url: title.imageUrl }] } : undefined,
+  };
+}
 
 export default async function TitleDetailsPage({
   params,

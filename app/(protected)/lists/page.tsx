@@ -1,3 +1,4 @@
+export const metadata = { title: "Public lists" };
 import Link from "next/link";
 import { List, Search } from "lucide-react";
 

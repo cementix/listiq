@@ -11,7 +11,7 @@ import { getLandingData } from "@/lib/landing/getLandingData";
 import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "Listiq — everything you watch, read and play, in one library",
+  title: { absolute: "Listiq — everything you watch, read and play, in one library" },
   description:
     "Track movies, series, anime, manga, games, books and comics. Rate, review, build lists and discover what to start next. Try the live demo — no signup.",
 };

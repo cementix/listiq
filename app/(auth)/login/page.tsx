@@ -1,3 +1,4 @@
+export const metadata = { title: "Sign in" };
 import DemoButton from "@/components/landing/DemoButton";
 import { requireGuest } from "@/lib/auth/guards";
 import LoginForm from "./LoginForm";
