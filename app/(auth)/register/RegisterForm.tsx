@@ -95,7 +95,7 @@ const RegisterForm = () => {
       <Button
         type="submit"
         disabled={pending}
-        className="w-48 h-10 cursor-pointer hover:scale-105"
+        className="h-11 w-full cursor-pointer rounded-full bg-white font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(167,139,250,0.9)]"
       >
         {pending ? (
           <LoaderCircle className="size-4 animate-spin" />
