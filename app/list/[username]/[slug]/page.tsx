@@ -88,7 +88,7 @@ export default async function PublicListPage({ params }: Props) {
                     <span className="absolute top-2 left-2 grid size-7 place-items-center rounded-full bg-black/70 text-xs font-semibold backdrop-blur">{index + 1}</span>
                   </div>
                   <p className="mt-2 truncate text-sm font-medium text-white/85 group-hover:text-white">{title.name}</p>
-                  {title.year && <p className="text-xs text-white/40">{title.year}</p>}
+                  {title.year && <p className="text-xs text-white/60">{title.year}</p>}
                 </Link>
               </li>
             ))}

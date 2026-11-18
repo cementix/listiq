@@ -85,7 +85,7 @@ export default async function PublicTitlePage({ params }: Props) {
                   <div key={label} className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur-md">
                     <Icon className="size-4 text-violet-300" />
                     <p className="mt-2 text-2xl font-semibold">{value}</p>
-                    <p className="text-xs text-white/45">{label}</p>
+                    <p className="text-xs text-white/60">{label}</p>
                   </div>
                 ))}
               </div>
