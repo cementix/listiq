@@ -279,6 +279,25 @@ export default function DiscoveryDeck({
     else setDragX(0);
   }
 
+  // Keyboard shortcuts: ← skip, ↑ add to library, → save for later.
+  const chooseRef = useRef(choose);
+  useEffect(() => {
+    chooseRef.current = choose;
+  });
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (target instanceof Element && target.closest("input, textarea, select, [role=dialog], [contenteditable=true]")) return;
+      const choice = event.key === "ArrowLeft" ? "skip" : event.key === "ArrowRight" ? "for-later" : event.key === "ArrowUp" ? "library" : null;
+      if (!choice) return;
+      event.preventDefault();
+      void chooseRef.current(choice);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const ambient = cards[0]?.imageUrl ?? null;
 
   return (
@@ -355,35 +374,27 @@ export default function DiscoveryDeck({
         )}
       </div>
 
-      <div className="mt-6 grid w-full max-w-[430px] grid-cols-3 gap-2">
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("skip")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <X className="size-4" />
-          Skip
-        </button>
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("library")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <LibraryBig className="size-4" />
-          Library
-        </button>
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("for-later")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <BookmarkPlus className="size-4" />
-          For later
-        </button>
+      <div className="mt-6 grid w-full max-w-[460px] grid-cols-3 gap-2">
+        {([
+          { choice: "skip", label: "Skip", icon: X, key: "←", tone: "hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-100" },
+          { choice: "library", label: "Library", icon: LibraryBig, key: "↑", tone: "hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-emerald-100" },
+          { choice: "for-later", label: "For later", icon: BookmarkPlus, key: "→", tone: "hover:border-violet-400/40 hover:bg-violet-500/10 hover:text-violet-100" },
+        ] as const).map(({ choice, label, icon: Icon, key, tone }) => (
+          <button
+            key={choice}
+            type="button"
+            disabled={!current || busy}
+            onClick={() => void choose(choice)}
+            aria-keyshortcuts={key === "←" ? "ArrowLeft" : key === "→" ? "ArrowRight" : "ArrowUp"}
+            className={`group flex h-12 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-sm transition active:scale-95 disabled:opacity-40 ${tone}`}
+          >
+            <Icon className="size-4 transition-transform group-hover:scale-110" />
+            {label}
+            <kbd aria-hidden className="hidden rounded border border-white/15 px-1 text-[10px] text-white/60 sm:inline">{key}</kbd>
+          </button>
+        ))}
       </div>
+      <p className="mt-3 hidden text-xs text-white/50 sm:block">Swipe the card or use your arrow keys.</p>
     </section>
   );
 }
