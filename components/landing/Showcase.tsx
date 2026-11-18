@@ -39,7 +39,7 @@ export default function Showcase({ posters }: { posters: LandingPoster[] }) {
   const picks = posters.slice(1, 4);
 
   return (
-    <section id="how-it-works" className="relative scroll-mt-24 overflow-hidden px-4 py-28 sm:px-6">
+    <section id="showcase" className="relative scroll-mt-24 overflow-hidden px-4 py-28 sm:px-6">
       <SectionHeading
         eyebrow="The dashboard"
         title={<>Feels like a streaming app.<br /><span className="text-white/50">Works like your memory.</span></>}

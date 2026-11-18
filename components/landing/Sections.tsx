@@ -50,7 +50,7 @@ const STEPS = [
 
 export function Steps() {
   return (
-    <section className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6">
+    <section id="how-it-works" className="relative mx-auto max-w-6xl scroll-mt-24 px-4 py-28 sm:px-6">
       <SectionHeading eyebrow="How it works" title="From blank slate to curated taste in minutes." />
       <div className="relative mt-16 grid gap-6 md:grid-cols-3">
         <motion.div

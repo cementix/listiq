@@ -38,26 +38,27 @@ function Cell({ className, icon, title, description, children, delay = 0 }: {
   );
 }
 
-const FILTERS = [
-  { label: "All", icon: Sparkles },
-  { label: "Movies", icon: Clapperboard },
-  { label: "Series", icon: Tv },
-  { label: "Games", icon: Gamepad2 },
-  { label: "Books", icon: BookOpen },
+const FILTERS: { label: string; icon: typeof Sparkles; types: string[] | null }[] = [
+  { label: "All", icon: Sparkles, types: null },
+  { label: "Movies", icon: Clapperboard, types: ["MOVIE"] },
+  { label: "Series", icon: Tv, types: ["SERIES", "ANIME"] },
+  { label: "Games", icon: Gamepad2, types: ["GAME"] },
+  { label: "Books", icon: BookOpen, types: ["BOOK", "NOVEL", "MANGA", "MANHWA", "COMIC"] },
 ];
 
 function LibraryDemo({ posters }: { posters: LandingPoster[] }) {
   const tick = useTick(1800);
-  const active = tick % FILTERS.length;
-  const rows = posters.slice(0, 12);
-  const offset = (active * 3) % Math.max(1, rows.length - 4);
-  const visible = rows.slice(offset, offset + 4);
+  // Only offer filters the catalog can actually fill, so the demo never lies.
+  const filters = FILTERS.filter((filter) => !filter.types || posters.filter((poster) => filter.types!.includes(poster.type)).length >= 2);
+  const active = tick % filters.length;
+  const types = filters[active].types;
+  const visible = (types ? posters.filter((poster) => types.includes(poster.type)) : posters).slice(0, 4);
   const ratings = [9.5, 8.5, 9, 7.5];
 
   return (
     <div className="p-6">
       <div className="flex flex-wrap gap-2">
-        {FILTERS.map(({ label, icon: Icon }, index) => (
+        {filters.map(({ label, icon: Icon }, index) => (
           <span key={label} className={cn("relative flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-colors duration-500", index === active ? "text-black" : "text-white/55 ring-1 ring-white/10")}>
             {index === active && <motion.span layoutId="library-filter" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 380, damping: 30 }} />}
             <Icon className="relative size-3.5" /> <span className="relative">{label}</span>
