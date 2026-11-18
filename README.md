@@ -100,7 +100,7 @@ Fill the empty database with the synthetic demo catalog, users and lists:
 docker compose --profile tools run --rm seed
 ```
 
-To develop with hot reload against the containerized database, run `docker compose up db` and point `DATABASE_URL` and `DATABASE_URL_UNPOOLED` at `postgresql://listiq:listiq@127.0.0.1:5432/listiq`.
+To develop with hot reload against the containerized database, run `docker compose up db` and point `DATABASE_URL` and `DATABASE_URL_UNPOOLED` at `postgresql://listiq:listiq@127.0.0.1:5433/listiq`.
 
 ## Demo sandbox
 
