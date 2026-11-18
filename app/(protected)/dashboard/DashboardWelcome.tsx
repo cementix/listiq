@@ -23,7 +23,12 @@ async function getLibrarySummary(userId: string) {
 }
 
 export default async function DashboardWelcome({ userId, username }: { userId: string; username: string }) {
-  const summary = await getLibrarySummary(userId);
+  const [summary, member] = await Promise.all([
+    getLibrarySummary(userId),
+    prisma.user.findUnique({ where: { id: userId }, select: { plan: true, isGuest: true } }),
+  ]);
+  const storyUnlocked = member?.plan === "PRO" || member?.isGuest === true;
+  const year = new Date().getUTCFullYear();
   const stats = [
     { label: "In your library", value: summary.library, icon: BookMarked, href: `/users/${username}` },
     { label: "Ratings given", value: summary.ratings, icon: Star, href: `/users/${username}` },
@@ -72,6 +77,22 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
         ))}
       </div>
     </section>
+    {summary.library >= 5 && (
+      <Link
+        href={storyUnlocked ? "/stats/wrapped" : "/settings/billing"}
+        className="dashboard-panel-in group relative flex items-center justify-between gap-4 overflow-hidden rounded-3xl border border-fuchsia-400/25 bg-gradient-to-r from-violet-600/30 via-fuchsia-600/20 to-sky-600/20 p-5 transition hover:border-fuchsia-300/40"
+      >
+        <span aria-hidden className="absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+        <span className="relative">
+          <span className="block text-xs font-semibold tracking-[0.2em] text-fuchsia-200/80 uppercase">{storyUnlocked ? "New" : "Pro"}</span>
+          <span className="mt-1 block text-lg font-semibold text-white sm:text-xl">Your {year} in review is ready</span>
+          <span className="block text-sm text-white/65">Busiest month, favourite genre, rating persona and your top-rated titles.</span>
+        </span>
+        <span className="relative inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-white px-4 text-sm font-semibold text-black transition group-hover:-translate-y-0.5">
+          {storyUnlocked ? "Play story" : "Unlock"} <ArrowRight className="size-4" />
+        </span>
+      </Link>
+    )}
     {completed < steps.length && (
       <section aria-label="Get started" className="dashboard-panel-in relative overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-r from-violet-500/[0.10] via-white/[0.02] to-sky-500/[0.06] p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
