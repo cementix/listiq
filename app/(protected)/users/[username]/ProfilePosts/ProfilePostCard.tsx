@@ -70,7 +70,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
     : false;
 
   return (
-    <article className="rounded-2xl border border-white/10 bg-black/20 p-4">
+    <article id={`post-${post.id}`} className="scroll-mt-24 rounded-2xl border border-white/10 bg-black/20 p-4 target:ring-2 target:ring-violet-400/60">
       <div className="flex items-center gap-3">
         <div className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/10">
           {post.author.avatarUrl ? (

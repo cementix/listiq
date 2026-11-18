@@ -10,11 +10,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { cn } from "@/lib/utils";
 import LogoutButton from "./LogoutButton";
 import UserMenu from "./UserMenu";
+import NotificationBell from "@/components/custom/NotificationBell";
 import CommandPalette, { openCommandPalette } from "@/components/custom/CommandPalette";
 
-type Props = { username: string; avatarUrl: string | null; needsChangesCount: number; canReview: boolean; isPro?: boolean };
+type Props = { username: string; avatarUrl: string | null; needsChangesCount: number; canReview: boolean; isPro?: boolean; unreadNotifications?: number };
 
-export default function Navbar({ username, avatarUrl, needsChangesCount, canReview, isPro = false }: Props) {
+export default function Navbar({ username, avatarUrl, needsChangesCount, canReview, isPro = false, unreadNotifications = 0 }: Props) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const groups = [
@@ -78,6 +79,7 @@ export default function Navbar({ username, avatarUrl, needsChangesCount, canRevi
               <span className="sr-only md:not-sr-only">Search…</span>
               <kbd className="ml-auto hidden rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/65 md:inline">Ctrl K</kbd>
             </button>
+            <NotificationBell initialUnread={unreadNotifications} />
             <UserMenu username={username} avatarUrl={avatarUrl} isPro={isPro} />
             <button type="button" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 lg:hidden"><Menu className="size-5" /></button>
           </div>

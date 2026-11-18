@@ -12,7 +12,10 @@ import ProviderCredits from "@/components/custom/ProviderCredits";
 
 const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   const session = await requireAuth();
-  const needsChangesCount = await getNeedsChangesSubmissionsCount();
+  const [needsChangesCount, unreadNotifications] = await Promise.all([
+    getNeedsChangesSubmissionsCount(),
+    prisma.notification.count({ where: { recipientId: session.userId, readAt: null } }),
+  ]);
 
   const user = await prisma.user.findUnique({
     where: {
@@ -46,6 +49,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
             needsChangesCount={needsChangesCount}
             avatarUrl={user?.avatarUrl ?? null}
             isPro={user?.plan === "PRO"}
+            unreadNotifications={unreadNotifications}
             canReview={user ? canReviewSubmissions(user.role) : false}
           />
         </NavbarShell>
