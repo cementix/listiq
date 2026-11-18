@@ -72,12 +72,11 @@ export default function Navbar({ username, avatarUrl, needsChangesCount, canRevi
             <button
               type="button"
               onClick={openCommandPalette}
-              aria-label="Search (Ctrl+K)"
-              className="group flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/45 transition hover:border-white/20 hover:text-white/80 md:w-56 xl:w-64"
+              className="group flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/65 transition hover:border-white/20 hover:text-white/80 md:w-56 xl:w-64"
             >
-              <Search className="size-4" />
-              <span className="hidden md:inline">Search…</span>
-              <kbd className="ml-auto hidden rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/40 md:inline">Ctrl K</kbd>
+              <Search aria-hidden className="size-4" />
+              <span className="sr-only md:not-sr-only">Search…</span>
+              <kbd className="ml-auto hidden rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/65 md:inline">Ctrl K</kbd>
             </button>
             <UserMenu username={username} avatarUrl={avatarUrl} isPro={isPro} />
             <button type="button" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 lg:hidden"><Menu className="size-5" /></button>

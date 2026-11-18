@@ -21,12 +21,12 @@ export default function UserMenu({
       <DropdownMenu.Trigger asChild>
         <button
           type="button"
-          aria-label="Account menu"
           className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-1.5 text-sm text-white/75 transition hover:border-white/20 hover:bg-white/10 hover:text-white data-[state=open]:border-violet-400/40 data-[state=open]:bg-white/10"
         >
-          <span className="hidden max-w-36 truncate xl:block">@{username}</span>
+          <span className="sr-only">Account menu,</span>
+          <span className="sr-only xl:not-sr-only xl:block xl:max-w-36 xl:truncate">@{username}</span>
 
-          <span className="relative flex size-8 items-center justify-center overflow-hidden rounded-full bg-white/10">
+          <span aria-hidden className="relative flex size-8 items-center justify-center overflow-hidden rounded-full bg-white/10">
             {avatarUrl ? (
               <Image
                 src={avatarUrl}
