@@ -3,6 +3,7 @@
 import { logError } from "@/lib/observability/errors";
 
 import Image from "next/image";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, BookmarkPlus, LibraryBig, X } from "lucide-react";
@@ -278,10 +279,32 @@ export default function DiscoveryDeck({
     else setDragX(0);
   }
 
+  const ambient = cards[0]?.imageUrl ?? null;
+
   return (
-    <section className="flex flex-col items-center">
-      <div className="flex w-full max-w-4xl items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Discover</h1>
+    <section className="relative isolate flex flex-col items-center">
+      {/* Ambient glow that follows the card on top of the deck. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-[-20%] -top-24 -z-10 h-[680px] overflow-hidden [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_70%)]">
+        <AnimatePresence initial={false}>
+          {ambient && (
+            <motion.div
+              key={ambient}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.55, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              <Image src={ambient} alt="" fill sizes="100vw" className="object-cover blur-3xl saturate-150" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="flex w-full max-w-4xl items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Discover</h1>
+          <p className="mt-1 text-sm text-white/50">Swipe right to save for later, left to skip.</p>
+        </div>
 
         <select
           aria-label="Title type"
