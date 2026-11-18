@@ -1,5 +1,6 @@
 import { getTitles } from "@/actions/title/getTitles";
-import GlassCard from "@/components/custom/GlassCard";
+import PageHeader from "@/components/custom/PageHeader";
+import { BookOpen } from "lucide-react";
 import PageSection from "@/components/custom/PageSection";
 import { TitleType } from "@/generated/prisma/enums";
 import TitlesList from "./TitlesList";
@@ -28,7 +29,7 @@ export default async function TitlesPage({ searchParams }: TitlesPageProps) {
     params.sort as (typeof allowedSorts)[number],
   )
     ? (params.sort as (typeof allowedSorts)[number])
-    : "newest";
+    : "popular";
 
   const titlesResult = await getTitles({
     query,
@@ -40,13 +41,7 @@ export default async function TitlesPage({ searchParams }: TitlesPageProps) {
 
   return (
     <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
-      <GlassCard className="p-4 sm:p-6">
-        <p className="text-sm text-white/50">Catalog</p>
-        <h1 className="mt-2 text-3xl font-semibold">Titles</h1>
-        <p className="mt-3 max-w-xl text-white/70">
-          Browse approved titles and add them to your library.
-        </p>
-      </GlassCard>
+      <PageHeader eyebrow="Catalog" title="Titles" description="Browse approved titles and add them to your library." icon={<BookOpen className="size-3.5" />} />
 
       <TitlesList
         initialTitles={titlesResult.titles}
