@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "motion/react";
+import { MotionConfig, motion } from "motion/react";
 
 // Re-mounts on every navigation, giving each page a soft entrance.
 export default function ProtectedTemplate({ children }: { children: React.ReactNode }) {
   return (
+    <MotionConfig reducedMotion="user">
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -12,5 +13,6 @@ export default function ProtectedTemplate({ children }: { children: React.ReactN
     >
       {children}
     </motion.div>
+    </MotionConfig>
   );
 }
