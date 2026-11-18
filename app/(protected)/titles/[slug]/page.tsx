@@ -177,21 +177,23 @@ export default async function TitleDetailsPage({
               .map((entry) => (
                 <div
                   key={entry.id}
-                  className="rounded-2xl border border-white/10 bg-black/20 p-4"
+                  className="rounded-2xl border border-white/10 bg-black/20 p-4 transition hover:border-white/20"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="font-medium text-white">
-                      <Link
-                        href={`/users/${entry.user.username}`}
-                        className="font-medium text-white transition hover:text-primary"
-                      >
-                        @{entry.user.username}
-                      </Link>
-                    </p>
+                    <Link
+                      href={`/users/${entry.user.username}`}
+                      className="group flex items-center gap-2.5 font-medium text-white"
+                    >
+                      <span aria-hidden className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-fuchsia-400/45 to-violet-500/45 text-xs font-semibold">
+                        {entry.user.username.slice(0, 1).toUpperCase()}
+                      </span>
+                      <span className="transition group-hover:text-violet-300">@{entry.user.username}</span>
+                    </Link>
                     {entry.rating && (
-                      <p className="text-sm text-primary">
+                      <span className="flex items-center gap-1 rounded-full bg-violet-500/15 px-2.5 py-1 text-xs font-semibold text-violet-200">
+                        <Star className="size-3 fill-current" />
                         {entry.rating.toFixed(1)}/10
-                      </p>
+                      </span>
                     )}
                   </div>
 
