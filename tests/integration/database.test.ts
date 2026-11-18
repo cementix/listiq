@@ -13,6 +13,9 @@ import { getTitleBySlug } from "../../actions/title/getTitleBySlug";
 import { getTitles } from "../../actions/title/getTitles";
 import { getTitleListPage } from "../../lib/title-list/getTitleListPage";
 import { getPublicTitleLists } from "../../lib/title-list/getPublicTitleLists";
+import { getPublicListPage } from "../../lib/title-list/getPublicListPage";
+import { getPublicTitle } from "../../lib/title/getPublicTitle";
+import { assertNotGuest, deleteGuestUser } from "../../lib/demo/guest";
 import { addTitleToList } from "../../actions/title-list/addTitleToList";
 import { removeTitleFromList } from "../../actions/title-list/removeTitleFromList";
 import { reorderTitleListItems } from "../../actions/title-list/reorderTitleListItems";
@@ -185,6 +188,39 @@ test("private lists are absent from queries and cannot be bookmarked by outsider
   assert.equal(visible?.items[0].currentUserTitle, null);
   assert.equal(visible?.viewer.completedCount, 0);
   assert.equal(visible?.viewer.averageRating, null);
+});
+
+test("signed-out public pages expose only public lists, public reviews and real members", async () => {
+  assert.equal(await getPublicListPage("owner", "private"), null);
+  assert.equal(await getPublicListPage("owner", "for-later"), null);
+  assert.equal((await getPublicListPage("owner", "public"))?.items.length, 1);
+
+  // Uncatalogued titles never render publicly.
+  assert.equal(await getPublicTitle("fixture-0"), null);
+  await prisma.title.update({ where: { id: "title-0" }, data: { catalogEligible: true } });
+  await prisma.user.create({ data: {
+    id: "sandbox", username: "guest_sandbox", email: "sandbox@example.test", passwordHash: "test-only",
+    isGuest: true, guestExpiresAt: new Date(Date.now() + 60_000), reviewsPublic: true, libraryPublic: true,
+  } });
+  await prisma.userTitle.create({ data: { userId: "sandbox", titleId: "title-0", rating: 1, note: "guest-review" } });
+  await prisma.titleList.create({ data: { id: "sandbox-list", userId: "sandbox", title: "Sandbox", slug: "sandbox", visibility: "PUBLIC" } });
+
+  const title = await getPublicTitle("fixture-0");
+  const payload = JSON.stringify(title);
+  assert.deepEqual(title?.reviews.map((review) => review.note), ["public-review"]);
+  assert.equal(title?.stats.averageRating, 4);
+  assert.ok(!payload.includes("private-review") && !payload.includes("guest-review"));
+  assert.equal(await getPublicListPage("guest_sandbox", "sandbox"), null);
+});
+
+test("sandbox guards block guests and deletion never touches real members", async () => {
+  await prisma.user.create({ data: { id: "sandbox", username: "guest_x", email: "x@example.test", passwordHash: "test-only", isGuest: true } });
+  await assert.rejects(assertNotGuest("sandbox"), /Demo accounts can't/);
+  await assert.doesNotReject(assertNotGuest("owner"));
+  await deleteGuestUser("owner");
+  assert.ok(await prisma.user.findUnique({ where: { id: "owner" } }));
+  await deleteGuestUser("sandbox");
+  assert.equal(await prisma.user.findUnique({ where: { id: "sandbox" } }), null);
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {
