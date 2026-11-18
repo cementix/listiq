@@ -1,17 +1,18 @@
 import Link from "next/link";
-import { ArrowRight, BookMarked, ListChecks, MessageSquareQuote, Star } from "lucide-react";
+import { ArrowRight, BookMarked, Check, ListChecks, MessageSquareQuote, Star } from "lucide-react";
 
 import { CountUp } from "@/components/landing/primitives";
 import { prisma } from "@/lib/prisma";
 
 async function getLibrarySummary(userId: string) {
-  const [library, rated, reviews, lists] = await Promise.all([
+  const [library, rated, reviews, lists, discovered] = await Promise.all([
     prisma.userTitle.count({ where: { userId } }),
     prisma.userTitle.aggregate({ where: { userId, rating: { not: null } }, _avg: { rating: true }, _count: { rating: true } }),
     prisma.userTitle.count({ where: { userId, note: { not: null } } }),
     prisma.titleList.count({ where: { userId, systemType: null } }),
+    prisma.userTitleDiscovery.count({ where: { userId, lastAction: { not: null } } }),
   ]);
-  return { library, ratings: rated._count.rating, average: rated._avg.rating ?? 0, reviews, lists };
+  return { library, ratings: rated._count.rating, average: rated._avg.rating ?? 0, reviews, lists, discovered };
 }
 
 export default async function DashboardWelcome({ userId, username }: { userId: string; username: string }) {
@@ -23,7 +24,17 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
     { label: "Lists curated", value: summary.lists, icon: ListChecks, href: "/my-lists" },
   ];
 
+  const steps = [
+    { label: "Add your first title", done: summary.library > 0, href: "/titles" },
+    { label: "Rate three titles", done: summary.ratings >= 3, href: "/titles" },
+    { label: "Write a review", done: summary.reviews > 0, href: "/titles" },
+    { label: "Swipe through Discover", done: summary.discovered > 0, href: "/discover" },
+    { label: "Create a list", done: summary.lists > 0, href: "/my-lists" },
+  ];
+  const completed = steps.filter((step) => step.done).length;
+
   return (
+    <>
     <section className="dashboard-panel-in flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <div>
         <p className="text-sm text-white/45">Welcome back</p>
@@ -54,5 +65,32 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
         ))}
       </div>
     </section>
+    {completed < steps.length && (
+      <section aria-label="Get started" className="dashboard-panel-in relative overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-r from-violet-500/[0.10] via-white/[0.02] to-sky-500/[0.06] p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-white">Get started with Listiq</p>
+            <p className="text-xs text-white/50">{completed} of {steps.length} done — each step makes your recommendations and insights smarter.</p>
+          </div>
+          <div className="h-1.5 w-40 overflow-hidden rounded-full bg-white/10">
+            <span className="block h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-700" style={{ width: `${(completed / steps.length) * 100}%` }} />
+          </div>
+        </div>
+        <ol className="mt-4 flex flex-wrap gap-2">
+          {steps.map((step) => (
+            <li key={step.label}>
+              <Link
+                href={step.href}
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs transition ${step.done ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-100" : "border-white/10 bg-white/[0.04] text-white/70 hover:border-white/25 hover:text-white"}`}
+              >
+                <span className={`grid size-4 place-items-center rounded-full ${step.done ? "bg-emerald-400 text-black" : "border border-white/25"}`}>{step.done && <Check className="size-3" />}</span>
+                {step.label}
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+    </>
   );
 }
