@@ -29,17 +29,27 @@ export default async function TitleDetailsPage({
   const averageRating = title.stats.averageRating?.toFixed(1) ?? "No ratings";
   const isInLibrary = Boolean(title.currentUserTitle);
 
+  const heroImage = title.backdropUrl ?? title.imageUrl;
+  const typeLabel = title.type.charAt(0) + title.type.slice(1).toLowerCase();
+
   return (
+    <div className="relative isolate">
+      {heroImage && (
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[560px] overflow-hidden">
+          <Image src={heroImage} alt="" fill sizes="100vw" className="animate-kenburns object-cover opacity-60 blur-xl saturate-150" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/55 to-black" />
+        </div>
+      )}
     <PageSection className="mx-auto w-full max-w-6xl px-4">
       <div className="grid items-start gap-4 md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-6">
-        <GlassCard className="mx-auto w-full max-w-60 overflow-hidden p-0 md:max-w-none">
-          <div className="relative aspect-3/4 bg-black/30">
+        <GlassCard className="group/poster mx-auto w-full max-w-60 overflow-hidden p-0 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] animate-in fade-in zoom-in-95 duration-700 hover:border-white/25 hover:shadow-[0_30px_90px_-30px_rgba(139,92,246,0.6)] md:sticky md:top-24 md:max-w-none">
+          <div className="relative aspect-3/4 overflow-hidden bg-black/30">
             {title.imageUrl ? (
               <Image
                 src={title.imageUrl}
                 alt={title.name}
                 fill
-                className="object-cover"
+                className="object-cover transition duration-700 group-hover/poster:scale-105"
                 priority
               />
             ) : (
@@ -51,12 +61,12 @@ export default async function TitleDetailsPage({
         </GlassCard>
 
         <div className="min-w-0 space-y-4 sm:space-y-6">
-          <GlassCard className="p-4 sm:p-6">
+          <GlassCard className="bg-black/30 p-4 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2 duration-700 sm:p-6">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-sm text-white/50">
-                  {title.type}
-                  {title.year ? ` - ${title.year}` : ""}
+                  {typeLabel}
+                  {title.year ? ` · ${title.year}` : ""}
                 </p>
 
                 <h1 className="mt-2 break-words text-2xl font-semibold text-white sm:text-3xl lg:text-4xl">
@@ -177,5 +187,6 @@ export default async function TitleDetailsPage({
         </div>
       </GlassCard>
     </PageSection>
+    </div>
   );
 }
