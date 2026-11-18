@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BookMarked, Check, ListChecks, MessageSquareQuote, Star } from "lucide-react";
 
@@ -5,14 +6,20 @@ import { CountUp } from "@/components/landing/primitives";
 import { prisma } from "@/lib/prisma";
 
 async function getLibrarySummary(userId: string) {
-  const [library, rated, reviews, lists, discovered] = await Promise.all([
+  const [library, rated, reviews, lists, discovered, recent] = await Promise.all([
     prisma.userTitle.count({ where: { userId } }),
     prisma.userTitle.aggregate({ where: { userId, rating: { not: null } }, _avg: { rating: true }, _count: { rating: true } }),
     prisma.userTitle.count({ where: { userId, note: { not: null } } }),
     prisma.titleList.count({ where: { userId, systemType: null } }),
     prisma.userTitleDiscovery.count({ where: { userId, lastAction: { not: null } } }),
+    prisma.userTitle.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: { rating: true, title: { select: { id: true, name: true, slug: true, imageUrl: true } } },
+    }),
   ]);
-  return { library, ratings: rated._count.rating, average: rated._avg.rating ?? 0, reviews, lists, discovered };
+  return { library, ratings: rated._count.rating, average: rated._avg.rating ?? 0, reviews, lists, discovered, recent };
 }
 
 export default async function DashboardWelcome({ userId, username }: { userId: string; username: string }) {
@@ -89,6 +96,31 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
             </li>
           ))}
         </ol>
+      </section>
+    )}
+    {summary.recent.length > 0 && (
+      <section aria-labelledby="recent-library" className="dashboard-panel-in">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 id="recent-library" className="text-lg font-semibold text-white">Recently in your library</h2>
+          <Link href="/stats" className="inline-flex items-center gap-1 text-sm text-white/45 transition hover:translate-x-0.5 hover:text-white">Your insights <ArrowRight className="size-4" /></Link>
+        </div>
+        <ul className="scrollbar-hide flex gap-3 overflow-x-auto pb-2">
+          {summary.recent.map(({ title, rating }, index) => (
+            <li key={title.id} style={{ animationDelay: `${index * 50}ms` }} className="dashboard-card-pop-in w-28 shrink-0 sm:w-32">
+              <Link href={`/titles/${title.slug}`} className="group block">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-white/5 ring-1 ring-white/10 transition duration-500 group-hover:-translate-y-1 group-hover:ring-violet-400/40">
+                  {title.imageUrl && <Image src={title.imageUrl} alt={title.name} fill sizes="128px" className="object-cover transition duration-700 group-hover:scale-105" unoptimized />}
+                  {rating !== null && (
+                    <span className="absolute right-1.5 bottom-1.5 flex items-center gap-0.5 rounded-full bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+                      <Star className="size-2.5 fill-violet-400 text-violet-400" />{rating.toFixed(1)}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1.5 truncate text-xs text-white/65 group-hover:text-white">{title.name}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     )}
     </>
