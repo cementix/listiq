@@ -156,7 +156,7 @@ export default function Hero({ posters }: { posters: LandingPoster[] }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.6, delay: 0.2 }}
-        className="pointer-events-none absolute inset-y-0 right-[-30%] -z-10 w-[130%] opacity-25 [mask-image:linear-gradient(to_right,transparent,#000_35%)] sm:right-[-12%] sm:w-[90%] lg:right-[-6%] lg:w-[60%] lg:opacity-90"
+        className="pointer-events-none absolute inset-y-0 right-[-30%] -z-10 w-[130%] opacity-[0.16] [mask-image:linear-gradient(to_right,transparent,#000_35%)] sm:right-[-12%] sm:w-[90%] lg:right-[-6%] lg:w-[60%] lg:opacity-90"
       >
         <div className="mask-fade-y h-[140%] -translate-y-[12%] [transform:perspective(1400px)_rotateX(14deg)_rotateY(-18deg)_rotateZ(8deg)]">
           <PosterWall posters={posters} />
