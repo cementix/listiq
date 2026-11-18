@@ -233,11 +233,11 @@ export function Footer({ year }: { year: number }) {
           <p className="mt-3 max-w-xs text-sm text-white/45">Track what you watch, read and play.</p>
         </div>
         <div className="grid grid-cols-2 gap-x-16 gap-y-3 text-sm">
-          <a href="/#features" className="text-white/55 transition hover:text-white">Features</a>
+          <Link href="/#features" className="text-white/55 transition hover:text-white">Features</Link>
           <Link href="/login" className="text-white/55 transition hover:text-white">Sign in</Link>
-          <a href="/#pricing" className="text-white/55 transition hover:text-white">Pricing</a>
+          <Link href="/#pricing" className="text-white/55 transition hover:text-white">Pricing</Link>
           <Link href="/register" className="text-white/55 transition hover:text-white">Create account</Link>
-          <a href="/#faq" className="text-white/55 transition hover:text-white">FAQ</a>
+          <Link href="/#faq" className="text-white/55 transition hover:text-white">FAQ</Link>
           <Link href="/credits" className="text-white/55 transition hover:text-white">Data credits</Link>
         </div>
       </div>

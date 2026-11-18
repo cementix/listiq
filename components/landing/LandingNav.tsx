@@ -42,9 +42,9 @@ export default function LandingNav() {
         </Link>
         <div className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
-            <a key={link.href} href={link.href} className="rounded-full px-3.5 py-2 text-sm text-white/60 transition hover:bg-white/5 hover:text-white">
+            <Link key={link.href} href={link.href} className="rounded-full px-3.5 py-2 text-sm text-white/60 transition hover:bg-white/5 hover:text-white">
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex items-center gap-1.5">
