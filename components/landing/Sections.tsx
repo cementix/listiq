@@ -33,7 +33,7 @@ export function StatsStrip({ stats }: { stats: LandingData["stats"] }) {
       <div className="mask-fade-x pause-on-hover overflow-hidden border-t border-white/5 py-6">
         <div className="flex w-max animate-marquee-x gap-14" style={{ ["--marquee-duration" as string]: "32s" }}>
           {[...SOURCES, ...SOURCES].map((source, index) => (
-            <span key={`${source}-${index}`} className="text-lg font-semibold tracking-tight whitespace-nowrap text-white/25 transition hover:text-white/70">
+            <span key={`${source}-${index}`} className="text-lg font-semibold tracking-tight whitespace-nowrap text-white/55 transition hover:text-white">
               {source}
             </span>
           ))}
@@ -53,7 +53,7 @@ export function TrendingStrip({ posters }: { posters: LandingPoster[] }) {
           <p className="text-xs font-semibold tracking-[0.25em] text-violet-300/80 uppercase">From the catalog</p>
           <h2 id="trending-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Popular right now</h2>
         </div>
-        <p className="hidden max-w-xs text-right text-sm text-white/45 sm:block">Hover to pause · click any title to see ratings and reviews.</p>
+        <p className="hidden max-w-xs text-right text-sm text-white/60 sm:block">Hover to pause · click any title to see ratings and reviews.</p>
       </div>
       <div className="mask-fade-x pause-on-hover overflow-hidden">
         <ul className="flex w-max animate-marquee-x gap-4 px-4" style={{ ["--marquee-duration" as string]: "70s" }}>
@@ -261,7 +261,7 @@ export function Footer({ year }: { year: number }) {
             <span aria-hidden className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-violet-400 via-fuchsia-400 to-sky-400 text-[13px] font-bold text-black">l</span>
             listiq
           </p>
-          <p className="mt-3 max-w-xs text-sm text-white/45">Track what you watch, read and play.</p>
+          <p className="mt-3 max-w-xs text-sm text-white/60">Track what you watch, read and play.</p>
         </div>
         <div className="grid grid-cols-2 gap-x-16 gap-y-3 text-sm">
           <Link href="/#features" className="text-white/55 transition hover:text-white">Features</Link>
@@ -272,7 +272,7 @@ export function Footer({ year }: { year: number }) {
           <Link href="/credits" className="text-white/55 transition hover:text-white">Data credits</Link>
         </div>
       </div>
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/5 pt-6 text-xs text-white/35 sm:flex-row sm:justify-between">
+      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/5 pt-6 text-xs text-white/55 sm:flex-row sm:justify-between">
         <p>© {year} Listiq</p>
         <p>Catalog data from TMDB, RAWG, MangaUpdates, Wikidata and others. This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
       </div>

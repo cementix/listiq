@@ -32,7 +32,6 @@ export default function Showcase({ posters }: { posters: LandingPoster[] }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
   const rotateX = useTransform(scrollYProgress, [0, 1], [28, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 0.4], [0.2, 1]);
   const glow = useTransform(scrollYProgress, [0, 1], [0.2, 0.8]);
 
   const hero = posters[0];
@@ -46,14 +45,14 @@ export default function Showcase({ posters }: { posters: LandingPoster[] }) {
         description="A featured pick, fresh random suggestions and rails of what's popular — tuned to your library every time you open it."
       />
 
-      <div ref={ref} className="mx-auto mt-16 max-w-5xl [perspective:1600px]">
-        <motion.div style={{ rotateX, scale, opacity }} className="relative origin-top">
+      <div ref={ref} role="img" aria-label="Preview of the Listiq dashboard with a featured title, random picks and rails of popular titles" className="mx-auto mt-16 max-w-5xl [perspective:1600px]">
+        <motion.div style={{ rotateX, scale }} className="relative origin-top" aria-hidden="true">
           <motion.div aria-hidden style={{ opacity: glow }} className="absolute -inset-10 -z-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgba(139,92,246,0.45),transparent)] blur-2xl" />
           <div className="overflow-hidden rounded-2xl border border-white/15 bg-zinc-950 shadow-[0_40px_120px_-30px_rgba(0,0,0,1)] sm:rounded-3xl">
             {/* Browser chrome */}
             <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
               <div className="flex gap-1.5"><span className="size-2.5 rounded-full bg-rose-400/70" /><span className="size-2.5 rounded-full bg-amber-300/70" /><span className="size-2.5 rounded-full bg-emerald-400/70" /></div>
-              <div className="mx-auto flex h-7 w-full max-w-xs items-center gap-2 rounded-full bg-white/5 px-3 text-[11px] text-white/40"><Search className="size-3" />listiq.app/dashboard</div>
+              <div className="mx-auto flex h-7 w-full max-w-xs items-center gap-2 rounded-full bg-white/5 px-3 text-[11px] text-white/60"><Search className="size-3" />listiq.app/dashboard</div>
             </div>
 
             <div className="space-y-5 p-4 sm:p-6">
