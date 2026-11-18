@@ -11,6 +11,9 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 - **One-click demo.** A private, pre-filled sandbox account with five months of history. Sandboxes expire after 24 hours, and anything that could reach other members or storage is disabled.
 - **Insights.** Rating distribution, library by media type, a 26-week activity heatmap, monthly additions, favourite genres, decades, and a hall of fame.
 - **Year in review.** A Wrapped-style animated story of your year — busiest month, favourite media type and genre, rating persona, and your top-rated titles.
+- **Public, shareable pages.** Signed-out visitors can open any catalog title at `/title/[slug]` or a public list at `/list/[username]/[slug]` — SEO metadata, sitemap entries, public reviews only, and a Share button in the app.
+- **Notifications.** A navbar bell with an unread badge for comments, replies and likes on your posts.
+- **More like this.** Related titles of the same media type and genres on every title page.
 - **Command palette.** Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> anywhere to search titles, public lists, and members or to jump to any page.
 - **Pro plan on Stripe (test mode).** Checkout, Customer Portal, a signed webhook, and Pro-only features: CSV import from Letterboxd, Goodreads, or any tracker, plus advanced insights.
 - **Library and catalog.** Search titles by name, filter by media type, and sort by release date, popularity, ratings, or review activity. Add titles to your library, update your status, and leave a rating or review.
@@ -35,7 +38,8 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 - **Next.js App Router** with React Server Components, Server Actions, route handlers, metadata routes (dynamic OG image, icons, sitemap, robots), and per-page metadata.
 - **PostgreSQL + Prisma** with reviewed SQL migrations, trigram search indexes, and row locks for concurrent library edits.
 - **Catalog pipeline** on Vercel Workflow: daily imports from TMDB, RAWG, MangaUpdates, Wikidata, and more, with scoring, provider safeguards, Telegram alerts, and health checks.
-- **Security**: signed sessions, rate limiting, upload signature checks, privacy-aware queries, guarded demo sandboxes, and Stripe webhook signature verification. Live Stripe keys are refused.
+- **Security**: signed sessions, rate limiting, upload signature checks, privacy-aware queries, guarded demo sandboxes, Stripe webhook signature verification (live keys are refused), and hardened response headers. `/api/health` reports database readiness.
+- **Accessibility**: Lighthouse 100 for accessibility, best practices and SEO on the landing, dashboard, catalog and insights pages; keyboard-first navigation and reduced-motion support.
 - **Motion design** with `motion`: scroll-driven showcase, layout animations, count-ups, and reduced-motion support throughout.
 - **Quality gates**: unit tests for security, billing, import parsing and sandbox guards; database integration tests; CI with migration replay, type checking, lint, and builds.
 
