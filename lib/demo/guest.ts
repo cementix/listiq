@@ -16,10 +16,10 @@ export const GUEST_TTL_HOURS = 24;
 const GUEST_EMAIL_DOMAIN = "demo.listiq.invalid";
 
 const SANDBOX_TYPES: { type: TitleType; pick: number }[] = [
-  { type: TitleType.MOVIE, pick: 4 },
-  { type: TitleType.SERIES, pick: 3 },
+  { type: TitleType.MOVIE, pick: 6 },
+  { type: TitleType.SERIES, pick: 4 },
   { type: TitleType.ANIME, pick: 3 },
-  { type: TitleType.GAME, pick: 3 },
+  { type: TitleType.GAME, pick: 5 },
   { type: TitleType.BOOK, pick: 2 },
   { type: TitleType.MANGA, pick: 2 },
 ];
@@ -69,7 +69,19 @@ async function pickSandboxTitles() {
       return shuffle(candidates).slice(0, pick).map((title) => title.id);
     }),
   );
-  return shuffle(groups.flat());
+  const picked = groups.flat();
+  const target = SANDBOX_TYPES.reduce((sum, { pick }) => sum + pick, 0);
+  if (picked.length < target) {
+    // Small catalogs may lack a media type; top up from the best titles of any type.
+    const extra = await prisma.title.findMany({
+      where: { catalogEligible: true, imageUrl: { not: null }, id: { notIn: picked } },
+      orderBy: { catalogScore: { sort: "desc", nulls: "last" } },
+      select: { id: true },
+      take: 40,
+    });
+    picked.push(...shuffle(extra).slice(0, target - picked.length).map((title) => title.id));
+  }
+  return shuffle(picked);
 }
 
 /** Creates a private, pre-filled sandbox account that expires automatically. */
@@ -100,8 +112,10 @@ export async function createGuestSandbox() {
     const library = titleIds.slice(0, Math.max(0, titleIds.length - 4));
     const later = titleIds.slice(library.length);
 
+    // Spread history over ~5 months so insights, heatmaps and activity look lived-in.
+    const offsets = library.map(() => randomInt(1, 150)).sort((a, b) => b - a);
     const entries = library.map((titleId, index) => {
-      const createdAt = new Date(now - (library.length - index) * 1.3 * day);
+      const createdAt = new Date(now - offsets[index] * day - randomInt(0, 12 * 60) * 60_000);
       const rating = index % 5 === 4 ? null : RATINGS[randomInt(RATINGS.length)];
       const note = index % 4 === 0 ? SAMPLE_NOTES[(index / 4) % SAMPLE_NOTES.length] : null;
       return { userId: user.id, titleId, rating, note, createdAt };

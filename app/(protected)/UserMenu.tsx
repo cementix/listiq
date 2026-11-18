@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDown, LogOut, Settings, UserRound } from "lucide-react";
 import { logoutUser } from "@/actions/auth";
 import { DropdownMenu } from "radix-ui";
+import { startTransition } from "react";
 
 export default function UserMenu({
   username,
@@ -69,17 +70,16 @@ export default function UserMenu({
             </Link>
           </DropdownMenu.Item>
           <DropdownMenu.Separator className="my-1 h-px bg-white/10" />
-          <form action={logoutUser}>
-            <DropdownMenu.Item asChild>
-              <button
-                type="submit"
-                className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-rose-200/80 outline-none hover:bg-rose-500/10 hover:text-rose-100 focus:bg-rose-500/10"
-              >
-                <LogOut className="size-4" />
-                Sign out
-              </button>
-            </DropdownMenu.Item>
-          </form>
+          <DropdownMenu.Item
+            onSelect={() => {
+              // The menu unmounts on select, so a nested <form> would never submit.
+              startTransition(() => logoutUser());
+            }}
+            className="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-rose-200/80 outline-none hover:bg-rose-500/10 hover:text-rose-100 focus:bg-rose-500/10"
+          >
+            <LogOut className="size-4" />
+            Sign out
+          </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
