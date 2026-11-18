@@ -127,11 +127,13 @@ With Docker installed, one command starts PostgreSQL and the production build on
 docker compose up --build
 ```
 
-Fill the empty database with the synthetic demo catalog, users and lists:
+Fill the empty database with **real titles** (posters, genres, years) from TMDB and RAWG. Put `TMDB_ACCESS_TOKEN` and `RAWG_API_KEY` in `.env`, then run the imports against the container's database (set the URLs explicitly so `.env` cannot redirect them):
 
 ```sh
-docker compose --profile tools run --rm seed
+DATABASE_URL=postgresql://listiq:listiq@127.0.0.1:5433/listiq DATABASE_URL_UNPOOLED=postgresql://listiq:listiq@127.0.0.1:5433/listiq npm run catalog:seed -- tmdb
 ```
+
+Repeat with `rawg` and `manga-updates`, then `npm run catalog:score` with the same variables. Without API keys, `docker compose --profile tools run --rm seed` loads a small synthetic catalog instead (the landing page hides its placeholder artwork).
 
 To develop with hot reload against the containerized database, run `docker compose up db` and point `DATABASE_URL` and `DATABASE_URL_UNPOOLED` at `postgresql://listiq:listiq@127.0.0.1:5433/listiq`.
 
