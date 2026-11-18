@@ -93,7 +93,7 @@ export default function CommandPalette({ username }: { username: string }) {
               value={query}
               onValueChange={setQuery}
               placeholder="Search titles, lists, people…"
-              className="h-14 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/35 focus-visible:outline-none"
+              className="h-14 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/35 focus-visible:outline-none!"
             />
             <kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/40">ESC</kbd>
           </div>

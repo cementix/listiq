@@ -1,18 +1,41 @@
 # Listiq
 
-Listiq is a personal media tracker for movies, TV series, anime, manga, games, books, and comics. Keep a library of what you watch, read, and play, and share recommendations through lists and reviews. [Open Listiq](https://listiq-topaz.vercel.app)
+Listiq is a media tracker for movies, TV series, anime, manga, games, books, and comics. Keep one library of everything you watch, read, and play — rate it, review it, organise it into lists, and see your taste visualised. [Open Listiq](https://listiq-topaz.vercel.app) · **Try the live demo — no signup**
 
-![Listiq dashboard with recommendations and library activity](docs/screenshots/dashboard-desktop.jpg)
+![Listiq landing page with a wall of real catalog posters](docs/screenshots/landing-hero.jpeg)
 
-[Features](#features) · [Routes](#routes) · [Local setup](#run-locally) · [Tests](#checks) · [Deployment](#deployment) · [Catalog sync](#catalog-sync)
+[Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
 
 ## Features
 
+- **One-click demo.** A private, pre-filled sandbox account with five months of history. Sandboxes expire after 24 hours, and anything that could reach other members or storage is disabled.
+- **Insights.** Rating distribution, library by media type, a 26-week activity heatmap, monthly additions, favourite genres, decades, and a hall of fame.
+- **Command palette.** Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> anywhere to search titles, public lists, and members or to jump to any page.
+- **Pro plan on Stripe (test mode).** Checkout, Customer Portal, a signed webhook, and Pro-only features: CSV import from Letterboxd, Goodreads, or any tracker, plus advanced insights.
 - **Library and catalog.** Search titles by name, filter by media type, and sort by release date, popularity, ratings, or review activity. Add titles to your library, update your status, and leave a rating or review.
 - **Discover.** Browse a deck of recommendations. Skip a title, add it to your library, or save it for later.
 - **Lists.** Create and reorder lists, choose their visibility, and browse or save lists shared by other members.
 - **Profiles.** View a member's library, reviews, activity, and posts according to their privacy settings. Manage your own profile images, account security, and visibility in Settings.
 - **Submissions.** Members can propose a missing title, follow its status, and resubmit after requested edits. Moderators and admins can approve, reject, or request changes. Verified members, moderators, and admins can also add titles directly.
+
+## Screenshots
+
+| Dashboard | Insights |
+| --- | --- |
+| ![Personal dashboard with library stats and onboarding](docs/screenshots/dashboard-desktop.jpeg) | ![Insights with rating curve, media mix and activity heatmap](docs/screenshots/insights-desktop.jpeg) |
+| **Title page** | **Command palette** |
+| ![Title page with cinematic backdrop](docs/screenshots/title-details-desktop.jpeg) | ![Ctrl+K command palette searching the catalog](docs/screenshots/command-palette.jpeg) |
+
+![Animated feature bento on the landing page](docs/screenshots/landing-features.jpeg)
+
+## Tech highlights
+
+- **Next.js App Router** with React Server Components, Server Actions, route handlers, metadata routes (dynamic OG image, icons, sitemap, robots), and per-page metadata.
+- **PostgreSQL + Prisma** with reviewed SQL migrations, trigram search indexes, and row locks for concurrent library edits.
+- **Catalog pipeline** on Vercel Workflow: daily imports from TMDB, RAWG, MangaUpdates, Wikidata, and more, with scoring, provider safeguards, Telegram alerts, and health checks.
+- **Security**: signed sessions, rate limiting, upload signature checks, privacy-aware queries, guarded demo sandboxes, and Stripe webhook signature verification. Live Stripe keys are refused.
+- **Motion design** with `motion`: scroll-driven showcase, layout animations, count-ups, and reduced-motion support throughout.
+- **Quality gates**: unit tests for security, billing, import parsing and sandbox guards; database integration tests; CI with migration replay, type checking, lint, and builds.
 
 ## Routes
 
@@ -29,7 +52,10 @@ Listiq is a personal media tracker for movies, TV series, anime, manga, games, b
 | `/lists/[username]/[slug]` | Signed in, subject to list visibility | View a list. The owner can edit and reorder it. |
 | `/my-lists` | Signed in | Manage your own lists and access saved lists. |
 | `/users/[username]` | Signed in, subject to profile privacy | View a member's profile and visible activity. |
+| `/stats` | Signed in | Personal insights and charts. Advanced cards are Pro. |
 | `/settings/profile` | Signed in | Profile images, privacy, and account security. |
+| `/settings/import` | Pro | Import ratings from Letterboxd, Goodreads, or any CSV. |
+| `/settings/billing` | Signed in | Plan, Stripe Checkout, and the Customer Portal. |
 | `/add-title` | Signed in | Submit a title or add it directly with an eligible role. |
 | `/my-submissions` | Signed in | Review feedback and revise your submissions. |
 | `/submissions` | Moderator or admin | Review the submission queue. |
