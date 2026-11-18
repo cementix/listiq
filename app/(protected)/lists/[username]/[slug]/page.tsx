@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Bookmark, Globe2, Lock } from "lucide-react";
 
 import PageSection from "@/components/custom/PageSection";
+import ShareButton from "@/components/custom/ShareButton";
 import { getTitleListPage } from "@/lib/title-list/getTitleListPage";
 import AddTitlesDialog from "./AddTitlesDialog";
 import SortableTitleGrid from "./SortableTitleGrid";
@@ -60,7 +61,7 @@ export default async function TitleListPage({ params, searchParams }: Props) {
           </span>
         </div>
 
-        <h1 className="mt-3 text-3xl font-semibold text-white">{list.title}</h1>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white animate-in fade-in slide-in-from-bottom-2 duration-700 sm:text-5xl">{list.title}</h1>
 
         {list.description && (
           <p className="mt-3 max-w-3xl text-sm leading-6 text-white/60">
@@ -74,6 +75,9 @@ export default async function TitleListPage({ params, searchParams }: Props) {
               listId={list.id}
               existingTitleIds={list.items.map((item) => item.title.id)}
             />
+            {list.visibility === "PUBLIC" && !list.systemType && (
+              <ShareButton path={`/list/${list.user.username}/${list.slug}`} title={list.title} />
+            )}
             {!list.systemType && (
               <EditTitleListDialog
                 key={`${list.title}:${list.description}:${list.visibility}`}
@@ -87,7 +91,10 @@ export default async function TitleListPage({ params, searchParams }: Props) {
         )}
 
         {!viewer.isOwner && (
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            {list.visibility === "PUBLIC" && !list.systemType && (
+              <ShareButton path={`/list/${list.user.username}/${list.slug}`} title={list.title} />
+            )}
             <SaveTitleListButton
               key={`${list.id}:${viewer.isSaved}`}
               listId={list.id}

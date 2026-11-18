@@ -21,7 +21,7 @@ const TYPE_LABEL: Record<string, string> = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = await getPublicTitle((await params).slug);
-  if (!title) return { title: "Title not found" };
+  if (!title) notFound();
   const name = title.year ? `${title.name} (${title.year})` : title.name;
   const description = title.description?.slice(0, 160) ?? `${name} on Listiq — ratings, reviews and lists.`;
   return {
