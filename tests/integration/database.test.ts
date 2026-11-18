@@ -16,6 +16,7 @@ import { getPublicTitleLists } from "../../lib/title-list/getPublicTitleLists";
 import { getPublicListPage } from "../../lib/title-list/getPublicListPage";
 import { getPublicTitle } from "../../lib/title/getPublicTitle";
 import { assertNotGuest, deleteGuestUser } from "../../lib/demo/guest";
+import { getNotifications, markNotificationsRead } from "../../actions/notifications";
 import { addTitleToList } from "../../actions/title-list/addTitleToList";
 import { removeTitleFromList } from "../../actions/title-list/removeTitleFromList";
 import { reorderTitleListItems } from "../../actions/title-list/reorderTitleListItems";
@@ -221,6 +222,24 @@ test("sandbox guards block guests and deletion never touches real members", asyn
   assert.ok(await prisma.user.findUnique({ where: { id: "owner" } }));
   await deleteGuestUser("sandbox");
   assert.equal(await prisma.user.findUnique({ where: { id: "sandbox" } }), null);
+});
+
+test("comment notifications reach only the post author and can be marked read", async () => {
+  await prisma.user.update({ where: { id: "owner" }, data: { postsPublic: true } });
+  assert.equal((await as("visitor", () => createProfilePostComment({ postId: "plain-post", content: "great pick" }))).ok, true);
+
+  const ownerInbox = await as("owner", getNotifications);
+  assert.equal(ownerInbox.length, 1);
+  assert.equal(ownerInbox[0].type, "PROFILE_POST_COMMENT");
+  assert.equal(ownerInbox[0].actor.username, "visitor");
+  assert.equal(ownerInbox[0].snippet, "great pick");
+  assert.ok(ownerInbox[0].unread);
+  assert.deepEqual(await as("visitor", getNotifications), []);
+
+  await as("visitor", markNotificationsRead);
+  assert.equal(await prisma.notification.count({ where: { readAt: null } }), 1, "others cannot mark your notifications read");
+  await as("owner", markNotificationsRead);
+  assert.equal(await prisma.notification.count({ where: { readAt: null } }), 0);
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {
