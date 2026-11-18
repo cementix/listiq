@@ -32,6 +32,11 @@ export type UserMinAggregateOutputType = {
   role: $Enums.UserRole | null
   isGuest: boolean | null
   guestExpiresAt: Date | null
+  plan: $Enums.Plan | null
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  subscriptionStatus: string | null
+  currentPeriodEnd: Date | null
   avatarUrl: string | null
   avatarPublicId: string | null
   bannerUrl: string | null
@@ -55,6 +60,11 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.UserRole | null
   isGuest: boolean | null
   guestExpiresAt: Date | null
+  plan: $Enums.Plan | null
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  subscriptionStatus: string | null
+  currentPeriodEnd: Date | null
   avatarUrl: string | null
   avatarPublicId: string | null
   bannerUrl: string | null
@@ -78,6 +88,11 @@ export type UserCountAggregateOutputType = {
   role: number
   isGuest: number
   guestExpiresAt: number
+  plan: number
+  stripeCustomerId: number
+  stripeSubscriptionId: number
+  subscriptionStatus: number
+  currentPeriodEnd: number
   avatarUrl: number
   avatarPublicId: number
   bannerUrl: number
@@ -103,6 +118,11 @@ export type UserMinAggregateInputType = {
   role?: true
   isGuest?: true
   guestExpiresAt?: true
+  plan?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  subscriptionStatus?: true
+  currentPeriodEnd?: true
   avatarUrl?: true
   avatarPublicId?: true
   bannerUrl?: true
@@ -126,6 +146,11 @@ export type UserMaxAggregateInputType = {
   role?: true
   isGuest?: true
   guestExpiresAt?: true
+  plan?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  subscriptionStatus?: true
+  currentPeriodEnd?: true
   avatarUrl?: true
   avatarPublicId?: true
   bannerUrl?: true
@@ -149,6 +174,11 @@ export type UserCountAggregateInputType = {
   role?: true
   isGuest?: true
   guestExpiresAt?: true
+  plan?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  subscriptionStatus?: true
+  currentPeriodEnd?: true
   avatarUrl?: true
   avatarPublicId?: true
   bannerUrl?: true
@@ -245,6 +275,11 @@ export type UserGroupByOutputType = {
   role: $Enums.UserRole
   isGuest: boolean
   guestExpiresAt: Date | null
+  plan: $Enums.Plan
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  subscriptionStatus: string | null
+  currentPeriodEnd: Date | null
   avatarUrl: string | null
   avatarPublicId: string | null
   bannerUrl: string | null
@@ -289,6 +324,11 @@ export type UserWhereInput = {
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   isGuest?: Prisma.BoolFilter<"User"> | boolean
   guestExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  plan?: Prisma.EnumPlanFilter<"User"> | $Enums.Plan
+  stripeCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
+  stripeSubscriptionId?: Prisma.StringNullableFilter<"User"> | string | null
+  subscriptionStatus?: Prisma.StringNullableFilter<"User"> | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   avatarPublicId?: Prisma.StringNullableFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
@@ -327,6 +367,11 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   isGuest?: Prisma.SortOrder
   guestExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -361,6 +406,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   username?: string
+  stripeCustomerId?: string
+  stripeSubscriptionId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -368,6 +415,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   isGuest?: Prisma.BoolFilter<"User"> | boolean
   guestExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  plan?: Prisma.EnumPlanFilter<"User"> | $Enums.Plan
+  subscriptionStatus?: Prisma.StringNullableFilter<"User"> | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   avatarPublicId?: Prisma.StringNullableFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableFilter<"User"> | string | null
@@ -396,7 +446,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notificationsSent?: Prisma.NotificationListRelationFilter
   userTitleDiscoveries?: Prisma.UserTitleDiscoveryListRelationFilter
   uploadedAssets?: Prisma.UploadedAssetListRelationFilter
-}, "id" | "email" | "username">
+}, "id" | "email" | "username" | "stripeCustomerId" | "stripeSubscriptionId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -406,6 +456,11 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   isGuest?: Prisma.SortOrder
   guestExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   bannerUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -435,6 +490,11 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   isGuest?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   guestExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  plan?: Prisma.EnumPlanWithAggregatesFilter<"User"> | $Enums.Plan
+  stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  stripeSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  subscriptionStatus?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarPublicId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   bannerUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -458,6 +518,11 @@ export type UserCreateInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -496,6 +561,11 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -534,6 +604,11 @@ export type UserUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -572,6 +647,11 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -610,6 +690,11 @@ export type UserCreateManyInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -633,6 +718,11 @@ export type UserUpdateManyMutationInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -656,6 +746,11 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -679,6 +774,11 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isGuest?: Prisma.SortOrder
   guestExpiresAt?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
@@ -702,6 +802,11 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isGuest?: Prisma.SortOrder
   guestExpiresAt?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
@@ -725,6 +830,11 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   isGuest?: Prisma.SortOrder
   guestExpiresAt?: Prisma.SortOrder
+  plan?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   avatarPublicId?: Prisma.SortOrder
   bannerUrl?: Prisma.SortOrder
@@ -764,6 +874,10 @@ export type BoolFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type EnumPlanFieldUpdateOperationsInput = {
+  set?: $Enums.Plan
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -996,6 +1110,11 @@ export type UserCreateWithoutUploadedAssetsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1033,6 +1152,11 @@ export type UserUncheckedCreateWithoutUploadedAssetsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1086,6 +1210,11 @@ export type UserUpdateWithoutUploadedAssetsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1123,6 +1252,11 @@ export type UserUncheckedUpdateWithoutUploadedAssetsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1160,6 +1294,11 @@ export type UserCreateWithoutCreatedTitlesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1197,6 +1336,11 @@ export type UserUncheckedCreateWithoutCreatedTitlesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1250,6 +1394,11 @@ export type UserUpdateWithoutCreatedTitlesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1287,6 +1436,11 @@ export type UserUncheckedUpdateWithoutCreatedTitlesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1324,6 +1478,11 @@ export type UserCreateWithoutLibraryInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1361,6 +1520,11 @@ export type UserUncheckedCreateWithoutLibraryInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1414,6 +1578,11 @@ export type UserUpdateWithoutLibraryInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1451,6 +1620,11 @@ export type UserUncheckedUpdateWithoutLibraryInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1488,6 +1662,11 @@ export type UserCreateWithoutUserTitleDiscoveriesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1525,6 +1704,11 @@ export type UserUncheckedCreateWithoutUserTitleDiscoveriesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1578,6 +1762,11 @@ export type UserUpdateWithoutUserTitleDiscoveriesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1615,6 +1804,11 @@ export type UserUncheckedUpdateWithoutUserTitleDiscoveriesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1652,6 +1846,11 @@ export type UserCreateWithoutSubmissionsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1689,6 +1888,11 @@ export type UserUncheckedCreateWithoutSubmissionsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1731,6 +1935,11 @@ export type UserCreateWithoutReviewedSubsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1768,6 +1977,11 @@ export type UserUncheckedCreateWithoutReviewedSubsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -1821,6 +2035,11 @@ export type UserUpdateWithoutSubmissionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1858,6 +2077,11 @@ export type UserUncheckedUpdateWithoutSubmissionsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1906,6 +2130,11 @@ export type UserUpdateWithoutReviewedSubsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1943,6 +2172,11 @@ export type UserUncheckedUpdateWithoutReviewedSubsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1980,6 +2214,11 @@ export type UserCreateWithoutActivityEventsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2017,6 +2256,11 @@ export type UserUncheckedCreateWithoutActivityEventsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2070,6 +2314,11 @@ export type UserUpdateWithoutActivityEventsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2107,6 +2356,11 @@ export type UserUncheckedUpdateWithoutActivityEventsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2144,6 +2398,11 @@ export type UserCreateWithoutProfilePostsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2181,6 +2440,11 @@ export type UserUncheckedCreateWithoutProfilePostsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2234,6 +2498,11 @@ export type UserUpdateWithoutProfilePostsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2271,6 +2540,11 @@ export type UserUncheckedUpdateWithoutProfilePostsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2308,6 +2582,11 @@ export type UserCreateWithoutProfilePostLikesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2345,6 +2624,11 @@ export type UserUncheckedCreateWithoutProfilePostLikesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2398,6 +2682,11 @@ export type UserUpdateWithoutProfilePostLikesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2435,6 +2724,11 @@ export type UserUncheckedUpdateWithoutProfilePostLikesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2472,6 +2766,11 @@ export type UserCreateWithoutProfilePostCommentsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2509,6 +2808,11 @@ export type UserUncheckedCreateWithoutProfilePostCommentsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2562,6 +2866,11 @@ export type UserUpdateWithoutProfilePostCommentsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2599,6 +2908,11 @@ export type UserUncheckedUpdateWithoutProfilePostCommentsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2636,6 +2950,11 @@ export type UserCreateWithoutProfilePostCommentLikesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2673,6 +2992,11 @@ export type UserUncheckedCreateWithoutProfilePostCommentLikesInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2726,6 +3050,11 @@ export type UserUpdateWithoutProfilePostCommentLikesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2763,6 +3092,11 @@ export type UserUncheckedUpdateWithoutProfilePostCommentLikesInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2800,6 +3134,11 @@ export type UserCreateWithoutNotificationsReceivedInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2837,6 +3176,11 @@ export type UserUncheckedCreateWithoutNotificationsReceivedInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2879,6 +3223,11 @@ export type UserCreateWithoutNotificationsSentInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2916,6 +3265,11 @@ export type UserUncheckedCreateWithoutNotificationsSentInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -2969,6 +3323,11 @@ export type UserUpdateWithoutNotificationsReceivedInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3006,6 +3365,11 @@ export type UserUncheckedUpdateWithoutNotificationsReceivedInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3054,6 +3418,11 @@ export type UserUpdateWithoutNotificationsSentInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3091,6 +3460,11 @@ export type UserUncheckedUpdateWithoutNotificationsSentInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3128,6 +3502,11 @@ export type UserCreateWithoutTitleListsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -3165,6 +3544,11 @@ export type UserUncheckedCreateWithoutTitleListsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -3218,6 +3602,11 @@ export type UserUpdateWithoutTitleListsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3255,6 +3644,11 @@ export type UserUncheckedUpdateWithoutTitleListsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3292,6 +3686,11 @@ export type UserCreateWithoutSavedTitleListsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -3329,6 +3728,11 @@ export type UserUncheckedCreateWithoutSavedTitleListsInput = {
   role?: $Enums.UserRole
   isGuest?: boolean
   guestExpiresAt?: Date | string | null
+  plan?: $Enums.Plan
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: string | null
+  currentPeriodEnd?: Date | string | null
   avatarUrl?: string | null
   avatarPublicId?: string | null
   bannerUrl?: string | null
@@ -3382,6 +3786,11 @@ export type UserUpdateWithoutSavedTitleListsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3419,6 +3828,11 @@ export type UserUncheckedUpdateWithoutSavedTitleListsInput = {
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isGuest?: Prisma.BoolFieldUpdateOperationsInput | boolean
   guestExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bannerUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3613,6 +4027,11 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   isGuest?: boolean
   guestExpiresAt?: boolean
+  plan?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodEnd?: boolean
   avatarUrl?: boolean
   avatarPublicId?: boolean
   bannerUrl?: boolean
@@ -3652,6 +4071,11 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isGuest?: boolean
   guestExpiresAt?: boolean
+  plan?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodEnd?: boolean
   avatarUrl?: boolean
   avatarPublicId?: boolean
   bannerUrl?: boolean
@@ -3675,6 +4099,11 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   isGuest?: boolean
   guestExpiresAt?: boolean
+  plan?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodEnd?: boolean
   avatarUrl?: boolean
   avatarPublicId?: boolean
   bannerUrl?: boolean
@@ -3698,6 +4127,11 @@ export type UserSelectScalar = {
   role?: boolean
   isGuest?: boolean
   guestExpiresAt?: boolean
+  plan?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodEnd?: boolean
   avatarUrl?: boolean
   avatarPublicId?: boolean
   bannerUrl?: boolean
@@ -3713,7 +4147,7 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "passwordHash" | "role" | "isGuest" | "guestExpiresAt" | "avatarUrl" | "avatarPublicId" | "bannerUrl" | "bannerPublicId" | "privacySetupCompleted" | "libraryPublic" | "reviewsPublic" | "statsPublic" | "postsPublic" | "titleActivityPublic" | "listActivityPublic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "username" | "passwordHash" | "role" | "isGuest" | "guestExpiresAt" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "avatarUrl" | "avatarPublicId" | "bannerUrl" | "bannerPublicId" | "privacySetupCompleted" | "libraryPublic" | "reviewsPublic" | "statsPublic" | "postsPublic" | "titleActivityPublic" | "listActivityPublic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdTitles?: boolean | Prisma.User$createdTitlesArgs<ExtArgs>
   library?: boolean | Prisma.User$libraryArgs<ExtArgs>
@@ -3762,6 +4196,11 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.UserRole
     isGuest: boolean
     guestExpiresAt: Date | null
+    plan: $Enums.Plan
+    stripeCustomerId: string | null
+    stripeSubscriptionId: string | null
+    subscriptionStatus: string | null
+    currentPeriodEnd: Date | null
     avatarUrl: string | null
     avatarPublicId: string | null
     bannerUrl: string | null
@@ -4220,6 +4659,11 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly isGuest: Prisma.FieldRef<"User", 'Boolean'>
   readonly guestExpiresAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly plan: Prisma.FieldRef<"User", 'Plan'>
+  readonly stripeCustomerId: Prisma.FieldRef<"User", 'String'>
+  readonly stripeSubscriptionId: Prisma.FieldRef<"User", 'String'>
+  readonly subscriptionStatus: Prisma.FieldRef<"User", 'String'>
+  readonly currentPeriodEnd: Prisma.FieldRef<"User", 'DateTime'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
   readonly avatarPublicId: Prisma.FieldRef<"User", 'String'>
   readonly bannerUrl: Prisma.FieldRef<"User", 'String'>

@@ -102,6 +102,16 @@ docker compose --profile tools run --rm seed
 
 To develop with hot reload against the containerized database, run `docker compose up db` and point `DATABASE_URL` and `DATABASE_URL_UNPOOLED` at `postgresql://listiq:listiq@127.0.0.1:5433/listiq`.
 
+## Billing (Stripe test mode)
+
+Listiq has a Free and a Pro plan. Pro is sold through Stripe Checkout, managed in the Stripe Customer Portal, and kept in sync by a signed webhook at `/api/stripe/webhook` (`customer.subscription.*` and `checkout.session.completed`). Billing only runs with **test-mode** keys; a live key is ignored so a deployment can never charge real cards.
+
+1. Set `STRIPE_SECRET_KEY` (an `sk_test_…` key). `STRIPE_PRO_PRICE_ID` is optional; without it Checkout uses an inline $4/month price.
+2. Add a webhook endpoint for `https://<your-domain>/api/stripe/webhook` with the events above and set `STRIPE_WEBHOOK_SECRET`. Locally, run `stripe listen --forward-to localhost:3000/api/stripe/webhook`.
+3. Open **Settings → Plan & billing** and pay with card `4242 4242 4242 4242`, any future expiry and any CVC.
+
+The plan also updates immediately when Checkout redirects back, so the flow works before the webhook arrives.
+
 ## Demo sandbox
 
 The landing page's **Try the live demo** button creates a temporary guest account with a pre-filled library and lists, picked from the catalog. Sandboxes are private and expire after 24 hours, and signing out deletes them. Uploads, posts, comments, account changes, title submissions, and public sharing are disabled for guests.

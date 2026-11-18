@@ -91,8 +91,8 @@ const PLANS = [
     price: "$4",
     period: "per month",
     blurb: "For collectors who want insights and zero limits.",
-    features: ["Everything in Free", "Import from Letterboxd, MAL & Goodreads", "Year-in-review & advanced stats", "Smarter, unlimited recommendations", "Custom list covers & profile themes"],
-    cta: { label: "Coming soon", href: null },
+    features: ["Everything in Free", "Import from Letterboxd, MAL, Goodreads or CSV", "Full insights: decades, streaks, hall of fame", "Pro badge on your profile", "Support an independent project"],
+    cta: { label: "Try Pro in test mode", href: "/settings/billing" },
     highlight: true,
   },
 ];
@@ -100,7 +100,7 @@ const PLANS = [
 export function Pricing() {
   return (
     <section id="pricing" className="relative mx-auto max-w-5xl scroll-mt-24 px-4 py-28 sm:px-6">
-      <SectionHeading eyebrow="Pricing" title="Free to love. Pro when you want more." description="Start free with no credit card. Pro is on the way for power users." />
+      <SectionHeading eyebrow="Pricing" title="Free to love. Pro when you want more." description="Start free with no credit card. Pro runs on Stripe in test mode — try the full checkout with card 4242 4242 4242 4242." />
       <div className="mt-16 grid gap-5 md:grid-cols-2">
         {PLANS.map((plan, index) => (
           <Reveal key={plan.name} delay={index * 0.1}>
@@ -113,7 +113,7 @@ export function Pricing() {
               {plan.highlight && (
                 <>
                   <div aria-hidden className="absolute -top-24 -right-24 size-64 rounded-full bg-violet-500/30 blur-3xl animate-glow" />
-                  <span className="absolute top-6 right-6 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3 py-1 text-[11px] font-semibold text-white">Coming soon</span>
+                  <span className="absolute top-6 right-6 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3 py-1 text-[11px] font-semibold text-white">Stripe test mode</span>
                 </>
               )}
               <p className="text-sm font-semibold text-white">{plan.name}</p>
@@ -150,7 +150,7 @@ export function Pricing() {
 }
 
 const FAQ = [
-  { q: "Is Listiq free?", a: "Yes. Tracking, rating, reviews, lists and Discover are free. A Pro plan with imports and deeper stats is in development." },
+  { q: "Is Listiq free?", a: "Yes. Tracking, rating, reviews, lists, Discover and insights are free. Pro adds history imports and a profile badge — billing runs in Stripe test mode, so no real money moves." },
   { q: "What can I track?", a: "Movies, TV series, anime, manga and manhwa, games, books, novels and comics — all in a single library." },
   { q: "Where does the catalog come from?", a: "Listiq syncs daily from open and licensed sources like TMDB, RAWG, MangaUpdates and Wikidata, with attribution on the credits page. Members can also propose missing titles for moderators to review." },
   { q: "How does the live demo work?", a: "One click creates a private sandbox account with a pre-filled library and lists. Play with everything — it's deleted after 24 hours or when you sign out." },
