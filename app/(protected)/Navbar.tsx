@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { DropdownMenu } from "radix-ui";
 import { motion } from "motion/react";
-import { BookOpen, ChevronDown, Compass, Home, List, Menu, Plus, Settings, ShieldCheck, UserRound } from "lucide-react";
+import { BarChart3, BookOpen, ChevronDown, Compass, Home, List, Menu, Plus, Search, Settings, ShieldCheck, UserRound } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import LogoutButton from "./LogoutButton";
 import UserMenu from "./UserMenu";
+import CommandPalette, { openCommandPalette } from "@/components/custom/CommandPalette";
 
 type Props = { username: string; avatarUrl: string | null; needsChangesCount: number; canReview: boolean };
 
@@ -34,6 +35,7 @@ export default function Navbar({ username, avatarUrl, needsChangesCount, canRevi
     { label: "Add a title", href: "/add-title", icon: Plus },
     { label: "My submissions", href: "/my-submissions", icon: BookOpen },
     ...(canReview ? [{ label: "Review queue", href: "/submissions", icon: ShieldCheck }] : []),
+    { label: "Your insights", href: "/stats", icon: BarChart3 },
     { label: "My profile", href: `/users/${username}`, icon: UserRound },
     { label: "Settings", href: "/settings/profile", icon: Settings },
   ];
@@ -63,9 +65,20 @@ export default function Navbar({ username, avatarUrl, needsChangesCount, canRevi
                 </DropdownMenu.Root>
               ))}
               <Link href="/discover" aria-current={active("/discover") ? "page" : undefined} className={cn("relative isolate flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-sm text-white/60 transition-colors hover:text-white", active("/discover") && "text-white")}>{active("/discover") && <motion.span layoutId="nav-active" className="absolute inset-0 -z-10 rounded-full bg-white/[0.08] ring-1 ring-white/10" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}<Compass className="size-4 text-violet-300" />Discover</Link>
+              <Link href="/stats" aria-current={active("/stats") ? "page" : undefined} className={cn("relative isolate flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-sm text-white/60 transition-colors hover:text-white", active("/stats") && "text-white")}>{active("/stats") && <motion.span layoutId="nav-active" className="absolute inset-0 -z-10 rounded-full bg-white/[0.08] ring-1 ring-white/10" transition={{ type: "spring", stiffness: 420, damping: 34 }} />}<BarChart3 className="size-4 text-sky-300" />Insights</Link>
             </nav>
           </div>
           <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={openCommandPalette}
+              aria-label="Search (Ctrl+K)"
+              className="group flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 text-sm text-white/45 transition hover:border-white/20 hover:text-white/80 md:w-56 xl:w-64"
+            >
+              <Search className="size-4" />
+              <span className="hidden md:inline">Search…</span>
+              <kbd className="ml-auto hidden rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/40 md:inline">Ctrl K</kbd>
+            </button>
             <UserMenu username={username} avatarUrl={avatarUrl} />
             <button type="button" aria-label="Open navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 lg:hidden"><Menu className="size-5" /></button>
           </div>
@@ -86,6 +99,7 @@ export default function Navbar({ username, avatarUrl, needsChangesCount, canRevi
           <div className="border-t border-white/10 pt-3"><LogoutButton /></div>
         </DialogContent>
       </Dialog>
+      <CommandPalette username={username} />
     </>
   );
 }
