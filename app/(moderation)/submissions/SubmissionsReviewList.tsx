@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@/lib/hooks/use-mutation";
+import PosterFallback from "@/components/custom/PosterFallback";
 
 import { approveTitleSubmission } from "@/actions/submissions/approveTitleSubmission";
 import { rejectTitleSubmission } from "@/actions/submissions/rejectTitleSubmission";
@@ -128,9 +129,7 @@ export default function SubmissionsReviewList({
                     height={112}
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center text-ts text-white/40">
-                    no image
-                  </div>
+                  <PosterFallback name={submission.name} showName={false} />
                 )}
               </div>
 

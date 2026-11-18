@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@/lib/hooks/use-mutation";
+import PosterFallback from "@/components/custom/PosterFallback";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -152,9 +153,7 @@ export default function MySubmissionsList({
                     height={96}
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center text-xs text-white/40">
-                    no image
-                  </div>
+                  <PosterFallback name={submission.name} showName={false} />
                 )}
               </div>
 

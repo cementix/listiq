@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PosterFallback from "@/components/custom/PosterFallback";
 import type { CSSProperties } from "react";
 
 import type { DashboardTitle } from "./dashboardTypes";
@@ -35,9 +36,7 @@ export default function TitlePosterCard({
             unoptimized
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-xs text-white/40">
-            no image
-          </div>
+          <PosterFallback name={title.name} />
         )}
       </div>
 

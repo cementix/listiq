@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PosterFallback from "@/components/custom/PosterFallback";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -67,9 +68,7 @@ export default async function TitleDetailsPage({
                 priority
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-white/40">
-                no image
-              </div>
+              <PosterFallback name={title.name} />
             )}
           </div>
         </GlassCard>
