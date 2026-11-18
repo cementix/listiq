@@ -40,7 +40,7 @@ export default function ImportForm() {
             {fileName ? <FileSpreadsheet className="size-6" /> : <UploadCloud className="size-6" />}
           </span>
           <span className="text-base font-medium text-white">{fileName ?? "Drop your export here or click to browse"}</span>
-          <span className="text-sm text-white/45">Letterboxd ratings/diary, Goodreads library, or any CSV with a Title column · up to 1 MB</span>
+          <span className="text-sm text-white/60">Letterboxd ratings/diary, Goodreads library, or any CSV with a Title column · up to 1 MB</span>
           <input
             type="file"
             name="file"

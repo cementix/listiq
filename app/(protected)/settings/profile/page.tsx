@@ -67,7 +67,7 @@ export default async function ProfileSettingsPage() {
       <section id="privacy" className="scroll-mt-24 space-y-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
         <div className="space-y-1">
           <h2 className="flex items-center gap-2 text-lg font-medium text-white"><ShieldCheck className="size-4 text-violet-300" />Privacy</h2>
-          <p className="text-sm text-white/45">
+          <p className="text-sm text-white/60">
             Choose which parts of your profile other users can see.
           </p>
         </div>

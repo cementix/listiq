@@ -70,7 +70,7 @@ export default async function BillingPage({ searchParams }: Props) {
           <div aria-hidden className="absolute -top-24 -right-24 size-64 rounded-full bg-violet-500/30 blur-3xl animate-glow" />
           {isPro && <span className="absolute top-6 right-6 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-3 py-1 text-[11px] font-semibold text-white">Current plan</span>}
           <p className="flex items-center gap-2 text-sm font-semibold text-white"><Sparkles className="size-4 text-violet-300" />Pro</p>
-          <p className="mt-4 flex items-baseline gap-2"><span className="text-5xl font-semibold tracking-tight">${(PRO_PRICE_CENTS / 100).toFixed(0)}</span><span className="text-sm text-white/45">per month</span></p>
+          <p className="mt-4 flex items-baseline gap-2"><span className="text-5xl font-semibold tracking-tight">${(PRO_PRICE_CENTS / 100).toFixed(0)}</span><span className="text-sm text-white/60">per month</span></p>
           <ul className="relative mt-6 space-y-3 text-sm text-white/80">
             {PRO_FEATURES.map((item) => (
               <li key={item} className="flex gap-3"><span className="mt-0.5 grid size-4 place-items-center rounded-full bg-violet-400/25"><Check className="size-3 text-violet-200" /></span>{item}</li>
