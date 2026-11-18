@@ -33,7 +33,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
   return (
     <StoreProvider>
       <MotionProvider>
-      <div className="relative isolate min-h-dvh bg-black pt-16 pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
+      <div className="relative isolate min-h-dvh overflow-x-clip bg-black pt-16 pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute -top-64 left-1/2 h-[560px] w-[1200px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.16),transparent)]" />
           <div className="absolute top-1/3 -right-48 size-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(56,189,248,0.07),transparent)] animate-glow" />
