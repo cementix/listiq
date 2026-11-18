@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { requireAuth } from "@/lib/auth/guards";
 import PageSection from "@/components/custom/PageSection";
 import PageHeader from "@/components/custom/PageHeader";
-import { KeyRound, Palette, Settings, ShieldCheck } from "lucide-react";
+import { Download, KeyRound, Palette, Settings, ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import ProfileImageEditor from "../../users/[username]/ProfileImageEditor";
 import PrivacySettingsForm from "./PrivacySettingsForm";
@@ -79,6 +79,15 @@ export default async function ProfileSettingsPage() {
             listActivityPublic: user.listActivityPublic,
           }}
         />
+      </section>
+      <section id="data" className="scroll-mt-24 flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <div>
+          <h2 className="flex items-center gap-2 text-lg font-medium text-white"><Download className="size-4 text-violet-300" />Your data</h2>
+          <p className="mt-1 text-sm text-white/60">Download your library, ratings, reviews, lists and posts as a JSON file — yours to keep or move.</p>
+        </div>
+        <a href="/api/export" download className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-white/10">
+          <Download className="size-4" /> Download my data
+        </a>
       </section>
     </PageSection>
   );

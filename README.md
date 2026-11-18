@@ -12,6 +12,7 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 - **Insights.** Rating distribution, library by media type, a 26-week activity heatmap, monthly additions, favourite genres, decades, and a hall of fame.
 - **Year in review.** A Wrapped-style animated story of your year — busiest month, favourite media type and genre, rating persona, and your top-rated titles.
 - **Public, shareable pages.** Signed-out visitors can open any catalog title at `/title/[slug]` or a public list at `/list/[username]/[slug]` — SEO metadata, sitemap entries, public reviews only, and a Share button in the app.
+- **Your data, portable.** Import from other trackers (Pro) and download everything you created as JSON from Settings at any time.
 - **Notifications.** A navbar bell with an unread badge for comments, replies and likes on your posts.
 - **More like this.** Related titles of the same media type and genres on every title page.
 - **Command palette.** Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> anywhere to search titles, public lists, and members or to jump to any page.

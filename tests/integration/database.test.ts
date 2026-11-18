@@ -33,6 +33,7 @@ import { scoreCatalog } from "../../lib/catalog/scoreCatalog";
 import { saveDiscoveryTitle } from "../../actions/discovery/saveDiscoveryTitle";
 import { skipDiscoveryTitle } from "../../actions/discovery/skipDiscoveryTitle";
 import { FREE_DAILY_DISCOVER_LIMIT } from "../../lib/discovery/allowance";
+import { GET as exportData } from "../../app/api/export/route";
 import { claimDailySync, touchSyncRun, finishSyncRunSuccess, finishSyncRunFailure } from "../../lib/sync/syncRun";
 import { expireTmdbCache, refreshStaleTmdbTitles } from "../../lib/sync/providers/tmdb";
 
@@ -260,6 +261,17 @@ test("free members hit the daily Discover allowance while Pro stays unlimited", 
 
   await prisma.user.update({ where: { id: "visitor" }, data: { plan: "PRO" } });
   assert.equal((await as("visitor", () => skipDiscoveryTitle(last))).ok, true);
+});
+
+test("data export returns only the caller's own data and no secrets", async () => {
+  assert.equal((await as(null, exportData)).status, 401);
+  const response = await as("owner", exportData);
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  const data = JSON.parse(body);
+  assert.equal(data.username, "owner");
+  assert.equal(data.library[0].note, "private-review");
+  assert.ok(!body.includes("passwordHash") && !body.includes("public-review"));
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {
