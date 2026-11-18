@@ -4,6 +4,7 @@ import { logError } from "@/lib/observability/errors";
 
 import { prisma } from "@/lib/prisma";
 import { requireUserServer } from "@/lib/auth/guards";
+import { assertNotGuest } from "@/lib/demo/guest";
 import { CreateTitleInput } from "../title/types";
 import { validateCreateInput } from "../title/validateCreateInput";
 import { validateGenreIds } from "../title/validateGenresId";
@@ -21,6 +22,7 @@ export async function resubmitTitleSubmission(
 ): Promise<ActionResult> {
   try {
     const { session } = await requireUserServer();
+    await assertNotGuest(session.userId, "submit titles to the shared catalog");
 
     const validationError = validateCreateInput(data);
     if (validationError) {

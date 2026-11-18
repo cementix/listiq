@@ -4,15 +4,29 @@ import { isIP } from "node:net";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { consumeRateLimit } from "./rateLimit";
+import { GuestRestrictedError } from "./guestError";
 
-export async function limitAuth(action: "login" | "register", email: string) {
+async function clientIp() {
   // Only trust the platform-provided header on Vercel. Local/self-hosted
   // requests share a fallback bucket rather than trusting a spoofable header.
   const requestHeaders = await headers();
   const candidate = process.env.VERCEL === "1"
     ? requestHeaders.get("x-vercel-forwarded-for")?.split(",")[0]?.trim()
     : undefined;
-  const ip = candidate && isIP(candidate) ? candidate : "shared";
+  return candidate && isIP(candidate) ? candidate : "shared";
+}
+
+export async function limitDemo() {
+  const ip = await clientIp();
+  await consumeRateLimit(prisma, {
+    name: "demo:start:ip",
+    limit: ip === "shared" ? 60 : 8,
+    seconds: 3600,
+  }, ip);
+}
+
+export async function limitAuth(action: "login" | "register", email: string) {
+  const ip = await clientIp();
   await consumeRateLimit(prisma, {
     name: `auth:${action}:ip`,
     limit: action === "login" ? 20 : 5,
@@ -25,7 +39,17 @@ export async function limitAuth(action: "login" | "register", email: string) {
   }
 }
 
+const GUEST_BLOCKED = {
+  upload: "upload files",
+  post: "publish posts",
+  comment: "comment",
+  account: "change account settings",
+} as const;
+
 export async function limitUser(action: "upload" | "post" | "comment" | "account", userId: string) {
+  // Demo sandboxes can explore everything private, but nothing that reaches other members or storage.
+  const owner = await prisma.user.findUnique({ where: { id: userId }, select: { isGuest: true } });
+  if (owner?.isGuest) throw new GuestRestrictedError(GUEST_BLOCKED[action]);
   await consumeRateLimit(prisma, {
     name: action, limit: action === "account" ? 10 : action === "post" ? 10 : action === "comment" ? 30 : 20,
     seconds: action === "account" ? 900 : 600,

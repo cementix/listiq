@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import React from "react";
 import { prisma } from "@/lib/prisma";
 import NavbarShell from "./NavbarShell";
+import DemoBanner from "./DemoBanner";
 import StoreProvider from "../storeProvider";
 import { canReviewSubmissions } from "@/actions/submissions/canReviewSubmissions";
 import ProviderCredits from "@/components/custom/ProviderCredits";
@@ -19,8 +20,14 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
     select: {
       avatarUrl: true,
       role: true,
+      isGuest: true,
+      guestExpiresAt: true,
     },
   });
+  const guestHoursLeft = user?.isGuest && user.guestExpiresAt
+    ? Math.max(1, Math.ceil((user.guestExpiresAt.getTime() - new Date().getTime()) / 3_600_000))
+    : null;
+
   return (
     <StoreProvider>
       <div className="min-h-dvh bg-black pt-16 pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
@@ -33,6 +40,7 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
             canReview={user ? canReviewSubmissions(user.role) : false}
           />
         </NavbarShell>
+        {user?.isGuest && <DemoBanner hoursLeft={guestHoursLeft} />}
         <main id="main-content" tabIndex={-1} className="min-w-0 outline-none">{children}</main>
         <ProviderCredits />
       </div>
