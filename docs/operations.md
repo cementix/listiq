@@ -177,6 +177,33 @@ the previous compatible deployment. Application rollback does not undo database
 migrations. Prefer a forward migration for schema repair; use database recovery
 only with a reviewed data-loss window and compatible application revision.
 
+## Demo sandboxes and billing
+
+Demo sandboxes are ordinary `User` rows with `isGuest = true` and a
+`guestExpiresAt`. Each new demo start deletes up to 50 expired sandboxes, and
+signing out deletes the current one; cascades remove their library, lists and
+activity. Starts are rate limited per IP (`demo:start:ip`). To clear stale
+sandboxes manually on an isolated target:
+
+```sql
+DELETE FROM "User" WHERE "isGuest" AND "guestExpiresAt" < now();
+```
+
+Billing is Stripe **test mode** only: `getStripe()` ignores any key that does
+not start with `sk_test_`. For each environment that should offer Pro:
+
+1. Set `STRIPE_SECRET_KEY` (and optionally `STRIPE_PRO_PRICE_ID`).
+2. In the Stripe dashboard, add a webhook endpoint for
+   `https://<host>/api/stripe/webhook` with `checkout.session.completed` and
+   `customer.subscription.{created,updated,deleted,paused,resumed}`, then set
+   `STRIPE_WEBHOOK_SECRET`.
+3. Enable the Customer Portal once in test mode so **Manage subscription** works.
+4. Verify Checkout with card `4242 4242 4242 4242`, then cancel in the portal and
+   confirm the member returns to Free after the subscription ends.
+
+Without these variables the app runs normally and the billing page explains that
+billing is not configured; the webhook answers `503`.
+
 ## Backup and recovery drill
 
 For the repeatable local verification used in this workspace:
