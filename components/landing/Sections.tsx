@@ -122,7 +122,7 @@ const PLANS = [
     price: "$4",
     period: "per month",
     blurb: "For collectors who want insights and zero limits.",
-    features: ["Everything in Free", "Import from Letterboxd, MAL, Goodreads or CSV", "Full insights: decades, streaks, hall of fame", "Pro badge on your profile", "Support an independent project"],
+    features: ["Everything in Free", "Import from Letterboxd, MAL, Goodreads or CSV", "Year in review story and full insights", "Pro badge on your profile", "Support an independent project"],
     cta: { label: "Try Pro in test mode", href: "/settings/billing" },
     highlight: true,
   },

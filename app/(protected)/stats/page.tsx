@@ -58,6 +58,13 @@ export default async function StatsPage() {
         title={<>Your taste, <span className="font-display font-normal italic text-gradient">visualised</span></>}
         description={totals.average !== null ? `You rate titles ${totals.average.toFixed(1)} on average across ${totals.rated} ratings and ${totals.lists} lists.` : "Rate a few titles to see your rating curve."}
         icon={<BarChart3 className="size-3.5" />}
+        actions={
+          <Link href="/stats/wrapped" className="group relative inline-flex h-11 items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-sky-500 px-5 text-sm font-semibold text-white shadow-[0_12px_40px_-10px_rgba(217,70,239,0.8)] transition hover:-translate-y-0.5">
+            <span aria-hidden className="absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-shimmer" />
+            <Sparkles className="relative size-4" />
+            <span className="relative">Your {new Date().getUTCFullYear()} in review</span>
+          </Link>
+        }
       />
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">

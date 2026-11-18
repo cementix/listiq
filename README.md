@@ -10,6 +10,7 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 
 - **One-click demo.** A private, pre-filled sandbox account with five months of history. Sandboxes expire after 24 hours, and anything that could reach other members or storage is disabled.
 - **Insights.** Rating distribution, library by media type, a 26-week activity heatmap, monthly additions, favourite genres, decades, and a hall of fame.
+- **Year in review.** A Wrapped-style animated story of your year — busiest month, favourite media type and genre, rating persona, and your top-rated titles.
 - **Command palette.** Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> anywhere to search titles, public lists, and members or to jump to any page.
 - **Pro plan on Stripe (test mode).** Checkout, Customer Portal, a signed webhook, and Pro-only features: CSV import from Letterboxd, Goodreads, or any tracker, plus advanced insights.
 - **Library and catalog.** Search titles by name, filter by media type, and sort by release date, popularity, ratings, or review activity. Add titles to your library, update your status, and leave a rating or review.
@@ -26,7 +27,8 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 | **Title page** | **Command palette** |
 | ![Title page with cinematic backdrop](docs/screenshots/title-details-desktop.jpeg) | ![Ctrl+K command palette searching the catalog](docs/screenshots/command-palette.jpeg) |
 
-![Animated feature bento on the landing page](docs/screenshots/landing-features.jpeg)
+| **Year in review** | **Landing features** |
+| ![Wrapped-style year in review story](docs/screenshots/year-in-review.jpeg) | ![Animated feature bento on the landing page](docs/screenshots/landing-features.jpeg) |
 
 ## Tech highlights
 
@@ -53,6 +55,7 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 | `/my-lists` | Signed in | Manage your own lists and access saved lists. |
 | `/users/[username]` | Signed in, subject to profile privacy | View a member's profile and visible activity. |
 | `/stats` | Signed in | Personal insights and charts. Advanced cards are Pro. |
+| `/stats/wrapped` | Pro | Animated year-in-review story. |
 | `/settings/profile` | Signed in | Profile images, privacy, and account security. |
 | `/settings/import` | Pro | Import ratings from Letterboxd, Goodreads, or any CSV. |
 | `/settings/billing` | Signed in | Plan, Stripe Checkout, and the Customer Portal. |
