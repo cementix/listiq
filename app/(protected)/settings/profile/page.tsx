@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { requireAuth } from "@/lib/auth/guards";
 import PageSection from "@/components/custom/PageSection";
 import PageHeader from "@/components/custom/PageHeader";
+import DeleteAccountForm from "./DeleteAccountForm";
 import { Download, KeyRound, Palette, Settings, ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import ProfileImageEditor from "../../users/[username]/ProfileImageEditor";
@@ -26,6 +27,7 @@ export default async function ProfileSettingsPage() {
       postsPublic: true,
       titleActivityPublic: true,
       listActivityPublic: true,
+      isGuest: true,
     },
   });
 
@@ -89,6 +91,7 @@ export default async function ProfileSettingsPage() {
           <Download className="size-4" /> Download my data
         </a>
       </section>
+      {!user.isGuest && <DeleteAccountForm username={user.username} />}
     </PageSection>
   );
 }

@@ -34,6 +34,8 @@ import { saveDiscoveryTitle } from "../../actions/discovery/saveDiscoveryTitle";
 import { skipDiscoveryTitle } from "../../actions/discovery/skipDiscoveryTitle";
 import { FREE_DAILY_DISCOVER_LIMIT } from "../../lib/discovery/allowance";
 import { GET as exportData } from "../../app/api/export/route";
+import { deleteAccount } from "../../actions/profile/deleteAccount";
+import bcrypt from "bcrypt";
 import { claimDailySync, touchSyncRun, finishSyncRunSuccess, finishSyncRunFailure } from "../../lib/sync/syncRun";
 import { expireTmdbCache, refreshStaleTmdbTitles } from "../../lib/sync/providers/tmdb";
 
@@ -272,6 +274,26 @@ test("data export returns only the caller's own data and no secrets", async () =
   assert.equal(data.username, "owner");
   assert.equal(data.library[0].note, "private-review");
   assert.ok(!body.includes("passwordHash") && !body.includes("public-review"));
+});
+
+test("account deletion requires the typed username and password, then removes everything", async () => {
+  await prisma.user.update({ where: { id: "owner" }, data: { passwordHash: await bcrypt.hash("correct horse", 4) } });
+  const form = (confirmation: string, password: string) => {
+    const data = new FormData();
+    data.set("confirmation", confirmation);
+    data.set("password", password);
+    return data;
+  };
+  const wrongName = await as("owner", () => deleteAccount(null, form("someone", "correct horse")));
+  assert.equal(wrongName.ok, false);
+  const wrongPassword = await as("owner", () => deleteAccount(null, form("owner", "nope")));
+  assert.equal(wrongPassword.ok, false);
+  assert.ok(await prisma.user.findUnique({ where: { id: "owner" } }));
+
+  await assert.rejects(as("owner", () => deleteAccount(null, form("owner", "correct horse"))), /NEXT_REDIRECT/);
+  assert.equal(await prisma.user.findUnique({ where: { id: "owner" } }), null);
+  assert.equal(await prisma.titleList.count({ where: { userId: "owner" } }), 0);
+  assert.equal(await prisma.userTitle.count({ where: { userId: "owner" } }), 0);
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {
