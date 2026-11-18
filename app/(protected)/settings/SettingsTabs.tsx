@@ -3,19 +3,20 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "motion/react";
-import { CreditCard, UserRound } from "lucide-react";
+import { CreditCard, FileUp, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const TABS = [
   { href: "/settings/profile", label: "Profile", icon: UserRound },
+  { href: "/settings/import", label: "Import", icon: FileUp },
   { href: "/settings/billing", label: "Plan & billing", icon: CreditCard },
 ];
 
 export default function SettingsTabs() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Settings" className="mx-auto flex w-full max-w-6xl gap-1 px-4 pt-6 lg:px-6">
+    <nav aria-label="Settings" className="mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-4 pt-6 lg:px-6">
       {TABS.map(({ href, label, icon: Icon }) => {
         const active = pathname.startsWith(href);
         return (
