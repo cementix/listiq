@@ -86,6 +86,26 @@ npm run catalog:seed -- tmdb
 
 Use `npm run catalog:status` to inspect the result. [Provider settings and attribution](docs/provider-review.md)
 
+### Run with Docker
+
+With Docker installed, one command starts PostgreSQL and the production build on [localhost:3000](http://localhost:3000). Migrations run automatically on start.
+
+```sh
+docker compose up --build
+```
+
+Fill the empty database with the synthetic demo catalog, users and lists:
+
+```sh
+docker compose --profile tools run --rm seed
+```
+
+To develop with hot reload against the containerized database, run `docker compose up db` and point `DATABASE_URL` and `DATABASE_URL_UNPOOLED` at `postgresql://listiq:listiq@127.0.0.1:5432/listiq`.
+
+## Demo sandbox
+
+The landing page's **Try the live demo** button creates a temporary guest account with a pre-filled library and lists, picked from the catalog. Sandboxes are private and expire after 24 hours, and signing out deletes them. Uploads, posts, comments, account changes, title submissions, and public sharing are disabled for guests.
+
 ## Checks
 
 ```sh
