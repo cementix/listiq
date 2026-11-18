@@ -18,7 +18,7 @@ export function ChartCard({ title, subtitle, children, className }: { title: str
   return (
     <section className={cn("rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-6", className)}>
       <h2 className="text-base font-semibold text-white">{title}</h2>
-      {subtitle ? <p className="mt-1 text-sm text-white/45">{subtitle}</p> : null}
+      {subtitle ? <p className="mt-1 text-sm text-white/60">{subtitle}</p> : null}
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -43,7 +43,7 @@ export function ColumnChart({ data, unit, height = 180 }: { data: { label: strin
           </div>
         ))}
       </div>
-      <figcaption className="mt-2 flex gap-1.5 text-[11px] text-white/40 sm:gap-2">
+      <figcaption className="mt-2 flex gap-1.5 text-[11px] text-white/60 sm:gap-2">
         {data.map((item) => <span key={item.label} className="flex-1 text-center">{item.label}</span>)}
       </figcaption>
     </figure>
@@ -93,7 +93,7 @@ export function Heatmap({ weeks, max }: { weeks: { date: string; count: number }
           </div>
         ))}
       </div>
-      <figcaption className="mt-3 flex items-center justify-end gap-1.5 text-[11px] text-white/40">
+      <figcaption className="mt-3 flex items-center justify-end gap-1.5 text-[11px] text-white/60">
         Less {HEAT_STEPS.map((cls) => <span key={cls} className={cn("size-3 rounded-[3px]", cls)} />)} More
       </figcaption>
     </figure>

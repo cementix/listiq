@@ -65,7 +65,7 @@ export default async function StatsPage() {
           <div key={label} style={{ animationDelay: `${index * 70}ms` }} className="dashboard-pick-in rounded-3xl border border-white/10 bg-white/[0.03] p-5">
             <Icon className="size-4 text-violet-300" />
             <CountUp value={value} className="mt-3 block text-3xl font-semibold tracking-tight text-white sm:text-4xl" />
-            <p className="mt-1 text-sm text-white/45">{label}</p>
+            <p className="mt-1 text-sm text-white/60">{label}</p>
           </div>
         ))}
       </div>
