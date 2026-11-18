@@ -46,6 +46,12 @@ export default async function TitleDetailsPage({
   const averageRating = title.stats.averageRating?.toFixed(1) ?? "No ratings";
   const isInLibrary = Boolean(title.currentUserTitle);
   const similar = await getSimilarTitles(title.id);
+  // Other members' public ratings (the viewer's own entry is excluded), bucketed to whole points.
+  const publicRatings = title.users
+    .filter((entry) => entry.rating !== null && entry.id !== title.currentUserTitle?.id)
+    .map((entry) => Math.min(10, Math.max(1, Math.round(entry.rating!))));
+  const ratingBuckets = Array.from({ length: 10 }, (_, index) => publicRatings.filter((value) => value === 10 - index).length);
+  const maxBucket = Math.max(1, ...ratingBuckets);
 
   const heroImage = title.backdropUrl ?? title.imageUrl;
   const typeLabel = title.type.charAt(0) + title.type.slice(1).toLowerCase();
@@ -163,6 +169,26 @@ export default async function TitleDetailsPage({
           </div>
         </div>
       </div>
+
+      {publicRatings.length > 0 && (
+        <GlassCard className="p-4 sm:p-6">
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="text-xl font-semibold text-white">Community ratings</h2>
+            <p className="text-sm text-white/60">{publicRatings.length} public {publicRatings.length === 1 ? "rating" : "ratings"}</p>
+          </div>
+          <ul className="mt-4 space-y-1.5">
+            {ratingBuckets.map((count, index) => (
+              <li key={index} className="flex items-center gap-3 text-xs">
+                <span className="w-6 text-right text-white/60">{10 - index}</span>
+                <span className="h-2 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+                  <span className="animate-grow-x block h-full origin-left rounded-full bg-gradient-to-r from-violet-600 to-violet-400" style={{ width: `${(count / maxBucket) * 100}%`, animationDelay: `${index * 40}ms` }} />
+                </span>
+                <span className="w-6 text-white/60">{count}</span>
+              </li>
+            ))}
+          </ul>
+        </GlassCard>
+      )}
 
       <GlassCard className="p-4 sm:p-6">
         <h2 className="text-xl font-semibold text-white">Reviews</h2>
