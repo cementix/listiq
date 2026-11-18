@@ -10,6 +10,7 @@ import PageSection from "@/components/custom/PageSection";
 import TitleLibraryPanel from "./TitleLibraryPanel";
 import Link from "next/link";
 import SaveToListButton from "@/components/custom/SaveToListButton";
+import ShareButton from "@/components/custom/ShareButton";
 import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type TitleDetailsPageProps = {
@@ -100,7 +101,10 @@ export default async function TitleDetailsPage({
                 )}
               </div>
 
-              <SaveToListButton titleId={title.id} />
+              <div className="flex items-center gap-2">
+                <ShareButton path={`/title/${title.slug}`} title={title.name} />
+                <SaveToListButton titleId={title.id} />
+              </div>
             </div>
 
             {title.genres.length > 0 && (
