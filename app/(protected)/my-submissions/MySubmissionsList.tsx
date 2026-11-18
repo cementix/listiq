@@ -200,7 +200,7 @@ export default function MySubmissionsList({
 
                 {submission.reviewComment && (
                   <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-3">
-                    <p className="text-xs text-white/40">Moderator feedback</p>
+                    <p className="text-xs text-white/55">Moderator feedback</p>
                     <p className="mt-1 text-sm text-white/70">
                       {submission.reviewComment}
                     </p>

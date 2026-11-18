@@ -151,7 +151,7 @@ export default function TitleFormFields({
               <Command className="bg-transparent">
                 <CommandInput
                   placeholder="Search types..."
-                  className="text-white placeholder:text-white/40"
+                  className="text-white placeholder:text-white/55"
                 />
                 <CommandList>
                   <CommandEmpty>No type found.</CommandEmpty>
@@ -212,7 +212,7 @@ export default function TitleFormFields({
               <Command className="bg-transparent">
                 <CommandInput
                   placeholder="Search genres..."
-                  className="text-white placeholder:text-white/40"
+                  className="text-white placeholder:text-white/55"
                 />
                 <CommandList>
                   <CommandEmpty>No genres found.</CommandEmpty>

@@ -97,7 +97,7 @@ export default async function TitleDetailsPage({
                 <TitleSourceLinks sources={title.externalTitles} />
 
                 {title.createdBy && (
-                  <p className="mt-2 text-sm text-white/45">
+                  <p className="mt-2 text-sm text-white/55">
                     Added by{" "}
                     <Link
                       href={`/users/${title.createdBy.username}`}
@@ -136,7 +136,7 @@ export default async function TitleDetailsPage({
 
           <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
             <GlassCard className="p-4">
-              <Users className="size-5 text-white/45" />
+              <Users className="size-5 text-white/55" />
               <p className="mt-4 text-2xl font-semibold">
                 {title.stats.libraryCount}
               </p>
@@ -152,7 +152,7 @@ export default async function TitleDetailsPage({
             </GlassCard>
 
             <GlassCard className="p-4">
-              <MessageSquare className="size-5 text-white/45" />
+              <MessageSquare className="size-5 text-white/55" />
               <p className="mt-3 text-2xl font-semibold">
                 {title.stats.reviewCount}
               </p>

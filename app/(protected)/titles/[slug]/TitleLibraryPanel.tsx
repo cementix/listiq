@@ -175,7 +175,7 @@ const TitleLibraryPanel = ({ titleId, currentUserTitle }: Props) => {
               <button
                 type="button"
                 onClick={() => setRating("")}
-                className="mt-2 min-h-11 text-xs text-white/45 hover:text-white/70"
+                className="mt-2 min-h-11 text-xs text-white/55 hover:text-white/70"
               >
                 Clear rating
               </button>

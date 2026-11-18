@@ -18,7 +18,7 @@ export default function DashboardRandomPicks({
     <GlassCard className="dashboard-panel-in p-4">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-medium text-white">Random picks</p>
-        <Dice5 className="size-4 text-white/45" />
+        <Dice5 className="size-4 text-white/55" />
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
@@ -49,7 +49,7 @@ export default function DashboardRandomPicks({
                 {title.name}
               </p>
 
-              <p className="mt-1 truncate text-xs text-white/45">
+              <p className="mt-1 truncate text-xs text-white/55">
                 {formatTitleMeta(title)}
               </p>
 

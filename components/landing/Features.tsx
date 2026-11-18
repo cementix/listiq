@@ -82,7 +82,7 @@ function LibraryDemo({ posters }: { posters: LandingPoster[] }) {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-white">{poster.name}</p>
-                <p className="text-[11px] text-white/40">{TYPE_LABEL[poster.type]}{poster.year ? ` · ${poster.year}` : ""}</p>
+                <p className="text-[11px] text-white/55">{TYPE_LABEL[poster.type]}{poster.year ? ` · ${poster.year}` : ""}</p>
               </div>
               <span className="flex items-center gap-1 rounded-full bg-violet-500/15 px-2.5 py-1 text-xs font-semibold text-violet-200">
                 <Star className="size-3 fill-current" /> {ratings[index]}
@@ -137,8 +137,8 @@ function DiscoverDemo({ posters }: { posters: LandingPoster[] }) {
         </motion.div>
       </AnimatePresence>
       <div className="absolute bottom-3 flex gap-3">
-        <span className={cn("grid size-9 place-items-center rounded-full ring-1 ring-white/15 transition", direction < 0 ? "bg-rose-500/20 text-rose-300" : "bg-white/5 text-white/40")}><X className="size-4" /></span>
-        <span className={cn("grid size-9 place-items-center rounded-full ring-1 ring-white/15 transition", direction > 0 ? "bg-emerald-500/20 text-emerald-300" : "bg-white/5 text-white/40")}><Heart className="size-4" /></span>
+        <span className={cn("grid size-9 place-items-center rounded-full ring-1 ring-white/15 transition", direction < 0 ? "bg-rose-500/20 text-rose-300" : "bg-white/5 text-white/55")}><X className="size-4" /></span>
+        <span className={cn("grid size-9 place-items-center rounded-full ring-1 ring-white/15 transition", direction > 0 ? "bg-emerald-500/20 text-emerald-300" : "bg-white/5 text-white/55")}><Heart className="size-4" /></span>
       </div>
     </div>
   );
@@ -162,7 +162,7 @@ function ListDemo({ posters }: { posters: LandingPoster[] }) {
           <motion.div layout key={poster.id} transition={{ type: "spring", stiffness: 260, damping: 26 }}
             className={cn("flex items-center gap-3 rounded-xl border bg-black/30 p-2", itemIndex === moved ? "border-violet-400/40 shadow-[0_0_30px_-8px_rgba(167,139,250,0.6)]" : "border-white/5")}>
             <GripVertical className="size-4 text-white/25" />
-            <span className="w-4 text-xs font-semibold text-white/40">{position + 1}</span>
+            <span className="w-4 text-xs font-semibold text-white/55">{position + 1}</span>
             <div className="relative h-9 w-7 overflow-hidden rounded ring-1 ring-white/10">
               <Image src={poster.imageUrl} alt="" fill sizes="28px" className="object-cover" />
             </div>
@@ -241,7 +241,7 @@ function ModerationDemo() {
           </div>
         ))}
       </div>
-      <p className="text-center text-xs text-white/40">Members propose missing titles. Moderators keep the catalog clean.</p>
+      <p className="text-center text-xs text-white/55">Members propose missing titles. Moderators keep the catalog clean.</p>
     </div>
   );
 }

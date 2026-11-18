@@ -85,7 +85,7 @@ export default function PublicListCard({ list }: { list: PublicList }) {
               <h2 className="truncate text-base font-medium text-white">
                 {list.title}
               </h2>
-              <p className="mt-1 text-xs text-white/45">
+              <p className="mt-1 text-xs text-white/55">
                 @{list.user.username} · {list._count.items}{" "}
                 {list._count.items === 1 ? "title" : "titles"}
               </p>

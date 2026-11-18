@@ -49,11 +49,11 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
     <>
     <section className="dashboard-panel-in flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
       <div>
-        <p className="text-sm text-white/45">Welcome back</p>
+        <p className="text-sm text-white/55">Welcome back</p>
         <h1 className="mt-1 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
           @{username}
           {summary.ratings > 0 && (
-            <span className="ml-3 align-middle text-sm font-medium text-white/40">
+            <span className="ml-3 align-middle text-sm font-medium text-white/55">
               avg. <span className="text-gradient font-semibold">{summary.average.toFixed(1)}</span> / 10
             </span>
           )}
@@ -72,7 +72,7 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
               <ArrowRight className="size-3.5 -translate-x-1 text-white/0 transition group-hover:translate-x-0 group-hover:text-white/50" />
             </div>
             <CountUp value={value} className="mt-2 block text-2xl font-semibold tracking-tight text-white" />
-            <p className="text-xs text-white/45">{label}</p>
+            <p className="text-xs text-white/55">{label}</p>
           </Link>
         ))}
       </div>
@@ -123,7 +123,7 @@ export default async function DashboardWelcome({ userId, username }: { userId: s
       <section aria-labelledby="recent-library" className="dashboard-panel-in">
         <div className="mb-3 flex items-center justify-between">
           <h2 id="recent-library" className="text-lg font-semibold text-white">Recently in your library</h2>
-          <Link href="/stats" className="inline-flex items-center gap-1 text-sm text-white/45 transition hover:translate-x-0.5 hover:text-white">Your insights <ArrowRight className="size-4" /></Link>
+          <Link href="/stats" className="inline-flex items-center gap-1 text-sm text-white/55 transition hover:translate-x-0.5 hover:text-white">Your insights <ArrowRight className="size-4" /></Link>
         </div>
         <ul className="scrollbar-hide flex gap-3 overflow-x-auto pb-2">
           {summary.recent.map(({ title, rating }, index) => (

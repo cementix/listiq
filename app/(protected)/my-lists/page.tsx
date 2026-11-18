@@ -84,7 +84,7 @@ export default async function ListsPage() {
                         <h3 className="truncate text-base font-medium text-white">
                           {list.title}
                         </h3>
-                        <p className="mt-1 text-xs text-white/45">
+                        <p className="mt-1 text-xs text-white/55">
                           {list.isSaved
                             ? `by @${list.user.username}`
                             : list.systemType
@@ -113,7 +113,7 @@ export default async function ListsPage() {
                       </span>
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2 text-xs text-white/40">
+                    <div className="mt-4 flex items-center gap-2 text-xs text-white/55">
                       {list.isSaved ? (
                         <Bookmark className="size-3.5" />
                       ) : list.visibility === "PUBLIC" ? (

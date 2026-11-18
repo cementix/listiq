@@ -26,7 +26,7 @@ export function StatsStrip({ stats }: { stats: LandingData["stats"] }) {
         {items.map((item, index) => (
           <Reveal key={item.label} delay={index * 0.08} className="text-center">
             <CountUp value={item.value} suffix={item.suffix} className="block text-4xl font-semibold tracking-tight text-white sm:text-5xl" />
-            <p className="mt-2 text-sm text-white/45">{item.label}</p>
+            <p className="mt-2 text-sm text-white/55">{item.label}</p>
           </Reveal>
         ))}
       </div>
@@ -150,7 +150,7 @@ export function Pricing() {
               <p className="text-sm font-semibold text-white">{plan.name}</p>
               <p className="mt-4 flex items-baseline gap-2">
                 <span className="text-5xl font-semibold tracking-tight text-white">{plan.price}</span>
-                <span className="text-sm text-white/45">{plan.period}</span>
+                <span className="text-sm text-white/55">{plan.period}</span>
               </p>
               <p className="mt-3 text-sm text-white/55">{plan.blurb}</p>
               <ul className="mt-7 space-y-3">
@@ -205,7 +205,7 @@ export function Faq() {
                 className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left text-base font-medium text-white transition hover:text-violet-200"
               >
                 {item.q}
-                <ChevronDown className={cn("size-5 shrink-0 text-white/40 transition-transform duration-300", isOpen && "rotate-180 text-violet-300")} />
+                <ChevronDown className={cn("size-5 shrink-0 text-white/55 transition-transform duration-300", isOpen && "rotate-180 text-violet-300")} />
               </button>
               <AnimatePresence initial={false}>
                 {isOpen && (

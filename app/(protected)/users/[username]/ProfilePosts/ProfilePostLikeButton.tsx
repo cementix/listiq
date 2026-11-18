@@ -49,7 +49,7 @@ export default function ProfilePostLikeButton({
       className={`h-auto gap-1.5 px-0 py-0 transition hover:bg-transparent ${
         liked
           ? "text-rose-300 hover:text-rose-200"
-          : "text-white/45 hover:text-white"
+          : "text-white/55 hover:text-white"
       }`}
     >
       <Heart

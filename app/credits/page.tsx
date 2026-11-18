@@ -6,7 +6,7 @@ export const metadata = { title: "Credits · listiq" };
 export default function CreditsPage() {
   return <main className="mx-auto max-w-3xl space-y-8 px-6 py-16 text-white">
     <Link href="/" className="text-sm text-white/60 underline underline-offset-4">Back to listiq</Link>
-    <div><p className="text-sm text-white/45">listiq</p><h1 className="mt-2 text-3xl font-semibold">Catalog credits</h1><p className="mt-4 text-white/65">The catalog brings together information from these providers. Artwork and descriptions belong to their respective owners.</p></div>
+    <div><p className="text-sm text-white/55">listiq</p><h1 className="mt-2 text-3xl font-semibold">Catalog credits</h1><p className="mt-4 text-white/65">The catalog brings together information from these providers. Artwork and descriptions belong to their respective owners.</p></div>
     <section className="space-y-4 rounded-2xl border border-white/10 p-6">
       <a href="https://www.themoviedb.org"><Image src="/providers/tmdb.svg" alt="TMDB" width={120} height={16} unoptimized /></a>
       <p className="text-sm leading-6 text-white/70">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>

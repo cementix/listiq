@@ -227,7 +227,7 @@ export default function ProfilePostComments({
                   <button
                     type="button"
                     onClick={() => setReplyingToCommentId(comment.id)}
-                    className="min-h-11 px-2 text-xs text-white/40 transition hover:text-white/65"
+                    className="min-h-11 px-2 text-xs text-white/55 transition hover:text-white/65"
                   >
                     Reply
                   </button>
@@ -318,7 +318,7 @@ export default function ProfilePostComments({
       )}
 
       {replyingToComment && (
-        <div className="flex items-center justify-between gap-3 rounded-lg bg-white/[0.04] px-3 py-2 text-xs text-white/45">
+        <div className="flex items-center justify-between gap-3 rounded-lg bg-white/[0.04] px-3 py-2 text-xs text-white/55">
           <span>Replying to @{replyingToComment.author.username}</span>
 
           <button

@@ -237,7 +237,7 @@ export default function CoverImageField({
           <ImagePlus className={compact ? "size-4" : "size-5 text-white/75"} />
           <span className="font-medium">Select cover</span>
           {!compact && (
-            <span className="mt-1 text-xs text-white/45">{emptyHint}</span>
+            <span className="mt-1 text-xs text-white/55">{emptyHint}</span>
           )}
         </button>
       )}

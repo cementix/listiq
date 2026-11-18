@@ -99,7 +99,7 @@ export default function NotificationBell({ initialUnread }: { initialUnread: num
                         <span className="text-white/80"><b className="font-semibold text-white">@{item.actor.username}</b> {verb}</span>
                         {item.snippet && <span className="mt-0.5 block truncate text-xs text-white/50">“{item.snippet}”</span>}
                       </span>
-                      <span className="shrink-0 text-[11px] text-white/45">{timeAgo(item.createdAt)}</span>
+                      <span className="shrink-0 text-[11px] text-white/55">{timeAgo(item.createdAt)}</span>
                     </Link>
                   </DropdownMenu.Item>
                 );

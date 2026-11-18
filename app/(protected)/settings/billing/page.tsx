@@ -86,7 +86,7 @@ export default async function BillingPage({ searchParams }: Props) {
             )}
           </div>
           {user.subscriptionStatus && user.subscriptionStatus !== "active" && (
-            <p className="relative mt-3 text-xs text-white/45">Subscription status: {user.subscriptionStatus.replace("_", " ")}</p>
+            <p className="relative mt-3 text-xs text-white/55">Subscription status: {user.subscriptionStatus.replace("_", " ")}</p>
           )}
         </section>
       </div>

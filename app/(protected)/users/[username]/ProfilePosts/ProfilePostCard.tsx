@@ -82,7 +82,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
               unoptimized
             />
           ) : (
-            <UserRound className="size-5 text-white/45" />
+            <UserRound className="size-5 text-white/55" />
           )}
         </div>
 
@@ -130,7 +130,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
               )}
 
               {post.attachedUserTitle.note && (
-                <span className="max-w-40 truncate text-[11px] leading-4 text-white/45">
+                <span className="max-w-40 truncate text-[11px] leading-4 text-white/55">
                   {post.attachedUserTitle.note}
                 </span>
               )}
@@ -141,7 +141,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
 
       <ProfilePostMediaViewer media={post.media} />
 
-      <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/45">
+      <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/55">
         <ProfilePostLikeButton
           postId={post.id}
           likesCount={post.likes.length}

@@ -99,7 +99,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
             View details
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </span>
-          <span className="text-xs text-white/40">A top pick from the catalog</span>
+          <span className="text-xs text-white/55">A top pick from the catalog</span>
         </div>
       </div>
     </Link>

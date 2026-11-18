@@ -45,11 +45,11 @@ export default function TitlePosterCard({
           {title.name}
         </p>
 
-        <p className="mt-0.5 truncate text-sm text-white/45">
+        <p className="mt-0.5 truncate text-sm text-white/55">
           {formatTitleMeta(title)}
         </p>
 
-        <p className="mt-1 text-xs text-white/45">
+        <p className="mt-1 text-xs text-white/55">
           {stats.averageRating
             ? `${stats.averageRating.toFixed(1)} ★`
             : "No rating"}

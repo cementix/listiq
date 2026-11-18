@@ -67,7 +67,7 @@ export default function SortableTitleCard({ item, index, canReorder }: Props) {
         <h3 className="mt-2 truncate text-sm font-medium text-white group-hover:text-primary">
           {item.title.name}
         </h3>
-        <p className="mt-1 text-xs text-white/45">
+        <p className="mt-1 text-xs text-white/55">
           {item.title.type}
           {item.title.year ? ` · ${item.title.year}` : ""}
         </p>

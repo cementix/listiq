@@ -220,7 +220,7 @@ export default function Hero({ posters }: { posters: LandingPoster[] }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="mt-4 text-xs text-white/40"
+            className="mt-4 text-xs text-white/55"
           >
             No signup needed · private sandbox · resets in 24 hours
           </motion.p>
@@ -235,7 +235,7 @@ export default function Hero({ posters }: { posters: LandingPoster[] }) {
             </div>
             <div>
               <p className="max-w-40 truncate text-sm font-medium text-white">{first.name}</p>
-              <p className="mb-1.5 text-[11px] text-white/45">{TYPE_LABEL[first.type]} · rating…</p>
+              <p className="mb-1.5 text-[11px] text-white/55">{TYPE_LABEL[first.type]} · rating…</p>
               <RatingStars />
             </div>
           </div>
@@ -256,7 +256,7 @@ export default function Hero({ posters }: { posters: LandingPoster[] }) {
             <span className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-fuchsia-400 to-violet-500 text-xs font-semibold text-white">N</span>
             <div>
               <p className="text-white/80"><b className="font-medium text-white">nova</b> saved your list</p>
-              <p className="flex items-center gap-1 text-[11px] text-white/45"><ListPlus className="size-3" /> All-time favorites · 2m ago</p>
+              <p className="flex items-center gap-1 text-[11px] text-white/55"><ListPlus className="size-3" /> All-time favorites · 2m ago</p>
             </div>
           </div>
         </FloatingCard>

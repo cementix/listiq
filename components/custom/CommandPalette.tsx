@@ -91,18 +91,18 @@ export default function CommandPalette({ username }: { username: string }) {
         <DialogDescription className="sr-only">Search titles, lists and people, or jump to a page.</DialogDescription>
         <Command shouldFilter={false} loop className="flex flex-col">
           <div className="flex items-center gap-3 border-b border-white/10 px-4">
-            {pending ? <Loader2 className="size-4 shrink-0 animate-spin text-violet-300" /> : <Search className="size-4 shrink-0 text-white/40" />}
+            {pending ? <Loader2 className="size-4 shrink-0 animate-spin text-violet-300" /> : <Search className="size-4 shrink-0 text-white/55" />}
             <Command.Input
               value={query}
               onValueChange={setQuery}
               placeholder="Search titles, lists, people…"
               className="h-14 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/35 focus-visible:outline-none!"
             />
-            <kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/40">ESC</kbd>
+            <kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/55">ESC</kbd>
           </div>
           <Command.List className="max-h-[60vh] overflow-y-auto p-2">
             {query.trim().length >= 2 && !pending && !hasResults && filteredPages.length === 0 && (
-              <Command.Empty className="px-3 py-10 text-center text-sm text-white/45">No matches for “{query.trim()}”.</Command.Empty>
+              <Command.Empty className="px-3 py-10 text-center text-sm text-white/55">No matches for “{query.trim()}”.</Command.Empty>
             )}
 
             {visibleResults.titles.length > 0 && (
@@ -114,9 +114,9 @@ export default function CommandPalette({ username }: { username: string }) {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-medium text-white">{title.name}</span>
-                      <span className="text-xs text-white/40">{TYPE_LABEL[title.type] ?? title.type}{title.year ? ` · ${title.year}` : ""}</span>
+                      <span className="text-xs text-white/55">{TYPE_LABEL[title.type] ?? title.type}{title.year ? ` · ${title.year}` : ""}</span>
                     </span>
-                    <CornerDownLeft className="size-3.5 text-white/0 group-data-[selected=true]:text-white/40" />
+                    <CornerDownLeft className="size-3.5 text-white/0 group-data-[selected=true]:text-white/55" />
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -129,7 +129,7 @@ export default function CommandPalette({ username }: { username: string }) {
                     <span className="grid size-8 place-items-center rounded-lg bg-violet-500/15 text-violet-300"><List className="size-4" /></span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-medium text-white">{list.title}</span>
-                      <span className="text-xs text-white/40">@{list.owner} · {list.count} titles</span>
+                      <span className="text-xs text-white/55">@{list.owner} · {list.count} titles</span>
                     </span>
                   </Command.Item>
                 ))}
@@ -153,7 +153,7 @@ export default function CommandPalette({ username }: { username: string }) {
               <Command.Group heading="Jump to" className={groupClass}>
                 {filteredPages.map(({ label, href, icon: Icon }) => (
                   <Command.Item key={href} value={`page-${href}`} onSelect={() => go(href)} className={itemClass}>
-                    <Icon className="size-4 text-white/45 group-data-[selected=true]:text-violet-300" />
+                    <Icon className="size-4 text-white/55 group-data-[selected=true]:text-violet-300" />
                     {label}
                   </Command.Item>
                 ))}

@@ -141,7 +141,7 @@ export default async function TitleListPage({ params, searchParams }: Props) {
           />
         </div>
 
-        <p className="text-xs text-white/45">
+        <p className="text-xs text-white/55">
           {viewer.ratedCount} rated
           {viewer.averageRating !== null &&
             ` · Your average rating: ${viewer.averageRating.toFixed(1)}/10`}

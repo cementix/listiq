@@ -139,7 +139,7 @@ export default function DashboardRail({
 
         <Link
           href={href}
-          className="inline-flex items-center gap-1 text-sm text-white/45 transition hover:translate-x-0.5 hover:text-white"
+          className="inline-flex items-center gap-1 text-sm text-white/55 transition hover:translate-x-0.5 hover:text-white"
         >
           View all
           <ArrowRight className="size-4" />

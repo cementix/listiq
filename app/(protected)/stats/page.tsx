@@ -99,7 +99,7 @@ export default async function StatsPage() {
             {insights.genres.length ? (
               <BarList unit="titles" data={insights.genres.map((genre) => ({ label: genre.name, value: genre.count }))} />
             ) : (
-              <p className="text-sm text-white/45">Genres appear once your titles have them.</p>
+              <p className="text-sm text-white/55">Genres appear once your titles have them.</p>
             )}
           </ProGate>
         </ChartCard>

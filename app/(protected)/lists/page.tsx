@@ -145,7 +145,7 @@ export default async function PublicListsPage({
             No lists found
           </h2>
 
-          <p className="mt-2 text-sm text-white/45">
+          <p className="mt-2 text-sm text-white/55">
             Try another search or create your own list.
           </p>
         </div>
@@ -162,7 +162,7 @@ export default async function PublicListsPage({
             </Button>
           )}
 
-          <span className="text-sm text-white/45">Page {page}</span>
+          <span className="text-sm text-white/55">Page {page}</span>
 
           {result.hasMore && result.nextPage && (
             <Button asChild variant="outline">

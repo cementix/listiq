@@ -81,7 +81,7 @@ export default function Showcase({ posters }: { posters: LandingPoster[] }) {
                     {picks.map((poster) => (
                       <div key={poster.id} className="flex items-center gap-2 rounded-xl bg-black/30 p-1.5">
                         <div className="relative h-11 w-8 overflow-hidden rounded-md"><Image src={poster.imageUrl} alt="" fill sizes="32px" className="object-cover" /></div>
-                        <div className="min-w-0"><p className="truncate text-[11px] font-medium text-white">{poster.name}</p><p className="text-[10px] text-white/40">{TYPE_LABEL[poster.type]}</p></div>
+                        <div className="min-w-0"><p className="truncate text-[11px] font-medium text-white">{poster.name}</p><p className="text-[10px] text-white/55">{TYPE_LABEL[poster.type]}</p></div>
                       </div>
                     ))}
                   </div>

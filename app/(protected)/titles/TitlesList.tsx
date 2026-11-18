@@ -399,7 +399,7 @@ export default function TitlesList({
 
                   <div className="flex min-h-10 flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-xs text-white/60">
                     <div className="flex items-center gap-1.5">
-                      <Users className="size-3.5 text-white/40" />
+                      <Users className="size-3.5 text-white/55" />
                       <span>{title.stats.libraryCount}</span>
                     </div>
 
@@ -413,7 +413,7 @@ export default function TitlesList({
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <MessageSquare className="size-3.5 text-white/40" />
+                      <MessageSquare className="size-3.5 text-white/55" />
                       <span>{title.stats.reviewCount}</span>
                     </div>
                   </div>

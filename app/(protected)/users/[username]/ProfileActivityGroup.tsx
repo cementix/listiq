@@ -70,11 +70,11 @@ export default function ProfileActivityGroup({
 
           <div className="min-w-0">
             <p className="truncate font-medium text-white">{group.title}</p>
-            <p className="mt-1 text-sm text-white/45">{actionLabel}</p>
+            <p className="mt-1 text-sm text-white/55">{actionLabel}</p>
           </div>
         </div>
 
-        <p className="shrink-0 text-right text-sm text-white/45">
+        <p className="shrink-0 text-right text-sm text-white/55">
           {group.createdAt.toLocaleDateString("uk-UA")}
         </p>
       </Link>
@@ -104,7 +104,7 @@ export default function ProfileActivityGroup({
               {group.title}
             </p>
             <p
-              className={`mt-1 text-white/45 ${compact ? "text-xs" : "text-sm"}`}
+              className={`mt-1 text-white/55 ${compact ? "text-xs" : "text-sm"}`}
             >
               {actionLabel}
             </p>
@@ -112,7 +112,7 @@ export default function ProfileActivityGroup({
         </div>
 
         <div
-          className={`flex shrink-0 items-center gap-2 text-white/45 ${
+          className={`flex shrink-0 items-center gap-2 text-white/55 ${
             compact ? "text-xs" : "text-sm"
           }`}
         >
