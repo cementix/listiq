@@ -5,7 +5,7 @@ import Features from "@/components/landing/Features";
 import Hero from "@/components/landing/Hero";
 import LandingNav from "@/components/landing/LandingNav";
 import { MotionProvider } from "@/components/landing/primitives";
-import { Faq, FinalCta, Footer, Pricing, StatsStrip, Steps } from "@/components/landing/Sections";
+import { Faq, FinalCta, Footer, Pricing, StatsStrip, Steps, TrendingStrip } from "@/components/landing/Sections";
 import Showcase from "@/components/landing/Showcase";
 import { getLandingData } from "@/lib/landing/getLandingData";
 import { getSession } from "@/lib/session";
@@ -34,6 +34,7 @@ export default async function HomePage() {
           <StatsStrip stats={stats} />
           <Features posters={posters} />
           <Showcase posters={posters} />
+          <TrendingStrip posters={posters} />
           <Steps />
           <Pricing />
           <Faq />

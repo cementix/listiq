@@ -5,7 +5,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Check, ChevronDown, Compass, MousePointerClick, Star } from "lucide-react";
 import { useState } from "react";
 
-import type { LandingData } from "@/lib/landing/getLandingData";
+import Image from "next/image";
+import type { LandingData, LandingPoster } from "@/lib/landing/getLandingData";
 import { cn } from "@/lib/utils";
 import DemoButton from "./DemoButton";
 import { CountUp, EASE, Reveal, SectionHeading, Spotlight } from "./primitives";
@@ -37,6 +38,36 @@ export function StatsStrip({ stats }: { stats: LandingData["stats"] }) {
             </span>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function TrendingStrip({ posters }: { posters: LandingPoster[] }) {
+  const items = posters.filter((poster) => poster.slug).slice(0, 18);
+  if (items.length < 6) return null;
+  return (
+    <section aria-labelledby="trending-heading" className="relative py-20">
+      <div className="mx-auto mb-8 flex max-w-6xl items-end justify-between gap-4 px-4 sm:px-6">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.25em] text-violet-300/80 uppercase">From the catalog</p>
+          <h2 id="trending-heading" className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">Popular right now</h2>
+        </div>
+        <p className="hidden max-w-xs text-right text-sm text-white/45 sm:block">Hover to pause · click any title to see ratings and reviews.</p>
+      </div>
+      <div className="mask-fade-x pause-on-hover overflow-hidden">
+        <ul className="flex w-max animate-marquee-x gap-4 px-4" style={{ ["--marquee-duration" as string]: "70s" }}>
+          {[...items, ...items].map((poster, index) => (
+            <li key={`${poster.id}-${index}`} aria-hidden={index >= items.length ? true : undefined} className="w-36 shrink-0 sm:w-44">
+              <Link href={`/title/${poster.slug}`} tabIndex={index >= items.length ? -1 : undefined} className="group block">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 transition duration-500 group-hover:-translate-y-1.5 group-hover:ring-violet-400/50 group-hover:shadow-[0_24px_60px_-20px_rgba(139,92,246,0.7)]">
+                  <Image src={poster.imageUrl} alt={poster.name} fill sizes="176px" className="object-cover transition duration-700 group-hover:scale-105" />
+                </div>
+                <p className="mt-2 truncate text-sm text-white/70 transition group-hover:text-white">{poster.name}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

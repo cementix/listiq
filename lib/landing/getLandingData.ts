@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 export type LandingPoster = {
   id: string;
   name: string;
+  slug: string | null;
   type: TitleType;
   year: number | null;
   imageUrl: string;
@@ -21,6 +22,7 @@ export type LandingData = {
 const FALLBACK_POSTERS: LandingPoster[] = Array.from({ length: 9 }, (_, index) => ({
   id: `fallback-${index}`,
   name: "Listiq",
+  slug: null,
   type: "OTHER",
   year: null,
   imageUrl: `/demo/poster-${index}.svg`,
@@ -34,7 +36,7 @@ export const getLandingData = cache(async (): Promise<LandingData> => {
         // Synthetic demo-seed artwork never appears on the public landing page.
         where: { catalogEligible: true, imageUrl: { not: null }, NOT: { imageUrl: { startsWith: "/demo/" } } },
         orderBy: { catalogScore: { sort: "desc", nulls: "last" } },
-        select: { id: true, name: true, type: true, year: true, imageUrl: true },
+        select: { id: true, name: true, slug: true, type: true, year: true, imageUrl: true },
         take: 60,
       }),
       prisma.title.count({ where: { catalogEligible: true } }),
