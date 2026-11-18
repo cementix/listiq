@@ -12,6 +12,8 @@ import TitleLibraryPanel from "./TitleLibraryPanel";
 import Link from "next/link";
 import SaveToListButton from "@/components/custom/SaveToListButton";
 import ShareButton from "@/components/custom/ShareButton";
+import SimilarTitles from "@/components/custom/SimilarTitles";
+import { getSimilarTitles } from "@/lib/title/getSimilarTitles";
 import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
 
 type TitleDetailsPageProps = {
@@ -43,6 +45,7 @@ export default async function TitleDetailsPage({
 
   const averageRating = title.stats.averageRating?.toFixed(1) ?? "No ratings";
   const isInLibrary = Boolean(title.currentUserTitle);
+  const similar = await getSimilarTitles(title.id);
 
   const heroImage = title.backdropUrl ?? title.imageUrl;
   const typeLabel = title.type.charAt(0) + title.type.slice(1).toLowerCase();
@@ -202,6 +205,7 @@ export default async function TitleDetailsPage({
           )}
         </div>
       </GlassCard>
+      <SimilarTitles titles={similar} basePath="/titles" />
     </PageSection>
     </div>
   );

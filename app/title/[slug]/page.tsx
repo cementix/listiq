@@ -9,6 +9,8 @@ import DemoButton from "@/components/landing/DemoButton";
 import { MotionProvider } from "@/components/landing/primitives";
 import { Footer } from "@/components/landing/Sections";
 import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
+import SimilarTitles from "@/components/custom/SimilarTitles";
+import { getSimilarTitles } from "@/lib/title/getSimilarTitles";
 import { getSession } from "@/lib/session";
 import { getPublicTitle } from "@/lib/title/getPublicTitle";
 
@@ -41,6 +43,7 @@ export default async function PublicTitlePage({ params }: Props) {
   if (!title) notFound();
   const hero = title.backdropUrl ?? title.imageUrl;
   const average = title.stats.averageRating;
+  const similar = await getSimilarTitles(title.id);
 
   return (
     <MotionProvider>
@@ -101,6 +104,10 @@ export default async function PublicTitlePage({ params }: Props) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-16">
+            <SimilarTitles titles={similar} basePath="/title" />
           </div>
 
           <section className="mt-16">
