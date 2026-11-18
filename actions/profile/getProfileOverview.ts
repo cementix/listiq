@@ -14,6 +14,7 @@ export async function getProfileOverview() {
         email: true,
         username: true,
         role: true,
+        plan: true,
         avatarUrl: true,
         avatarPublicId: true,
         bannerUrl: true,

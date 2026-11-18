@@ -15,6 +15,12 @@ type Props = {
   searchParams: Promise<{ from?: string }>;
 };
 
+export async function generateMetadata({ params }: { params: Promise<{ username: string; slug: string }> }) {
+  const { username, slug } = await params;
+  const list = await getTitleListPage(username, slug);
+  return { title: list ? `${list.title} · @${list.user.username}` : "List" };
+}
+
 export default async function TitleListPage({ params, searchParams }: Props) {
   const { username, slug } = await params;
   const { from } = await searchParams;

@@ -11,6 +11,7 @@ type ProfileHeaderProps = {
   user: {
     username: string;
     role: string;
+    plan?: string;
     avatarUrl: string | null;
     avatarPublicId: string | null;
     bannerUrl: string | null;
@@ -76,6 +77,9 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
           <div className="min-w-0 max-w-full pb-1">
             <h1 className="break-words text-2xl font-semibold tracking-tight text-white animate-in fade-in slide-in-from-bottom-2 duration-700 sm:text-4xl">
               @{user.username}
+              {user.plan === "PRO" && (
+                <span className="ml-3 inline-flex translate-y-[-4px] items-center rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 align-middle text-xs font-bold tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(217,70,239,0.8)]">PRO</span>
+              )}
             </h1>
             <p className="mt-1 text-sm text-white/50">
               <span className={getRoleClassName(user.role)}>

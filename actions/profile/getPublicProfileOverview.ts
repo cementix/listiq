@@ -11,6 +11,7 @@ export async function getPublicProfileOverview(username: string) {
       id: true,
       username: true,
       role: true,
+      plan: true,
       reviewsPublic: true,
       postsPublic: true,
       avatarUrl: true,
