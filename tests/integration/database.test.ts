@@ -31,6 +31,8 @@ import { addLibraryTitle, removeLibraryTitle, updateLibraryTitle } from "../../l
 import { addListTitle } from "../../lib/title-list/mutations";
 import { scoreCatalog } from "../../lib/catalog/scoreCatalog";
 import { saveDiscoveryTitle } from "../../actions/discovery/saveDiscoveryTitle";
+import { skipDiscoveryTitle } from "../../actions/discovery/skipDiscoveryTitle";
+import { FREE_DAILY_DISCOVER_LIMIT } from "../../lib/discovery/allowance";
 import { claimDailySync, touchSyncRun, finishSyncRunSuccess, finishSyncRunFailure } from "../../lib/sync/syncRun";
 import { expireTmdbCache, refreshStaleTmdbTitles } from "../../lib/sync/providers/tmdb";
 
@@ -240,6 +242,24 @@ test("comment notifications reach only the post author and can be marked read", 
   assert.equal(await prisma.notification.count({ where: { readAt: null } }), 1, "others cannot mark your notifications read");
   await as("owner", markNotificationsRead);
   assert.equal(await prisma.notification.count({ where: { readAt: null } }), 0);
+});
+
+test("free members hit the daily Discover allowance while Pro stays unlimited", async () => {
+  const extra = Array.from({ length: FREE_DAILY_DISCOVER_LIMIT + 1 }, (_, index) => ({
+    id: `allowance-${index}`, slug: `allowance-${index}`, name: `Allowance ${index}`, type: "MOVIE" as const,
+  }));
+  await prisma.title.createMany({ data: extra });
+  await prisma.userTitleDiscovery.createMany({ data: extra.slice(0, FREE_DAILY_DISCOVER_LIMIT).map((title) => ({
+    userId: "visitor", titleId: title.id, lastAction: "SKIPPED" as const, lastActionAt: new Date(),
+  })) });
+  const last = extra[FREE_DAILY_DISCOVER_LIMIT].id;
+
+  const blocked = await as("visitor", () => skipDiscoveryTitle(last));
+  assert.equal(blocked.ok, false);
+  assert.match(blocked.ok ? "" : blocked.error, /free Discover picks/);
+
+  await prisma.user.update({ where: { id: "visitor" }, data: { plan: "PRO" } });
+  assert.equal((await as("visitor", () => skipDiscoveryTitle(last))).ok, true);
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {

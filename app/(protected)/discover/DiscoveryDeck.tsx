@@ -137,9 +137,15 @@ function DeckCard({
 
 export default function DiscoveryDeck({
   initialCards,
+  remainingToday = null,
+  dailyLimit = null,
 }: {
   initialCards: DiscoveryTitle[];
+  /** Free members' remaining Discover choices today; null means unlimited. */
+  remainingToday?: number | null;
+  dailyLimit?: number | null;
 }) {
+  const [remaining, setRemaining] = useState(remainingToday);
   const [cards, setCards] = useState(initialCards);
   const [previous, setPrevious] = useState<DiscoveryTitle | null>(null);
   const [selectedType, setSelectedType] = useState<TitleType | "ALL">("ALL");
@@ -185,10 +191,12 @@ export default function DiscoveryDeck({
             });
 
       if (!result.ok) {
-        toast.error(result.error);
+        if (result.error.startsWith("You've used today's")) setRemaining(0);
+        else toast.error(result.error);
         setDragX(0);
         return;
       }
+      setRemaining((value) => (value === null ? null : Math.max(0, value - 1)));
 
       setAdvancing(true);
       await new Promise((resolve) => setTimeout(resolve, 330));
@@ -323,6 +331,14 @@ export default function DiscoveryDeck({
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Discover</h1>
           <p className="mt-1 text-sm text-white/50">Swipe right to save for later, left to skip.</p>
+          {remaining !== null && dailyLimit !== null && (
+            <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+              <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/10">
+                <span className="block h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-500" style={{ width: `${(remaining / dailyLimit) * 100}%` }} />
+              </span>
+              {remaining} of {dailyLimit} free picks left today
+            </p>
+          )}
         </div>
 
         <select
@@ -374,6 +390,13 @@ export default function DiscoveryDeck({
         )}
       </div>
 
+      {remaining === 0 && (
+        <div role="status" className="mt-6 flex w-full max-w-[460px] flex-col items-center gap-3 rounded-3xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 via-fuchsia-500/10 to-transparent p-6 text-center animate-in fade-in slide-in-from-bottom-2">
+          <p className="text-lg font-semibold">That&apos;s today&apos;s free picks</p>
+          <p className="text-sm text-white/65">Pro unlocks unlimited Discover — billing runs in Stripe test mode, so no real money moves.</p>
+          <Link href="/settings/billing" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-black transition hover:-translate-y-0.5">See Pro</Link>
+        </div>
+      )}
       <div className="mt-6 grid w-full max-w-[460px] grid-cols-3 gap-2">
         {([
           { choice: "skip", label: "Skip", icon: X, key: "←", tone: "hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-100" },
@@ -383,7 +406,7 @@ export default function DiscoveryDeck({
           <button
             key={choice}
             type="button"
-            disabled={!current || busy}
+            disabled={!current || busy || remaining === 0}
             onClick={() => void choose(choice)}
             aria-keyshortcuts={key === "←" ? "ArrowLeft" : key === "→" ? "ArrowRight" : "ArrowUp"}
             className={`group flex h-12 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-sm transition active:scale-95 disabled:opacity-40 ${tone}`}

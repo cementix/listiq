@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 export const PRO_PRICE_CENTS = 400;
 export const PRO_FEATURES = [
   "Import your history from Letterboxd, MyAnimeList, Goodreads or any CSV",
+  "Unlimited Discover picks",
   "Year in review — an animated story of your year",
   "Full insights: decades, genres and hall of fame",
   "Pro badge on your profile",

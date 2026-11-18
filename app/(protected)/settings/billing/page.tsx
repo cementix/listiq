@@ -60,7 +60,7 @@ export default async function BillingPage({ searchParams }: Props) {
           <p className="text-sm font-semibold text-white">Free</p>
           <p className="mt-4 text-5xl font-semibold tracking-tight">$0</p>
           <ul className="mt-6 space-y-3 text-sm text-white/70">
-            {["Unlimited library, ratings & reviews", "Lists, Discover and profiles", "Core insights"].map((item) => (
+            {["Unlimited library, ratings & reviews", "Lists and profiles", "Discover — 30 picks a day", "Core insights"].map((item) => (
               <li key={item} className="flex gap-3"><Check className="mt-0.5 size-4 text-white/50" />{item}</li>
             ))}
           </ul>

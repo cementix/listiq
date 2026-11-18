@@ -113,7 +113,7 @@ const PLANS = [
     price: "$0",
     period: "forever",
     blurb: "Everything you need to track and share your taste.",
-    features: ["Unlimited library & ratings", "Reviews and personal notes", "Public and private lists", "Discover deck", "Granular privacy controls"],
+    features: ["Unlimited library & ratings", "Reviews and personal notes", "Public and private lists", "Discover deck — 30 picks a day", "Granular privacy controls"],
     cta: { label: "Create free account", href: "/register" },
     highlight: false,
   },
@@ -122,7 +122,7 @@ const PLANS = [
     price: "$4",
     period: "per month",
     blurb: "For collectors who want insights and zero limits.",
-    features: ["Everything in Free", "Import from Letterboxd, MAL, Goodreads or CSV", "Year in review story and full insights", "Pro badge on your profile", "Support an independent project"],
+    features: ["Everything in Free", "Import from Letterboxd, MAL, Goodreads or CSV", "Unlimited Discover, year in review and full insights", "Pro badge on your profile", "Support an independent project"],
     cta: { label: "Try Pro in test mode", href: "/settings/billing" },
     highlight: true,
   },
@@ -181,7 +181,7 @@ export function Pricing() {
 }
 
 const FAQ = [
-  { q: "Is Listiq free?", a: "Yes. Tracking, rating, reviews, lists, Discover and insights are free. Pro adds history imports and a profile badge — billing runs in Stripe test mode, so no real money moves." },
+  { q: "Is Listiq free?", a: "Yes. Tracking, rating, reviews, lists, insights and 30 Discover picks a day are free. Pro adds unlimited Discover, history imports and Year in review — billing runs in Stripe test mode, so no real money moves." },
   { q: "What can I track?", a: "Movies, TV series, anime, manga and manhwa, games, books, novels and comics — all in a single library." },
   { q: "Where does the catalog come from?", a: "Listiq syncs daily from open and licensed sources like TMDB, RAWG, MangaUpdates and Wikidata, with attribution on the credits page. Members can also propose missing titles for moderators to review." },
   { q: "How does the live demo work?", a: "One click creates a private sandbox account with a pre-filled library and lists. Play with everything — it's deleted after 24 hours or when you sign out." },
