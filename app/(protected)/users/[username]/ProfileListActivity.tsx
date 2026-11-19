@@ -38,7 +38,7 @@ export default function ProfileListActivity({
               {item.kind === "created" ? (
                 <ListPlus className="mt-0.5 size-4 shrink-0 text-primary" />
               ) : (
-                <Plus className="mt-0.5 size-4 shrink-0 text-white/45" />
+                <Plus className="mt-0.5 size-4 shrink-0 text-white/55" />
               )}
 
               <div className="min-w-0">
@@ -66,7 +66,7 @@ export default function ProfileListActivity({
                 </p>
                 <time
                   dateTime={item.createdAt.toISOString()}
-                  className="mt-1 block text-xs text-white/40"
+                  className="mt-1 block text-xs text-white/55"
                 >
                   {formatRelativeDate(item.createdAt)}
                 </time>

@@ -722,10 +722,6 @@ export type EnumTitleTypeFieldUpdateOperationsInput = {
   set?: $Enums.TitleType
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number

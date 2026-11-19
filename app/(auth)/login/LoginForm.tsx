@@ -75,13 +75,13 @@ const LoginForm = () => {
       <Button
         type="submit"
         disabled={pending}
-        className="h-10 w-48 cursor-pointer hover:scale-105"
+        className="h-11 w-full cursor-pointer rounded-full bg-white font-semibold text-black transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(167,139,250,0.9)]"
       >
         {pending ? <LoaderCircle className="animate-spin size-4" /> : "Login"}
       </Button>
 
       <Link
-        href="register"
+        href="/register"
         className="group text-sm text-white/60 transition-colors hover:text-white/80 select-none"
       >
         Do not have{" "}

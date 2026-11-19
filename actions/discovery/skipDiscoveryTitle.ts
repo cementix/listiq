@@ -3,6 +3,7 @@
 import { logError } from "@/lib/observability/errors";
 
 import { requireUserServer } from "@/lib/auth/guards";
+import { DISCOVER_LIMIT_MESSAGE, getDiscoverAllowance } from "@/lib/discovery/allowance";
 import type { ActionResult } from "@/actions/types";
 import { DiscoveryAction } from "@/generated/prisma/enums";
 import { prisma } from "@/lib/prisma";
@@ -12,6 +13,9 @@ export async function skipDiscoveryTitle(
 ): Promise<ActionResult> {
   try {
     const { session } = await requireUserServer();
+    if ((await getDiscoverAllowance(session.userId)).remaining <= 0) {
+      return { ok: false, error: DISCOVER_LIMIT_MESSAGE };
+    }
 
     if (!titleId.trim()) {
       return { ok: false, error: "Title ID is required" };

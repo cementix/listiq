@@ -191,7 +191,7 @@ export default function SaveToListButton({
             })}
           </div>
         ) : (
-          <p className="px-3 py-6 text-center text-sm text-white/45">
+          <p className="px-3 py-6 text-center text-sm text-white/55">
             No lists available
           </p>
         )}

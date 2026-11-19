@@ -1,10 +1,12 @@
 "use client";
 
 import { useMutation } from "@/lib/hooks/use-mutation";
+import PosterFallback from "@/components/custom/PosterFallback";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LoaderCircle, Pencil, X } from "lucide-react";
+import { Inbox, LoaderCircle, Pencil, X } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 
 import { resubmitTitleSubmission } from "@/actions/submissions/resubmitTitleSubmission";
@@ -122,9 +124,12 @@ export default function MySubmissionsList({
 
   if (submissions.length === 0) {
     return (
-      <GlassCard className="p-6 text-white/60">
-        You have not submitted any titles yet.
-      </GlassCard>
+      <div className="flex flex-col items-center gap-3 rounded-3xl border border-dashed border-white/15 px-6 py-14 text-center">
+        <span className="grid size-12 place-items-center rounded-2xl bg-violet-500/15 text-violet-300"><Inbox className="size-5" /></span>
+        <p className="text-lg font-semibold text-white">No submissions yet</p>
+        <p className="max-w-sm text-sm text-white/55">Can&apos;t find a title in the catalog? Suggest it and follow its review here.</p>
+        <Link href="/add-title" className="mt-1 inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-black transition hover:-translate-y-0.5">Suggest a title</Link>
+      </div>
     );
   }
 
@@ -148,9 +153,7 @@ export default function MySubmissionsList({
                     height={96}
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center text-xs text-white/40">
-                    no image
-                  </div>
+                  <PosterFallback name={submission.name} showName={false} />
                 )}
               </div>
 
@@ -197,7 +200,7 @@ export default function MySubmissionsList({
 
                 {submission.reviewComment && (
                   <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-3">
-                    <p className="text-xs text-white/40">Moderator feedback</p>
+                    <p className="text-xs text-white/55">Moderator feedback</p>
                     <p className="mt-1 text-sm text-white/70">
                       {submission.reviewComment}
                     </p>

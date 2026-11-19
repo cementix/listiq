@@ -1,8 +1,10 @@
+export const metadata = { title: "My lists" };
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Bookmark, Globe2, List, Lock } from "lucide-react";
 
 import PageSection from "@/components/custom/PageSection";
+import PageHeader from "@/components/custom/PageHeader";
 import { getMyTitleLists } from "@/lib/title-list/getMyTitleLists";
 import CreateTitleListDialog from "./CreateTitleListDialog";
 
@@ -21,13 +23,13 @@ export default async function ListsPage() {
 
   return (
     <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
-      <header className="flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm text-white/45">Library</p>
-          <h1 className="mt-1 text-3xl font-semibold text-white">Your lists</h1>
-        </div>
-        <CreateTitleListDialog />
-      </header>
+      <PageHeader
+        eyebrow="Library"
+        title="Your lists"
+        description="Curate collections, reorder them by drag and drop, and share the public ones with a link."
+        icon={<List className="size-3.5" />}
+        actions={<CreateTitleListDialog />}
+      />
 
       {sections.length === 0 && (
         <div role="status" className="rounded-2xl border border-white/10 bg-white/5 p-6 text-white/60">
@@ -82,7 +84,7 @@ export default async function ListsPage() {
                         <h3 className="truncate text-base font-medium text-white">
                           {list.title}
                         </h3>
-                        <p className="mt-1 text-xs text-white/45">
+                        <p className="mt-1 text-xs text-white/55">
                           {list.isSaved
                             ? `by @${list.user.username}`
                             : list.systemType
@@ -111,7 +113,7 @@ export default async function ListsPage() {
                       </span>
                     </div>
 
-                    <div className="mt-4 flex items-center gap-2 text-xs text-white/40">
+                    <div className="mt-4 flex items-center gap-2 text-xs text-white/55">
                       {list.isSaved ? (
                         <Bookmark className="size-3.5" />
                       ) : list.visibility === "PUBLIC" ? (

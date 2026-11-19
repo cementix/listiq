@@ -1,5 +1,7 @@
+export const metadata = { title: "Public lists" };
 import Link from "next/link";
-import { List, Search } from "lucide-react";
+import { List, Search, Sparkles } from "lucide-react";
+import PageHeader from "@/components/custom/PageHeader";
 
 import PageSection from "@/components/custom/PageSection";
 import { Button } from "@/components/ui/button";
@@ -66,24 +68,20 @@ export default async function PublicListsPage({
 
   return (
     <PageSection className="mx-auto w-full max-w-[1600px] px-4 lg:px-6">
-      <header className="flex flex-col gap-4 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-sm text-white/45">Community</p>
-
-          <h1 className="mt-1 text-3xl font-semibold text-white">Lists</h1>
-
-          <p className="mt-2 max-w-xl text-sm text-white/60">
-            Browse collections created by the community.
-          </p>
-        </div>
-
-        <Button asChild size="lg">
-          <Link href="/my-lists">
-            <List />
-            My lists
-          </Link>
-        </Button>
-      </header>
+      <PageHeader
+        eyebrow="Community"
+        title="Lists"
+        description="Browse collections curated by the community — save the ones you love."
+        icon={<Sparkles className="size-3.5" />}
+        actions={
+          <Button asChild size="lg" className="rounded-full bg-white text-black hover:bg-white/90">
+            <Link href="/my-lists">
+              <List />
+              My lists
+            </Link>
+          </Button>
+        }
+      />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <form
@@ -147,7 +145,7 @@ export default async function PublicListsPage({
             No lists found
           </h2>
 
-          <p className="mt-2 text-sm text-white/45">
+          <p className="mt-2 text-sm text-white/55">
             Try another search or create your own list.
           </p>
         </div>
@@ -164,7 +162,7 @@ export default async function PublicListsPage({
             </Button>
           )}
 
-          <span className="text-sm text-white/45">Page {page}</span>
+          <span className="text-sm text-white/55">Page {page}</span>
 
           {result.hasMore && result.nextPage && (
             <Button asChild variant="outline">

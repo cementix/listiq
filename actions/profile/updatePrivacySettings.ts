@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { requireUserServer } from "@/lib/auth/guards";
+import { isGuestUser } from "@/lib/demo/guest";
 import type { ActionResult } from "@/actions/types";
 import { prisma } from "@/lib/prisma";
 
@@ -29,6 +30,10 @@ export async function updatePrivacySettings(
 
     if (!parsed.success) {
       return { ok: false, error: "Invalid privacy settings" };
+    }
+
+    if (await isGuestUser(session.userId) && Object.values(parsed.data).some(Boolean)) {
+      return { ok: false, error: "Demo profiles stay private. Create a free account to share yours." };
     }
 
     await prisma.user.update({

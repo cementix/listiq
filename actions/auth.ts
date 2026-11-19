@@ -2,7 +2,8 @@
 
 import { logError } from "@/lib/observability/errors";
 
-import { createSession, deleteSession } from "@/lib/session";
+import { createSession, deleteSession, getSession } from "@/lib/session";
+import { deleteGuestUser } from "@/lib/demo/guest";
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import { z } from "zod";
@@ -183,6 +184,9 @@ export async function loginUser(
 }
 
 export async function logoutUser() {
+  const session = await getSession();
+  // Signing out of a demo sandbox discards it; it has no password to come back with.
+  if (session) await deleteGuestUser(session.userId).catch((error) => logError("actions.auth.logout", error));
   await deleteSession();
   redirect("/login");
 }

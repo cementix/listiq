@@ -1,6 +1,7 @@
 "use client";
 
 import TitleSourceLinks from "@/components/custom/TitleSourceLinks";
+import PosterFallback from "@/components/custom/PosterFallback";
 import type { CatalogSourceLink } from "@/lib/catalog/attribution";
 
 import Image from "next/image";
@@ -55,9 +56,7 @@ export default function SortableTitleCard({ item, index, canReorder }: Props) {
               unoptimized
             />
           ) : (
-            <div className="flex h-full items-center justify-center text-xs text-white/40">
-              No image
-            </div>
+            <PosterFallback name={item.title.name} />
           )}
 
           <span className="absolute left-2 top-2 rounded bg-black/75 px-2 py-1 text-xs">
@@ -68,7 +67,7 @@ export default function SortableTitleCard({ item, index, canReorder }: Props) {
         <h3 className="mt-2 truncate text-sm font-medium text-white group-hover:text-primary">
           {item.title.name}
         </h3>
-        <p className="mt-1 text-xs text-white/45">
+        <p className="mt-1 text-xs text-white/55">
           {item.title.type}
           {item.title.year ? ` · ${item.title.year}` : ""}
         </p>

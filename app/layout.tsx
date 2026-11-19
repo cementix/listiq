@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { siteUrl } from "@/lib/site";
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { getSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import PrivacySetupDialog from "@/components/custom/PrivacySetupDialog";
+import { instrumentSerif } from "@/app/fonts";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -17,11 +19,19 @@ const fontMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const description =
+  "Track movies, series, anime, manga, games, books and comics. Rate, review, build lists and discover your next favorite.";
+
 export const metadata: Metadata = {
-  title: "listiq",
-  description:
-    "Track movies, series, anime, manga, games and books. Build lists, share reviews and discover your next favorite.",
+  metadataBase: new URL(siteUrl()),
+  title: { default: "Listiq", template: "%s · Listiq" },
+  description,
+  applicationName: "Listiq",
+  openGraph: { type: "website", siteName: "Listiq", title: "Listiq", description },
+  twitter: { card: "summary_large_image", title: "Listiq", description },
 };
+
+export const viewport: Viewport = { themeColor: "#000000", colorScheme: "dark" };
 
 export default async function RootLayout({
   children,
@@ -39,7 +49,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} antialiased bg-background text-foreground`}
+        className={`${fontSans.variable} ${fontMono.variable} ${instrumentSerif.variable} antialiased bg-background text-foreground`}
       >
         <div className="relative min-h-screen">
           <div className="pointer-events-none fixed inset-0 z-[-1] overflow-hidden">

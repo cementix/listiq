@@ -94,9 +94,9 @@ export default function AddTitleForm({
     <Card className="border-white/10 bg-white/5 text-white shadow-none backdrop-blur">
       <CardHeader className="space-y-3 p-4 sm:p-5">
         <div className="space-y-1">
-          <CardTitle className="text-lg sm:text-xl">Add title</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Title details</CardTitle>
           <p className="text-sm text-white/55">
-            compact create / submit form with square cover
+            Fill in what you know — a moderator reviews submissions before they join the catalog.
           </p>
         </div>
 

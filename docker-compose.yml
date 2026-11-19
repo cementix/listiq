@@ -1,0 +1,60 @@
+# One-command local stack:
+#   docker compose up --build                     app on http://localhost:3000
+#   docker compose --profile tools run --rm seed  optional synthetic demo catalog
+#   docker compose up db                          only Postgres, for `npm run dev`
+name: listiq
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: listiq
+      POSTGRES_PASSWORD: listiq
+      POSTGRES_DB: listiq
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U listiq -d listiq"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://listiq:listiq@db:5432/listiq
+      DATABASE_URL_UNPOOLED: postgresql://listiq:listiq@db:5432/listiq
+      SESSION_SECRET: ${SESSION_SECRET:-local-docker-session-secret-change-me-0123456789}
+      CRON_SECRET: ${CRON_SECRET:-local-docker-cron-secret}
+      TMDB_ACCESS_TOKEN: ${TMDB_ACCESS_TOKEN:-}
+      RAWG_API_KEY: ${RAWG_API_KEY:-}
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 15s
+      timeout: 5s
+      start_period: 40s
+      retries: 5
+
+  # Fills an empty database with synthetic demo titles, users and lists.
+  seed:
+    build: .
+    profiles: ["tools"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DEMO_DATABASE_URL: postgresql://listiq:listiq@db:5432/listiq
+    command:
+      - sh
+      - -c
+      - DATABASE_URL=$$DEMO_DATABASE_URL npx prisma migrate deploy && npm run demo:seed
+
+volumes:
+  pgdata:

@@ -156,7 +156,7 @@ export default function TitlesList({
         params.set("type", nextType);
       }
 
-      if (nextSort !== "newest") {
+      if (nextSort !== "popular") {
         params.set("sort", nextSort);
       }
 
@@ -305,29 +305,45 @@ export default function TitlesList({
         <GlassCard className="p-6 text-white/60"><p role="status">No titles found. Try a different search or reset the filters.</p></GlassCard>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-          {titles.map((title) => {
+          {titles.map((title, index) => {
             const isInLibrary = Boolean(title.currentUserTitle);
             const isItemPending = isPending && pendingId === title.id;
             const averageRating = title.stats.averageRating?.toFixed(1) ?? "-";
 
             return (
-              <GlassCard key={title.id} className="min-w-0 overflow-hidden p-0">
+              <GlassCard
+                key={title.id}
+                style={{ animationDelay: `${Math.min(index % 24, 12) * 40}ms` }}
+                className="dashboard-card-pop-in group/card min-w-0 overflow-hidden p-0 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_24px_60px_-24px_rgba(139,92,246,0.55)]"
+              >
                 <Link
                   href={`/titles/${title.slug}`}
-                  className="relative block aspect-[460/649] border-b border-white/10 bg-black/30"
+                  className="relative block aspect-[460/649] overflow-hidden border-b border-white/10 bg-black/30"
                 >
                   {title.imageUrl ? (
                     <Image
                       src={title.imageUrl}
                       alt={title.name}
                       fill
-                      className="object-cover"
+                      className="object-cover transition duration-700 ease-out group-hover/card:scale-[1.06]"
                       unoptimized
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-sm text-white/40">
-                      no image
+                    <div className="flex h-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-violet-500/20 via-zinc-900 to-sky-500/10 p-4 text-center">
+                      <span className="grid size-10 place-items-center rounded-full bg-white/10 text-lg font-semibold text-white/70">{title.name.slice(0, 1)}</span>
+                      <span className="line-clamp-2 text-xs text-white/50">{title.name}</span>
                     </div>
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition duration-500 group-hover/card:opacity-100" />
+                  {title.stats.ratingCount > 0 && (
+                    <span className="absolute top-2 left-2 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-md ring-1 ring-white/15">
+                      <Star className="size-3 fill-violet-400 text-violet-400" /> {averageRating}
+                    </span>
+                  )}
+                  {isInLibrary && (
+                    <span className="absolute top-2 right-2 grid size-6 place-items-center rounded-full bg-emerald-400/90 text-black shadow-lg">
+                      <Check className="size-3.5" />
+                    </span>
                   )}
                 </Link>
 
@@ -343,8 +359,8 @@ export default function TitlesList({
                         </h2>
                       </Link>
                       <p className="mt-1 text-xs text-white/50">
-                        {title.type}
-                        {title.year ? ` . ${title.year}` : ""}
+                        {TITLE_TYPE_OPTIONS.find((option) => option.value === title.type)?.label ?? title.type}
+                        {title.year ? ` · ${title.year}` : ""}
                       </p>
                     </div>
 
@@ -383,7 +399,7 @@ export default function TitlesList({
 
                   <div className="flex min-h-10 flex-wrap items-center gap-x-3 gap-y-1 rounded-lg border border-white/10 bg-black/20 px-2 py-2 text-xs text-white/60">
                     <div className="flex items-center gap-1.5">
-                      <Users className="size-3.5 text-white/40" />
+                      <Users className="size-3.5 text-white/55" />
                       <span>{title.stats.libraryCount}</span>
                     </div>
 
@@ -397,7 +413,7 @@ export default function TitlesList({
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      <MessageSquare className="size-3.5 text-white/40" />
+                      <MessageSquare className="size-3.5 text-white/55" />
                       <span>{title.stats.reviewCount}</span>
                     </div>
                   </div>

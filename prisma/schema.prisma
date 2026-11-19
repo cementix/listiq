@@ -14,6 +14,11 @@ enum UserRole {
   VERIFIED
 }
 
+enum Plan {
+  FREE
+  PRO
+}
+
 enum TitleType {
   MOVIE
   SERIES
@@ -104,6 +109,17 @@ model User {
   passwordHash String
   role         UserRole @default(USER)
 
+  // Temporary one-click demo sandboxes; removed after guestExpiresAt.
+  isGuest        Boolean   @default(false)
+  guestExpiresAt DateTime?
+
+  // Billing (Stripe test mode). Webhooks keep these in sync with Stripe.
+  plan                 Plan      @default(FREE)
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?   @unique
+  subscriptionStatus   String?
+  currentPeriodEnd     DateTime?
+
   avatarUrl      String?
   avatarPublicId String?
   bannerUrl      String?
@@ -139,6 +155,8 @@ model User {
   notificationsSent     Notification[]       @relation("NotificationActor")
   userTitleDiscoveries  UserTitleDiscovery[]
   uploadedAssets        UploadedAsset[]
+
+  @@index([isGuest, guestExpiresAt])
 }
 
 model UploadedAsset {

@@ -108,7 +108,7 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
         </DialogHeader>
 
         <div className="relative">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/40" />
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/55" />
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -157,7 +157,7 @@ export default function AddTitlesDialog({ listId, existingTitleIds }: Props) {
 
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{title.name}</p>
-                    <p className="text-xs text-white/45">
+                    <p className="text-xs text-white/55">
                       {title.type}
                       {title.year ? ` · ${title.year}` : ""}
                     </p>

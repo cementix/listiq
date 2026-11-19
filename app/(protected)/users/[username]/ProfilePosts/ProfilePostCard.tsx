@@ -70,7 +70,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
     : false;
 
   return (
-    <article className="rounded-2xl border border-white/10 bg-black/20 p-4">
+    <article id={`post-${post.id}`} className="scroll-mt-24 rounded-2xl border border-white/10 bg-black/20 p-4 target:ring-2 target:ring-violet-400/60">
       <div className="flex items-center gap-3">
         <div className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/10">
           {post.author.avatarUrl ? (
@@ -82,7 +82,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
               unoptimized
             />
           ) : (
-            <UserRound className="size-5 text-white/45" />
+            <UserRound className="size-5 text-white/55" />
           )}
         </div>
 
@@ -130,7 +130,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
               )}
 
               {post.attachedUserTitle.note && (
-                <span className="max-w-40 truncate text-[11px] leading-4 text-white/45">
+                <span className="max-w-40 truncate text-[11px] leading-4 text-white/55">
                   {post.attachedUserTitle.note}
                 </span>
               )}
@@ -141,7 +141,7 @@ export default function ProfilePostCard({ post }: ProfilePostCardProps) {
 
       <ProfilePostMediaViewer media={post.media} />
 
-      <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/45">
+      <div className="mt-2 pt-2 flex items-center gap-4 border-t border-white/10  text-sm text-white/55">
         <ProfilePostLikeButton
           postId={post.id}
           likesCount={post.likes.length}

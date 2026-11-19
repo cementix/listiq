@@ -5,6 +5,7 @@ import { logError } from "@/lib/observability/errors";
 import { z } from "zod";
 import type { ActionResult } from "../types";
 import { requireUserServer } from "@/lib/auth/guards";
+import { isGuestUser } from "@/lib/demo/guest";
 import { prisma } from "@/lib/prisma";
 import { generateUniqueTitleListSlug } from "@/lib/title-list/generateUniqueTitleListSlug";
 import { revalidateListViews } from "@/lib/cache/revalidateViews";
@@ -41,7 +42,9 @@ export async function createTitleList(
       };
     }
 
-    const { title, description, visibility } = parsed.data;
+    const { title, description, visibility: requestedVisibility } = parsed.data;
+    // Demo sandboxes keep every list private so they never appear in public browsing.
+    const visibility = (await isGuestUser(session.userId)) ? "PRIVATE" : requestedVisibility;
 
     await prisma.$transaction(async (tx) => {
       const slug = await generateUniqueTitleListSlug(session.userId, title, tx);

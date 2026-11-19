@@ -1,7 +1,6 @@
 import GlassCard from "@/components/custom/GlassCard";
 import ProfileImageEditor from "./ProfileImageEditor";
 import Image from "next/image";
-import { UserRound } from "lucide-react";
 import {
   formatRelativeDate,
   getRoleClassName,
@@ -12,6 +11,7 @@ type ProfileHeaderProps = {
   user: {
     username: string;
     role: string;
+    plan?: string;
     avatarUrl: string | null;
     avatarPublicId: string | null;
     bannerUrl: string | null;
@@ -32,7 +32,7 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
             imagePublicId={user.bannerPublicId}
           />
         ) : (
-          <div className="relative h-36 w-full overflow-hidden">
+          <div className="relative h-40 w-full overflow-hidden sm:h-52">
             {user.bannerUrl ? (
               <Image
                 src={user.bannerUrl}
@@ -43,7 +43,9 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
                 priority
               />
             ) : (
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.35),transparent_35%),linear-gradient(135deg,rgba(15,23,42,1),rgba(0,0,0,1))]" />
+              <div className="absolute inset-0 animate-gradient-pan bg-[linear-gradient(120deg,rgba(139,92,246,0.45),rgba(232,121,249,0.25),rgba(56,189,248,0.3),rgba(139,92,246,0.45))] bg-[length:220%_220%]">
+                <div className="absolute inset-0 bg-grid opacity-40 [mask-image:linear-gradient(to_bottom,#000,transparent)]" />
+              </div>
             )}
           </div>
         )}
@@ -57,7 +59,7 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
               imagePublicId={user.avatarPublicId}
             />
           ) : (
-            <div className="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black text-white shadow-2xl">
+            <div className="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border-4 border-black bg-gradient-to-br from-violet-500/40 via-fuchsia-500/30 to-sky-500/30 text-white shadow-[0_20px_50px_-15px_rgba(139,92,246,0.7)] animate-in zoom-in-90 fade-in duration-700">
               {user.avatarUrl ? (
                 <Image
                   src={user.avatarUrl}
@@ -67,14 +69,17 @@ const ProfileHeader = ({ user, isOwnProfile }: ProfileHeaderProps) => {
                   unoptimized
                 />
               ) : (
-                <UserRound className="size-10 text-white/60" />
+                <span className="text-3xl font-semibold text-white/90">{user.username.slice(0, 1).toUpperCase()}</span>
               )}
             </div>
           )}
 
           <div className="min-w-0 max-w-full pb-1">
-            <h1 className="break-words text-2xl font-semibold text-white sm:text-3xl">
+            <h1 className="break-words text-2xl font-semibold tracking-tight text-white animate-in fade-in slide-in-from-bottom-2 duration-700 sm:text-4xl">
               @{user.username}
+              {user.plan === "PRO" && (
+                <span className="ml-3 inline-flex translate-y-[-4px] items-center rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2.5 py-0.5 align-middle text-xs font-bold tracking-wide text-white shadow-[0_8px_24px_-8px_rgba(217,70,239,0.8)]">PRO</span>
+              )}
             </h1>
             <p className="mt-1 text-sm text-white/50">
               <span className={getRoleClassName(user.role)}>

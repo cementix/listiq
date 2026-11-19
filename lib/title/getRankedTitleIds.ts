@@ -20,7 +20,9 @@ type RankedTitleIdsInput = {
 };
 
 const orderByRank: Record<TitleRank, Prisma.Sql> = {
-  popular: Prisma.sql`COUNT(ut.id) FILTER (WHERE u."libraryPublic") DESC, t."createdAt" DESC, t.id DESC`,
+  // Member activity leads; the provider-normalized catalog score breaks ties so a
+  // young community still sees well-known titles first.
+  popular: Prisma.sql`COUNT(ut.id) FILTER (WHERE u."libraryPublic") DESC, t."catalogScore" DESC NULLS LAST, t."createdAt" DESC, t.id DESC`,
   "highest-rated": Prisma.sql`AVG(ut."rating") FILTER (WHERE u."reviewsPublic") DESC NULLS LAST, COUNT(ut."rating") FILTER (WHERE u."reviewsPublic") DESC, t."createdAt" DESC, t.id DESC`,
   "most-reviewed": Prisma.sql`COUNT(ut.id) FILTER (WHERE u."reviewsPublic" AND NULLIF(BTRIM(ut."note"), '') IS NOT NULL) DESC, t."createdAt" DESC, t.id DESC`,
   "recently-added": Prisma.sql`MAX(ut."createdAt") FILTER (WHERE u."libraryPublic") DESC NULLS LAST, t."createdAt" DESC, t.id DESC`,

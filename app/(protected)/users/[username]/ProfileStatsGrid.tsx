@@ -20,7 +20,7 @@ export default function ProfileStatsGrid({ stats }: ProfileStatsGridProps) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
       <GlassCard className="p-4">
-        <BookOpen className="size-5 text-white/45" />
+        <BookOpen className="size-5 text-white/55" />
         <p className="mt-3 text-2xl font-semibold">{stats.libraryCount}</p>
         <p className="text-sm text-white/50">Library</p>
       </GlassCard>
@@ -32,19 +32,19 @@ export default function ProfileStatsGrid({ stats }: ProfileStatsGridProps) {
       </GlassCard>
 
       <GlassCard className="p-4">
-        <MessageSquare className="size-5 text-white/45" />
+        <MessageSquare className="size-5 text-white/55" />
         <p className="mt-3 text-2xl font-semibold">{stats.reviewCount}</p>
         <p className="text-sm text-white/50">Reviews</p>
       </GlassCard>
 
       <GlassCard className="p-4">
-        <BookOpen className="size-5 text-white/45" />
+        <BookOpen className="size-5 text-white/55" />
         <p className="mt-3 text-2xl font-semibold">{stats.submissionsCount}</p>
         <p className="text-sm text-white/50">Submissions</p>
       </GlassCard>
 
       <GlassCard className="p-4">
-        <List className="size-5 text-white/45" />
+        <List className="size-5 text-white/55" />
         <p className="mt-3 text-2xl font-semibold">{stats.createdListsCount}</p>
         <p className="text-sm text-white/50">Created lists</p>
       </GlassCard>

@@ -6,6 +6,7 @@ import { revalidateListViews } from "@/lib/cache/revalidateViews";
 import { z } from "zod";
 
 import { requireUserServer } from "@/lib/auth/guards";
+import { isGuestUser } from "@/lib/demo/guest";
 import type { ActionResult } from "@/actions/types";
 import { prisma } from "@/lib/prisma";
 import { lockOwnedList } from "@/lib/title-list/mutations";
@@ -42,7 +43,9 @@ export async function updateTitleList(
       };
     }
 
-    const { listId, title, description, visibility } = parsed.data;
+    const { listId, title, description, visibility: requestedVisibility } = parsed.data;
+    // Demo sandboxes keep every list private so they never appear in public browsing.
+    const visibility = (await isGuestUser(session.userId)) ? "PRIVATE" : requestedVisibility;
 
     const result = await prisma.$transaction(async (tx) => {
       await lockOwnedList(tx, session.userId, listId);

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 import type { DashboardTitle } from "./dashboardTypes";
 import { formatTitleMeta } from "./dashboardUtils";
@@ -14,7 +15,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
   return (
     <Link
       href={`/titles/${title.slug}`}
-      className="group relative min-h-[380px] overflow-hidden rounded-xl border border-white/10 bg-black/95 animate-in fade-in slide-in-from-left-6 duration-700 sm:min-h-[420px]"
+      className="group relative min-h-[380px] overflow-hidden rounded-3xl border border-white/10 bg-black/95 animate-in fade-in slide-in-from-left-6 duration-700 sm:min-h-[420px]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_35%,rgba(139,92,246,0.22),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.015)_42%,rgba(0,0,0,0.55))]" />
 
@@ -24,7 +25,7 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
           alt={title.name}
           fill
           priority
-          className="scale-105 object-cover opacity-35 blur-sm transition duration-500 group-hover:scale-110"
+          className="animate-kenburns object-cover opacity-40 blur-sm"
           sizes="(min-width: 1280px) 1100px, 100vw"
           unoptimized
         />
@@ -54,12 +55,12 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
           Featured title
         </p>
 
-        <h1
+        <h2
           className="dashboard-text-in mt-2 max-w-3xl break-words text-3xl font-semibold text-white sm:text-4xl lg:text-5xl"
           style={{ animationDelay: "460ms" }}
         >
           {title.name}
-        </h1>
+        </h2>
 
         <p
           className="dashboard-text-in mt-3 text-sm text-white/60"
@@ -92,6 +93,14 @@ export default function DashboardHero({ title }: DashboardHeroProps) {
             ))}
           </div>
         )}
+
+        <div className="dashboard-text-in mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: "960ms" }}>
+          <span className="inline-flex h-10 items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-black transition duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_12px_40px_-12px_rgba(167,139,250,0.9)]">
+            View details
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+          </span>
+          <span className="text-xs text-white/55">A top pick from the catalog</span>
+        </div>
       </div>
     </Link>
   );

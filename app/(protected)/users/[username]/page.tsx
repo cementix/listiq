@@ -20,6 +20,11 @@ type PublicProfilePageProps = {
   }>;
 };
 
+export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
+  const { username } = await params;
+  return { title: `@${username}` };
+}
+
 export default async function PublicProfilePage({
   params,
 }: PublicProfilePageProps) {

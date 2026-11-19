@@ -1,0 +1,11 @@
+.git
+.next
+node_modules
+.env*
+!.env.example
+.claude
+.vercel
+.workflow-data
+coverage
+docs/screenshots
+*.log

@@ -157,7 +157,7 @@ export default function ProfilePostForm() {
               )}
 
               {attachedReview.note && (
-                <span className="max-w-40 truncate text-[11px] leading-4 text-white/45">
+                <span className="max-w-40 truncate text-[11px] leading-4 text-white/55">
                   {attachedReview.note}
                 </span>
               )}

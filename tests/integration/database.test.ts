@@ -13,6 +13,10 @@ import { getTitleBySlug } from "../../actions/title/getTitleBySlug";
 import { getTitles } from "../../actions/title/getTitles";
 import { getTitleListPage } from "../../lib/title-list/getTitleListPage";
 import { getPublicTitleLists } from "../../lib/title-list/getPublicTitleLists";
+import { getPublicListPage } from "../../lib/title-list/getPublicListPage";
+import { getPublicTitle } from "../../lib/title/getPublicTitle";
+import { assertNotGuest, deleteGuestUser } from "../../lib/demo/guest";
+import { getNotifications, markNotificationsRead } from "../../actions/notifications";
 import { addTitleToList } from "../../actions/title-list/addTitleToList";
 import { removeTitleFromList } from "../../actions/title-list/removeTitleFromList";
 import { reorderTitleListItems } from "../../actions/title-list/reorderTitleListItems";
@@ -27,6 +31,11 @@ import { addLibraryTitle, removeLibraryTitle, updateLibraryTitle } from "../../l
 import { addListTitle } from "../../lib/title-list/mutations";
 import { scoreCatalog } from "../../lib/catalog/scoreCatalog";
 import { saveDiscoveryTitle } from "../../actions/discovery/saveDiscoveryTitle";
+import { skipDiscoveryTitle } from "../../actions/discovery/skipDiscoveryTitle";
+import { FREE_DAILY_DISCOVER_LIMIT } from "../../lib/discovery/allowance";
+import { GET as exportData } from "../../app/api/export/route";
+import { deleteAccount } from "../../actions/profile/deleteAccount";
+import bcrypt from "bcrypt";
 import { claimDailySync, touchSyncRun, finishSyncRunSuccess, finishSyncRunFailure } from "../../lib/sync/syncRun";
 import { expireTmdbCache, refreshStaleTmdbTitles } from "../../lib/sync/providers/tmdb";
 
@@ -185,6 +194,106 @@ test("private lists are absent from queries and cannot be bookmarked by outsider
   assert.equal(visible?.items[0].currentUserTitle, null);
   assert.equal(visible?.viewer.completedCount, 0);
   assert.equal(visible?.viewer.averageRating, null);
+});
+
+test("signed-out public pages expose only public lists, public reviews and real members", async () => {
+  assert.equal(await getPublicListPage("owner", "private"), null);
+  assert.equal(await getPublicListPage("owner", "for-later"), null);
+  assert.equal((await getPublicListPage("owner", "public"))?.items.length, 1);
+
+  // Uncatalogued titles never render publicly.
+  assert.equal(await getPublicTitle("fixture-0"), null);
+  await prisma.title.update({ where: { id: "title-0" }, data: { catalogEligible: true } });
+  await prisma.user.create({ data: {
+    id: "sandbox", username: "guest_sandbox", email: "sandbox@example.test", passwordHash: "test-only",
+    isGuest: true, guestExpiresAt: new Date(Date.now() + 60_000), reviewsPublic: true, libraryPublic: true,
+  } });
+  await prisma.userTitle.create({ data: { userId: "sandbox", titleId: "title-0", rating: 1, note: "guest-review" } });
+  await prisma.titleList.create({ data: { id: "sandbox-list", userId: "sandbox", title: "Sandbox", slug: "sandbox", visibility: "PUBLIC" } });
+
+  const title = await getPublicTitle("fixture-0");
+  const payload = JSON.stringify(title);
+  assert.deepEqual(title?.reviews.map((review) => review.note), ["public-review"]);
+  assert.equal(title?.stats.averageRating, 4);
+  assert.ok(!payload.includes("private-review") && !payload.includes("guest-review"));
+  assert.equal(await getPublicListPage("guest_sandbox", "sandbox"), null);
+});
+
+test("sandbox guards block guests and deletion never touches real members", async () => {
+  await prisma.user.create({ data: { id: "sandbox", username: "guest_x", email: "x@example.test", passwordHash: "test-only", isGuest: true } });
+  await assert.rejects(assertNotGuest("sandbox"), /Demo accounts can't/);
+  await assert.doesNotReject(assertNotGuest("owner"));
+  await deleteGuestUser("owner");
+  assert.ok(await prisma.user.findUnique({ where: { id: "owner" } }));
+  await deleteGuestUser("sandbox");
+  assert.equal(await prisma.user.findUnique({ where: { id: "sandbox" } }), null);
+});
+
+test("comment notifications reach only the post author and can be marked read", async () => {
+  await prisma.user.update({ where: { id: "owner" }, data: { postsPublic: true } });
+  assert.equal((await as("visitor", () => createProfilePostComment({ postId: "plain-post", content: "great pick" }))).ok, true);
+
+  const ownerInbox = await as("owner", getNotifications);
+  assert.equal(ownerInbox.length, 1);
+  assert.equal(ownerInbox[0].type, "PROFILE_POST_COMMENT");
+  assert.equal(ownerInbox[0].actor.username, "visitor");
+  assert.equal(ownerInbox[0].snippet, "great pick");
+  assert.ok(ownerInbox[0].unread);
+  assert.deepEqual(await as("visitor", getNotifications), []);
+
+  await as("visitor", markNotificationsRead);
+  assert.equal(await prisma.notification.count({ where: { readAt: null } }), 1, "others cannot mark your notifications read");
+  await as("owner", markNotificationsRead);
+  assert.equal(await prisma.notification.count({ where: { readAt: null } }), 0);
+});
+
+test("free members hit the daily Discover allowance while Pro stays unlimited", async () => {
+  const extra = Array.from({ length: FREE_DAILY_DISCOVER_LIMIT + 1 }, (_, index) => ({
+    id: `allowance-${index}`, slug: `allowance-${index}`, name: `Allowance ${index}`, type: "MOVIE" as const,
+  }));
+  await prisma.title.createMany({ data: extra });
+  await prisma.userTitleDiscovery.createMany({ data: extra.slice(0, FREE_DAILY_DISCOVER_LIMIT).map((title) => ({
+    userId: "visitor", titleId: title.id, lastAction: "SKIPPED" as const, lastActionAt: new Date(),
+  })) });
+  const last = extra[FREE_DAILY_DISCOVER_LIMIT].id;
+
+  const blocked = await as("visitor", () => skipDiscoveryTitle(last));
+  assert.equal(blocked.ok, false);
+  assert.match(blocked.ok ? "" : blocked.error, /free Discover picks/);
+
+  await prisma.user.update({ where: { id: "visitor" }, data: { plan: "PRO" } });
+  assert.equal((await as("visitor", () => skipDiscoveryTitle(last))).ok, true);
+});
+
+test("data export returns only the caller's own data and no secrets", async () => {
+  assert.equal((await as(null, exportData)).status, 401);
+  const response = await as("owner", exportData);
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  const data = JSON.parse(body);
+  assert.equal(data.username, "owner");
+  assert.equal(data.library[0].note, "private-review");
+  assert.ok(!body.includes("passwordHash") && !body.includes("public-review"));
+});
+
+test("account deletion requires the typed username and password, then removes everything", async () => {
+  await prisma.user.update({ where: { id: "owner" }, data: { passwordHash: await bcrypt.hash("correct horse", 4) } });
+  const form = (confirmation: string, password: string) => {
+    const data = new FormData();
+    data.set("confirmation", confirmation);
+    data.set("password", password);
+    return data;
+  };
+  const wrongName = await as("owner", () => deleteAccount(null, form("someone", "correct horse")));
+  assert.equal(wrongName.ok, false);
+  const wrongPassword = await as("owner", () => deleteAccount(null, form("owner", "nope")));
+  assert.equal(wrongPassword.ok, false);
+  assert.ok(await prisma.user.findUnique({ where: { id: "owner" } }));
+
+  await assert.rejects(as("owner", () => deleteAccount(null, form("owner", "correct horse"))), /NEXT_REDIRECT/);
+  assert.equal(await prisma.user.findUnique({ where: { id: "owner" } }), null);
+  assert.equal(await prisma.titleList.count({ where: { userId: "owner" } }), 0);
+  assert.equal(await prisma.userTitle.count({ where: { userId: "owner" } }), 0);
 });
 
 test("private post IDs and private attached reviews cannot be liked or commented on", async () => {

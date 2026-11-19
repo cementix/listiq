@@ -9,11 +9,10 @@ const LogoutButton = () => {
       <Button
         type="submit"
         size="sm"
-        className="h-9 cursor-pointer border-0 px-3 text-primary-foreground
-        bg-[linear-gradient(90deg,color-mix(in_oklab,var(--primary)_85%,black_15%),color-mix(in_oklab,var(--primary)_75%,black_25%))]
-        transition-all duration-200 hover:brightness-110 active:brightness-95"
+        variant="ghost"
+        className="h-11 w-full cursor-pointer justify-start rounded-xl px-3 text-rose-200/80 transition hover:bg-rose-500/10 hover:text-rose-100"
       >
-        logout
+        Sign out
       </Button>
     </form>
   );

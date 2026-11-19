@@ -1,7 +1,11 @@
+export const metadata = { title: "Settings" };
 import { notFound } from "next/navigation";
 
 import { requireAuth } from "@/lib/auth/guards";
 import PageSection from "@/components/custom/PageSection";
+import PageHeader from "@/components/custom/PageHeader";
+import DeleteAccountForm from "./DeleteAccountForm";
+import { Download, KeyRound, Palette, Settings, ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import ProfileImageEditor from "../../users/[username]/ProfileImageEditor";
 import PrivacySettingsForm from "./PrivacySettingsForm";
@@ -23,6 +27,7 @@ export default async function ProfileSettingsPage() {
       postsPublic: true,
       titleActivityPublic: true,
       listActivityPublic: true,
+      isGuest: true,
     },
   });
 
@@ -30,9 +35,9 @@ export default async function ProfileSettingsPage() {
 
   return (
     <PageSection className="mx-auto w-full max-w-6xl px-4 lg:px-6">
-      <h1 className="text-2xl font-semibold text-white">Profile settings</h1>
-      <section className="space-y-4 border-b border-white/10 pb-8">
-        <h2 className="text-lg font-medium text-white">Appearance</h2>
+      <PageHeader eyebrow="Settings" title="Profile settings" description="Shape how you look and what others can see." icon={<Settings className="size-3.5" />} />
+      <section id="appearance" className="scroll-mt-24 space-y-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <h2 className="flex items-center gap-2 text-lg font-medium text-white"><Palette className="size-4 text-violet-300" />Appearance</h2>
 
         <div className="grid items-start gap-4 sm:grid-cols-[9rem_minmax(0,1fr)]">
           <div className="space-y-3">
@@ -55,14 +60,14 @@ export default async function ProfileSettingsPage() {
           </div>
         </div>
       </section>
-      <section className="space-y-5 border-b border-white/10 pb-8">
-        <h2 className="text-lg font-medium text-white">Account</h2>
+      <section id="account" className="scroll-mt-24 space-y-5 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <h2 className="flex items-center gap-2 text-lg font-medium text-white"><KeyRound className="size-4 text-violet-300" />Account</h2>
         <AccountSecurityForms initialUsername={user.username} />
       </section>
-      <section className="space-y-4">
+      <section id="privacy" className="scroll-mt-24 space-y-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
         <div className="space-y-1">
-          <h2 className="text-lg font-medium text-white">Privacy</h2>
-          <p className="text-sm text-white/45">
+          <h2 className="flex items-center gap-2 text-lg font-medium text-white"><ShieldCheck className="size-4 text-violet-300" />Privacy</h2>
+          <p className="text-sm text-white/60">
             Choose which parts of your profile other users can see.
           </p>
         </div>
@@ -77,6 +82,16 @@ export default async function ProfileSettingsPage() {
           }}
         />
       </section>
+      <section id="data" className="scroll-mt-24 flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7 animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <div>
+          <h2 className="flex items-center gap-2 text-lg font-medium text-white"><Download className="size-4 text-violet-300" />Your data</h2>
+          <p className="mt-1 text-sm text-white/60">Download your library, ratings, reviews, lists and posts as a JSON file — yours to keep or move.</p>
+        </div>
+        <a href="/api/export" download className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-white/10">
+          <Download className="size-4" /> Download my data
+        </a>
+      </section>
+      {!user.isGuest && <DeleteAccountForm username={user.username} />}
     </PageSection>
   );
 }

@@ -378,7 +378,7 @@ export default function ProfilePostMediaViewer({
             </div>
 
             {hasMultiple && (
-              <div className="border-t border-white/10 px-4 py-3 text-center text-xs text-white/45">
+              <div className="border-t border-white/10 px-4 py-3 text-center text-xs text-white/55">
                 {activeIndex + 1} / {media.length}
               </div>
             )}

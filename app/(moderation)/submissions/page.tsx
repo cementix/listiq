@@ -1,5 +1,6 @@
 import { getSubmissionsForReview } from "@/actions/submissions/getSubmissionsForReview";
-import GlassCard from "@/components/custom/GlassCard";
+import PageHeader from "@/components/custom/PageHeader";
+import { ShieldCheck } from "lucide-react";
 import PageSection from "@/components/custom/PageSection";
 import SubmissionsReviewList from "./SubmissionsReviewList";
 
@@ -8,14 +9,7 @@ export default async function SubmissionsPage() {
 
   return (
     <PageSection className="mx-auto w-full max-w-6xl px-4">
-      <GlassCard className="p-4 sm:p-6">
-        <p className="text-sm text-white/50">Moderation</p>
-        <h1 className="mt-2 text-3xl font-semibold">Title submissions</h1>
-        <p className="mt-3 max-w-xl text-white/70">
-          Review pending title submissions and move approved ones into the main
-          database.
-        </p>
-      </GlassCard>
+      <PageHeader eyebrow="Moderation" title="Title submissions" description="Review pending title submissions and move approved ones into the main database." icon={<ShieldCheck className="size-3.5" />} />
 
       <SubmissionsReviewList submissions={submissions} />
     </PageSection>

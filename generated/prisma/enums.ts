@@ -19,6 +19,14 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
+export const Plan = {
+  FREE: 'FREE',
+  PRO: 'PRO'
+} as const
+
+export type Plan = (typeof Plan)[keyof typeof Plan]
+
+
 export const TitleType = {
   MOVIE: 'MOVIE',
   SERIES: 'SERIES',

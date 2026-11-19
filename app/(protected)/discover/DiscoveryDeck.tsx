@@ -3,6 +3,7 @@
 import { logError } from "@/lib/observability/errors";
 
 import Image from "next/image";
+import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, BookmarkPlus, LibraryBig, X } from "lucide-react";
@@ -136,9 +137,15 @@ function DeckCard({
 
 export default function DiscoveryDeck({
   initialCards,
+  remainingToday = null,
+  dailyLimit = null,
 }: {
   initialCards: DiscoveryTitle[];
+  /** Free members' remaining Discover choices today; null means unlimited. */
+  remainingToday?: number | null;
+  dailyLimit?: number | null;
 }) {
+  const [remaining, setRemaining] = useState(remainingToday);
   const [cards, setCards] = useState(initialCards);
   const [previous, setPrevious] = useState<DiscoveryTitle | null>(null);
   const [selectedType, setSelectedType] = useState<TitleType | "ALL">("ALL");
@@ -184,10 +191,12 @@ export default function DiscoveryDeck({
             });
 
       if (!result.ok) {
-        toast.error(result.error);
+        if (result.error.startsWith("You've used today's")) setRemaining(0);
+        else toast.error(result.error);
         setDragX(0);
         return;
       }
+      setRemaining((value) => (value === null ? null : Math.max(0, value - 1)));
 
       setAdvancing(true);
       await new Promise((resolve) => setTimeout(resolve, 330));
@@ -278,10 +287,59 @@ export default function DiscoveryDeck({
     else setDragX(0);
   }
 
+  // Keyboard shortcuts: ← skip, ↑ add to library, → save for later.
+  const chooseRef = useRef(choose);
+  useEffect(() => {
+    chooseRef.current = choose;
+  });
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (target instanceof Element && target.closest("input, textarea, select, [role=dialog], [contenteditable=true]")) return;
+      const choice = event.key === "ArrowLeft" ? "skip" : event.key === "ArrowRight" ? "for-later" : event.key === "ArrowUp" ? "library" : null;
+      if (!choice) return;
+      event.preventDefault();
+      void chooseRef.current(choice);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const ambient = cards[0]?.imageUrl ?? null;
+
   return (
-    <section className="flex flex-col items-center">
-      <div className="flex w-full max-w-4xl items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Discover</h1>
+    <section className="relative isolate flex flex-col items-center">
+      {/* Ambient glow that follows the card on top of the deck. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-[-20%] -top-24 -z-10 h-[680px] overflow-hidden [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_70%)]">
+        <AnimatePresence initial={false}>
+          {ambient && (
+            <motion.div
+              key={ambient}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 0.55, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              <Image src={ambient} alt="" fill sizes="100vw" className="object-cover blur-3xl saturate-150" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="flex w-full max-w-4xl items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Discover</h1>
+          <p className="mt-1 text-sm text-white/50">Swipe right to save for later, left to skip.</p>
+          {remaining !== null && dailyLimit !== null && (
+            <p className="mt-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+              <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/10">
+                <span className="block h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-500" style={{ width: `${(remaining / dailyLimit) * 100}%` }} />
+              </span>
+              {remaining} of {dailyLimit} free picks left today
+            </p>
+          )}
+        </div>
 
         <select
           aria-label="Title type"
@@ -332,35 +390,34 @@ export default function DiscoveryDeck({
         )}
       </div>
 
-      <div className="mt-6 grid w-full max-w-[430px] grid-cols-3 gap-2">
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("skip")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <X className="size-4" />
-          Skip
-        </button>
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("library")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <LibraryBig className="size-4" />
-          Library
-        </button>
-        <button
-          type="button"
-          disabled={!current || busy}
-          onClick={() => void choose("for-later")}
-          className="flex h-12 items-center justify-center gap-2 rounded-md border border-white/15 bg-white/5 text-sm hover:bg-white/10 disabled:opacity-40"
-        >
-          <BookmarkPlus className="size-4" />
-          For later
-        </button>
+      {remaining === 0 && (
+        <div role="status" className="mt-6 flex w-full max-w-[460px] flex-col items-center gap-3 rounded-3xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 via-fuchsia-500/10 to-transparent p-6 text-center animate-in fade-in slide-in-from-bottom-2">
+          <p className="text-lg font-semibold">That&apos;s today&apos;s free picks</p>
+          <p className="text-sm text-white/65">Pro unlocks unlimited Discover — billing runs in Stripe test mode, so no real money moves.</p>
+          <Link href="/settings/billing" className="inline-flex h-10 items-center rounded-full bg-white px-5 text-sm font-semibold text-black transition hover:-translate-y-0.5">See Pro</Link>
+        </div>
+      )}
+      <div className="mt-6 grid w-full max-w-[460px] grid-cols-3 gap-2">
+        {([
+          { choice: "skip", label: "Skip", icon: X, key: "←", tone: "hover:border-rose-400/40 hover:bg-rose-500/10 hover:text-rose-100" },
+          { choice: "library", label: "Library", icon: LibraryBig, key: "↑", tone: "hover:border-emerald-400/40 hover:bg-emerald-500/10 hover:text-emerald-100" },
+          { choice: "for-later", label: "For later", icon: BookmarkPlus, key: "→", tone: "hover:border-violet-400/40 hover:bg-violet-500/10 hover:text-violet-100" },
+        ] as const).map(({ choice, label, icon: Icon, key, tone }) => (
+          <button
+            key={choice}
+            type="button"
+            disabled={!current || busy || remaining === 0}
+            onClick={() => void choose(choice)}
+            aria-keyshortcuts={key === "←" ? "ArrowLeft" : key === "→" ? "ArrowRight" : "ArrowUp"}
+            className={`group flex h-12 items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-sm transition active:scale-95 disabled:opacity-40 ${tone}`}
+          >
+            <Icon className="size-4 transition-transform group-hover:scale-110" />
+            {label}
+            <kbd aria-hidden className="hidden rounded border border-white/15 px-1 text-[10px] text-white/60 sm:inline">{key}</kbd>
+          </button>
+        ))}
       </div>
+      <p className="mt-3 hidden text-xs text-white/50 sm:block">Swipe the card or use your arrow keys.</p>
     </section>
   );
 }
