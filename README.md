@@ -1,14 +1,32 @@
+<div align="center">
+
 # Listiq
 
+**One library for everything you watch, read and play.**
+Movies, series, anime, manga, books and games — rate, review, make lists, and see your taste visualised.
+
 [![CI](https://github.com/cementix/listiq/actions/workflows/ci.yml/badge.svg)](https://github.com/cementix/listiq/actions/workflows/ci.yml)
+![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-336791?logo=postgresql&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-test%20mode-635bff?logo=stripe&logoColor=white)
 
-Listiq is a media tracker for movies, TV series, anime, manga, games, books, and comics. Keep one library of everything you watch, read, and play — rate it, review it, organise it into lists, and see your taste visualised. [Open Listiq](https://listiq-topaz.vercel.app) · **Try the live demo — no signup**
+**[Open Listiq](https://listiq-topaz.vercel.app)** · **[Try the live demo — no signup](https://listiq-topaz.vercel.app)** · **[Case study](docs/case-study.md)**
 
-![Listiq landing page with a wall of real catalog posters](docs/screenshots/landing-hero.jpeg)
+</div>
 
-<!-- Demo video: drag the .mp4 into GitHub's README editor on this line and keep the generated user-attachments URL on its own line. -->
+https://github.com/user-attachments/assets/899e7b62-95b2-49d9-a446-22191437ceae
 
-[Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Case study](docs/case-study.md) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#screenshots">Screenshots</a> ·
+  <a href="#tech-highlights">Tech</a> ·
+  <a href="#run-locally">Local setup</a> ·
+  <a href="#run-with-docker">Docker</a> ·
+  <a href="#billing-stripe-test-mode">Billing</a> ·
+  <a href="#checks">Tests</a> ·
+  <a href="#deployment">Deployment</a>
+</p>
 
 ## Features
 
@@ -34,8 +52,7 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 | ![Personal dashboard with library stats and onboarding](docs/screenshots/dashboard-desktop.jpeg) | ![Insights with rating curve, media mix and activity heatmap](docs/screenshots/insights-desktop.jpeg) |
 | **Title page** | **Command palette** |
 | ![Title page with cinematic backdrop](docs/screenshots/title-details-desktop.jpeg) | ![Ctrl+K command palette searching the catalog](docs/screenshots/command-palette.jpeg) |
-
-| **Year in review** | **Landing features** |
+| **Year in review** | **Landing page** |
 | ![Wrapped-style year in review story](docs/screenshots/year-in-review.jpeg) | ![Animated feature bento on the landing page](docs/screenshots/landing-features.jpeg) |
 
 ## Tech highlights
