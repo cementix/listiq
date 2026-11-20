@@ -1,7 +1,5 @@
 # Architecture and operations
 
-Use the [release checklist](../TODO.md) to track deployment verification.
-
 ## Module boundaries
 
 | Layer | Responsibility |

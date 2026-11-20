@@ -9,7 +9,7 @@ import ProfileStatsGrid from "./ProfileStatsGrid";
 import ProfileReviews from "./ProfileReviews";
 import ProfileActivity from "./ProfileActivity";
 import ProfileWall from "./ProfilePosts/ProfileWall";
-import ProfilePostsStateInitializer from "./ProfilePosts/ProfilePostStateInitializer";
+import { ProfilePostsProvider } from "./ProfilePosts/ProfilePostsContext";
 import ProfileListActivity from "./ProfileListActivity";
 import PrivateProfileSection from "./PrivateProfileSection";
 import ProfilePrivacyHint from "./ProfilePrivacyHint";
@@ -70,8 +70,8 @@ export default async function PublicProfilePage({
         <div className="min-w-0 space-y-4">
           {showPosts ? (
             <>
-              <ProfilePostsStateInitializer
-                currentUser={{
+              <ProfilePostsProvider
+                viewer={{
                   id: session.userId,
                   username: currentUser?.username ?? session.username,
                   avatarUrl: currentUser?.avatarUrl ?? null,
@@ -86,12 +86,13 @@ export default async function PublicProfilePage({
                     imageUrl: review.title.imageUrl,
                   },
                 }))}
-              />
-              <ProfileWall
-                posts={profile.posts}
-                isOwnProfile={isOwnProfile}
-                privateForOthers={isOwnProfile && !profile.user.postsPublic}
-              />
+              >
+                <ProfileWall
+                  posts={profile.posts}
+                  isOwnProfile={isOwnProfile}
+                  privateForOthers={isOwnProfile && !profile.user.postsPublic}
+                />
+              </ProfilePostsProvider>
             </>
           ) : (
             <PrivateProfileSection title="Posts" />

@@ -54,3 +54,9 @@ next-env.d.ts
 /AGENTS.md
 /docs/handoff.md
 /docs/launch-verification.md
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

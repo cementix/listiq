@@ -1,10 +1,32 @@
+<div align="center">
+
 # Listiq
 
-Listiq is a media tracker for movies, TV series, anime, manga, games, books, and comics. Keep one library of everything you watch, read, and play — rate it, review it, organise it into lists, and see your taste visualised. [Open Listiq](https://listiq-topaz.vercel.app) · **Try the live demo — no signup**
+**One library for everything you watch, read and play.**
+Movies, series, anime, manga, books and games — rate, review, make lists, and see your taste visualised.
 
-![Listiq landing page with a wall of real catalog posters](docs/screenshots/landing-hero.jpeg)
+[![CI](https://github.com/cementix/listiq/actions/workflows/ci.yml/badge.svg)](https://github.com/cementix/listiq/actions/workflows/ci.yml)
+![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-336791?logo=postgresql&logoColor=white)
+![Stripe](https://img.shields.io/badge/Stripe-test%20mode-635bff?logo=stripe&logoColor=white)
 
-[Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
+**[Open Listiq](https://listiq-topaz.vercel.app)** · **[Try the live demo — no signup](https://listiq-topaz.vercel.app)** · **[Case study](docs/case-study.md)**
+
+</div>
+
+https://github.com/user-attachments/assets/899e7b62-95b2-49d9-a446-22191437ceae
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#screenshots">Screenshots</a> ·
+  <a href="#tech-highlights">Tech</a> ·
+  <a href="#run-locally">Local setup</a> ·
+  <a href="#run-with-docker">Docker</a> ·
+  <a href="#billing-stripe-test-mode">Billing</a> ·
+  <a href="#checks">Tests</a> ·
+  <a href="#deployment">Deployment</a>
+</p>
 
 ## Features
 
@@ -30,11 +52,12 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 | ![Personal dashboard with library stats and onboarding](docs/screenshots/dashboard-desktop.jpeg) | ![Insights with rating curve, media mix and activity heatmap](docs/screenshots/insights-desktop.jpeg) |
 | **Title page** | **Command palette** |
 | ![Title page with cinematic backdrop](docs/screenshots/title-details-desktop.jpeg) | ![Ctrl+K command palette searching the catalog](docs/screenshots/command-palette.jpeg) |
-
-| **Year in review** | **Landing features** |
+| **Year in review** | **Landing page** |
 | ![Wrapped-style year in review story](docs/screenshots/year-in-review.jpeg) | ![Animated feature bento on the landing page](docs/screenshots/landing-features.jpeg) |
 
 ## Tech highlights
+
+Why it is built this way — architecture, trade-offs and testing strategy — is in the **[case study](docs/case-study.md)**.
 
 - **Next.js App Router** with React Server Components, Server Actions, route handlers, metadata routes (dynamic OG image, icons, sitemap, robots), and per-page metadata.
 - **PostgreSQL + Prisma** with reviewed SQL migrations, trigram search indexes, and row locks for concurrent library edits.
@@ -42,7 +65,7 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 - **Security**: signed sessions, rate limiting, upload signature checks, privacy-aware queries, guarded demo sandboxes, Stripe webhook signature verification (live keys are refused), and hardened response headers. `/api/health` reports database readiness.
 - **Accessibility**: Lighthouse 100 for accessibility, best practices and SEO on the landing, dashboard, catalog and insights pages; keyboard-first navigation and reduced-motion support.
 - **Motion design** with `motion`: scroll-driven showcase, layout animations, count-ups, and reduced-motion support throughout.
-- **Quality gates**: unit tests for security, billing, import parsing and sandbox guards; database integration tests; CI with migration replay, type checking, lint, and builds.
+- **Quality gates**: 74 unit tests, 29 database integration tests on an isolated Postgres, and 5 Playwright end-to-end tests against the production build — all in CI on every push, after migration replay, type checking and lint.
 
 ## Routes
 
@@ -159,6 +182,7 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
+npm run test:e2e   # needs a local DATABASE_URL, see docs/ci.md
 ```
 
 `npm run test:integration` requires local PostgreSQL and a role with `CREATEDB`. The runner creates and removes its own test database. [Integration tests](docs/integration-tests.md) · [CI](docs/ci.md)
