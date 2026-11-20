@@ -6,6 +6,8 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 
 ![Listiq landing page with a wall of real catalog posters](docs/screenshots/landing-hero.jpeg)
 
+<!-- Demo video: drag the .mp4 into GitHub's README editor on this line and keep the generated user-attachments URL on its own line. -->
+
 [Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Case study](docs/case-study.md) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
 
 ## Features
