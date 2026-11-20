@@ -31,7 +31,8 @@
     "catalog:score": "node --conditions=react-server --import tsx scripts/scoreCatalog.ts",
     "catalog:status": "node --conditions=react-server --import tsx scripts/catalogStatus.ts",
     "catalog:recover-books": "node --conditions=react-server --import tsx scripts/recoverBooksSeed.ts",
-    "demo:seed": "node --conditions=react-server --import tsx scripts/seedDemo.ts"
+    "demo:seed": "node --conditions=react-server --import tsx scripts/seedDemo.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@dnd-kit/react": "^0.5.0",
@@ -62,6 +63,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20",
