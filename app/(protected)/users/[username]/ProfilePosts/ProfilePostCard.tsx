@@ -4,7 +4,7 @@ import { MessageCircle, UserRound } from "lucide-react";
 import Image from "next/image";
 import ProfilePostLikeButton from "./ProfilePostLikeButton";
 import ProfilePostComments from "./ProfilePostComments";
-import { useAppSelector } from "@/lib/store/hooks";
+import { useProfilePostsViewer } from "./ProfilePostsContext";
 import Link from "next/link";
 import ProfilePostMediaViewer from "./ProfilePostMediaViewer";
 
@@ -63,7 +63,7 @@ type ProfilePostCardProps = {
 };
 
 export default function ProfilePostCard({ post }: ProfilePostCardProps) {
-  const currentUser = useAppSelector((state) => state.profilePosts.currentUser);
+  const currentUser = useProfilePostsViewer();
 
   const isLiked = currentUser
     ? post.likes.some((like) => like.userId === currentUser.id)

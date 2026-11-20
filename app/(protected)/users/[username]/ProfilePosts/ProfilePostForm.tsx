@@ -6,7 +6,7 @@ import { createProfilePost } from "@/actions/profile/createProfilePost";
 import { uploadProfilePostMedia } from "@/actions/profile/uploadProfilePostMedia";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useAppSelector } from "@/lib/store/hooks";
+import { useProfileReviewOptions } from "./ProfilePostsContext";
 import { ImagePlus, LoaderCircle, Send, Star, X } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -35,9 +35,7 @@ export default function ProfilePostForm() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const reviewOptions = useAppSelector(
-    (state) => state.profilePosts.reviewOptions,
-  );
+  const reviewOptions = useProfileReviewOptions();
 
   const attachedReview = reviewOptions.find(
     (review) => review.id === attachedUserTitleId,

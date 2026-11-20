@@ -4,7 +4,7 @@ import { useMutation } from "@/lib/hooks/use-mutation";
 
 import { createProfilePostComment } from "@/actions/profile/createProfilePostComment";
 import { Button } from "@/components/ui/button";
-import { useAppSelector } from "@/lib/store/hooks";
+import { useProfilePostsViewer } from "./ProfilePostsContext";
 import { AtSign, ChevronDown, Send, Smile, UserRound } from "lucide-react";
 import Image from "next/image";
 import { type KeyboardEvent, useRef, useState } from "react";
@@ -35,7 +35,7 @@ export default function ProfilePostComments({
   postId,
   comments,
 }: ProfilePostCommentsProps) {
-  const currentUser = useAppSelector((state) => state.profilePosts.currentUser);
+  const currentUser = useProfilePostsViewer();
 
   const [content, setContent] = useState("");
   const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(

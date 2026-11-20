@@ -5,7 +5,6 @@ import React from "react";
 import { prisma } from "@/lib/prisma";
 import NavbarShell from "./NavbarShell";
 import DemoBanner from "./DemoBanner";
-import StoreProvider from "../storeProvider";
 import { MotionProvider } from "@/components/landing/primitives";
 import { canReviewSubmissions } from "@/actions/submissions/canReviewSubmissions";
 import ProviderCredits from "@/components/custom/ProviderCredits";
@@ -34,7 +33,6 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
     : null;
 
   return (
-    <StoreProvider>
       <MotionProvider>
       <div className="relative isolate min-h-dvh overflow-x-clip bg-black pt-16 pb-[calc(5rem+env(safe-area-inset-bottom))] text-white lg:pb-0">
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -58,7 +56,6 @@ const ProtectedLayout = async ({ children }: React.PropsWithChildren) => {
         <ProviderCredits />
       </div>
       </MotionProvider>
-    </StoreProvider>
   );
 };
 
