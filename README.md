@@ -1,10 +1,12 @@
 # Listiq
 
+[![CI](https://github.com/cementix/listiq/actions/workflows/ci.yml/badge.svg)](https://github.com/cementix/listiq/actions/workflows/ci.yml)
+
 Listiq is a media tracker for movies, TV series, anime, manga, games, books, and comics. Keep one library of everything you watch, read, and play — rate it, review it, organise it into lists, and see your taste visualised. [Open Listiq](https://listiq-topaz.vercel.app) · **Try the live demo — no signup**
 
 ![Listiq landing page with a wall of real catalog posters](docs/screenshots/landing-hero.jpeg)
 
-[Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
+[Features](#features) · [Screenshots](#screenshots) · [Tech](#tech-highlights) · [Case study](docs/case-study.md) · [Routes](#routes) · [Local setup](#run-locally) · [Docker](#run-with-docker) · [Billing](#billing-stripe-test-mode) · [Tests](#checks) · [Deployment](#deployment)
 
 ## Features
 
@@ -36,13 +38,15 @@ Listiq is a media tracker for movies, TV series, anime, manga, games, books, and
 
 ## Tech highlights
 
+Why it is built this way — architecture, trade-offs and testing strategy — is in the **[case study](docs/case-study.md)**.
+
 - **Next.js App Router** with React Server Components, Server Actions, route handlers, metadata routes (dynamic OG image, icons, sitemap, robots), and per-page metadata.
 - **PostgreSQL + Prisma** with reviewed SQL migrations, trigram search indexes, and row locks for concurrent library edits.
 - **Catalog pipeline** on Vercel Workflow: daily imports from TMDB, RAWG, MangaUpdates, Wikidata, and more, with scoring, provider safeguards, Telegram alerts, and health checks.
 - **Security**: signed sessions, rate limiting, upload signature checks, privacy-aware queries, guarded demo sandboxes, Stripe webhook signature verification (live keys are refused), and hardened response headers. `/api/health` reports database readiness.
 - **Accessibility**: Lighthouse 100 for accessibility, best practices and SEO on the landing, dashboard, catalog and insights pages; keyboard-first navigation and reduced-motion support.
 - **Motion design** with `motion`: scroll-driven showcase, layout animations, count-ups, and reduced-motion support throughout.
-- **Quality gates**: unit tests for security, billing, import parsing and sandbox guards; database integration tests; CI with migration replay, type checking, lint, and builds.
+- **Quality gates**: 74 unit tests, 29 database integration tests on an isolated Postgres, and 5 Playwright end-to-end tests against the production build — all in CI on every push, after migration replay, type checking and lint.
 
 ## Routes
 
@@ -159,6 +163,7 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
+npm run test:e2e   # needs a local DATABASE_URL, see docs/ci.md
 ```
 
 `npm run test:integration` requires local PostgreSQL and a role with `CREATEDB`. The runner creates and removes its own test database. [Integration tests](docs/integration-tests.md) · [CI](docs/ci.md)
